@@ -10,7 +10,7 @@ function App() {
       <div>
       Ana Santos - Front-End
 
-      <h2>Vamos testar ese deploy</h2>
+      <h2>Vamos testar esse deploy</h2>
         
       </div>
      
