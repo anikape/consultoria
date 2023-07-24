@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <div>
-      Ana Santos
+      Ana Santos - FrontEnd
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
