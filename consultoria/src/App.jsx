@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import './App.css'
+import FormLogin from '../component/FormLogin'
 
 function App() {
   
@@ -11,6 +12,9 @@ function App() {
       Ana Santos - Front-End
 
       <h2>Vamos testar esse deploy</h2>
+      <p>Front-End</p>
+
+      <FormLogin />
         
       </div>
      
