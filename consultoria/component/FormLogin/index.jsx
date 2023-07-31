@@ -7,6 +7,7 @@ const FormLogin = () => {
       <input type="text"/>
       <label>Senha</label>
       <input type="password" />
+      <button>Login</button>
 
 
     </div>
