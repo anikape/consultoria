@@ -5,7 +5,7 @@ import Home from "../../pages/Home"
 import Singin from "../../pages/Singin"
 
 const Private =({Item}) =>{
-  const signed = false;
+  const signed = true;
 
   return signed > 0 ? <Item /> : <Singin />;
 
