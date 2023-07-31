@@ -6,6 +6,7 @@ import Singin from "../../pages/Singin"
 
 const Private =({Item}) =>{
   const signed = true;
+  /**define a autenticação */
 
   return signed > 0 ? <Item /> : <Singin />;
 
