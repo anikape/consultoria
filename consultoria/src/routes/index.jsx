@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'; // Importa o PropTypes
 import Home from "../../pages/Home"
 import Singin from "../../pages/Singin"
 import Redifine from "../../pages/Redifine";
+// import Client from "../../pages/clients";
 
 const Private =({Item}) =>{
   const signed = true;
@@ -29,6 +30,8 @@ const RoutesApp = () =>{
           <Route path="*" element={<Singin />} />
           {/** path=* ao tentar acessar qualquer pagina privada diretamente pelo link, vai ser rediredionado para o singin*/}
           <Route path="/redifine" element={<Redifine />} />
+          {/* <Route path="/Client" element={<Client />} /> */}
+
         </Routes>
       </Fragment>
     </BrowserRouter>
