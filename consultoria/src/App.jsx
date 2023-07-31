@@ -1,26 +1,23 @@
 import { useState } from 'react'
-
+import RoutesApp from './routes'
+import { AuthProvider } from './contexts/auth'
 import './App.css'
-import FormLogin from '../component/FormLogin'
+
+import Singin from '../pages/Singin'
 
 function App() {
   
   return (
-    <>
+    <AuthProvider>
       <div>
-      Ana Santos - Front-End
-
-      <h2>Vamos testar esse deploy</h2>
-      <p>Front-End</p>
-
-      <FormLogin />
+     <RoutesApp />
         
       </div>
      
-    </>
+    </AuthProvider>
   )
 }
 
-export default App
+export default App;
 
 
