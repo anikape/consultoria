@@ -1,9 +1,15 @@
 import React from 'react'
+import { Link,useNavigate } from 'react-router-dom';
 import style from "./home.module.css"
 import { FaUserAlt, FaTasks, FaNewspaper, FaUsers  } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
+import useAuth from '../../src/hooks/useAuth';
 
 const home = () => {
+
+  const { signout } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <section className={style.containerHome}>
 
@@ -18,23 +24,25 @@ const home = () => {
 
           <div className={style.links}>
 
-            <a href="/client" className={style.options}>
+            <Link to="/client" className={style.options}>
             <FaTasks /> Lista de clientes
-            </a>
-             <a href="" className={style.options}>
+            </Link>
+             <Link to="" className={style.options}>
               <FaNewspaper />Documentos
-             </a>
+             </Link>
              
-             <a href=""  className={style.options}>
+             <Link to=""  className={style.options}>
              <FaUsers />Área Adm
-             </a>
+             </Link>
             
 
           </div>  
 
-          <a href='/' className={style.logout}>
+          <button onClick={() => [signout(), navigate("/")]}>Sair</button>
+          
+          {/* <Link to='/' clLinkssName={style.logout}>
         <BiLogOut /> Sair
-          </a>
+          </Link> */}
         
 
         </section>
