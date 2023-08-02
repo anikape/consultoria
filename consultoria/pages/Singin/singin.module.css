@@ -1,6 +1,6 @@
 .containerForm{
-  background-image: url('../../../public/images/bgForm.png');
-  background-repeat: no-repeat;
+  /* background-image: url('../../../public/images/bgForm.png');
+  background-repeat: no-repeat; */
   display: flex;
   flex-direction: column;
   width: 566px;
