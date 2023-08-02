@@ -22,14 +22,14 @@ export const AuthProvider = ({ children }) => {
   const mockUsers = [
     {
       id: 1,
-      name: "Usuário de Teste 1",
-      email: "ana.br@hotmail.com",
-      password: "senha123",
+      name: "Usuário de Teste 2",
+      email: "usuario2@teste.com",
+      password: "123456",
     },
     {
       id: 2,
-      name: "Usuário de Teste 2",
-      email: "usuario2@teste.com",
+      name: "Usuário de Teste 1",
+      email: "usuario1@teste.com",
       password: "123456",
     },
   ];
