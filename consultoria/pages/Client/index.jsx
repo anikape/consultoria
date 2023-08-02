@@ -63,6 +63,26 @@ const Client = () => {
         },
       ],
     },
+    {
+      id: 4,
+      name: "Yashina Gomes",
+      email: "teste@test.com",
+      mobile: 81988693599,
+      entreprise: [
+        {
+          cpfCnpj: 4444444,
+          razaoSocial: "Fync",
+          endereco: "Rua do Cravo",
+          telefone: "81-9887692454",
+        },
+        {
+          cpfCnpj: 3333333,
+          razaoSocial: "Globo",
+          endereco: "Rua do Amarelo",
+          telefone: "81-9887692454",
+        },
+      ],
+    },
     // Adicionar outros clientes aqui...
   ];
 
