@@ -113,6 +113,7 @@ const Client = () => {
     setExpandedClientId(clientId === expandedClientId ? null : clientId);
     setExpandedEnterpriseIndex(-1); // Reset expanded enterprise accordion on client accordion click
   };
+  
 
   const handleEnterpriseAccordionClick = (index) => {
     setExpandedEnterpriseIndex(index === expandedEnterpriseIndex ? -1 : index);
@@ -120,43 +121,48 @@ const Client = () => {
 
   return (
     <div>
-      <Link to="/home"><button>Home</button></Link>
-      <h1>Página do Cliente</h1>
-      <div>
-        <input
-          type="text"
-          placeholder="Buscar por nome, CNPJ ou razão social..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </div>
-      {filteredClients.map((client) => (
-        <div key={client.id}>
-          <button onClick={() => handleAccordionClick(client.id)}>
-            {client.name} {expandedClientId === client.id ? '▲' : '▼'}
-          </button>
-          {expandedClientId === client.id && (
-            <div>
-              {client.entreprise.map((enterprise, index) => (
-                <div key={index}>
-                  <button onClick={() => handleEnterpriseAccordionClick(index)}>
-                    {enterprise.razaoSocial} {expandedEnterpriseIndex === index ? '▲' : '▼'}
-                  </button>
-                  {expandedEnterpriseIndex === index && (
-                    <div>
-                      <p>CNPJ: {enterprise.cpfCnpj}</p>
-                      <p>Razão Social: {enterprise.razaoSocial}</p>
-                      <p>Endereço: {enterprise.endereco}</p>
-                      <p>Telefone: {enterprise.telefone}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+    <Link to="/home"><button>Home</button></Link>
+    <h1>Página do Cliente</h1>
+    <div>
+      <input
+        type="text"
+        placeholder="Buscar por nome, CNPJ ou razão social..."
+        value={searchTerm}
+        onChange={handleSearch}
+      />
     </div>
+    {filteredClients.map((client) => (
+      <div key={client.id}>
+        <button onClick={() => handleAccordionClick(client.id)}>
+          {client.name} {expandedClientId === client.id ? '▲' : '▼'}
+        </button>
+        {expandedClientId === client.id && (
+          <div>
+            <p>Email: {client.email}</p>
+            <p>Telefone: {client.mobile}</p>
+            <Link to={`/profile/${client.id}`}><button>Ver Perfil</button></Link>
+            <Link to={`/edit/${client.id}`}><button>Editar Dados</button></Link>
+            {client.entreprise.map((enterprise, index) => (
+              <div key={index}>
+                <button onClick={() => handleEnterpriseAccordionClick(index)}>
+                  {enterprise.razaoSocial} {expandedEnterpriseIndex === index ? '▲' : '▼'}
+                </button>
+                {expandedEnterpriseIndex === index && (
+                  <div>
+                    <p>CNPJ: {enterprise.cpfCnpj}</p>
+                    <p>Razão Social: {enterprise.razaoSocial}</p>
+                    <p>Endereço: {enterprise.endereco}</p>
+                    <p>Telefone: {enterprise.telefone}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+            
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
   );
 };
 
