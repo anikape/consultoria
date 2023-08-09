@@ -21,10 +21,10 @@ const Profile = ({ clients }) => {
       <p>Telefone: {client.mobile}</p>
       <p>Endereço: {client.endereco.rua}, {client.endereco.numero}, {client.endereco.bairro}, {client.endereco.cidade}, {client.endereco.complemento}</p>
 
-      <h3>Documentos:</h3>
+      {/* <h3>Documentos:</h3>
       {client.documents.map((document, index) => (
         <DocumentAccordion key={index} document={document} />
-      ))}
+      ))} */}
     </div>
   );
 };

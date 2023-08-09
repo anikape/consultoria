@@ -6,6 +6,7 @@ import Singin from "../../pages/Singin";
 import Redifine from "../../pages/Redifine";
 import Client from "../../pages/Client";
 import Profile from "../../pages/Profile";
+import EntrepriseProfile from "../../pages/EnterpriseProfile";
 
 const clients = [
   {
@@ -117,27 +118,20 @@ Private.propTypes = {
 };
 
 const RoutesApp = () => {
-  // Aqui você deve definir o estado de autenticação adequadamente.
-  // Por exemplo, pode ser obtido de um contexto, do armazenamento local, etc.
-  const signed = true; // Defina o estado de autenticação corretamente
+  // Defina o estado de autenticação corretamente
+  const signed = true;
 
   return (
     <BrowserRouter>
-      <Fragment>
-        <Routes>
-          {/* Rota para a página inicial, acessível somente se autenticado */}
-          <Route exact path="/home" element={<Private Item={Home} signed={signed} />} />
-          {/* Rota para a página de login */}
-          <Route path="/" element={<Singin />} />
-          {/* Rota de curinga para lidar com qualquer outra rota não definida */}
-          <Route path="*" element={<Singin />} />
-          {/* Rota para a página de redefinição de senha */}
-          <Route path="/redifine" element={<Redifine />} />
-          {/* Rota para a página do cliente, acessível somente se autenticado */}
-          <Route path="/Client" element={<Private Item={Client} signed={signed} />} />
-          <Route path="/profile/:id" element={<Private Item={() => <Profile clients={clients} />} signed={signed} />} />
-        </Routes>
-      </Fragment>
+      <Routes>
+        <Route path="/" element={<Singin />} />
+        <Route path="/redifine" element={<Redifine />} />
+        <Route path="/home" element={<Private Item={Home} signed={signed} />} />
+        <Route path="/Client" element={<Private Item={Client} signed={signed} />} />
+        <Route path="/profile/:id" element={<Private Item={() => <Profile clients={clients} />} signed={signed} />} />
+        {/* Rota para o perfil da empresa */}
+        <Route path="/entrepriseProfile/:cpfCnpj" element={<Private Item={EntrepriseProfile} signed={signed} />} />
+      </Routes>
     </BrowserRouter>
   )
 };
