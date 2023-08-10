@@ -178,91 +178,143 @@ const Client = ({clientsProp  }) => {
   ];
   
   
-    const [searchTerm, setSearchTerm] = useState('');
-    const [expandedClients, setExpandedClients] = useState(
-      clients.reduce((acc, client) => {
-        acc[client.id] = true;
-        return acc;
-      }, {})
-    );
-    const [expandedEnterpriseIndex, setExpandedEnterpriseIndex] = useState(-1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [expandedClients, setExpandedClients] = useState(
+    clients.reduce((acc, client) => {
+      acc[client.id] = true;
+      return acc;
+    }, {})
+  );
+  const [expandedEnterpriseIndex, setExpandedEnterpriseIndex] = useState(-1);
+  const [searchCnpj, setSearchCnpj] = useState('');
+
   
-    const handleSearch = (event) => {
-      setSearchTerm(event.target.value);
-      setExpandedClients({}); // Reset all client accordions on search
-      setExpandedEnterpriseIndex(-1); // Reset expanded enterprise accordion on search
-    };
+  const toggleClientAccordion = (clientId) => {
+    setExpandedClients((prevExpandedClients) => ({
+      ...prevExpandedClients,
+      [clientId]: !prevExpandedClients[clientId],
+    }));
+    setExpandedEnterpriseIndex(-1); // Reset expanded enterprise accordion on client accordion click
+  };
+
+  const handleEnterpriseAccordionClick = (index) => {
+    setExpandedEnterpriseIndex(index === expandedEnterpriseIndex ? -1 : index);
+  };
+
+  //**Funções de Busca */
+
+  const handleSearch = (event) => {
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
+    setExpandedClients({}); // Reset all client accordions on search
   
-    const toggleClientAccordion = (clientId) => {
-      setExpandedClients((prevExpandedClients) => ({
-        ...prevExpandedClients,
-        [clientId]: !prevExpandedClients[clientId],
-      }));
-      setExpandedEnterpriseIndex(-1); // Reset expanded enterprise accordion on client accordion click
-    };
+    // Filter and expand clients that match the search term
+    const newExpandedClients = {};
+    clients.forEach((client) => {
+      if (
+        client.name.toLowerCase().includes(newSearchTerm.toLowerCase()) ||
+        client.entreprise.some(
+          (enterprise) =>
+            enterprise.razaoSocial.toLowerCase().includes(newSearchTerm.toLowerCase())
+        )
+      ) {
+        newExpandedClients[client.id] = true;
+      }
+    });
+    setExpandedClients(newExpandedClients); // Update the expanded state
+  };
+
+  const handleSearchCnpj = (event) => {
+    setSearchCnpj(event.target.value);
+    setExpandedClients({}); // Reset all client accordions on CNPJ search
+    setExpandedEnterpriseIndex(-1); // Reset expanded enterprise accordion on CNPJ search
   
-    const handleEnterpriseAccordionClick = (index) => {
-      setExpandedEnterpriseIndex(index === expandedEnterpriseIndex ? -1 : index);
-    };
-  
-    const filterClients = clients.filter((client) =>
-      client.entreprise.some((enterprise) =>
-        enterprise.razaoSocial.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  
-    return (
-      <div>
-        <Link to="/home">
-          <button>Home</button>
-        </Link>
-        <h1>Página do Cliente</h1>
-        <div>
-        <label htmlFor="search">Buscar por Razão Social:</label>
-          <input
-            type="text"
-            placeholder="Buscar por razão social..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </div>
-        {filterClients.map((client) => (
-          <div
-            key={client.id}
-            style={{ marginBottom: '10px', border: '1px solid #ccc', padding: '10px' }}
-          >
-            <button onClick={() => toggleClientAccordion(client.id)}>
-              {client.name}{' '}
-              <Link to={`/profile/${client.id}`}>
-                <button>Ver Perfil</button>
-              </Link>{' '}
-              {expandedClients[client.id] ? '▲' : '▼'}
-            </button>
-            {expandedClients[client.id] && (
-              <div>
-                <h2>Empresas:</h2>
-                {client.entreprise.map((enterprise, index) => (
-                  <div key={index}>
-                    <button onClick={() => handleEnterpriseAccordionClick(index)}>
-                      {enterprise.razaoSocial}{' '}
-                      {expandedEnterpriseIndex === index ? '▲' : '▼'}
-                    </button>
-                    {expandedEnterpriseIndex === index && (
-                      <div>
-                        <p>CNPJ: {enterprise.cpfCnpj}</p>
-                        <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
-                          <button>Ver Perfil da Empresa</button>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    );
+    // Filter and expand clients that match the CNPJ search
+    const newExpandedClients = {};
+    clients.forEach((client) => {
+      if (client.entreprise.some((enterprise) => enterprise.cpfCnpj.toString().includes(searchCnpj))) {
+        newExpandedClients[client.id] = true;
+      }
+    });
+    setExpandedClients(newExpandedClients); // Update the expanded state
   };
   
-  export default Client;
+  const filteredClientsByCnpj = clients.filter((client) =>
+  client.entreprise.some((enterprise) =>
+    enterprise.cpfCnpj.toString().includes(searchCnpj)
+  ) && expandedClients[client.id]
+);
+
+const filteredClients = clients.filter((client) => {
+  const isClientExpanded = expandedClients[client.id];
+  const isClientNameMatch = client.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+  // Only include the client in the filtered list if it matches the search term and is expanded
+  return isClientExpanded && isClientNameMatch;
+});
+
+  return (
+    <div>
+      <Link to="/home">
+        <button>Home</button>
+      </Link>
+      <h1>Página do Cliente</h1>
+      <div>
+        <label htmlFor="search">Buscar por Nome:</label>
+        <input
+          type="text"
+          placeholder="Buscar por nome..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
+      <div>
+        <label htmlFor="searchCnpj">Buscar por CNPJ:</label>
+        <input
+          type="text"
+          placeholder="Buscar por CNPJ..."
+          value={searchCnpj}
+          onChange={handleSearchCnpj}
+        />
+      </div>
+
+      {filteredClients.map((client) => (
+      <div
+        key={client.id}
+        style={{ marginBottom: '10px', border: '1px solid #ccc', padding: '10px' }}
+      >
+          <button onClick={() => toggleClientAccordion(client.id)}>
+            {client.name}{' '}
+            <Link to={`/profile/${client.id}`}>
+              <button>Ver Perfil</button>
+            </Link>{' '}
+            {expandedClients[client.id] ? '▲' : '▼'}
+          </button>
+          {expandedClients[client.id] && (
+            <div>
+              <h2>Empresas:</h2>
+              {client.entreprise.map((enterprise, index) => (
+                <div key={index}>
+                  <button onClick={() => handleEnterpriseAccordionClick(index)}>
+                    {enterprise.razaoSocial}{' '}
+                    {expandedEnterpriseIndex === index ? '▲' : '▼'}
+                  </button>
+                  {expandedEnterpriseIndex === index && (
+                    <div>
+                      <p>CNPJ: {enterprise.cpfCnpj}</p>
+                      <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
+                        <button>Ver Perfil da Empresa</button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Client;
