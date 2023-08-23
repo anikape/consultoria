@@ -299,14 +299,25 @@ const filteredClients = clients.filter((client) => {
                     {enterprise.razaoSocial}{' '}
                     {expandedEnterpriseIndex === index ? '▲' : '▼'}
                   </button>
-                  {expandedEnterpriseIndex === index && (
+                  {/* {expandedEnterpriseIndex === index && (
                     <div>
                       <p>CNPJ: {enterprise.cpfCnpj}</p>
                       <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
                         <button>Ver Perfil da Empresa</button>
                       </Link>
                     </div>
-                  )}
+                  )} */}
+
+{expandedEnterpriseIndex === index && (
+  <div>
+    <p>CNPJ: {enterprise.cpfCnpj}</p>
+    <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
+      <button>Ver Perfil da Empresa</button>
+    </Link>
+    {/* Passando os dados da empresa para o EntrepriseProfile */}
+    <EntrepriseProfile enterprise={enterprise} />
+  </div>
+)}
                 </div>
               ))}
             </div>
