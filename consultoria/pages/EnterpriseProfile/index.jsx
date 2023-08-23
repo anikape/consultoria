@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const EntrepriseProfile = ({ clients }) => {
   const { cpfCnpj } = useParams();
@@ -46,7 +46,16 @@ const EntrepriseProfile = ({ clients }) => {
   }
 
   return (
+    
     <div>
+
+  <Link to="/client">
+        <button>Voltar para Página do Cliente</button>
+      </Link>
+      <Link to="/home">
+        <button>Ir para Página Inicial</button>
+      </Link>
+      
       <h1>{enterprise.razaoSocial}</h1>
       {/* Exibir outras informações da empresa */}
 
@@ -124,6 +133,7 @@ const EntrepriseProfile = ({ clients }) => {
         </div>
       ))}
     </div>
+    
   );
 };
 
