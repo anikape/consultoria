@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { AiOutlineFilePdf } from "react-icons/ai";
 
 const EntrepriseProfile = ({ clients }) => {
   const { cpfCnpj } = useParams();
@@ -121,9 +122,10 @@ const EntrepriseProfile = ({ clients }) => {
             <div>
               <p>Emissão: {document.issuanceDate}</p>
               <p>Expiração: {document.expirationDate}</p>
-              <a href={document.pdfLink} download>
-                Baixar PDF
-              </a>
+              <Link to={document.path} target="_blank" download >
+                <AiOutlineFilePdf />
+               
+              </Link>
               {/* Opção de exclusão do banco de dados */}
               <button onClick={() => handleDeleteDocument(document.id)}>
                 Excluir Documento
