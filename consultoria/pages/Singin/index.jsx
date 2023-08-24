@@ -60,10 +60,14 @@ const Singin = () => {
   };
 
   return (
-    <>
+    <section >
       <div className={style.containerForm}>
 
-        <form onSubmit={handleSubmit}>
+      <div className={style.form} >
+
+        <img className={style.logo1} src='../../src/assets/logo1.png' alt='Logo Pc Consultoria'/>
+
+        <form  onSubmit={handleSubmit}>
           <div className={style.div}>
             <div className={style.inputContainer}>
               {loginError && <p className={style.error}><FaInfoCircle /> {loginError}</p>}
@@ -86,14 +90,13 @@ const Singin = () => {
             />
             {/* {loginError && <p>{loginError}</p>} */}
           </div>
-          <button type="submit">Enviar</button>
+          <button className={style.send} type="submit">Entrar</button>
         </form>
-        {/* <a className={style.forguet} href="">
-          Esqueceu a senha?
-        </a> */}
+        
         <Link to="/redifine" className={style.forguet}>Esqueceu a senha?</Link>
+        </div>
       </div>
-    </>
+    </section>
   );
 };
 
