@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Chela+One&family=Comic+Neue:wght@300&family=Doppio+One&family=Glory:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400&family=Inter:wght@100;200;300;400;500;600;800&family=Lily+Script+One&family=Mukta:wght@300;400;500;600;700&display=swap');
 
 .containerHome{
-  background-image: url('/images/bg2.png');
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; */
+  background-image: url('../../src/assets/gHome2.png');
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   width: 100%;
-  height: 100vh;
+  height: 895px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,7 +79,7 @@ text-transform: uppercase;
 
 .options:hover{
   border: 8px solid rgba(83, 119, 110, 0.70);
-  /* background: rgba(255, 255, 255, 0.00); */
+  /* background: rgb(255, 255, 255, 0.00); */
   box-shadow: 12px 12px 8px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -97,12 +97,13 @@ display: flex;
  font-size: 10px;
  font-weight: 723;
  border-radius: 21px;
-border: 8px solid rgba(255, 255, 255, 0.37);
+border: 5px solid rgba(255, 255, 255, 0.37);
 background: rgba(132, 152, 147, 0.93);
 box-shadow: 4px 4px 3px 0px rgba(0, 0, 0, 0.25);
 justify-content: center;
 align-items: center;
-margin: 116px 1100px;
+margin: 106px 1150px;
+
 
 
 }

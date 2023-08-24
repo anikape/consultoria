@@ -38,11 +38,9 @@ const home = () => {
 
           </div>  
 
-          <button onClick={() => [signout(), navigate("/")]}>Sair</button>
+          <button onClick={() => [signout(), navigate("/")]} className={style.logout}><BiLogOut /> sair</button>
           
-          {/* <Link to='/' clLinkssName={style.logout}>
-        <BiLogOut /> Sair
-          </Link> */}
+          
         
 
         </section>
