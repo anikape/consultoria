@@ -1,8 +1,12 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ReactModal from 'react-modal';
 import Profile from '../Profile';
 import EntrepriseProfile from '../EnterpriseProfile';
+import { IoClose } from "react-icons/io5";
+import { FaInfoCircle } from "react-icons/fa";
+
 
 const Client = ({clientsProp  }) => {
   const clients = [
@@ -226,6 +230,8 @@ const Client = ({clientsProp  }) => {
   ];
 
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
   
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedClients, setExpandedClients] = useState(
@@ -237,14 +243,22 @@ const Client = ({clientsProp  }) => {
   const [expandedEnterpriseIndex, setExpandedEnterpriseIndex] = useState(-1);
   const [searchCnpj, setSearchCnpj] = useState('');
 
+    // Define o elemento do aplicativo para evitar o erro
+    ReactModal.setAppElement('#root'); // Use o seletor do elemento raiz do seu aplicativo
+
   
-  const toggleClientAccordion = (clientId) => {
-    setExpandedClients((prevExpandedClients) => ({
-      ...prevExpandedClients,
-      [clientId]: !prevExpandedClients[clientId],
-    }));
-    setExpandedEnterpriseIndex(-1); // Reset expanded enterprise accordion on client accordion click
+ 
+
+  const openModal = (client) => {
+    setSelectedClient(client);
+    setModalOpen(true);
   };
+
+  const closeModal = () => {
+    setSelectedClient(null);
+    setModalOpen(false);
+  };
+
 
   const handleEnterpriseAccordionClick = (index) => {
     setExpandedEnterpriseIndex(index === expandedEnterpriseIndex ? -1 : index);
@@ -308,15 +322,8 @@ const filteredClients = clients.filter((client) => {
         <button>Home</button>
       </Link>
       <h1>Página do Cliente</h1>
-      <div>
-        <label htmlFor="search">Buscar por Nome:</label>
-        <input
-          type="text"
-          placeholder="Buscar por nome..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </div>
+      
+   
       <div>
         <label htmlFor="searchCnpj">Buscar por CNPJ:</label>
         <input
@@ -326,16 +333,15 @@ const filteredClients = clients.filter((client) => {
           onChange={handleSearchCnpj}
         />
       </div>
-
+      
       {filteredClients.map((client) => (
-      <div
-        key={client.id}
-        style={{ marginBottom: '10px', border: '1px solid #ccc', padding: '10px' }}
-      >
-          <button onClick={() => toggleClientAccordion(client.id)}>
-            {client.name}{' '}
+        <div
+          key={client.id}
+          style={{ marginBottom: '10px', border: '1px solid #ccc', padding: '10px' }}
+        >
+          <button onClick={() => openModal(client)}>
+            {client.name}{' '}{' '}<FaInfoCircle />
            
-            {expandedClients[client.id] ? '▲' : '▼'}
           </button>
           {expandedClients[client.id] && (
             <div>
@@ -346,33 +352,59 @@ const filteredClients = clients.filter((client) => {
                     {enterprise.razaoSocial}{' '}
                     {expandedEnterpriseIndex === index ? '▲' : '▼'}
                   </button>
-                  {/* {expandedEnterpriseIndex === index && (
+                  
+                  {expandedEnterpriseIndex === index && (
                     <div>
                       <p>CNPJ: {enterprise.cpfCnpj}</p>
                       <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
                         <button>Ver Perfil da Empresa</button>
                       </Link>
+                      {/* Passando os dados da empresa para o EntrepriseProfile */}
+                      <EntrepriseProfile enterprise={enterprise} />
                     </div>
-                  )} */}
-
-{expandedEnterpriseIndex === index && (
-  <div>
-    <p>CNPJ: {enterprise.cpfCnpj}</p>
-    <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
-      <button>Ver Perfil da Empresa</button>
-    </Link>
-    {/* Passando os dados da empresa para o EntrepriseProfile */}
-    <EntrepriseProfile enterprise={enterprise} />
-  </div>
-)}
+                  )}
                 </div>
               ))}
             </div>
           )}
         </div>
       ))}
+
+      {/* Modal */}
+      <ReactModal
+        isOpen={modalOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Semi-transparent black overlay
+          },
+          content: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'black',
+            width: '350px', 
+            height:'250px',
+            margin: 'auto',
+          }
+
+        }}
+      >
+        {selectedClient && (
+          <div>
+            <button onClick={closeModal} style={{ border:'none'}}><IoClose /></button>
+            <h2>Dados do Cliente</h2>
+            <p>Nome: {selectedClient.name}</p>
+            <p>Email: {selectedClient.email}</p>
+            <p>Telefone: {selectedClient.phone}</p>
+            
+          </div>
+        )}
+      </ReactModal>
     </div>
   );
 };
+
 
 export default Client;
