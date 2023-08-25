@@ -69,9 +69,7 @@ const Singin = () => {
         <div className={style.logo1}>
 
         </div>
-        {/* <img  src='../../src/assets/logo1.png' alt='Logo Pc Consultoria'/> */}
-
-        
+              
 
         <form  onSubmit={handleSubmit}>
           <div className={style.div}>

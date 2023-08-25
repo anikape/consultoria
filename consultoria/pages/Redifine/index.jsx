@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
+import style from './Redifine.module.css'
+import Footer from '../../component/Footer/Footer'
 
 const Redifine = () => {
   const [email, setEmail] = useState('');
@@ -30,19 +32,23 @@ const Redifine = () => {
   };
 
   return (
-    <div>
-    <h1>Contact Form</h1>
-    <label>Email:</label>
-    <input type="email" value={email} onChange={handleEmailChange} />
+    <section className={style.container}>
+      <div className={style.content}>
+      <div className={style.logo1}></div>
+    <label>Digite seu e-mail</label>
+    <input className={style.input} type="email" value={email} onChange={handleEmailChange} placeholder='Digite seu e-mail' />
     <br />
-    <ReCAPTCHA
+    <ReCAPTCHA className={style.recaptcha}
       sitekey="YOUR_RECAPTCHA_SITE_KEY"
       onChange={handleCaptchaVerification}
     />
     <br />
-    <button onClick={handleSubmit}>Enviar</button>
-    <button onClick={handleCancel}>Cancelar</button>
-  </div>
+    <button className={style.button1} onClick={handleSubmit}>Enviar</button>
+    <button className={style.button2} onClick={handleCancel}>Cancelar</button>
+    </div>
+
+    <Footer />
+  </section>
   );
 };
 

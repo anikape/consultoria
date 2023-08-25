@@ -38,7 +38,7 @@ const home = () => {
 
           </div>  
 
-          <button onClick={() => [signout(), navigate("/")]} className={style.logout}><BiLogOut /> sair</button>
+          <button onClick={() => [signout(), navigate("/")]} className={style.logout}> <BiLogOut />  sair</button>
           
           
         
