@@ -65,7 +65,10 @@ const Singin = () => {
 
       <div className={style.form} >
 
-        <img className={style.logo1} src='../../src/assets/logo1.png' alt='Logo Pc Consultoria'/>
+        <div className={style.logo1}>
+
+        </div>
+        {/* <img  src='../../src/assets/logo1.png' alt='Logo Pc Consultoria'/> */}
 
         
 
