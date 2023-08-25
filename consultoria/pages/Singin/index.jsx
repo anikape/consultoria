@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'; // Adicionei o useContext
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../src/hooks/useAuth";
 import { FaUser, FaInfoCircle } from 'react-icons/fa';
-import logo from '../../../public/images/logo1.png'
 import style from "./singin.module.css";
 import { AuthContext } from '../../src/contexts/auth';
 
@@ -66,9 +65,9 @@ const Singin = () => {
 
       <div className={style.form} >
 
-        {/* <img className={style.logo1} src='../../../public/images/line.png' alt='Logo Pc Consultoria'/> */}
+        <img className={style.logo1} src='../../src/assets/logo1.png' alt='Logo Pc Consultoria'/>
 
-        <img className={style.logo1} src={logo} alt="logo" />
+        
 
         <form  onSubmit={handleSubmit}>
           <div className={style.div}>
