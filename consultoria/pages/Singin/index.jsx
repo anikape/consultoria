@@ -4,6 +4,7 @@ import useAuth from "../../src/hooks/useAuth";
 import { FaUser, FaInfoCircle } from 'react-icons/fa';
 import style from "./singin.module.css";
 import { AuthContext } from '../../src/contexts/auth';
+import Footer from '../../component/Footer/Footer';
 
 const Singin = () => {
   
@@ -100,7 +101,11 @@ const Singin = () => {
         
         <Link to="/redifine" className={style.forguet}>Esqueceu a senha?</Link>
         </div>
+
+        <Footer />
       </div>
+
+      
     </section>
   );
 };
