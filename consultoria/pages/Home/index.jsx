@@ -4,11 +4,17 @@ import style from "./home.module.css"
 import { FaUserAlt, FaTasks, FaNewspaper, FaUsers  } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import useAuth from '../../src/hooks/useAuth';
+import DocumentsPage from '../DocumentsPage/DocumentsPage';
 
 const home = () => {
 
   const { signout } = useAuth();
   const navigate = useNavigate();
+
+  const navigateToDocumentsPage = () => {
+    // Use a função navigate para navegar para DocumentsPage e passe a lista de clientes como estado
+    navigate('/DocumentsPage', { state: { clients } });
+  };
 
   return (
     <section className={style.containerHome}>
@@ -27,7 +33,9 @@ const home = () => {
             <Link to="/client" className={style.options}>
             <FaTasks /> Lista de clientes
             </Link>
-             <Link to="" className={style.options}>
+
+           
+             <Link to="/DocumentsPage" className={style.options}>
               <FaNewspaper />Documentos
              </Link>
              

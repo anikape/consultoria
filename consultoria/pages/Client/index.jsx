@@ -6,6 +6,7 @@ import Profile from '../Profile';
 import EntrepriseProfile from '../EnterpriseProfile';
 import { IoClose } from "react-icons/io5";
 import { FaInfoCircle } from "react-icons/fa";
+import DocumentPage from '../DocumentsPage/DocumentsPage';
 
 
 const Client = ({clientsProp  }) => {

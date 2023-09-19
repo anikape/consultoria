@@ -1,0 +1,41 @@
+/* DocumentsPage.module.css */
+
+/* Estilos para a tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para os botões de ordenação */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos para o cabeçalho da tabela */
+th button::before {
+  content: '';
+  display: inline-block;
+  margin-right: 4px;
+}
+
+/* Estilos para a seta de ordenação ascendente (↑) */
+th button[data-order="asc"]::before {
+  content: '↑';
+}
+
+/* Estilos para a seta de ordenação descendente (↓) */
+th button[data-order="desc"]::before {
+  content: '↓';
+}

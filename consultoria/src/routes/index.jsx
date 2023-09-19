@@ -7,7 +7,7 @@ import Redifine from "../../pages/Redifine";
 import Client from "../../pages/Client";
 import Profile from "../../pages/Profile";
 import EntrepriseProfile from "../../pages/EnterpriseProfile";
-
+import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
 
 
 const clients = [
@@ -255,7 +255,7 @@ const RoutesApp = () => {
         <Route path="/entrepriseProfile/:cpfCnpj"
         element={<Private Item={() => <EntrepriseProfile clients={clients} />} signed={signed} />}
         />
-        
+        <Route path="/DocumentsPage" element={<Private Item={DocumentsPage} signed={signed} />} />
 
       </Routes>
     </BrowserRouter>
