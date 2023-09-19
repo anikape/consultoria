@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import style from './Documents.module.css'
-import { AiTwotoneDelete, AiTwotoneEdit } from "react-icons/ai";
+import { AiTwotoneDelete, AiTwotoneEdit, AiFillFilePdf } from "react-icons/ai";
 
 
 const DocumentsPage = () => {
@@ -256,12 +257,14 @@ const DocumentsPage = () => {
 
   return (
     <div>
-     
+       <Link to="/home">
+        <button>Home</button>
+      </Link>
       <table>
         <thead>
           <tr>
             <th><AiTwotoneDelete /> <AiTwotoneEdit /> </th>
-            <th>Nome</th>
+            <th>Documento</th>
             <th>Empresa</th>
             <th >Data de Emissão</th>
             <th >Data de Vencimento</th>
@@ -273,14 +276,16 @@ const DocumentsPage = () => {
             client.entreprise.flatMap((entreprise) =>
               entreprise.documents.map((doc, index) => (
                 <tr key={index}>
-                  <td><AiTwotoneDelete /> <AiTwotoneEdit /></td>
+                  <td> <button><AiTwotoneDelete /></button>
+                    <button><AiTwotoneEdit /></button>
+                  </td>
                   <td>{doc.name}</td>
                   <td>{entreprise.razaoSocial}</td>
                   <td>{doc.issuanceDate}</td>
                   <td>{doc.expirationDate}</td>
                   <td>
-                    <a href={doc.path} target="_blank" rel="noopener noreferrer">
-                      Ver Documento
+                    <a href={doc.path} target="_blank" rel="noopener noreferrer"><AiFillFilePdf />
+                      
                     </a>
                   </td>
                 </tr>
