@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import style from './Documents.module.css'
-import { AiTwotoneDelete, AiTwotoneEdit, AiFillFilePdf } from "react-icons/ai";
+import { AiTwotoneDelete, AiTwotoneEdit, AiFillFilePdf, AiFillSetting } from "react-icons/ai";
 
 
 const DocumentsPage = () => {
@@ -263,12 +263,15 @@ const DocumentsPage = () => {
       <table>
         <thead>
           <tr>
-            <th><AiTwotoneDelete /> <AiTwotoneEdit /> </th>
+            
+            <th> </th>
             <th>Documento</th>
+            <th>Tipo</th>
             <th>Empresa</th>
             <th >Data de Emissão</th>
             <th >Data de Vencimento</th>
-            <th>Link</th>
+            <th><AiFillSetting /></th>
+            
           </tr>
         </thead>
         <tbody>
@@ -276,15 +279,16 @@ const DocumentsPage = () => {
             client.entreprise.flatMap((entreprise) =>
               entreprise.documents.map((doc, index) => (
                 <tr key={index}>
-                  <td> <button><AiTwotoneDelete /></button>
-                    <button><AiTwotoneEdit /></button>
+                  <td> 
                   </td>
+                  <td>{doc.name}</td>
                   <td>{doc.name}</td>
                   <td>{entreprise.razaoSocial}</td>
                   <td>{doc.issuanceDate}</td>
                   <td>{doc.expirationDate}</td>
                   <td>
-                    <a href={doc.path} target="_blank" rel="noopener noreferrer"><AiFillFilePdf />
+                    <a href={doc.path} target="_blank" rel="noopener noreferrer"><AiFillFilePdf /><button><AiTwotoneDelete /></button>
+                    <button><AiTwotoneEdit /></button>
                       
                     </a>
                   </td>
