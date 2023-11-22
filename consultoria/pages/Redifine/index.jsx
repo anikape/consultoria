@@ -14,11 +14,7 @@ const Redifine = () => {
     setEmail(event.target.value);
   };
 
-  // const handleCaptchaVerification = () => {
-  //   // Implement your reCAPTCHA verification logic here
-  //   // Set the isCaptchaVerified state accordingly
-  //   setIsCaptchaVerified(true);
-  // };
+
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -28,7 +24,7 @@ const Redifine = () => {
       setTimeout(() => {
         setIsLoading(false);
         // Redirecionar para outra rota após o atraso (simulando o sucesso do envio do email)
-        window.location.href = '/verification';
+        window.location.href = '/Verification';
       }, 2000);
     } catch (error) {
       setIsLoading(false);
@@ -40,16 +36,6 @@ const Redifine = () => {
     setEmail('');
   };
 
-  // const handleSubmit = () => {
-  //   if (isCaptchaVerified) {
-  //     // Implement your form submission logic here
-  //     console.log('Form submitted:', email);
-  //      // Redirecione para a nova página após o envio do formulário
-  //      history.push('/verification');
-  //   } else {
-  //     alert('Please verify the reCAPTCHA before submitting.');
-  //   }
-  // };
 
  
 
