@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import style from './client.module.css'
 import ReactModal from 'react-modal';
 import Profile from '../Profile';
 import EntrepriseProfile from '../EnterpriseProfile';
@@ -318,16 +319,17 @@ const filteredClients = clients.filter((client) => {
 });
 
   return (
-    <div>
-      <Link to="/home">
-        <button>Home</button>
+    <section className={style.container}>
+    <div className={style.content}>
+      <Link className={style.buttonHome} to="/home">
+        <button >Home</button>
       </Link>
-      <h1>Página do Cliente</h1>
+      <h1 className={style.title}>Clientes</h1>
       
    
-      <div>
-        <label htmlFor="searchCnpj">Buscar por CNPJ:</label>
-        <input
+      <div className={style.find}>
+        <label className={style.search}   htmlFor="searchCnpj">Buscar por CNPJ:</label>
+        <input className={style.searchInput}
           type="text"
           placeholder="Buscar por CNPJ..."
           value={searchCnpj}
@@ -338,14 +340,14 @@ const filteredClients = clients.filter((client) => {
       {filteredClients.map((client) => (
         <div
           key={client.id}
-          style={{ marginBottom: '10px', border: '1px solid #ccc', padding: '10px' }}
+          className={style.clientList}
         >
           <button onClick={() => openModal(client)}>
             {client.name}{' '}{' '}<FaInfoCircle />
            
           </button>
           {expandedClients[client.id] && (
-            <div>
+            <div className={style.contentClient}>
               <h2>Empresas:</h2>
               {client.entreprise.map((enterprise, index) => (
                 <div key={index}>
@@ -404,6 +406,7 @@ const filteredClients = clients.filter((client) => {
         )}
       </ReactModal>
     </div>
+    </section>
   );
 };
 
