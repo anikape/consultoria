@@ -24,7 +24,7 @@ const Redifine = () => {
       setTimeout(() => {
         setIsLoading(false);
         // Redirecionar para outra rota após o atraso (simulando o sucesso do envio do email)
-        window.location.href = '/Verification';
+        window.location.href = '/verification';
       }, 2000);
     } catch (error) {
       setIsLoading(false);
