@@ -2,7 +2,7 @@ import React from 'react'
 import style from './verification.module.css'
 import Footer from '../../component/Footer/Footer'
 
-const index = () => {
+const verification = () => {
   return (
     <section className={style.container}>
 
@@ -24,4 +24,4 @@ const index = () => {
   )
 }
 
-export default index
+export default verification
