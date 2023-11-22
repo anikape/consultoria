@@ -8,6 +8,7 @@ import Client from "../../pages/Client";
 import Profile from "../../pages/Profile";
 import EntrepriseProfile from "../../pages/EnterpriseProfile";
 import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
+import Verification from '../../pages/Verification';
 
 
 const clients = [
@@ -249,6 +250,7 @@ const RoutesApp = () => {
       <Routes>
         <Route path="/" element={<Singin />} />
         <Route path="/redifine" element={<Redifine />} />
+        <Route path="/verification" element={<Verification />}/>
         <Route path="/home" element={<Private Item={Home} signed={signed} />} />
         <Route path="/Client" element={<Private Item={Client} signed={signed} />} />
         <Route path="/profile/:id" element={<Private Item={() => <Profile clients={clients} />} signed={signed} />} />

@@ -5,9 +5,10 @@ import { FaUser, FaInfoCircle } from 'react-icons/fa';
 import style from "./singin.module.css";
 import { AuthContext } from '../../src/contexts/auth';
 import Footer from '../../component/Footer/Footer';
+import api from '../../service/api';
+
 
 const Singin = () => {
-  
   const navigate = useNavigate();
   const { signin } = useContext(AuthContext); // Obtenha a função signin do contexto
   const mockUsers = [
@@ -59,6 +60,7 @@ const Singin = () => {
       setLoginError('Usuário e/ou senha incorretos');
     }
   };
+
 
   return (
     <section >
