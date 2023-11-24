@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { AiOutlineFilePdf } from "react-icons/ai";
+import Footer from '../../component/Footer/Footer'
+import style from './enterprise.module.css'
 
 const EntrepriseProfile = ({ clients }) => {
   const { cpfCnpj } = useParams();
@@ -48,7 +50,9 @@ const EntrepriseProfile = ({ clients }) => {
 
   return (
     
-    <div>
+    <div className={style.container}>
+
+      <div className={style.contentContainer}>
 
   <Link to="/client">
         <button>Voltar para Página do Cliente</button>
@@ -112,6 +116,7 @@ const EntrepriseProfile = ({ clients }) => {
       
       </section>
 
+<section className={style.documents}>
       <h2>Documentos:</h2>
       {enterprise.documents.map((document, index) => (
         <div key={index}>
@@ -132,8 +137,13 @@ const EntrepriseProfile = ({ clients }) => {
               </button>
             </div>
           )}
+      
         </div>
       ))}
+          </section>
+      </div>
+
+    <Footer />
     </div>
     
   );
