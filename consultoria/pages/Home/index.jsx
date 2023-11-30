@@ -1,61 +1,57 @@
-import React from 'react'
-import { Link,useNavigate } from 'react-router-dom';
-import style from "./home.module.css"
-import { FaUserAlt, FaTasks, FaNewspaper, FaUsers  } from "react-icons/fa";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import style from "./home.module.css";
+import { FaUserAlt, FaTasks, FaNewspaper, FaUsers } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
-import useAuth from '../../src/hooks/useAuth';
-import DocumentsPage from '../DocumentsPage/DocumentsPage';
+import useAuth from "../../src/hooks/useAuth";
+import { AuthContext } from "../../src/contexts/Auth/AuthContext";
+import DocumentsPage from "../DocumentsPage/DocumentsPage";
 
-const home = () => {
-
-  const { signout } = useAuth();
+const Home = () => {
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   const navigateToDocumentsPage = () => {
     // Use a função navigate para navegar para DocumentsPage e passe a lista de clientes como estado
-    navigate('/DocumentsPage', { state: { clients } });
+    navigate("/DocumentsPage", { state: { clients } });
+  };
+
+  const handleLogout = async () => {
+    await auth.signout();
+    navigate("/");
   };
 
   return (
     <section className={style.containerHome}>
+      <section className={style.content}>
+        <div className={style.info}>
+          <FaUserAlt className={style.icon} />
 
-        <section className={style.content}>
-          <div className={style.info}>
-          <FaUserAlt 
-          
-          className={style.icon}/>
+          <p>Olá, {auth.user?.name}</p>
+        </div>
 
-          <p>Olá, Cristiane</p>
-          </div>
-
-          <div className={style.links}>
-
-            <Link to="/client" className={style.options}>
+        <div className={style.links}>
+          <Link to="/client" className={style.options}>
             <FaTasks /> Lista de clientes
-            </Link>
+          </Link>
 
-           
-             <Link to="/DocumentsPage" className={style.options}>
-              <FaNewspaper />Documentos
-             </Link>
-             
-             <Link to=""  className={style.options}>
-             <FaUsers />Área Adm
-             </Link>
-            
+          <Link to="/DocumentsPage" className={style.options}>
+            <FaNewspaper />
+            Documentos
+          </Link>
 
-          </div>  
+          <Link to="" className={style.options}>
+            <FaUsers />
+            Área Adm
+          </Link>
+        </div>
 
-          <button onClick={() => [signout(), navigate("/")]} className={style.logout}> <BiLogOut />  sair</button>
-          
-          
-        
-
-        </section>
-
-    
+        <button onClick={handleLogout} className={style.logout}>
+          <BiLogOut /> sair
+        </button>
+      </section>
     </section>
-  )
-}
+  );
+};
 
-export default home
+export default Home;
