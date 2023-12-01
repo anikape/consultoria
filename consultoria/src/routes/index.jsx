@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useContext } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PropTypes from "prop-types";
 import Home from "../../pages/Home";
 import Singin from "../../pages/Signin";
@@ -9,6 +9,8 @@ import Profile from "../../pages/Profile";
 import EntrepriseProfile from "../../pages/EnterpriseProfile";
 import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
 import { RequireAuth } from "../contexts/Auth/RequireAuth";
+import { Loading } from "../../component/Loading";
+import { AuthContext } from "../contexts/Auth/AuthContext";
 
 const clients = [
   {
@@ -591,7 +593,7 @@ const clients = [
 ];
 
 const Private = ({ Item, signed }) => {
-  return signed ? <Item /> : <Singin />;
+  return signed ? <Item /> : <Navigate to="/" />;
 };
 
 Private.propTypes = {
@@ -601,34 +603,36 @@ Private.propTypes = {
 
 const RoutesApp = () => {
   // Defina o estado de autenticação corretamente
-  const signed = true;
+  const { authenticated, loading, token } = useContext(AuthContext); // Obtenha a função signin do contexto
+  if (loading) {
+    return <Loading />;
+  }
+
+  const signed = authenticated;
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Singin />} />
         <Route path="/redifine" element={<Redifine />} />
-        {/* <Route path="/home" element={<Private Item={Home} signed={signed} />} /> */}
         <Route
           path="/home"
           element={
             <RequireAuth>
-              <Home />
+              <Private Item={Home} signed={signed} />
             </RequireAuth>
           }
         />
+
         <Route
           path="/client"
           element={
             <RequireAuth>
-              <Client />
+              <Private Item={Client} signed={signed} />
             </RequireAuth>
           }
         />
-        {/* <Route
-          path="/Client"
-          element={<Private Item={Client} signed={signed} />}
-        /> */}
+
         <Route
           path="/profile/:id"
           element={
@@ -649,7 +653,11 @@ const RoutesApp = () => {
         />
         <Route
           path="/DocumentsPage"
-          element={<Private Item={DocumentsPage} signed={signed} />}
+          element={
+            <RequireAuth>
+              <Private Item={DocumentsPage} signed={signed} />
+            </RequireAuth>
+          }
         />
       </Routes>
     </BrowserRouter>

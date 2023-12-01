@@ -3,29 +3,49 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 const token = cookies.get("authToken");
+console.debug(token);
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
   timeout: 1000,
 });
 
-api.interceptors.request.use((config) => {
-  return config;
-});
+// const inteceptConf = async (config) => {
+//   // const token = await cookies.get("authToken");
 
-if (token) {
-  api.defaults.headers["Authorization"] = `Barear ${token}`;
-}
+//   console.log(token);
+//   console.log(api.defaults.headers);
+
+//   if (token) {
+//     api.defaults.headers["Authorization"] = `Barear ${token}`;
+//   }
+//   return config;
+// };
+
+// api.interceptors.request.use(inteceptConf);
+
+// api.interceptors.request.use((config) => {
+//   return config;
+// });
+
+// if (token) {
+//   api.defaults.headers["Authorization"] = `Barear ${token}`;
+// }
 
 export const useApi = () => ({
   validateToken: (token) => {
     if (token) {
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      return token;
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      console.debug(
+        "Token: ",
+        token,
+        "Autorização: ",
+        api.defaults.headers.Authorization
+      );
+      return true;
     }
 
-    delete api.defaults.headers.common["Authorization"];
-    return token;
+    return false;
   },
 
   signin: async (email, password) => {
@@ -34,6 +54,10 @@ export const useApi = () => ({
         login: email,
         password,
       });
+
+      if (data.accessToken) {
+        api.defaults.headers["Authorization"] = `Bearer ${data.accessToken}`;
+      }
 
       return data;
     } catch ({ message }) {

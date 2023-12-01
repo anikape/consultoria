@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react"; // Adicionei o useContext
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../../src/hooks/useAuth";
 import { FaUser, FaInfoCircle } from "react-icons/fa";
 import style from "./Signin.module.css";
@@ -9,7 +9,15 @@ import Footer from "../../component/Footer/Footer";
 
 const Signin = () => {
   const navigate = useNavigate();
-  const { signin } = useContext(AuthContext); // Obtenha a função signin do contexto
+  const { authenticated, signin } = useContext(AuthContext); // Obtenha a função signin do contexto
+
+  useEffect(() => {
+    if (authenticated) {
+      console.log(authenticated);
+      navigate("/home");
+    }
+  }, [authenticated]);
+
   const mockUsers = [
     {
       id: 1,
@@ -42,7 +50,7 @@ const Signin = () => {
 
     if (useremail && password) {
       const isLogged = await signin(useremail, password);
-
+      console.debug(isLogged);
       if (isLogged) {
         navigate("/home");
       } else {
@@ -74,6 +82,12 @@ const Signin = () => {
 
   return (
     <section>
+      {/* {
+        <>
+          <Loading />
+        </>
+      } */}
+
       <div className={style.containerForm}>
         <div className={style.form}>
           <div className={style.logo1}></div>
