@@ -23,9 +23,11 @@ const Home = () => {
 
   return (
     <section className={style.containerHome}>
-      <section className={style.content}>
+      <div className={style.content}>
         <div className={style.info}>
-          <FaUserAlt className={style.icon} />
+          <div className={style.iconWrapper}>
+            <FaUserAlt className={style.icon} />
+          </div>
 
           <p>Olá, {auth.user?.name}</p>
         </div>
@@ -49,7 +51,7 @@ const Home = () => {
         <button onClick={handleLogout} className={style.logout}>
           <BiLogOut /> sair
         </button>
-      </section>
+      </div>
     </section>
   );
 };
