@@ -1,85 +1,57 @@
-import React, { useState, useEffect } from 'react'
-import api from '../../service/api';
-import { Link,useNavigate } from 'react-router-dom';
-import style from "./home.module.css"
-import { FaUserAlt, FaTasks, FaNewspaper, FaUsers  } from "react-icons/fa";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import style from "./home.module.css";
+import { FaUserAlt, FaTasks, FaNewspaper, FaUsers } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
-import useAuth from '../../src/hooks/useAuth';
-import DocumentsPage from '../DocumentsPage/DocumentsPage';
+import useAuth from "../../src/hooks/useAuth";
+import { AuthContext } from "../../src/contexts/Auth/AuthContext";
+import DocumentsPage from "../DocumentsPage/DocumentsPage";
 
-const home = () => {
-
-  const [data,setData] = useState(null)
-
-  const { signout } = useAuth();
+const Home = () => {
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   const navigateToDocumentsPage = () => {
     // Use a função navigate para navegar para DocumentsPage e passe a lista de clientes como estado
-    navigate('/DocumentsPage', { state: { clients } });
+    navigate("/DocumentsPage", { state: { clients } });
   };
 
-    useEffect(()=>{getData()},[])
-
-    const getData= async () => {
-      try {
-          
-
-        const response = await api.postUsers({
-          
-          login: "florencia2@gmail.com",
-          password: "98765"
-        });
-      const teste = JSON.stringify(response.data)
-      setData(response.data)
-      console.log(response)
-  
-  
-      } catch(err) {
-          // TODO
-          // adicionar tratamento da exceção
-          console.error(err);
-          
-      }
+  const handleLogout = async () => {
+    await auth.signout();
+    navigate("/");
   };
-
 
   return (
     <section className={style.containerHome}>
+      <section className={style.content}>
+        <div className={style.info}>
+          <FaUserAlt className={style.icon} />
 
-        <section className={style.content}>
-          <div className={style.info}>
-          <FaUserAlt 
-          
-          className={style.icon}/>
+          <p>Olá, {auth.user?.name}</p>
+        </div>
 
-          <p>Olá, Cristiane</p>
-          </div>
-
-          <div className={style.links}>
-
-            <Link to="/client" className={style.options}>
+        <div className={style.links}>
+          <Link to="/client" className={style.options}>
             <FaTasks /> Lista de clientes
-            </Link>
+          </Link>
 
-           
-             <Link to="/DocumentsPage" className={style.options}>
-              <FaNewspaper />Documentos
-             </Link>
-             
-             <Link to=""  className={style.options}>
-             <FaUsers />Área Adm
-             </Link>
-                      </div>  
+          <Link to="/DocumentsPage" className={style.options}>
+            <FaNewspaper />
+            Documentos
+          </Link>
 
-          <button onClick={() => [signout(), navigate("/")]} className={style.logout}> <BiLogOut />  sair</button>
-                  
-                </section>
+          <Link to="" className={style.options}>
+            <FaUsers />
+            Área Adm
+          </Link>
+        </div>
 
-    
-          {data}
+        <button onClick={handleLogout} className={style.logout}>
+          <BiLogOut /> sair
+        </button>
+      </section>
     </section>
-  )
-}
+  );
+};
 
-export default home
+export default Home;
