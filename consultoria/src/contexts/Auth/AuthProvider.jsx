@@ -25,9 +25,9 @@ export const AuthProvider = ({ children }) => {
         const isLogged = api.validateToken(token);
         const decode = jwtDecode(token);
         if (isLogged) {
+          setAuthenticated(true);
           setToken(token);
           setUser(decode);
-          setAuthenticated(true);
           return true;
         }
       }
@@ -39,18 +39,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signin = async (email, password) => {
-    const { accessToken } = await api.signin(email, password);
+    try {
+      const { accessToken } = await api.signin(email, password);
 
-    cookies.set("authToken", JSON.stringify(accessToken));
+      cookies.set("authToken", accessToken);
 
-    if (accessToken) {
-      setToken(accessToken);
-      setUser(jwtDecode(accessToken));
-      setAuthenticated(true);
-      return true;
+      if (accessToken) {
+        setAuthenticated(true);
+        setToken(accessToken);
+        setUser(jwtDecode(accessToken));
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.log(error);
     }
-
-    return false;
   };
 
   const signout = async () => {

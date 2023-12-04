@@ -10,38 +10,10 @@ const api = axios.create({
   timeout: 1000,
 });
 
-// const inteceptConf = async (config) => {
-//   // const token = await cookies.get("authToken");
-
-//   console.log(token);
-//   console.log(api.defaults.headers);
-
-//   if (token) {
-//     api.defaults.headers["Authorization"] = `Barear ${token}`;
-//   }
-//   return config;
-// };
-
-// api.interceptors.request.use(inteceptConf);
-
-// api.interceptors.request.use((config) => {
-//   return config;
-// });
-
-// if (token) {
-//   api.defaults.headers["Authorization"] = `Barear ${token}`;
-// }
-
 export const useApi = () => ({
   validateToken: (token) => {
     if (token) {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      console.debug(
-        "Token: ",
-        token,
-        "Autorização: ",
-        api.defaults.headers.Authorization
-      );
       return true;
     }
 

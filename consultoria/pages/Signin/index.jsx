@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react"; // Adicionei o useContext
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../src/hooks/useAuth";
 import { FaUser, FaInfoCircle } from "react-icons/fa";
 import style from "./Signin.module.css";
@@ -13,7 +13,6 @@ const Signin = () => {
 
   useEffect(() => {
     if (authenticated) {
-      console.log(authenticated);
       navigate("/home");
     }
   }, [authenticated]);
@@ -50,7 +49,7 @@ const Signin = () => {
 
     if (useremail && password) {
       const isLogged = await signin(useremail, password);
-      console.debug(isLogged);
+      console.debug("Erro de login {isLogged}", isLogged);
       if (isLogged) {
         navigate("/home");
       } else {
@@ -82,12 +81,6 @@ const Signin = () => {
 
   return (
     <section>
-      {/* {
-        <>
-          <Loading />
-        </>
-      } */}
-
       <div className={style.containerForm}>
         <div className={style.form}>
           <div className={style.logo1}></div>
