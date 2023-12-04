@@ -41,21 +41,25 @@ const Signin = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    //Verificação dos campos obrigatórios
-    if (!useremail || !password) {
-      setLoginError("Usuário e/ou senha inválido");
-      return;
-    }
-
-    if (useremail && password) {
-      const isLogged = await signin(useremail, password);
-
-      if (isLogged) {
-        navigate("/home");
-      } else {
-        setLoginError("Usuário e/ou senha incorretos");
+    try {
+      if (!useremail || !password) {
+        setLoginError("Usuário e/ou senha inválido");
+        return;
       }
+      if (useremail && password) {
+        const isLogged = await signin(useremail, password);
+
+        if (isLogged) {
+          navigate("/home");
+        }
+        return;
+      }
+    } catch (error) {
+      setLoginError("Usuário e/ou senha incorretos");
+      console.log(error);
     }
+
+    //Verificação dos campos obrigatórios
 
     // Lógica para verificar se o usuário e senha estão corretos
     // Idealmente, isso seria conectado a uma API ou banco de dados

@@ -42,16 +42,16 @@ export const AuthProvider = ({ children }) => {
 
   const signin = async (email, password) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const { accessToken } = await api.signin(email, password);
 
       cookies.set("authToken", accessToken);
 
       if (accessToken) {
+        setLoading(true);
         setAuthenticated(true);
         setToken(accessToken);
         setUser(jwtDecode(accessToken));
-        setLoading(true);
 
         return true;
       }
