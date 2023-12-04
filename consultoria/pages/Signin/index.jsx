@@ -86,13 +86,16 @@ const Signin = () => {
           <div className={style.logo1}></div>
 
           <form onSubmit={handleLogin}>
-            <div className={style.div}>
-              <div className={style.inputContainer}>
-                {loginError && (
-                  <p className={style.error}>
-                    <FaInfoCircle /> {loginError}
-                  </p>
-                )}
+            <div className={style.inputContainer}>
+              {loginError && (
+                <p className={style.error}>
+                  <FaInfoCircle /> {loginError}
+                </p>
+              )}
+              <div className={style.inputGroup}>
+                <div className={style.icon}>
+                  <img src="../../src/assets/icon_user.svg" alt="" />
+                </div>
                 <input
                   className={style.inputText}
                   type="text"
@@ -101,20 +104,23 @@ const Signin = () => {
                   placeholder="Usuário"
                 />
               </div>
+              <div className={style.inputGroup}>
+                {/* {loginError && <p>{loginError}</p>} */}
+                <div className={style.icon}>
+                  <img src="../../src/assets/icon_lock.svg" alt="" />
+                </div>
+                <input
+                  className={style.inputPass}
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="......"
+                />
+              </div>
+              <button className={style.send} type="submit">
+                Entrar
+              </button>
             </div>
-            <div className={style.div}>
-              <input
-                className={style.inputPass}
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="......"
-              />
-              {loginError && <p>{loginError}</p>}
-            </div>
-            <button className={style.send} type="submit">
-              Entrar
-            </button>
           </form>
 
           <Link to="/redifine" className={style.forguet}>

@@ -1,135 +1,163 @@
-
-
-.containerForm{
-  background-image: url('../../src/assets/gHome2.png');
+.containerForm {
+  background-image: url("../../src/assets/gHome2.png");
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
   width: 100%;
-  height: 925px;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.logo1{
-  background-image: url('../../src/assets/logo1.png');
+.logo1 {
+  background-image: url("../../src/assets/logo1.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   width: 300px;
-height: 65px;
-padding-bottom: 57px;
+  height: 65px;
+  padding-bottom: 57px;
 }
 
-.form{
-  background-image: url('../../src/assets/bgform.png');
+.form {
+  background-image: url("../../src/assets/bgform.png");
   display: flex;
+  gap: 60px;
   flex-direction: column;
   width: 566px;
-height: 634px;
-border-radius: 24px;
-opacity: 0.7;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  height: 634px;
+  border-radius: 24px;
+  opacity: 0.7;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   justify-content: center;
   align-items: center;
-
 }
 
-.div{
+.inputContainer {
   display: flex;
-flex-direction: column;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.div input{
+.inputGroup {
+  display: flex;
+  gap: 32px;
+  align-items: center;
   width: 377px;
   height: 49px;
-  margin-bottom: 41px;
   border-radius: 9px;
   background: #849893;
-  box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.50), 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.5),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   border: none;
-  outline: none;
- color: rgba(255, 255, 255, 0.59);
- font-size: 22px;
- padding-left: 2rem;
+  color: rgba(255, 255, 255, 0.59);
+  font-size: 22px;
+  padding: 32px;
+  border: solid 1px transparent;
+  position: relative;
 }
 
+.inputGroup:focus-within {
+  box-shadow: 6px 2px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
 
+.inputGroup input {
+  width: 100%;
+  background-color: transparent;
+  border: 1px transparent;
+  height: inherit;
+  outline: none;
+  color: rgba(255, 255, 255, 0.59);
+  font-size: 22px;
+}
 
+.icon {
+  display: flex;
+}
 
-.user{
+.icon::before {
+  content: "";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1px;
+  height: 30px;
+  position: relative;
+  top: 5px;
+  right: -48px;
+  background-color: rgba(255, 255, 255, 0.42);
+}
+
+.user {
   border-radius: 9px;
   background: #849893;
-  /* box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.50), 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset; */
+  box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.5),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }
 
-
-
-.inputText::placeholder, .inputPass::placeholder{
-color: rgba(255, 255, 255, 0.59);
-text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-font-size: 22px;
-font-weight: 600;
-opacity: 0.8;
-padding: 60px;
-
+.inputText::placeholder,
+.inputPass::placeholder {
+  color: rgba(255, 255, 255, 0.59);
+  font-size: 22px;
+  font-weight: 600;
+  opacity: 0.8;
 }
 
-.containerForm button{
- width: 377px;
+.containerForm button {
+  width: 377px;
   height: 45px;
   border: none;
-  margin-bottom: 56px;
   border-radius: 9px;
-background: #849893;
-box-shadow: 5px 3px 16px 0px #FFF, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-color: #FFF;
-text-align: center;
-text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-font-family: Inter;
-font-size: 23px;
-font-style: normal;
-font-weight: 723;
-line-height: normal;
+  background: #849893;
+  box-shadow: 5px 3px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  text-align: center;
+  text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 723;
+  line-height: normal;
+  transition: ease-in 0.2s;
 }
 
-.containerForm button:hover{
+.containerForm button:hover {
   border-radius: 9px;
   box-shadow: 5px 3px 16px 0px black, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.forguet{
-  color: rgba(60, 45, 38, 0.90);
-text-align: center;
-text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-font-family: Inter;
-font-size: 18px;
-font-weight: 700;
-line-height: 149.023%; 
-opacity: 0.800000011920929;
+.forguet {
+  color: rgba(60, 45, 38, 0.9);
+  text-align: center;
+  text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 149.023%;
+  opacity: 0.800000011920929;
 }
 
-.error{
+.error {
   display: flex;
   width: 377px;
   height: 44px;
-  color: #3C2D26;
-text-align: center;
-align-items: center;
-justify-content: center;
-text-shadow: 5px 5px 4px 0px rgba(0, 0, 0, 0.25);
-font-size: 18px;
-font-weight: 500;
-border-radius: 13px;
-background: rgba(217, 217, 217, 0.85);
-box-shadow: -3px -3px 16px 0px rgba(0, 0, 0, 0.25) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
+  color: #3c2d26;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 13px;
+  background: rgba(217, 217, 217, 0.85);
+  box-shadow: -3px -3px 16px 0px rgba(0, 0, 0, 0.25) inset,
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.error svg{
+.error svg {
   color: #f19d23;
   margin-right: 5px;
   width: 23px;
