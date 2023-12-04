@@ -49,7 +49,7 @@ const Signin = () => {
 
     if (useremail && password) {
       const isLogged = await signin(useremail, password);
-      console.debug("Erro de login {isLogged}", isLogged);
+
       if (isLogged) {
         navigate("/home");
       } else {

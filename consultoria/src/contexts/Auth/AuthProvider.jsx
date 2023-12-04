@@ -5,8 +5,8 @@ import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
-  const [user, setUser] = useState(null);
+  const [token, setToken] = useState("");
+  const [user, setUser] = useState({});
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const api = useApi();
@@ -15,9 +15,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     validateToken();
     setLoading(false);
-  }, []);
+  }, [token]);
 
   const validateToken = async () => {
+    setLoading(true);
     const token = cookies.get("authToken");
 
     try {
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }) => {
           setAuthenticated(true);
           setToken(token);
           setUser(decode);
+          setLoading(false);
           return true;
         }
       }
@@ -40,6 +42,7 @@ export const AuthProvider = ({ children }) => {
 
   const signin = async (email, password) => {
     try {
+      setLoading(true);
       const { accessToken } = await api.signin(email, password);
 
       cookies.set("authToken", accessToken);
@@ -48,6 +51,7 @@ export const AuthProvider = ({ children }) => {
         setAuthenticated(true);
         setToken(accessToken);
         setUser(jwtDecode(accessToken));
+        setLoading(true);
 
         return true;
       }

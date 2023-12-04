@@ -2,8 +2,6 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
-const token = cookies.get("authToken");
-console.debug(token);
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
