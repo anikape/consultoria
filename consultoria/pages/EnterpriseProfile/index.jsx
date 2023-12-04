@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { AiOutlineFilePdf } from "react-icons/ai";
+import Footer from '../../component/Footer/Footer'
+import style from './enterprise.module.css'
 
 const EntrepriseProfile = ({ clients }) => {
   const { cpfCnpj } = useParams();
@@ -48,21 +50,25 @@ const EntrepriseProfile = ({ clients }) => {
 
   return (
     
-    <div>
+    <div className={style.container}>
 
-  <Link to="/client">
-        <button>Voltar para Página do Cliente</button>
+      <div className={style.contentContainer}>
+
+    <div className={style.button}>
+      <Link to="/client" className={style.buttons}>
+        <button> Cliente</button>
       </Link>
-      <Link to="/home">
-        <button>Ir para Página Inicial</button>
+
+      <Link to="/home" className={style.buttons}>
+        <button>HOME</button>
       </Link>
-      
-      <h1>{enterprise.razaoSocial}</h1>
+      </div>  
+      <h1 className={style.title1}>{enterprise.razaoSocial}</h1>
       {/* Exibir outras informações da empresa */}
 
-      <section style={{ display:'grid', gridTemplateColumns: '1fr 1fr'}}>
+      <section className={style.profile}>
 
-      <div style={{ margin:  '1em'}}>
+      <div>
       <h2>CPF/CNPJ</h2> <span>{enterprise.cpfCnpj}</span>
       </div>
      
@@ -112,6 +118,7 @@ const EntrepriseProfile = ({ clients }) => {
       
       </section>
 
+<section className={style.documents}>
       <h2>Documentos:</h2>
       {enterprise.documents.map((document, index) => (
         <div key={index}>
@@ -132,8 +139,13 @@ const EntrepriseProfile = ({ clients }) => {
               </button>
             </div>
           )}
+      
         </div>
       ))}
+          </section>
+      </div>
+
+    <Footer />
     </div>
     
   );
