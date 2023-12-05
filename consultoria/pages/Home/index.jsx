@@ -42,7 +42,7 @@ const Home = () => {
             Documentos
           </Link>
 
-          <Link to="" className={style.options}>
+          <Link to="/Adm" className={style.options}>
             <FaUsers />
             Área Adm
           </Link>

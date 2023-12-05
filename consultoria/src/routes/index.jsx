@@ -8,6 +8,9 @@ import Client from "../../pages/Client";
 import Profile from "../../pages/Profile";
 import EntrepriseProfile from "../../pages/EnterpriseProfile";
 import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
+import Verification from "../../pages/Verification/index"
+import Adm from "../../pages/Adm/index"
+import CadastroAdm from "../../pages/CadastroAdm/index"
 import { RequireAuth } from "../contexts/Auth/RequireAuth";
 import { Loading } from "../../component/Loading";
 import { AuthContext } from "../contexts/Auth/AuthContext";
@@ -615,6 +618,15 @@ const RoutesApp = () => {
       <Routes>
         <Route path="/" element={<Singin />} />
         <Route path="/redifine" element={<Redifine />} />
+        <Route path="/verification" element={<Verification />} />
+        <Route
+          path="/Adm"
+          element={
+            <RequireAuth>
+              <Private Item={Adm} signed={signed} />
+            </RequireAuth>
+          }
+        />
         <Route
           path="/home"
           element={
@@ -659,6 +671,15 @@ const RoutesApp = () => {
             </RequireAuth>
           }
         />
+
+        <Route
+                  path="/CadastroAdm"
+                  element={
+                    <RequireAuth>
+                      <Private Item={CadastroAdm} signed={signed} />
+                    </RequireAuth>
+                  }
+                />
       </Routes>
     </BrowserRouter>
   );
