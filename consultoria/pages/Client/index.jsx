@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import ReactModal from 'react-modal';
 import Profile from '../Profile';
 import EntrepriseProfile from '../EnterpriseProfile';
+import mais from '../../src/assets/mais.png'
 import { IoClose } from "react-icons/io5";
 import { FaInfoCircle } from "react-icons/fa";
 import DocumentPage from '../DocumentsPage/DocumentsPage';
@@ -349,9 +350,9 @@ const filteredClients = clients.filter((client) => {
       </Link>
       <h1 className={style.title}>Clientes</h1>
       
-   
+   <section className={style.section}>
       <div className={style.find}>
-        <label className={style.search}   htmlFor="searchCnpj">Buscar por CNPJ:</label>
+        <label className={style.search}   htmlFor="searchCnpj"> CNPJ:</label>
         <input className={style.searchInput}
           type="text"
           placeholder="Buscar por CNPJ..."
@@ -362,7 +363,7 @@ const filteredClients = clients.filter((client) => {
 
 {/*Modal de cadastro*/}
       <div className={style.modalContent}>
-      <button onClick={openModal2}>Cadastrar Novo Cliente</button>
+      <button className={style.buttonModal} onClick={openModal2}><img src={mais} alt='simbolo de mais'/>Novo Cadastro</button>
       <Modal 
         isOpen={modal2IsOpen}
         onRequestClose={closeModal2}
@@ -505,6 +506,7 @@ const filteredClients = clients.filter((client) => {
         </form>
       </Modal>
     </div>
+</section>
       
       {filteredClients.map((client) => (
         <div
