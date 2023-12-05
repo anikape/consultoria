@@ -1,5 +1,5 @@
 .container{
-  background: url('../../../../src/assets/clientBg.png');
+  background: url('../../src/assets/bgClient.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -13,7 +13,7 @@
 }
 
 .content{
-  background: url('../../../../src/assets/client2.png');
+  background: url('../../src/assets/client2.png');
   background-repeat: no-repeat;
   background-size: 100% 100%;
   width: 1059px;
