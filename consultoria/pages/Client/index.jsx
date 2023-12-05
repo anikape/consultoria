@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import style from './client.module.css'
+import Modal from 'react-modal';
 import ReactModal from 'react-modal';
 import Profile from '../Profile';
 import EntrepriseProfile from '../EnterpriseProfile';
@@ -231,6 +232,28 @@ const Client = ({clientsProp  }) => {
     // Adicionar outros clientes aqui...
   ];
 
+  const [modal2IsOpen, setModal2IsOpen] = useState(false);
+
+  const openModal2 = () => {
+    setModal2IsOpen(true);
+  };
+
+  const closeModal2 = () => {
+    setModal2IsOpen(false);
+  };
+
+  const handleSubmit = (event) => {
+    // Lógica para enviar os dados para o backend (chamada à API)
+    event.preventDefault();
+    // Aqui você pode enviar os dados para o backend usando fetch, axios, etc.
+    // Após o sucesso, exiba a mensagem de sucesso e feche o modal
+    // Você pode controlar isso usando o estado do React.
+    //  setSuccessMessage('Cadastro realizado com sucesso');
+    // E depois de alguns segundos, resetar a mensagem e fechar o modal
+    // setSuccessMessage('');
+    // setModalIsOpen(false);
+  };
+
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -336,6 +359,152 @@ const filteredClients = clients.filter((client) => {
           onChange={handleSearchCnpj}
         />
       </div>
+
+{/*Modal de cadastro*/}
+      <div className={style.modalContent}>
+      <button onClick={openModal2}>Cadastrar Novo Cliente</button>
+      <Modal 
+        isOpen={modal2IsOpen}
+        onRequestClose={closeModal2}
+        contentLabel="Modal cadastro de cliente"
+        className={style.modalContainer}
+      >
+        <h3 className={style.h3}> Cliente</h3>
+
+        <form onSubmit={handleSubmit}>
+        <div className={style.inputGroup}>
+            <label className={style.label}  htmlFor="name">Nome:</label>
+            <input
+              type="name"
+              name="Nome"
+              value=""
+              placeholder="Infome o nome"
+              required
+              className={style.input}
+              id="name"
+            />
+          </div>
+          <div className={style.inputGroup}>
+            <label className={style.label}  htmlFor="email">E-mail:</label>
+            <input
+              type="email"
+              name="email"
+              value=""
+              placeholder="Infome E-mail"
+              required
+              className={style.input}
+              id="email"
+            />
+          </div>
+          <div className={style.inputGroup}>
+            <label className={style.label}  htmlFor="name">Razão Social:</label>
+            <input
+              type="name"
+              name="Razão Social"
+              value=""
+              placeholder="Infome E-mail"
+              required
+              className={style.input}
+              id=""
+            />
+          </div>
+
+          <div className={style.inputGroup}>
+            <label className={style.label}  htmlFor="name">CNPJ:</label>
+            <input
+              type="name"
+              name="CNPJ"
+              value=""
+              placeholder="Infome o CNPJ"
+              required
+              className={style.input}
+              id=""
+            />
+          </div>
+          <div className={style.inputGroup}>
+  <label className={style.label} htmlFor="street">Rua/Logradouro:</label>
+  <input
+    type="text"
+    name="street"
+    value=""
+    placeholder="Informe a rua/logradouro"
+    required
+    className={style.input}
+    id="street"
+  />
+</div>
+
+<div className={style.inputGroup}>
+  <label className={style.label} htmlFor="number">Número:</label>
+  <input
+    type="text"
+    name="number"
+    value=""
+    placeholder="Informe o número"
+    required
+    className={style.input}
+    id="number"
+  />
+</div>
+
+<div className={style.inputGroup}>
+  <label className={style.label} htmlFor="neighborhood">Bairro:</label>
+  <input
+    type="text"
+    name="neighborhood"
+    value=""
+    placeholder="Informe o bairro"
+    required
+    className={style.input}
+    id="neighborhood"
+  />
+</div>
+
+<div className={style.inputGroup}>
+  <label className={style.label} htmlFor="complement">Complemento:</label>
+  <input
+    type="text"
+    name="complement"
+    value=""
+    placeholder="Informe o complemento"
+    className={style.input}
+    id="complement"
+  />
+</div>
+
+<div className={style.inputGroup}>
+  <label className={style.label} htmlFor="cep">CEP:</label>
+  <input
+    type="text"
+    name="cep"
+    value=""
+    placeholder="Informe o CEP"
+    required
+    className={style.input}
+    id="cep"
+  />
+</div>
+
+<div className={style.inputGroup}>
+  <label className={style.label} htmlFor="state">UF:</label>
+  <input
+    type="text"
+    name="state"
+    value=""
+    placeholder="Informe a UF"
+    required
+    className={style.input}
+    id="state"
+  />
+</div>
+<div className={style.buttons}>
+  <button className={style.button1} type="submit">Salvar</button>
+  <button className={style.button2}  onClick={closeModal2}>Cancelar</button>
+</div>
+          
+        </form>
+      </Modal>
+    </div>
       
       {filteredClients.map((client) => (
         <div
