@@ -233,6 +233,18 @@ const Client = ({clientsProp  }) => {
     // Adicionar outros clientes aqui...
   ];
 
+  const [clientName, setClientName] = useState('');
+  const [clientEmail, setClientEmail] = useState('');
+  const [clientCnpj, setClientCNPJ] = useState('');
+  const [clientRazaoSocial, setClientRazaoSocial] = useState('');
+  const [clientRua, setClienteRua] = useState('')
+  const [clientNumero, setClientNumero] = useState('')
+  const [clientBairro, setClienteBairro] = useState('')
+  const [clientComplemento, setClientComplemento] = useState('')
+  const [clientCep, setClientcep] = useState('')
+  const [clientUf, setClientUf] = useState('')
+
+
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
 
   const openModal2 = () => {
@@ -378,11 +390,13 @@ const filteredClients = clients.filter((client) => {
             <input
               type="name"
               name="Nome"
-              value=""
+              value={clientName}
               placeholder="Infome o nome"
               required
               className={style.input}
               id="name"
+              onChange={(e) => setClientName(e.target.value)}
+
             />
           </div>
           <div className={style.inputGroup}>
@@ -390,11 +404,12 @@ const filteredClients = clients.filter((client) => {
             <input
               type="email"
               name="email"
-              value=""
+              value={clientEmail}
               placeholder="Infome E-mail"
               required
               className={style.input}
               id="email"
+              onChange={(e) => setClientEmail(e.target.value)}
             />
           </div>
           <div className={style.inputGroup}>
@@ -402,11 +417,12 @@ const filteredClients = clients.filter((client) => {
             <input
               type="name"
               name="Razão Social"
-              value=""
+              value={clientRazaoSocial}
               placeholder="Infome E-mail"
               required
               className={style.input}
               id=""
+              onChange={(e) => setClientRazaoSocial(e.target.value)}
             />
           </div>
 
@@ -415,11 +431,12 @@ const filteredClients = clients.filter((client) => {
             <input
               type="name"
               name="CNPJ"
-              value=""
+              value={clientCnpj}
               placeholder="Infome o CNPJ"
               required
               className={style.input}
               id=""
+              onChange={(e) => setClientCNPJ(e.target.value)}
             />
           </div>
           <div className={style.inputGroup}>
@@ -427,11 +444,12 @@ const filteredClients = clients.filter((client) => {
   <input
     type="text"
     name="street"
-    value=""
+    value={clientRua}
     placeholder="Informe a rua/logradouro"
     required
     className={style.input}
     id="street"
+    onChange={(e) => setClienteRua(e.target.value)}
   />
 </div>
 
@@ -440,11 +458,12 @@ const filteredClients = clients.filter((client) => {
   <input
     type="text"
     name="number"
-    value=""
+    value={clientNumero}
     placeholder="Informe o número"
     required
     className={style.input}
     id="number"
+    onChange={(e) => setClientNumero(e.target.value)}
   />
 </div>
 
@@ -453,11 +472,12 @@ const filteredClients = clients.filter((client) => {
   <input
     type="text"
     name="neighborhood"
-    value=""
+    value={clientBairro}
     placeholder="Informe o bairro"
     required
     className={style.input}
     id="neighborhood"
+    onChange={(e) => setClienteBairro(e.target.value)}
   />
 </div>
 
@@ -466,10 +486,11 @@ const filteredClients = clients.filter((client) => {
   <input
     type="text"
     name="complement"
-    value=""
+    value={clientComplemento}
     placeholder="Informe o complemento"
     className={style.input}
     id="complement"
+    onChange={(e) => setClientComplemento(e.target.value)}
   />
 </div>
 
@@ -478,11 +499,12 @@ const filteredClients = clients.filter((client) => {
   <input
     type="text"
     name="cep"
-    value=""
+    value={clientCep}
     placeholder="Informe o CEP"
     required
     className={style.input}
     id="cep"
+    onChange={(e) => setClientcep(e.target.value)}
   />
 </div>
 
@@ -491,11 +513,12 @@ const filteredClients = clients.filter((client) => {
   <input
     type="text"
     name="state"
-    value=""
+    value={clientUf}
     placeholder="Informe a UF"
     required
     className={style.input}
     id="state"
+    onChange={(e) => setClientUf(e.target.value)}
   />
 </div>
 <div className={style.buttons}>
