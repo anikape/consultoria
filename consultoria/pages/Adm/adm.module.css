@@ -1,0 +1,6 @@
+.admContainer{
+  background-image: url('../../src/assets/bgCadastro.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  height: 100vh;
+}

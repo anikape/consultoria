@@ -76,7 +76,7 @@ const FormularioCadastro = () => {
         <button ><FaHome  className={style.home}/></button>
         </Link>
 
-        <Link className={style.buttonHome} to="/home">
+        <Link className={style.buttonHome} to="/adm">
         <button ><img src={adm} className={style.admIcon}/></button>
         </Link>
 
