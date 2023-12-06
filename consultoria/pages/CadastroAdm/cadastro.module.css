@@ -4,19 +4,21 @@
   background-size: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 20px;
   align-items: center;
   width: 100%;
-  height: 1024px;
+  height: 930px;
 }
 
 .formContainer{
   background-image: url('../../src/assets/bgCadastro2.png');
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 549px;
-  height: 733px;
+  width: 579px;
+  height: 753px;
   border-radius: 24px;
   opacity: 0.7;
   justify-content: center;
@@ -25,7 +27,30 @@
 
 }
 
+.buttonsLink{
+  display: flex;
+  justify-content: flex-start;
+  width:100%;
+}
 
+.buttonHome{
+  display: flex;
+  align-items: center;
+  margin-right: 2em; 
+  padding-top: .5rem;
+}
+
+.home{
+  font-size: 40px;
+}
+
+.admIcon{
+  width: 40px;
+}
+
+.logo{
+  margin-bottom: 1em;
+}
 
 .form{
   display: flex;
@@ -74,12 +99,12 @@
   box-shadow: 6px 2px 16px 0px #FFF, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   border: none;
   outline: none;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   padding-left: 1em;
 }
 
 .infoIcon {
-  cursor: pointer;
+ cursor: pointer;
  margin-left: 0.5em;
  width: 63px;
  height: 40px;
@@ -109,7 +134,7 @@
   font-family: Inter;
   font-size: 22px;
   font-weight: 600;
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 .button2{

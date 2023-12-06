@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from "../../component/Footer/Footer"
 import logo from '../../src/assets/logo1.png'
 import info from '../../src/assets/info.png'
+import adm from '../../src/assets/iconuser.svg'
+import { FaHome } from "react-icons/fa";
 import style from './cadastro.module.css'
 
 const FormularioCadastro = () => {
@@ -65,15 +68,29 @@ const FormularioCadastro = () => {
   };
 
   return (
-    <div className={style.cadastroContainer}>
+  <div className={style.cadastroContainer}>
 
+        <div className={style.buttonsLink}>
 
-      <div className={style.formContainer} >
+        <Link className={style.buttonHome} to="/Adm">
+        <button ><FaHome  className={style.home}/></button>
+        </Link>
+
+        <Link className={style.buttonHome} to="/home">
+        <button ><img src={adm} className={style.admIcon}/></button>
+        </Link>
+
+        </div>
+                
+
+    <div className={style.formContainer} >
 
         <figure className={style.logo}>
           <img src={logo} />
         </figure>
+
         <form className={style.form} onSubmit={handleSubmit}>
+         
           <div className={style.inputGroup}>
             <label className={style.label}  htmlFor="fullName">Nome completo:</label>
             <input
@@ -113,53 +130,54 @@ const FormularioCadastro = () => {
               id="cpf"
             />
           </div>
-
+          
           <div className={style.inputGroup}>
-  <label className={style.label} htmlFor="password">
-    Senha:
-  </label>
-  <div className={style.passwordInput}>
-    <input
-      type="password"
-      name="password"
-      value={formData.password}
-      onChange={handleInputChange}
-      placeholder="Senha"
-      required
-      minLength={6}
-      className={style.input}
-      id="password"
-    />
-    <span
-      className={style.infoIcon}
-      onClick={handlePasswordInfoClick}
-    >
-      <img src={info} alt='Ícone de Informação' />
-    </span>
-  </div>
-  {showPasswordInfo && (
-    <span className={style.infoMessage}>
-      A senha deverá conter exatamente 6 caracteres, dos quais 4 deverão ser numéricos e 2 alfanuméricos.
-    </span>
-  )}
-</div>
-<div className={style.inputGroup}>
-  <label className={style.label} htmlFor="confirmPassword">
-    Confirmar Senha:
-  </label>
-  <input
-    type="password"
-    name="confirmPassword"
-    value={formData.confirmPassword}
-    onChange={handleInputChange}
-    placeholder="Confirmar Senha"
-    required
-    minLength={6}
-    className={style.input}
-    id="confirmPassword"
-  />
-</div>
-<button className={style.button1} type="submit">Cadastrar</button>
+            <label className={style.label} htmlFor="password">
+              Senha:
+            </label>
+            <div className={style.passwordInput}>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="Senha"
+              required
+              minLength={6}
+              className={style.input}
+              id="password"
+            />
+            <span
+              className={style.infoIcon}
+              onClick={handlePasswordInfoClick}
+            >
+              <img src={info} alt='Ícone de Informação' />
+            </span>
+          </div>
+            {showPasswordInfo && (
+            <span className={style.infoMessage}>
+              A senha deverá conter exatamente 6 caracteres, dos quais 4 deverão ser numéricos e 2 alfanuméricos.
+            </span>
+          )}
+    </div>
+
+      <div className={style.inputGroup}>
+          <label className={style.label} htmlFor="confirmPassword">
+            Confirmar Senha:
+          </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
+            placeholder="Confirmar Senha"
+            required
+            minLength={6}
+            className={style.input}
+            id="confirmPassword"
+          />
+        </div>
+          <button className={style.button1} type="submit">Cadastrar</button>
           <button className={style.button2}  type="button" onClick={() => setFormData({
             fullName: '',
             email: '',
@@ -180,9 +198,11 @@ const FormularioCadastro = () => {
             </div>
           </div>
         )}
+        
       </div>
       <Footer />
     </div>
+    
   );
 };
 
