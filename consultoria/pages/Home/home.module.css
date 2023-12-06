@@ -43,7 +43,7 @@
   font-weight: 723;
 }
 
-.iconWrapper {
+/* .iconWrapper {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -52,16 +52,16 @@
   width: 100px;
   height: 100px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
+} */
 
 .icon {
   width: 70px;
   height: 70px;
-  border-radius: 50%;
-  color: #fff;
-  object-fit: cover;
-  position: relative;
-  bottom: -8px;
+  /* border-radius: 50%; */
+  /* color: #fff; */
+  /* object-fit: cover;
+  position: relative; */
+  /* bottom: -8px; */
 }
 
 .links {

@@ -1,6 +1,10 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./home.module.css";
+import docs from '../../src/assets/docs.svg'
+import adm from '../../src/assets/iconuser.svg'
+import client from '../../src/assets/clint.svg'
+import profile from '../../src/assets/profileIcon.png'
 import { FaUserAlt, FaTasks, FaNewspaper, FaUsers } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../src/hooks/useAuth";
@@ -26,7 +30,7 @@ const Home = () => {
       <div className={style.content}>
         <div className={style.info}>
           <div className={style.iconWrapper}>
-            <FaUserAlt className={style.icon} />
+            <img src={profile} className={style.icon} />
           </div>
 
           <p>Olá, {auth.user?.name}</p>
@@ -34,16 +38,16 @@ const Home = () => {
 
         <div className={style.links}>
           <Link to="/client" className={style.options}>
-            <FaTasks /> Lista de clientes
+          <img src={client} alt='Documentos'/> Lista de clientes
           </Link>
 
           <Link to="/DocumentsPage" className={style.options}>
-            <FaNewspaper />
+            <img src={docs} alt='Documentos'/>
             Documentos
           </Link>
 
           <Link to="/Adm" className={style.options}>
-            <FaUsers />
+          <img src={adm} alt='Documentos'/>
             Área Adm
           </Link>
         </div>

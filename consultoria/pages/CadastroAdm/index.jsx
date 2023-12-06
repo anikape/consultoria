@@ -72,7 +72,7 @@ const FormularioCadastro = () => {
 
         <div className={style.buttonsLink}>
 
-        <Link className={style.buttonHome} to="/Adm">
+        <Link className={style.buttonHome} to="/Home">
         <button ><FaHome  className={style.home}/></button>
         </Link>
 
