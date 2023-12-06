@@ -8,7 +8,7 @@ import Profile from '../Profile';
 import EntrepriseProfile from '../EnterpriseProfile';
 import mais from '../../src/assets/mais.png'
 import { IoClose } from "react-icons/io5";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaHome } from "react-icons/fa";
 import DocumentPage from '../DocumentsPage/DocumentsPage';
 
 
@@ -358,11 +358,11 @@ const filteredClients = clients.filter((client) => {
     <section className={style.container}>
     <div className={style.content}>
       <Link className={style.buttonHome} to="/home">
-        <button >Home</button>
+        <button ><FaHome  className={style.home}/></button>
       </Link>
       <h1 className={style.title}>Clientes</h1>
-      
-   <section className={style.section}>
+    
+      <section className={style.section}>
       <div className={style.find}>
         <label className={style.search}   htmlFor="searchCnpj"> CNPJ:</label>
         <input className={style.searchInput}
@@ -373,7 +373,7 @@ const filteredClients = clients.filter((client) => {
         />
       </div>
 
-{/*Modal de cadastro*/}
+      {/*Modal de cadastro*/}
       <div className={style.modalContent}>
       <button className={style.buttonModal} onClick={openModal2}><img src={mais} alt='simbolo de mais'/>Novo Cadastro</button>
       <Modal 
@@ -536,25 +536,25 @@ const filteredClients = clients.filter((client) => {
           key={client.id}
           className={style.clientList}
         >
-          <button onClick={() => openModal(client)}>
-            {client.name}{' '}{' '}<FaInfoCircle />
+          <button className={style.buttonName} onClick={() => openModal(client)}>
+            {client.name}{' '}{' '}<FaInfoCircle className={style.icon} />
            
           </button>
           {expandedClients[client.id] && (
             <div className={style.contentClient}>
-              <h2>Empresas:</h2>
+             
               {client.entreprise.map((enterprise, index) => (
                 <div key={index}>
-                  <button onClick={() => handleEnterpriseAccordionClick(index)}>
+                  <button className={style.buttonEntreprise} onClick={() => handleEnterpriseAccordionClick(index)}>
                     {enterprise.razaoSocial}{' '}
                     {expandedEnterpriseIndex === index ? '▲' : '▼'}
                   </button>
                   
                   {expandedEnterpriseIndex === index && (
-                    <div>
-                      <p>CNPJ: {enterprise.cpfCnpj}</p>
+                    <div className={style.infoEnterprise}>
+                      <p className={style.infoName}>CNPJ: {enterprise.cpfCnpj}</p>
                       <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
-                        <button>Ver Perfil da Empresa</button>
+                        <button className={style.buttonProfile}>PERFIL</button>
                       </Link>
                       {/* Passando os dados da empresa para o EntrepriseProfile */}
                       <EntrepriseProfile enterprise={enterprise} />
@@ -578,25 +578,29 @@ const filteredClients = clients.filter((client) => {
           content: {
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             justifyContent: 'center',
             color: 'black',
             width: '350px', 
             height:'250px',
             margin: 'auto',
+            background: '#B9C7C4',
+            padding: '20px'
           }
 
         }}
       >
         {selectedClient && (
-          <div>
-            <button onClick={closeModal} style={{ border:'none'}}><IoClose /></button>
-            <h2>Dados do Cliente</h2>
-            <p>Nome: {selectedClient.name}</p>
-            <p>Email: {selectedClient.email}</p>
-            <p>Telefone: {selectedClient.phone}</p>
-            
+          <div className={style.modalInfo}>
+          <div className={style.closeButtonContainer}>
+            <button onClick={closeModal} style={{ border: 'none' }}>
+              <IoClose className={style.close} />
+            </button>
           </div>
+          <h2 className={style.modalh2}>Dados do Cliente</h2>
+          <p className={style.modalp}>{selectedClient.name}</p>
+          <p className={style.modalp}>Email: {selectedClient.email}</p>
+          <p className={style.modalp}>Telefone: {selectedClient.mobile}</p>
+        </div>
         )}
       </ReactModal>
     </div>
