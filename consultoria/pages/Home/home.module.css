@@ -58,16 +58,13 @@
   gap: 100px;
 }
 
-.hover1{
-  width: 269px;
-  height: 278px!important;
-}
+
 
 .options {
   display: flex;
   flex-direction: column;
-  /* width: 269px; */
-  /* height: 245px; */
+  width: 269px;
+  height: 245px;
   padding: 32px 16px;
   justify-content: center;
   align-items: center;
