@@ -359,7 +359,7 @@ const filteredClients = clients.filter((client) => {
     <section className={style.container}>
     <div className={style.content}>
       <Link className={style.buttonHome} to="/home">
-        <button ><FaHome  className={style.home}/></button>
+        <button className={style.butoon} ><FaHome  className={style.home}/></button>
       </Link>
       <h1 className={style.title}>Clientes</h1>
     
@@ -537,7 +537,7 @@ const filteredClients = clients.filter((client) => {
           key={client.id}
           className={style.clientList}
         >
-          <button className={style.buttonName} onClick={() => openModal(client)}>
+          <button id="buttonNameID" className={style.buttonName} onClick={() => openModal(client)}>
             {client.name}{' '}{' '}<FaInfoCircle className={style.icon} />
            
           </button>

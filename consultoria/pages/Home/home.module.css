@@ -43,25 +43,11 @@
   font-weight: 723;
 }
 
-/* .iconWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  border: 8px solid #fff;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-} */
 
 .icon {
   width: 70px;
   height: 70px;
-  /* border-radius: 50%; */
-  /* color: #fff; */
-  /* object-fit: cover;
-  position: relative; */
-  /* bottom: -8px; */
+
 }
 
 .links {
@@ -72,10 +58,15 @@
   gap: 100px;
 }
 
+.hover1{
+  width: 269px;
+  height: 278px!important;
+}
+
 .options {
   display: flex;
   flex-direction: column;
-  width: 269px;
+  /* width: 269px; */
   /* height: 245px; */
   padding: 32px 16px;
   justify-content: center;
@@ -89,17 +80,24 @@
   font-size: 23px;
   font-weight: 700;
   text-transform: uppercase;
+  transition: background 0.5s ease-in-out, border-color 0.5s ease-in-out, color 0.5s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.9s ease-in-out; /* Adiciona transição para box-shadow */
+
 }
 
 .options:hover {
-  border: 8px solid rgba(83, 119, 110, 0.7);
-  box-shadow: 12px 12px 8px 0px rgba(0, 0, 0, 0.25);
+  background: rgba(132, 152, 147, 0.6); /* Fundo com uma cor menos brilhante */
+  border-color: rgba(83, 119, 110, 0.5); /* Cor da borda menos brilhante */
+  color: rgba(132, 152, 147, 0.8); /* Cor do texto com menos brilho */
+  transform: translateY(-5px);
+  
 }
 
-.links svg {
-  width: 111.955px;
-  height: 111.955px;
+.options:active {
+  transform: scale(0.95); /* Reduz um pouco a escala ao clicar */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+
+
 
 .logout {
   width: 64px;

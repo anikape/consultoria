@@ -640,7 +640,7 @@ const DocumentsPage = () => {
       <table>
         <thead>
           <tr>
-            <th> </th>
+            <th className={style.infos}> </th>
             <th className={style.infos}>Documento</th>
             <th className={style.infos}>Tipo</th>
             <th className={style.infos}>Empresa</th>

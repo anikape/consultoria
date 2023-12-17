@@ -37,19 +37,26 @@ const Home = () => {
         </div>
 
         <div className={style.links}>
-          <Link to="/client" className={style.options}>
-          <img src={client} alt='Documentos'/> Lista de clientes
-          </Link>
 
+          <div className={style.hover1}>
+          <Link  to="/client" className={style.options}>
+          <img id='link1' src={client} alt='Documentos'/> Lista de clientes
+          </Link>
+          </div>
+
+          <div className={style.hover1}>
           <Link to="/DocumentsPage" className={style.options}>
             <img src={docs} alt='Documentos'/>
             Documentos
           </Link>
+          </div>
 
+          <div className={style.hover1}>
           <Link to="/Adm" className={style.options}>
-          <img src={adm} alt='Documentos'/>
+          <img className={style.svg} src={adm} alt='Documentos'/>
             Área Adm
           </Link>
+          </div>
         </div>
 
         <button onClick={handleLogout} className={style.logout}>

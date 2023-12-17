@@ -26,11 +26,18 @@
 .buttonHome{
   display: flex;
   margin: 2em 3em;
+  background-color: transparent;
   
+}
+
+.butoon{
+  border: none;
+  background-color: transparent;
 }
 
 .home{
   font-size: 34px;
+  
 }
 
 .find{
@@ -98,6 +105,9 @@ text-align: center;
   letter-spacing: 0.34px;
   text-align: start;
   margin-bottom: 2rem;
+  background-color:transparent;
+  border: none;
+ 
 }
 
 .buttonEntreprise{
@@ -106,6 +116,8 @@ text-align: center;
   font-family: Inter;
   font-size: 17px;
   margin-bottom: 2rem;
+background-color: transparent;
+border: none;
 }
 
 .contentClient{
