@@ -14,6 +14,7 @@ const DocumentsPage = () => {
   const [orderBy, setOrderBy] = useState('issuanceDate');
   const [searchIssuanceDate, setSearchIssuanceDate] = useState('');
   const [searchExpirationDate, setSearchExpirationDate] = useState('');
+  
 
   const clients = [
     {
@@ -595,6 +596,9 @@ const DocumentsPage = () => {
     // Adicionar outros clientes aqui...
   ];
 
+
+
+
   const sortClientsByDate = (dateField) => {
     return clients.sort((a, b) => {
       const datesA = a.entreprise.flatMap((e) =>
@@ -630,6 +634,9 @@ const DocumentsPage = () => {
       <Link className={style.homeButton} to="/home">
       <button ><FaHome className={style.home}/></button>
       </Link>
+
+    
+    <section className={style.tableContent}>
       <table>
         <thead>
           <tr>
@@ -676,6 +683,7 @@ const DocumentsPage = () => {
           )}
         </tbody>
       </table>
+    </section>
       <Footer />
     </div>
   );

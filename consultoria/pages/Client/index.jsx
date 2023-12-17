@@ -10,6 +10,7 @@ import mais from '../../src/assets/mais.png'
 import { IoClose } from "react-icons/io5";
 import { FaInfoCircle, FaHome } from "react-icons/fa";
 import DocumentPage from '../DocumentsPage/DocumentsPage';
+import Footer from '../../component/Footer/Footer';
 
 
 const Client = ({clientsProp  }) => {
@@ -604,6 +605,8 @@ const filteredClients = clients.filter((client) => {
         )}
       </ReactModal>
     </div>
+
+    <Footer />
     </section>
   );
 };

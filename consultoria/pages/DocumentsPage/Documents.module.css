@@ -24,6 +24,8 @@
 }
 
 /* Estilos para a tabela */
+
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -34,9 +36,19 @@ table {
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Franklin Gothic Medium;
   font-size: 30px;
+  text-align: center;
 
 }
 
+/* Estilo para linhas pares da tabela */
+tr:nth-child(even) {
+  background-color: rgba(217, 217, 217, 0.43);
+}
+
+/* Estilo para linhas ímpares da tabela */
+tr:nth-child(odd) {
+  background-color: rgba(132, 152, 147, 0.13);
+}
 
 th, td {
 
@@ -54,26 +66,4 @@ th, td {
   font-size: 30px;
 }
 
-/* Estilos para os botões de ordenação */
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
 
-/* Estilos para o cabeçalho da tabela */
-th button::before {
-  content: '';
-  display: inline-block;
-  margin-right: 4px;
-}
-
-/* Estilos para a seta de ordenação ascendente (↑) */
-th button[data-order="asc"]::before {
-  content: '↑';
-}
-
-/* Estilos para a seta de ordenação descendente (↓) */
-th button[data-order="desc"]::before {
-  content: '↓';
-}
