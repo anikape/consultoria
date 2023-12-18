@@ -1,16 +1,13 @@
-import axios from "axios";
 import Cookies from "universal-cookie";
+import { api } from "../../services/api";
 
 const cookies = new Cookies();
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API_URL,
-});
 
 export const useApi = () => ({
   validateToken: (token) => {
     if (token) {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      api.defaults.withCredentials = true;
       return true;
     }
 
@@ -19,13 +16,18 @@ export const useApi = () => ({
 
   signin: async (email, password) => {
     try {
-      const { data } = await api.post("/admin/login", {
-        login: email,
-        password,
-      });
+      const { data } = await api.post(
+        "/admin/login",
+        {
+          login: email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       if (data.accessToken) {
         api.defaults.headers["Authorization"] = `Bearer ${data.accessToken}`;
+        api.defaults.withCredentials = true;
       }
 
       return data;
