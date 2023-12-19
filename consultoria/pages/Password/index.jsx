@@ -71,7 +71,10 @@ const Password = () => {
               placeholder="*****"
             />
             </div>
-            {errors.password && <span className="error">A senha deve conter 6 caracteres, sendo 4 numéricos e 2 alfanuméricos.</span>}
+           
+            <span className={`${style.error} ${errors.password ? style.visible : ''}`}>
+    A senha deve conter 6 caracteres, sendo 4 numéricos e 2 alfanuméricos.
+  </span>
           </div>
           <div className={style.formContent} >
             <label  className={style.label} htmlFor="confirmPassword">Repita a senha:</label>
@@ -88,7 +91,9 @@ const Password = () => {
               placeholder="*****"
             />
             </div>
-            {errors.confirmPassword && <span className="error">As senhas não coincidem.</span>}
+            <span className={`${style.error} ${errors.confirmPassword ? style.visible : ''}`}>
+              As senhas não coincidem.
+            </span>
           </div>
 
           <div className={style.buttonGroup}>
