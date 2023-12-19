@@ -632,7 +632,7 @@ const DocumentsPage = () => {
   return (
     <div className={style.documentContainer}>
       <Link className={style.homeButton} to="/home">
-      <button ><FaHome className={style.home}/></button>
+      <button  ><FaHome className={style.home}/></button>
       </Link>
 
     
@@ -669,13 +669,14 @@ const DocumentsPage = () => {
                       rel="noopener noreferrer"
                     >
                       <AiFillFilePdf className={style.documentsIcons} />
-                      <button>
+                    
+                    </a>
+                    <button className={style.iconButton}>
                         <AiTwotoneDelete className={style.documentsIcons} />
                       </button>
-                      <button>
+                      <button className={style.iconButton}>
                         <AiTwotoneEdit className={style.documentsIcons} />
                       </button>
-                    </a>
                   </td>
                 </tr>
               )),

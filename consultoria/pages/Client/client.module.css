@@ -33,6 +33,12 @@
 .butoon{
   border: none;
   background-color: transparent;
+  transition: .3s;
+  box-shadow: 6px 6px 3px rgba(255, 255, 255, 0.23);
+}
+
+.butoon:active{
+  transform: translateY(5px);
 }
 
 .home{
