@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height:920px;
+  height:100vh;
  
 }
 
@@ -31,8 +31,8 @@
   background-position: center;
   background-size: contain;
   width: 300px;
-height: 65px;
-padding-bottom: 77px;
+  height: 65px;
+  padding-bottom: 77px;
 }
 
 .verification{
@@ -45,7 +45,7 @@ padding-bottom: 77px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   justify-content: center;
   align-items: center;
-
+  margin-top: 3rem;
 }
 
 .verification p{
@@ -56,16 +56,17 @@ padding-bottom: 77px;
   font-size: 32px;
   font-weight: 518;
   opacity: 0.8;
-
+  padding-top: 2em;
 }
 
 .check{
   margin: 0 auto;
   width: 73px;
-height: 47.409px;
+  height: 47px;
+  margin-top: 2em;
 }
 
-.verification a{
+.back{
   display:flex;
   color: #FFF;
 text-align: center;
@@ -82,6 +83,6 @@ box-shadow: 5px 3px 16px 0px #FFF, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 text-decoration: none;
 justify-content: center;
 align-items: center;
-margin:2em ;
+margin:1em ;
 }
 

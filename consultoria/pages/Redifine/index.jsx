@@ -1,5 +1,7 @@
 import { useState } from 'react';
 // import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from 'react-router-dom';
+
 import style from './Redifine.module.css'
 
 
@@ -53,6 +55,7 @@ const Redifine = () => {
     <br />
     <button className={style.button1} onClick={handleSubmit}>Enviar</button>
     <button className={style.button2} onClick={handleCancel}>Cancelar</button>
+    <Link className={style.back} to='/'>Voltar</Link>
     </div>
     
     <Footer />
