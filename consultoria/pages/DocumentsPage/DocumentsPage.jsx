@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaInfoCircle, FaHome } from "react-icons/fa";
 import style from './Documents.module.css';
+import pdf from '../../src/assets/pdf.png'
+import edity from '../../src/assets/edity.png'
+import excluir from '../../src/assets/delittt.png'
 import {
   AiTwotoneDelete,
   AiTwotoneEdit,
@@ -668,14 +671,18 @@ const DocumentsPage = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <AiFillFilePdf className={style.documentsIcons} />
+                       <img className={style.documentsIcons} src={pdf} alt=""  />
+                     
                     
                     </a>
                     <button className={style.iconButton}>
-                        <AiTwotoneDelete className={style.documentsIcons} />
+
+                      <img className={style.documentsIcons} src={excluir} alt=""  />
+                       
                       </button>
                       <button className={style.iconButton}>
-                        <AiTwotoneEdit className={style.documentsIcons} />
+                      <img className={style.documentsIcons} src={edity} alt=""  />
+                       
                       </button>
                   </td>
                 </tr>
