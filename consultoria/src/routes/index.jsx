@@ -15,6 +15,7 @@ import { RequireAuth } from "../contexts/Auth/RequireAuth";
 import { Loading } from "../../component/Loading";
 import { AuthContext } from "../contexts/Auth/AuthContext";
 import Password from "../../pages/Password";
+import Sucess from "../../pages/Sucess/index"
 
 const clients = [
   {
@@ -621,6 +622,7 @@ const RoutesApp = () => {
         <Route path="/redifine" element={<Redifine />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/password" element={<Password />} />
+        <Route path="/sucess" element={<Sucess />} />
         <Route
           path="/Adm"
           element={
