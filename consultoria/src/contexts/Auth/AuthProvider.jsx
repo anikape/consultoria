@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
       // setLoading(true);
       const { accessToken } = await api.signin(email, password);
 
-      cookies.set("authToken", accessToken);
+      cookies.set("authToken", accessToken, { secure: true, sameSite: "none" });
 
       if (accessToken) {
         setLoading(true);
