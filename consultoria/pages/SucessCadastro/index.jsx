@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import logo from "../../src/assets/logo1.png"
 import check from "../../src/assets/check.png"
 import Footer from "../../component/Footer/Footer.jsx"
-import style from './sucess.module.css'
+import style from './sucessCadastro.module.css'
 
-const Sucess = () => {
+const SucessCadastro = () => {
   return (
     <section className={style.sucessContainer}>
 
@@ -18,10 +18,10 @@ const Sucess = () => {
 
             <h4>Sucesso!</h4>
 
-            <p>Senha alterada com sucesso.</p>
+            <p>Cadastro alterad com sucesso.</p>
 
-            <Link className={style.link} to='/' >
-              Login
+            <Link className={style.link} to='/adm' >
+              Sair
             </Link>
           
           </div>
@@ -31,4 +31,4 @@ const Sucess = () => {
   )
 }
 
-export default Sucess
+export default SucessCadastro
