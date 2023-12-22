@@ -2,7 +2,7 @@
   background: url("../../src/assets/bgHome.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-position: fixed;
+  background-attachment: fixed;
   width: 100%;
   height: inherit;
   min-height: 100%;
@@ -17,7 +17,7 @@
   background: url("../../src/assets/client2.png");
   object-fit: contain;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   width: 960px;
   min-height: 830px;
   padding: 0 120px;
