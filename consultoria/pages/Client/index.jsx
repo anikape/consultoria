@@ -12,6 +12,7 @@ import DocumentPage from "../DocumentsPage/DocumentsPage";
 import { Loading } from "../../component/Loading";
 import { useData } from "../../src/hooks/useData";
 import ClientBox from "../../component/ClientBox";
+import Footer from "../../component/Footer/Footer";
 
 const Client = ({ clientsProp }) => {
   const [clientName, setClientName] = useState("");
@@ -1017,6 +1018,7 @@ const Client = ({ clientsProp }) => {
           )} */}
         </ReactModal>
       </div>
+      <Footer />
     </section>
   );
 };

@@ -1,16 +1,18 @@
-.buttonEntreprise {
+.buttonEnterprise {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
   color: #1e1e1e;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
   font-size: 17px;
-  margin-bottom: 2rem;
-  background-color: transparent;
-  border: none;
-  width: 100%;
 }
 
 .contentClient {
-  justify-content: flex-start;
+  display: flex;
+  align-items: center;
 }
 
 .section {
@@ -22,19 +24,25 @@
 
 .infoEnterpriseContainer {
   width: 100%;
-  height: 100px;
-  padding: 1.5rem 0;
+}
+.infoEnterpriseWrapper {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  padding: 0.4rem 0;
 }
 
 .infoEnterprise {
   display: flex;
+  flex-direction: column;
   gap: 12px;
+  flex: 1;
 }
 
-.infoEnterpriseWrapper {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.4rem 0;
+.infoEnterprise p:last-child {
+  border: solid 1px #1e1e1e;
+  border-top-style: none;
+  padding: 0.2rem;
 }
 
 .infoName {
@@ -42,6 +50,7 @@
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
   font-size: 17px;
+  font-weight: bold;
 }
 
 .buttonProfile {
@@ -61,7 +70,12 @@
   align-items: center;
   justify-content: center;
   outline: none;
-  margin: 1rem;
+  transition: ease-in-out 0.3s;
+}
+
+.buttonProfile:hover {
+  transform: scale(1.02);
+  background-color: #c9d7d7;
 }
 
 /*Modal de cadastro*/
@@ -216,9 +230,16 @@
 
 .companyNameWrapper {
   width: 100%;
-  background-color: red;
   display: flex;
   justify-content: space-between;
+  padding: 0.4rem 0;
+}
+
+.companyButtonsWrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 16px 0;
 }
 
 @media (max-width: 710px) {
@@ -241,8 +262,6 @@
 
   .clientList {
     width: 400px;
-    /* margin: 3rem;
-    padding: 3rem; */
     justify-content: center;
     align-items: center;
   }

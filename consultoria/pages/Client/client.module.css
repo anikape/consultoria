@@ -1,14 +1,15 @@
 .container {
   background: url("../../src/assets/bgHome.png");
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-size: 100% 100%;
+  background-position: fixed;
   width: 100%;
   height: inherit;
-  min-height: max-content;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   object-fit: cover;
 }
 
@@ -17,8 +18,9 @@
   object-fit: contain;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  width: 1059px;
-  padding: 0 32px;
+  width: 960px;
+  min-height: 830px;
+  padding: 0 120px;
   margin: 32px 0;
   border-radius: 24px;
   opacity: 0.7;
@@ -62,7 +64,7 @@ button {
   font-style: normal;
   font-weight: 600;
   line-height: 150%;
-  margin-left: 25%;
+  /* margin-left: 25%; */
 }
 
 .searchInput {
@@ -87,16 +89,6 @@ button {
   text-align: center;
 }
 
-.clientList {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  /* margin-top: 2em; */
-  border-bottom: 1px solid #1e1e1e;
-  /* padding-left: 2rem; */
-}
-
 .icon {
   font-size: 15px;
   align-items: stretch;
@@ -113,17 +105,16 @@ button {
   line-height: 111%;
   letter-spacing: 0.34px;
   text-align: start;
-  margin-bottom: 2rem;
+  /* margin-bottom: 1rem; */
   background-color: transparent;
   border: none;
 }
 
-.buttonEntreprise {
+.buttonEnterprise {
   color: #1e1e1e;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
   font-size: 17px;
-  margin-bottom: 2rem;
   background-color: transparent;
   border: none;
 }
@@ -136,7 +127,8 @@ button {
   display: flex;
   width: 100%;
   justify-content: flex-start;
-  /* margin: 3em; */
+  gap: 24px;
+  padding: 2rem 0;
 }
 
 .infoEnterprise {
@@ -190,6 +182,7 @@ button {
   align-items: center;
   justify-content: center;
   outline: none;
+  gap: 0.4rem;
 }
 
 .buttonModal img {
@@ -200,7 +193,7 @@ button {
 .modalContent {
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   width: 549px;
 }
 

@@ -8,13 +8,12 @@ const CompanyProfile = ({ company }) => {
 
   return (
     <>
-      <div
-        key={company._id}
-        className={style.buttonEntreprise}
-        onClick={() => setShow(!show)}>
+      <div key={company._id} className={style.buttonEnterprise}>
         {/* {enterprise.razaoSocial}{" "} */}
 
-        <div className={style.companyNameWrapper}>
+        <div
+          className={style.companyNameWrapper}
+          onClick={() => setShow(!show)}>
           <p>{mask.CNPJ(company.cnpj)}</p>
           <p>{show ? "▲" : "▼"}</p>
         </div>
@@ -34,17 +33,25 @@ const CompanyProfile = ({ company }) => {
             <div className={style.infoEnterpriseWrapper}>
               <div className={style.infoEnterprise}>
                 <p className={style.infoName}>Telefone celular:</p>
-                <p> {mask.Phone(company.phone)}</p>
+                <p> {mask.Phone(`00${company.phone}`)}</p>
               </div>
               <div className={style.infoEnterprise}>
                 <p className={style.infoName}>CPF/CNPJ:</p>
-                <p> {company.cnpj}</p>
+                <p>{mask.CNPJ(company.cnpj)}</p>
               </div>
             </div>
-
-            <Link to={`/entrepriseProfile/${"enterprise.cpfCnpj"}`}>
-              <button className={style.buttonProfile}>PERFIL</button>
-            </Link>
+            <div className={style.companyButtonsWrapper}>
+              <Link
+                to={`/entrepriseProfile/${"enterprise.cpfCnpj"}`}
+                className={style.buttonProfile}>
+                PERFIL
+              </Link>
+              <Link
+                to={`/entrepriseProfile/${"enterprise.cpfCnpj"}`}
+                className={style.buttonProfile}>
+                EDITAR
+              </Link>
+            </div>
           </div>
         )}
       </div>
