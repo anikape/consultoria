@@ -1,31 +1,28 @@
-.footerContainer{
+.footerContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-margin-top: 5rem;
+  padding: 0 0 2rem 0;
 }
 
-
-
-.logoFooter{
-  background-image: url('../../src/assets/logoFooter.png');
+.logoFooter {
+  background-image: url("../../src/assets/logoFooter.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   width: 281px;
-height: 55px;
+  height: 55px;
 }
 
-.lineFooter{
-  border-bottom: 3px solid #8EA19D; /* Cor, espessura e estilo da borda */
+.lineFooter {
+  border-bottom: 3px solid #8ea19d; /* Cor, espessura e estilo da borda */
   margin: 20px 0; /* Margem para separar a linha do conteúdo acima e abaixo */
   position: relative;
   margin: 5px 0;
   display: flex;
   align-items: center;
   width: 600px;
-   
 }
 
 .lineFooter::before,
@@ -33,7 +30,7 @@ height: 55px;
   content: "";
   flex: 1;
   height: 1px;
-  background-color: #8EA19D;
+  background-color: #8ea19d;
 }
 
 .lineFooter::before,
@@ -42,7 +39,7 @@ height: 55px;
   position: absolute;
   width: 10px; /* Tamanho da bolinha */
   height: 10px; /* Tamanho da bolinha */
-  background-color: #8EA19D; /* Cor da bolinha */
+  background-color: #8ea19d; /* Cor da bolinha */
   border-radius: 50%; /* Forma circular */
 }
 
@@ -54,12 +51,11 @@ height: 55px;
   right: -9px; /* Posição da bolinha à direita */
 }
 
-.paragraph{
-  color: #1E1E1E;
+.paragraph {
+  color: #1e1e1e;
   text-align: center;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Doppio One;
   font-size: 17px;
   font-weight: 400;
-
 }

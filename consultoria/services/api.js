@@ -1,12 +1,17 @@
 import axios from "axios";
 
-const http = axios.create({
-  baseURL: "http://localhost:3003/admin",
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_BASE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
-export const api = {
-  getUser: (endpoint, payload) => http.post(endpoint, payload),
-};
+export const http = axios.create({
+  baseURL: import.meta.env.VITE_BASE_API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});

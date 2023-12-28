@@ -1,93 +1,13 @@
-.container {
-  background: url("../../src/assets/bgHome.png");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
-  width: 100%;
-  height: inherit;
-  min-height: 100%;
+.clientList {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  object-fit: cover;
+  align-items: flex-start;
+  padding: 1.5rem 0;
 }
 
-.content {
-  background: url("../../src/assets/client2.png");
-  object-fit: contain;
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 960px;
-  min-height: 830px;
-  padding: 0 120px;
-  margin: 32px 0;
-  border-radius: 24px;
-  opacity: 0.7;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  margin-top: 2rem;
-}
-
-.buttonHome {
-  display: flex;
-  object-fit: contain;
-  position: relative;
-  left: 24px;
-  top: 40px;
-  color: #392820;
-}
-/* 
-button {
-  border: none;
-  background-color: transparent;
-  transition: 0.3s;
-  box-shadow: 6px 6px 3px rgba(255, 255, 255, 0.23);
-} */
-
-.butoon:active {
-  transform: translateY(5px);
-}
-
-.home {
-  font-size: 34px;
-}
-
-.find {
-  display: flex;
-  align-items: center;
-}
-
-.search {
-  color: rgba(30, 30, 30, 0.9);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  /* margin-left: 25%; */
-}
-
-.searchInput {
-  width: 452px;
-  height: 39px;
-  border-radius: 26px;
-  border: 1px solid rgba(30, 30, 30, 0.43);
-  background: rgba(255, 255, 255, 0.23);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
-    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  padding-left: 1em;
-  margin-left: 1em;
-}
-
-.title {
-  color: #392820;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Franklin Gothic Medium;
-  font-size: 55px;
-  font-weight: 400;
-  line-height: 150%;
-  text-align: center;
+.clientList:not(:last-child) {
+  border-bottom: 1px solid #1e1e1e;
 }
 
 .icon {
@@ -97,7 +17,6 @@ button {
 
 .buttonName {
   width: 100%;
-  height: 31px;
   color: #1e1e1e;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
@@ -106,30 +25,32 @@ button {
   line-height: 111%;
   letter-spacing: 0.34px;
   text-align: start;
-  /* margin-bottom: 1rem; */
+  padding-bottom: 0.5rem;
   background-color: transparent;
   border: none;
 }
 
-.buttonEnterprise {
+.buttonEntreprise {
   color: #1e1e1e;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
   font-size: 17px;
+  margin-bottom: 2rem;
   background-color: transparent;
   border: none;
 }
 
 .contentClient {
-  justify-content: flex-start;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .section {
   display: flex;
   width: 100%;
   justify-content: flex-start;
-  gap: 24px;
-  padding: 2rem 0;
+  margin: 3em;
 }
 
 .infoEnterprise {
@@ -183,7 +104,6 @@ button {
   align-items: center;
   justify-content: center;
   outline: none;
-  gap: 0.4rem;
 }
 
 .buttonModal img {
@@ -194,7 +114,7 @@ button {
 .modalContent {
   display: flex;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
   width: 549px;
 }
 
@@ -316,6 +236,11 @@ button {
   padding: 1rem;
 }
 
+.CompanyProfileWrapper {
+  width: inherit;
+  display: flex;
+}
+
 @media (max-width: 710px) {
   .container {
     width: 100%;
@@ -336,8 +261,6 @@ button {
 
   .clientList {
     width: 400px;
-    margin: 3rem;
-    padding: 3rem;
     justify-content: center;
     align-items: center;
   }
