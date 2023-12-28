@@ -24,7 +24,7 @@
 .homeButton button{
   background: transparent;
   border: none;
-  box-shadow: 6px 6px 3px rgba(255, 255, 255, 0.23);
+  
   transition: .3s;
 }
 

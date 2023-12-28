@@ -5,7 +5,7 @@ import docs from '../../src/assets/docs.svg'
 import adm from '../../src/assets/iconuser.svg'
 import client from '../../src/assets/clint.svg'
 import profile from '../../src/assets/profileIcon.png'
-import { FaUserAlt, FaTasks, FaNewspaper, FaUsers } from "react-icons/fa";
+import out from  "../../src/assets/out.svg"
 import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../src/hooks/useAuth";
 import { AuthContext } from "../../src/contexts/Auth/AuthContext";
@@ -60,7 +60,8 @@ const Home = () => {
         
 
         <button onClick={handleLogout} className={style.logout}>
-          <BiLogOut /> sair
+          <img src={out} alt="" />
+          sair
         </button>
       </div>
     </section>

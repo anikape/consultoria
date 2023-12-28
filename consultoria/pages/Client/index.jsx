@@ -10,6 +10,7 @@ import mais from '../../src/assets/mais.png'
 import { IoClose } from "react-icons/io5";
 import { FaInfoCircle, FaHome } from "react-icons/fa";
 import DocumentPage from '../DocumentsPage/DocumentsPage';
+import home from '../../src/assets/home.png'
 import Footer from '../../component/Footer/Footer';
 
 
@@ -359,7 +360,8 @@ const filteredClients = clients.filter((client) => {
     <section className={style.container}>
     <div className={style.content}>
       <Link className={style.buttonHome} to="/home">
-        <button className={style.butoon} ><FaHome  className={style.home}/></button>
+        
+        <button className={style.butoon} > <img src={home} className={style.home} alt="" /></button>
       </Link>
       <h1 className={style.title}>Clientes</h1>
     

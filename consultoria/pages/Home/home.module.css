@@ -113,6 +113,8 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .logout svg {
