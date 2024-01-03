@@ -1,16 +1,29 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { mask } from "../../src/helpers/maskValues";
+import { useData } from "../../src/hooks/useData";
+import { CompanyProfileContent } from "../../component/CompanyProfileContent";
+
 import style from "./CompanyProfile.module.css";
+import { Loading } from "../Loading";
 
-const CompanyProfile = ({ company }) => {
-  const [show, setShow] = useState(false);
-
+export const CompanyProfile = ({ client }) => {
+  const [companys, loading, error] = useData({
+    method: "GET",
+    url: "company",
+  });
   return (
     <>
-      <div key={company._id} className={style.buttonEnterprise}>
-        {/* {enterprise.razaoSocial}{" "} */}
+      {companys
+        .filter((company) => client._id === company.clientId)
+        .map((company) => (
+          <div className={style.buttonEnterprise} key={company._id}>
+            {loading ? (
+              <Loading />
+            ) : (
+              <CompanyProfileContent company={company} />
+            )}
+          </div>
+        ))}
 
+      {/* <div className={style.buttonEnterprise}>
         <div
           className={style.companyNameWrapper}
           onClick={() => setShow(!show)}>
@@ -54,9 +67,7 @@ const CompanyProfile = ({ company }) => {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
     </>
   );
 };
-
-export default CompanyProfile;

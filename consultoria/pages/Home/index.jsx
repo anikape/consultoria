@@ -1,10 +1,6 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./home.module.css";
-import docs from '../../src/assets/docs.svg'
-import adm from '../../src/assets/iconuser.svg'
-import client from '../../src/assets/clint.svg'
-import profile from '../../src/assets/profileIcon.png'
 import { FaUserAlt, FaTasks, FaNewspaper, FaUsers } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../src/hooks/useAuth";
@@ -30,34 +26,28 @@ const Home = () => {
       <div className={style.content}>
         <div className={style.info}>
           <div className={style.iconWrapper}>
-            <img src={profile} className={style.icon} />
+            <FaUserAlt className={style.icon} />
           </div>
 
           <p>Olá, {auth.user?.name}</p>
         </div>
 
         <div className={style.links}>
-
-        
-          <Link  to="/client" className={style.options}>
-          <img src={client} alt='Documentos'/> Lista de clientes
+          <Link to="/client" className={style.options}>
+            <img src="../../src/assets/client.svg" alt="" srcset="" />
+            Lista de clientes
           </Link>
-          
 
-         
           <Link to="/DocumentsPage" className={style.options}>
-            <img src={docs} alt='Documentos'/>
+            <img src="../../src/assets/docs.svg" alt="" srcset="" />
             Documentos
           </Link>
-          
 
-         
           <Link to="/Adm" className={style.options}>
-          <img className={style.svg} src={adm} alt='Documentos'/>
+            <img src="../../src/assets/iconuser.svg" alt="" srcset="" />
             Área Adm
           </Link>
-          </div>
-        
+        </div>
 
         <button onClick={handleLogout} className={style.logout}>
           <BiLogOut /> sair

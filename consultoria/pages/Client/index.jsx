@@ -11,10 +11,14 @@ import { FaInfoCircle, FaHome } from "react-icons/fa";
 import DocumentPage from "../DocumentsPage/DocumentsPage";
 import { Loading } from "../../component/Loading";
 import { useData } from "../../src/hooks/useData";
-import ClientBox from "../../component/ClientBox";
+import { ClientBox } from "../../component/ClientBox";
+import { ClientContainer } from "../../component/ClientContainer";
+import { ClientContent } from "../../component/ClientContent";
+import { CompanyProfile } from "../../component/CompanyProfile";
 import Footer from "../../component/Footer/Footer";
+import { ClientCompanyContent } from "../../component/ClientCompanyContent";
 
-const Client = ({ clientsProp }) => {
+const Client = () => {
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [clientCnpj, setClientCNPJ] = useState("");
@@ -733,12 +737,10 @@ const Client = ({ clientsProp }) => {
   // });
 
   return (
-    <section className={style.container}>
+    <main className={style.container}>
       <div className={style.content}>
         <Link className={style.buttonHome} to="/home">
-          <a>
-            <FaHome className={style.home} />
-          </a>
+          <FaHome className={style.home} />
         </Link>
         <h1 className={style.title}>Clientes</h1>
 
@@ -941,47 +943,17 @@ const Client = ({ clientsProp }) => {
         {loading ? (
           <Loading />
         ) : (
-          <ClientBox clients={clients} companys={companys} />
+          <ClientContainer>
+            {clients.map((client) => (
+              <ClientContent key={client._id}>
+                <ClientBox client={client} key={client.id} />
+                <ClientCompanyContent>
+                  <CompanyProfile client={client} />
+                </ClientCompanyContent>
+              </ClientContent>
+            ))}
+          </ClientContainer>
         )}
-
-        {/* {filteredClients?.map((client) => (
-          <div key={client.id} className={style.clientList}>
-            <button
-              className={style.buttonName}
-              onClick={() => openModal(client)}>
-              {client.name} <FaInfoCircle className={style.icon} />
-            </button>
-            {expandedClients[client.id] && (
-              <div className={style.contentClient}>
-                {client.entreprise.map((enterprise, index) => (
-                  <div key={index}>
-                    <button
-                      className={style.buttonEntreprise}
-                      onClick={() => handleEnterpriseAccordionClick(index)}>
-                      {enterprise.razaoSocial}{" "}
-                      {expandedEnterpriseIndex === index ? "▲" : "▼"}
-                    </button>
-
-                    {expandedEnterpriseIndex === index && (
-                      <div className={style.infoEnterprise}>
-                        <p className={style.infoName}>
-                          CNPJ: {enterprise.cpfCnpj}
-                        </p>
-                        <Link to={`/entrepriseProfile/${enterprise.cpfCnpj}`}>
-                          <button className={style.buttonProfile}>
-                            PERFIL
-                          </button>
-                        </Link>
-                        {/* Passando os dados da empresa para o EntrepriseProfile */}
-        {/* <EntrepriseProfile enterprise={enterprise} /> */}
-        {/* </div> */}
-        {/* )} */}
-        {/* </div> */}
-        {/* ))} */}
-        {/* </div> */}
-        {/* )} */}
-        {/* </div> */}
-        {/* ))} } */}
 
         {/* Modal */}
         <ReactModal
@@ -1019,7 +991,7 @@ const Client = ({ clientsProp }) => {
         </ReactModal>
       </div>
       <Footer />
-    </section>
+    </main>
   );
 };
 
