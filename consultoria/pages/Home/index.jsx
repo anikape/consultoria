@@ -1,7 +1,11 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./home.module.css";
-import { FaUserAlt, FaTasks, FaNewspaper, FaUsers } from "react-icons/fa";
+import docs from "../../src/assets/docs.svg";
+import adm from "../../src/assets/iconuser.svg";
+import client from "../../src/assets/client.svg";
+import profile from "../../src/assets/profileIcon.png";
+import out from "../../src/assets/out.svg";
 import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../src/hooks/useAuth";
 import { AuthContext } from "../../src/contexts/Auth/AuthContext";
@@ -50,7 +54,8 @@ const Home = () => {
         </div>
 
         <button onClick={handleLogout} className={style.logout}>
-          <BiLogOut /> sair
+          <img src={out} alt="" />
+          sair
         </button>
       </div>
     </section>

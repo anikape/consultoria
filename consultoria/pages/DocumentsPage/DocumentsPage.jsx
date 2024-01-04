@@ -5,6 +5,7 @@ import style from './Documents.module.css';
 import pdf from '../../src/assets/pdf.png'
 import edity from '../../src/assets/edity.png'
 import excluir from '../../src/assets/delittt.png'
+import home from '../../src/assets/home.png'
 import {
   AiTwotoneDelete,
   AiTwotoneEdit,
@@ -635,7 +636,8 @@ const DocumentsPage = () => {
   return (
     <div className={style.documentContainer}>
       <Link className={style.homeButton} to="/home">
-      <button  ><FaHome className={style.home}/></button>
+        
+      <button  > <img src={home} className={style.home} alt="" /></button>
       </Link>
 
     
