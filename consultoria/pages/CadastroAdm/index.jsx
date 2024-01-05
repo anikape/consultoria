@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Footer from "../../component/Footer/Footer"
-import logo from '../../src/assets/logo1.png'
-import info from '../../src/assets/info.png'
-import adm from '../../src/assets/iconuser.svg'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Footer from "../../component/Footer";
+import logo from "../../src/assets/logo1.png";
+import info from "../../src/assets/info.png";
+import adm from "../../src/assets/iconuser.svg";
 import { FaHome } from "react-icons/fa";
-import style from './cadastro.module.css'
+import style from "./cadastro.module.css";
 
 const FormularioCadastro = () => {
-
   const [showPasswordInfo, setShowPasswordInfo] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // Estado para controlar o modal de sucesso
 
@@ -17,11 +16,11 @@ const FormularioCadastro = () => {
   };
 
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    cpf: '',
-    password: '',
-    confirmPassword: '',
+    fullName: "",
+    email: "",
+    cpf: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const handleInputChange = (e) => {
@@ -38,7 +37,7 @@ const FormularioCadastro = () => {
     // Validando os campos do formulário
     const passwordRegex = /^(?=.*[0-9]{4})(?=.*[a-zA-Z]{2}).{6}$/;
     const isPasswordValid = passwordRegex.test(formData.password);
-  
+
     if (
       formData.fullName &&
       formData.email &&
@@ -54,11 +53,11 @@ const FormularioCadastro = () => {
 
       // Limpa o formulário
       setFormData({
-        fullName: '',
-        email: '',
-        cpf: '',
-        password: '',
-        confirmPassword: '',
+        fullName: "",
+        email: "",
+        cpf: "",
+        password: "",
+        confirmPassword: "",
       });
     }
   };
@@ -68,31 +67,31 @@ const FormularioCadastro = () => {
   };
 
   return (
-  <div className={style.cadastroContainer}>
-
-        <div className={style.buttonsLink}>
-
+    <div className={style.cadastroContainer}>
+      <div className={style.buttonsLink}>
         <Link className={style.buttonHome} to="/Home">
-        <button ><FaHome  className={style.home}/></button>
+          <button>
+            <FaHome className={style.home} />
+          </button>
         </Link>
 
         <Link className={style.buttonHome} to="/adm">
-        <button ><img src={adm} className={style.admIcon}/></button>
+          <button>
+            <img src={adm} className={style.admIcon} />
+          </button>
         </Link>
+      </div>
 
-        </div>
-                
-
-    <div className={style.formContainer} >
-
+      <div className={style.formContainer}>
         <figure className={style.logo}>
           <img src={logo} />
         </figure>
 
         <form className={style.form} onSubmit={handleSubmit}>
-         
           <div className={style.inputGroup}>
-            <label className={style.label}  htmlFor="fullName">Nome completo:</label>
+            <label className={style.label} htmlFor="fullName">
+              Nome completo:
+            </label>
             <input
               type="text"
               name="fullName"
@@ -105,7 +104,9 @@ const FormularioCadastro = () => {
             />
           </div>
           <div className={style.inputGroup}>
-            <label className={style.label}  htmlFor="email">E-mail:</label>
+            <label className={style.label} htmlFor="email">
+              E-mail:
+            </label>
             <input
               type="email"
               name="email"
@@ -118,7 +119,9 @@ const FormularioCadastro = () => {
             />
           </div>
           <div className={style.inputGroup}>
-            <label className={style.label}  htmlFor="cpf">CPF:</label>
+            <label className={style.label} htmlFor="cpf">
+              CPF:
+            </label>
             <input
               type="text"
               name="cpf"
@@ -130,61 +133,68 @@ const FormularioCadastro = () => {
               id="cpf"
             />
           </div>
-          
+
           <div className={style.inputGroup}>
             <label className={style.label} htmlFor="password">
               Senha:
             </label>
             <div className={style.passwordInput}>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Senha"
+                required
+                minLength={6}
+                className={style.input}
+                id="password"
+              />
+              <span
+                className={style.infoIcon}
+                onClick={handlePasswordInfoClick}>
+                <img src={info} alt="Ícone de Informação" />
+              </span>
+            </div>
+            {showPasswordInfo && (
+              <span className={style.infoMessage}>
+                A senha deverá conter exatamente 6 caracteres, dos quais 4
+                deverão ser numéricos e 2 alfanuméricos.
+              </span>
+            )}
+          </div>
+
+          <div className={style.inputGroup}>
+            <label className={style.label} htmlFor="confirmPassword">
+              Confirmar Senha:
+            </label>
             <input
               type="password"
-              name="password"
-              value={formData.password}
+              name="confirmPassword"
+              value={formData.confirmPassword}
               onChange={handleInputChange}
-              placeholder="Senha"
+              placeholder="Confirmar Senha"
               required
               minLength={6}
               className={style.input}
-              id="password"
+              id="confirmPassword"
             />
-            <span
-              className={style.infoIcon}
-              onClick={handlePasswordInfoClick}
-            >
-              <img src={info} alt='Ícone de Informação' />
-            </span>
           </div>
-            {showPasswordInfo && (
-            <span className={style.infoMessage}>
-              A senha deverá conter exatamente 6 caracteres, dos quais 4 deverão ser numéricos e 2 alfanuméricos.
-            </span>
-          )}
-    </div>
-
-      <div className={style.inputGroup}>
-          <label className={style.label} htmlFor="confirmPassword">
-            Confirmar Senha:
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            placeholder="Confirmar Senha"
-            required
-            minLength={6}
-            className={style.input}
-            id="confirmPassword"
-          />
-        </div>
-          <button className={style.button1} type="submit">Cadastrar</button>
-          <button className={style.button2}  type="button" onClick={() => setFormData({
-            fullName: '',
-            email: '',
-            cpf: '',
-            password: '',
-            confirmPassword: '',
-          })}>
+          <button className={style.button1} type="submit">
+            Cadastrar
+          </button>
+          <button
+            className={style.button2}
+            type="button"
+            onClick={() =>
+              setFormData({
+                fullName: "",
+                email: "",
+                cpf: "",
+                password: "",
+                confirmPassword: "",
+              })
+            }>
             Cancelar
           </button>
         </form>
@@ -198,13 +208,10 @@ const FormularioCadastro = () => {
             </div>
           </div>
         )}
-        
       </div>
       <Footer />
     </div>
-    
   );
 };
 
 export default FormularioCadastro;
-
