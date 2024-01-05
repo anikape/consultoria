@@ -6,6 +6,8 @@ import adm from "../../src/assets/iconuser.svg";
 import client from "../../src/assets/client.svg";
 import profile from "../../src/assets/profileIcon.png";
 import out from "../../src/assets/out.svg";
+import { FaUserAlt } from "react-icons/fa";
+
 import { BiLogOut } from "react-icons/bi";
 import useAuth from "../../src/hooks/useAuth";
 import { AuthContext } from "../../src/contexts/Auth/AuthContext";
@@ -38,17 +40,17 @@ const Home = () => {
 
         <div className={style.links}>
           <Link to="/client" className={style.options}>
-            <img src="../../src/assets/client.svg" alt="" srcset="" />
+            <img src={client} alt="" />
             Lista de clientes
           </Link>
 
           <Link to="/DocumentsPage" className={style.options}>
-            <img src="../../src/assets/docs.svg" alt="" srcset="" />
+            <img src={docs} alt="" />
             Documentos
           </Link>
 
           <Link to="/Adm" className={style.options}>
-            <img src="../../src/assets/iconuser.svg" alt="" srcset="" />
+            <img src={adm} alt="" />
             Área Adm
           </Link>
         </div>
