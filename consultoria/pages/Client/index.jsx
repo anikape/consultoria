@@ -23,6 +23,7 @@ const Client = () => {
   const auth = useContext(AuthContext);
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
+  const [clientCPF, setClientCPF] = useState("")
   const [clientCnpj, setClientCNPJ] = useState("");
   const [clientRazaoSocial, setClientRazaoSocial] = useState("");
   const [clientRua, setClienteRua] = useState("");
@@ -32,7 +33,72 @@ const Client = () => {
   const [clientCep, setClientcep] = useState("");
   const [clientUf, setClientUf] = useState("");
 
-  const [modal2IsOpen, setModal2IsOpen] = useState(false);
+
+{/*Modal Cadastro de Clientes*/}
+
+const [addressData, setAddressData] = useState({
+  street: "",
+  neighborhood: "",
+  city: "",
+  state: "",
+});
+
+
+const handleCEPBlur = async () => {
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${clientCep}/json/`);
+    const data = await response.json();
+    setAddressData({
+      street: data.logradouro,
+      neighborhood: data.bairro,
+      city: data.localidade,
+      state: data.uf,
+    });
+  } catch (error) {
+    console.error("Erro ao buscar CEP:", error);
+  }
+};
+
+const handleSubmit1 = async (event) => {
+  event.preventDefault();
+
+  try {
+    const response = await fetch('http://localhost:3003/client', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+
+      body: JSON.stringify({
+        name: clientName,
+        email: clientEmail,
+        cpf: clientCPF,
+        address: clientRua, // ou addressData.street, dependendo de onde você quer pegar o valor
+        city: addressData.city,
+        state: addressData.state,
+        // Adicione os outros campos conforme necessário
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      // Lógica de sucesso aqui, se necessário
+      console.log('Cadastro realizado com sucesso:', data);
+      closeModal1(); // Fechar o modal após o sucesso, se desejar
+    } else {
+      // Tratar erros caso a requisição não tenha sido bem sucedida
+      console.error('Erro ao cadastrar cliente:', response.status);
+    }
+  } catch (error) {
+    console.error('Erro ao processar requisição:', error);
+  }
+};
+
+{/**/}
+
+const [modal1IsOpen, setModal1IsOpen] = useState(false);
+const [modal2IsOpen, setModal2IsOpen] = useState(false);
 
   const [clients, loading, error] = useData({
     method: "GET",
@@ -46,6 +112,15 @@ const Client = () => {
   if (clients === null) {
     return null;
   }
+
+
+  const openModal1 = () => {
+    setModal1IsOpen(true);
+  };
+
+  const closeModal1 = () => {
+    setModal1IsOpen(false);
+  };
 
   const openModal2 = () => {
     setModal2IsOpen(true);
@@ -200,7 +275,172 @@ const Client = () => {
               />
             </div>
 
+
+      <section className={style.modals}>
+            {/*Modal de cadastro do Cliente*/}
+
+      <button className={style.buttonModal} onClick={openModal1}>
+      <img src={mais} alt="simbolo de mais" /> Cadastrar Clientes
+        </button>
+        {/* Modal 1 */}
+        <Modal isOpen={modal1IsOpen} onRequestClose={closeModal1}>
+
+          <form onSubmit={handleSubmit}>
+        {/* Restante do formulário */}
+
+        <div className={style.inputGroup}>
+          <label className={style.label} htmlFor="name">
+           Nome:
+          </label>
+          <input
+            type="text"
+            name="name"
+            value={clientName}
+            placeholder="Nome Completo"
+            required
+            className={style.input}
+            id="name"
+            onChange={(e) => setClientName(e.target.value)}
+          />
+        </div>
+
+        <div className={style.inputGroup}>
+          <label className={style.label} htmlFor="email">
+           E-mail:
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={clientEmail}
+            placeholder="E-mail"
+            required
+            className={style.input}
+            id="name"
+            onChange={(e) => setClientEmail(e.target.value)}
+          />
+        </div>
+
+        <div className={style.inputGroup}>
+          <label className={style.label} htmlFor="cpf">
+           CPF
+          </label>
+          <input
+            type="number"
+            name="cpf"
+            value={clientCPF}
+            placeholder="CPF"
+            required
+            className={style.input}
+            id="cpf"
+            onChange={(e) => setClientCPF(e.target.value)}
+          />
+        </div>
+        
+        <div className={style.inputGroup}>
+          <label className={style.label} htmlFor="cep">
+            CEP:
+          </label>
+          <input
+            type="text"
+            name="cep"
+            value={clientCep}
+            placeholder="Informe o CEP"
+            required
+            className={style.input}
+            id="cep"
+            onChange={(e) => setClientcep(e.target.value)}
+            onBlur={handleCEPBlur}
+          />
+        </div>
+
+        {/* Adicione campos para os dados do endereço preenchidos automaticamente */}
+        <div className={style.inputGroup}>
+          <label className={style.label} htmlFor="street">
+            Rua/Logradouro:
+          </label>
+          <input
+            type="text"
+            name="street"
+            value={addressData.street}
+            placeholder="Rua/Logradouro"
+            required
+            className={style.input}
+            id="street"
+            onChange={(e) =>
+              setAddressData({ ...addressData, street: e.target.value })
+            }
+          />
+        </div>
+
+        <div className={style.inputGroup}>
+          <label className={style.label} htmlFor="neighborhood">
+            Bairro:
+          </label>
+          <input
+            type="text"
+            name="neighborhood"
+            value={addressData.neighborhood}
+            placeholder="Bairro"
+            required
+        className={style.input}
+        id="neighborhood"
+        onChange={(e) =>
+          setAddressData({ ...addressData, neighborhood: e.target.value })
+        }
+      />
+    </div>
+
+    <div className={style.inputGroup}>
+      <label className={style.label} htmlFor="city">
+        Cidade:
+      </label>
+      <input
+        type="text"
+        name="city"
+        value={addressData.city}
+        placeholder="Cidade"
+        required
+        className={style.input}
+        id="city"
+        onChange={(e) =>
+          setAddressData({ ...addressData, city: e.target.value })
+        }
+      />
+    </div>
+
+    <div className={style.inputGroup}>
+      <label className={style.label} htmlFor="state">
+        Estado:
+      </label>
+      <input
+        type="text"
+        name="state"
+        value={addressData.state}
+        placeholder="Estado"
+        required
+        className={style.input}
+        id="state"
+        onChange={(e) =>
+          setAddressData({ ...addressData, state: e.target.value })
+        }
+      />
+    </div>
+
+        {/* Botões de salvar e cancelar */}
+        <div className={style.buttons}>
+          <button className={style.button1} type="submit" onClick={handleSubmit1}>
+            Salvar
+          </button>
+          <button className={style.button2} onClick={closeModal1}>
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </Modal>
+
+
             {/*Modal de cadastro*/}
+            
             <div className={style.modalContent}>
               <button className={style.buttonModal} onClick={openModal2}>
                 <img src={mais} alt="simbolo de mais" />
@@ -380,8 +620,12 @@ const Client = () => {
                 </form>
               </Modal>
             </div>
+            </section>
           </div>
+          
         </div>
+       
+        
 
         <section className={style.contentClientList}>
           {loading ? (
