@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {useData} from "../../src/hooks/useData"
+import {Loading} from "../../component/Loading/index"
 import { FaInfoCircle, FaHome } from "react-icons/fa";
 import style from "./Documents.module.css";
 import pdf from "../../src/assets/pdf.png";
@@ -15,6 +17,21 @@ import {
 import Footer from "../../component/Footer";
 
 const DocumentsPage = () => {
+
+  const [clientBack, loadingClient, error2] = useData({
+    method: "GET",
+    url: "client",
+    withCredentials: true
+  })
+
+  const [documents, loading, error] = useData({
+    method: "GET",
+    url: "document",
+    withCredentials: true
+  });
+
+  console.log(documents)
+
   const [orderBy, setOrderBy] = useState("issuanceDate");
   const [searchIssuanceDate, setSearchIssuanceDate] = useState("");
   const [searchExpirationDate, setSearchExpirationDate] = useState("");
@@ -629,6 +646,8 @@ const DocumentsPage = () => {
     );
   });
 
+ 
+
   return (
     <div className={style.documentContainer}>
       <Link className={style.homeButton} to="/home">
@@ -637,6 +656,10 @@ const DocumentsPage = () => {
           <img src={home} className={style.home} alt="" />
         </button>
       </Link>
+
+      {/* {clientBack.map((item)=>(
+               <p key={item.name}>{item.name}</p>                                  
+          ))} */}
 
       <section className={style.tableContent}>
         <table>
@@ -654,7 +677,55 @@ const DocumentsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredClients.map((client) =>
+
+            {documents.map((itens)=>(
+              <>
+              <tr key={itens._id}> </tr>
+              <td></td>
+                <td>{itens.name}</td>
+                <td>{itens.type}</td>
+                <td>{itens.client}</td>
+                <td>{itens.emission}</td>
+                <td>{itens.validity}</td>
+                <td>
+                      <a
+                        href={itens.url}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <img
+                          className={style.documentsIcons}
+                          src={pdf}
+                          alt=""
+                        />
+                      </a>
+                      <button className={style.iconButton}>
+                        <img
+                          className={style.documentsIcons}
+                          src={excluir}
+                          alt=""
+                        />
+                      </button>
+                      <button className={style.iconButton}>
+                        <img
+                          className={style.documentsIcons}
+                          src={edity}
+                          alt=""
+                        />
+                      </button>
+                    </td>
+                
+                </>
+
+            ))}
+            
+            
+
+         
+         
+
+
+            
+            {/* {filteredClients.map((client) =>
               client.entreprise.flatMap((entreprise) =>
                 entreprise.documents.map((doc, index) => (
                   <tr key={index}>
@@ -693,7 +764,7 @@ const DocumentsPage = () => {
                   </tr>
                 ))
               )
-            )}
+            )} */}
           </tbody>
         </table>
       </section>
