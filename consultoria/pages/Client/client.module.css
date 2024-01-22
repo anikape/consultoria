@@ -1,9 +1,9 @@
-.container {
+.mainHome {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* width: 100%; */
+  width: 100%;
   height: inherit;
   min-height: 100%;
   background: url("../../src/assets/bgHome.png");
@@ -13,19 +13,30 @@
   object-fit: cover;
 }
 
-.content {
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: url("../../src/assets/client2.png");
   object-fit: contain;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 960px;
+  width: 1060px;
+  max-width: 100%;
   min-height: 830px;
-  padding: 0 120px;
   margin: 32px;
   border-radius: 24px;
   opacity: 0.7;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   margin-top: 2rem;
+}
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 24px;
+  padding: 2rem 0;
 }
 
 .buttonHome {
@@ -52,34 +63,6 @@ button {
   font-size: 34px;
 }
 
-.find {
-  display: flex;
-  align-items: center;
-}
-
-.search {
-  color: rgba(30, 30, 30, 0.9);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  /* margin-left: 25%; */
-}
-
-.searchInput {
-  width: 452px;
-  height: 39px;
-  border-radius: 26px;
-  border: 1px solid rgba(30, 30, 30, 0.43);
-  background: rgba(255, 255, 255, 0.23);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
-    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  padding-left: 1em;
-  margin-left: 1em;
-}
-
 .title {
   color: #392820;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -95,22 +78,6 @@ button {
   align-items: stretch;
 }
 
-.buttonName {
-  width: 100%;
-  height: 31px;
-  color: #1e1e1e;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 27px;
-  font-weight: 600;
-  line-height: 111%;
-  letter-spacing: 0.34px;
-  text-align: start;
-  /* margin-bottom: 1rem; */
-  background-color: transparent;
-  border: none;
-}
-
 .buttonEnterprise {
   color: #1e1e1e;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -120,16 +87,12 @@ button {
   border: none;
 }
 
-.contentClient {
-  justify-content: flex-start;
-}
-
-.section {
+.contentClientList {
+  width: 726px;
   display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  gap: 24px;
-  padding: 2rem 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 32px;
 }
 
 .infoEnterprise {
@@ -143,6 +106,59 @@ button {
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
   font-size: 17px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+.Heading {
+  display: flex;
+  gap: 32px;
+  padding: 32px;
+  width: 726px;
+}
+
+.headingWrapper {
+  width: 100%;
+}
+
+.modals{
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+.search {
+  color: rgba(30, 30, 30, 0.9);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  /* margin-left: 25%; */
+}
+
+.find {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.searchInput {
+  /* width: 452px; */
+  width: 100%;
+  height: 39px;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  background: rgba(255, 255, 255, 0.23);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  padding-left: 1em;
+  margin-left: 1em;
 }
 
 .buttonProfile {
@@ -195,7 +211,7 @@ button {
   display: flex;
   justify-content: center;
   /* align-items: center; */
-  width: 549px;
+  /* width: 549px; */
 }
 
 .modalContainer {
@@ -319,7 +335,10 @@ button {
 @media (max-width: 710px) {
   .container {
     width: 100%;
+    height: fit-content;
     justify-content: center;
+    margin: 0 32px;
+    padding: 1.5rem 32px;
   }
 
   .section {
@@ -334,11 +353,19 @@ button {
     margin: 2rem auto;
   }
 
-  .clientList {
-    width: 400px;
-    margin: 3rem;
-    padding: 3rem;
-    justify-content: center;
-    align-items: center;
+  .contentClientList {
+    padding: 0;
+    width: 100%;
+  }
+
+  .buttonEnterprise {
+    padding: 0.5rem 32px;
+  }
+
+  .Heading {
+    flex-wrap: wrap;
+    gap: 32px;
+    padding: 32px 0;
+    width: 100%;
   }
 }
