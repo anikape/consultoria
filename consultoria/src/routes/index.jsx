@@ -17,7 +17,6 @@ import { AuthContext } from "../contexts/Auth/AuthContext";
 import Password from "../../pages/Password";
 import Sucess from "../../pages/Sucess/index";
 import SucessCadastro from "../../pages/SucessCadastro";
-import Teste from "../../pages/Teste"
 
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
@@ -46,8 +45,6 @@ const RoutesApp = () => {
         <Route path="/password" element={<Password />} />
         <Route path="/sucess" element={<Sucess />} />
         <Route path="/sucessCadastro" element={<SucessCadastro />} />
-        <Route path="/teste" element={<Teste />} />
-        
         <Route
           path="/Adm"
           element={

@@ -8,44 +8,15 @@ import { FaHome } from "react-icons/fa";
 import style from "./cadastro.module.css";
 
 const FormularioCadastro = () => {
-  const handleAddAdmin = async () => {
-    try {
-      const backendURL = 'http://localhost:3003'; // Substitua com a URL do seu back-end
-      const response = await fetch(`${backendURL}/admin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          cpf: formData.cpf,
-          password: formData.password,
-        }),
-      });
-
-      if (response.ok) {
-        console.log('Novo administrador adicionado com sucesso!');
-        setShowSuccessPopup(true);
-      } else {
-        console.error('Erro ao adicionar novo administrador');
-      }
-    } catch (error) {
-      console.error('Erro na requisição:', error);
-    }
-  };
-
   const [showPasswordInfo, setShowPasswordInfo] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // Estado para controlar o modal de sucesso
 
   const handlePasswordInfoClick = () => {
     setShowPasswordInfo(!showPasswordInfo);
   };
 
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     cpf: "",
     password: "",
@@ -64,28 +35,30 @@ const FormularioCadastro = () => {
     e.preventDefault();
 
     // Validando os campos do formulário
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[0-9]{4})(?=.*[a-zA-Z]{2}).{6}$/;
     const isPasswordValid = passwordRegex.test(formData.password);
 
     if (
-      formData.name &&
+      formData.fullName &&
       formData.email &&
       formData.cpf &&
       isPasswordValid &&
       formData.password === formData.confirmPassword
     ) {
+      // Simulação do envio para o banco de dados (pode ser uma chamada à API, etc.)
+      // Aqui você faria a lógica para enviar os dados ao backend
+
+      // Após o envio bem-sucedido, exibe o popup de sucesso
       setShowSuccessPopup(true);
 
       // Limpa o formulário
       setFormData({
-        name: "",
+        fullName: "",
         email: "",
         cpf: "",
         password: "",
         confirmPassword: "",
       });
-    } else {
-      console.error('Por favor, preencha corretamente todos os campos do formulário.');
     }
   };
 
@@ -104,30 +77,30 @@ const FormularioCadastro = () => {
 
         <Link className={style.buttonHome} to="/adm">
           <button>
-            <img src={adm} className={style.admIcon} alt="Admin Icon" />
+            <img src={adm} className={style.admIcon} />
           </button>
         </Link>
       </div>
 
       <div className={style.formContainer}>
         <figure className={style.logo}>
-          <img src={logo} alt="Logo" />
+          <img src={logo} />
         </figure>
 
         <form className={style.form} onSubmit={handleSubmit}>
           <div className={style.inputGroup}>
-            <label className={style.label} htmlFor="name">
+            <label className={style.label} htmlFor="fullName">
               Nome completo:
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="fullName"
+              value={formData.fullName}
               onChange={handleInputChange}
               placeholder="Nome completo"
               required
               className={style.input}
-              id="name"
+              id="fullName"
             />
           </div>
           <div className={style.inputGroup}>
@@ -173,19 +146,20 @@ const FormularioCadastro = () => {
                 onChange={handleInputChange}
                 placeholder="Senha"
                 required
-                minLength={8}
+                minLength={6}
                 className={style.input}
                 id="password"
               />
               <span
                 className={style.infoIcon}
                 onClick={handlePasswordInfoClick}>
-                <img src={info} alt="Info Icon" />
+                <img src={info} alt="Ícone de Informação" />
               </span>
             </div>
             {showPasswordInfo && (
               <span className={style.infoMessage}>
-                A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caracter especial.
+                A senha deverá conter exatamente 6 caracteres, dos quais 4
+                deverão ser numéricos e 2 alfanuméricos.
               </span>
             )}
           </div>
@@ -201,25 +175,20 @@ const FormularioCadastro = () => {
               onChange={handleInputChange}
               placeholder="Confirmar Senha"
               required
-              minLength={8}
+              minLength={6}
               className={style.input}
               id="confirmPassword"
             />
           </div>
-
-          <button
-            className={style.button2}
-            type="button"
-            onClick={handleAddAdmin}>
+          <button className={style.button1} type="submit">
             Cadastrar
           </button>
-
           <button
             className={style.button2}
             type="button"
             onClick={() =>
               setFormData({
-                name: "",
+                fullName: "",
                 email: "",
                 cpf: "",
                 password: "",
