@@ -5,7 +5,7 @@ import { FaUser, FaInfoCircle } from "react-icons/fa";
 import style from "./Signin.module.css";
 // import { AuthContext } from "../../src/contexts/auth";
 import { AuthContext } from "../../src/contexts/Auth/AuthContext";
-import Footer from "../../component/Footer";
+import Footer from "../../component/Footer/Footer";
 
 const Signin = () => {
   const navigate = useNavigate();
