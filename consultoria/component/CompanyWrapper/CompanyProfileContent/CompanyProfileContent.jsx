@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { mask } from "../../src/helpers/maskValues";
+import { mask } from "../../../src/helpers/maskValues";
+
 import style from "./CompanyProfileContent.module.css";
 
 export const CompanyProfileContent = ({ company }) => {
@@ -36,12 +37,12 @@ export const CompanyProfileContent = ({ company }) => {
           </div>
           <div className={style.companyButtonsWrapper}>
             <Link
-              to={`/entrepriseProfile/${"enterprise.cpfCnpj"}`}
+              to={`/entrepriseProfile/${company._id}`}
               className={style.buttonProfile}>
               PERFIL
             </Link>
             <Link
-              to={`/entrepriseProfile/${"enterprise.cpfCnpj"}`}
+              to={`/entrepriseProfile/${company._id}`}
               className={style.buttonProfile}>
               EDITAR
             </Link>

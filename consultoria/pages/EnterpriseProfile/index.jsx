@@ -3,9 +3,19 @@ import { useParams, Link } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import Footer from "../../component/Footer";
 import style from "./enterprise.module.css";
+import { useData } from "../../src/hooks/useData";
 
-const EntrepriseProfile = ({ clients }) => {
-  const { cpfCnpj } = useParams();
+const EntrepriseProfile = () => {
+  const { id } = useParams();
+  console.log(id);
+
+  const [company, loading, erro] = useData({
+    method: "GET",
+    url: `company/${id}`,
+    withCrendentials: true,
+  });
+
+  console.log(company);
 
   // Estado para controlar a exibição do acordeão
   const [expandedDocument, setExpandedDocument] = useState(null);
@@ -33,17 +43,17 @@ const EntrepriseProfile = ({ clients }) => {
   };
 
   // Verifica se a prop "clients" está definida
-  if (!clients) {
-    return <h1></h1>;
+  if (!company) {
+    return <h1>Não tem</h1>;
   }
 
   // Encontra a empresa correspondente ao cpfCnpj
-  const enterprise = clients
-    .flatMap((client) => client.entreprise)
-    .find((enterprise) => enterprise.cpfCnpj.toString() === cpfCnpj);
+  // const enterprise = clients
+  //   .flatMap((client) => client.entreprise)
+  //   .find((enterprise) => enterprise.cpfCnpj.toString() === cpfCnpj);
 
   // Verifica se a empresa foi encontrada
-  if (!enterprise) {
+  if (!company) {
     return <h1>Enterprise not found</h1>;
   }
 
@@ -59,54 +69,67 @@ const EntrepriseProfile = ({ clients }) => {
             <button>HOME</button>
           </Link>
         </div>
-        <h1 className={style.title1}>{enterprise.razaoSocial}</h1>
+        <h1 className={style.title1}>{company.companyName}</h1>
         {/* Exibir outras informações da empresa */}
 
         <section className={style.profile}>
           <div>
-            <h2>CPF/CNPJ</h2> <span>{enterprise.cpfCnpj}</span>
+            <h2>CPF/CNPJ</h2>
+            <span>{company.cnpj}</span>
           </div>
 
           <div>
-            <h2>E-mail</h2> <span>{enterprise.email}</span>
+            <h2>E-mail</h2>
+            <span>{company.email}</span>
           </div>
 
           <div>
-            <h2>Telefone Celular</h2> <span>{enterprise.telefone}</span>
+            <h2>Telefone Celular</h2>
+            <span>{company.cellprone}</span>
           </div>
 
           <div>
-            <h2>Telefone Fixo</h2> <span></span>
+            <h2>Telefone Fixo</h2>
+            <span>{company.prone}</span>
           </div>
 
           <div>
-            <h2>Rua/Logradouro</h2> <span>{enterprise.logradouro}</span>
+            <h2>Rua/Logradouro</h2>
+            <span>{company.address}</span>
           </div>
 
           <div>
-            <h2>Bairro</h2> <span>{enterprise.bairro}</span>
+            <h2>Bairro</h2>
+            <span>{company.bairro}</span>
           </div>
 
           <div>
-            <h2>Complemento</h2> <span>{enterprise.complemento}</span>
+            <h2>Complemento</h2>
+            <span>{company.complemento}</span>
           </div>
 
           <div>
-            <h2>Cidade</h2> <span>{enterprise.cidade}</span>
+            <h2>Cidade</h2>
+            <span>{company.city}</span>
           </div>
 
           <div>
-            <h2>UF</h2> <span>{enterprise.uf}</span>
+            <h2>UF</h2>
+            <span>{company.state}</span>
           </div>
 
           <div>
-            <h2>CEP</h2> <span>{enterprise.cep}</span>
+            <h2>CEP</h2>
+            <span>{company.zipcode}</span>
           </div>
         </section>
 
         <section className={style.documents}>
           <h2>Documentos:</h2>
-          {enterprise.documents.map((document, index) => (
+
+          {erro ? "Não foi possivel carregar os dados" : "dados"}
+
+          {/* {company.documents.map((document, index) => (
             <div key={index}>
               <button onClick={() => toggleDocumentAccordion(index)}>
                 {document.name} {expandedDocument === index ? "▲" : "▼"}
@@ -117,15 +140,15 @@ const EntrepriseProfile = ({ clients }) => {
                   <p>Expiração: {document.expirationDate}</p>
                   <Link to={document.path} target="_blank" download>
                     <AiOutlineFilePdf />
-                  </Link>
-                  {/* Opção de exclusão do banco de dados */}
-                  <button onClick={() => handleDeleteDocument(document.id)}>
+                  </Link> */}
+          {/* Opção de exclusão do banco de dados */}
+          {/* <button onClick={() => handleDeleteDocument(document.id)}>
                     Excluir Documento
                   </button>
-                </div>
-              )}
-            </div>
-          ))}
+                </div> */}
+          {/* )} */}
+          {/* </div>
+          ))} */}
         </section>
       </div>
 
