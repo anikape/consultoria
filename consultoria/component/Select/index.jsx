@@ -19,8 +19,8 @@ export const Select = forwardRef(
           </label>
           <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
             <option value="">Select...</option>
-            {clients?.map(({ _id, name }) => (
-              <option key={_id} value={_id}>
+            {clients?.map(({ id, name }) => (
+              <option key={id} value={id}>
                 {loading ? "carregando..." : name}
               </option>
             ))}

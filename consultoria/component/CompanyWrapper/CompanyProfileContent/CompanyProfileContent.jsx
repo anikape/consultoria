@@ -37,12 +37,12 @@ export const CompanyProfileContent = ({ company }) => {
           </div>
           <div className={style.companyButtonsWrapper}>
             <Link
-              to={`/entrepriseProfile/${company._id}`}
+              to={`/entrepriseProfile/${company.id}`}
               className={style.buttonProfile}>
               PERFIL
             </Link>
             <Link
-              to={`/entrepriseProfile/${company._id}`}
+              to={`/entrepriseProfile/${company.id}`}
               className={style.buttonProfile}>
               EDITAR
             </Link>

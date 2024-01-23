@@ -17,9 +17,9 @@ export const CompanyProfile = ({ client }) => {
   return (
     <>
       {companys
-        .filter((company) => client._id === company.clientId)
+        .filter((company) => client.id === company.clientId)
         .map((company) => (
-          <div className={style.buttonEnterprise} key={company._id}>
+          <div className={style.buttonEnterprise} key={company.id}>
             {loading ? (
               <Loading />
             ) : (
