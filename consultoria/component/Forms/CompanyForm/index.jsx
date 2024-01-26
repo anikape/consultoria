@@ -7,7 +7,7 @@ import { useData } from "../../../src/hooks/useData";
 import { useFetch } from "../../../src/hooks/useFetch";
 import { Loading } from "../../Loading";
 
-export const CompanyForm = () => {
+export const CompanyForm = ({ clients }) => {
   const {
     setValue,
     register,
@@ -19,13 +19,7 @@ export const CompanyForm = () => {
       zipcode: "",
     },
   });
-  const { postData, getSimple } = useFetch();
-
-  const [clients, loading, error] = useData({
-    methods: "GET",
-    url: "clients",
-    withCredentials: true,
-  });
+  const { postData } = useFetch();
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -57,6 +51,14 @@ export const CompanyForm = () => {
     }
     handleFetchCEP(zipCode);
   }, [handleFetchCEP, setValue, zipCode]);
+
+  // if (loading) {
+  //   return <Loading />;
+  // }
+
+  if (clients === null) {
+    return null;
+  }
 
   return (
     <>

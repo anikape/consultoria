@@ -5,6 +5,8 @@ export const Modal = ({ children, isOpen, setIsOpen, id = "modal" }) => {
     return null;
   }
 
+  console.log("render modal");
+
   const handleBackdropClick = (e) => {
     e.preventDefault();
     if (e.target.id !== id) {

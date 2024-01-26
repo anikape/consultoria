@@ -1,16 +1,9 @@
 import { forwardRef } from "react";
-import { useData } from "../../src/hooks/useData";
 
 import style from "./Select.module.css";
 
 export const Select = forwardRef(
-  ({ label = "", name = "", data, onChange, onBlur, ...props }, ref) => {
-    const [clients, loading, error] = useData({
-      method: "GET",
-      url: "client",
-      withCrendentials: true,
-    });
-
+  ({ label = "", name = "", data, onChange, onBlur }, ref) => {
     return (
       <>
         <div className={style.inputGroup}>
@@ -18,21 +11,14 @@ export const Select = forwardRef(
             {label}:
           </label>
           <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
-            <option value="">Select...</option>
-            {clients?.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {loading ? "carregando..." : name}
+            <option value="">Selecione uma opção...</option>
+            {data?.map(({ id, name }) => (
+              <option key={id} value={id} disabled={data ? "" : "disabled"}>
+                {data ? name : "carregando..."}
               </option>
             ))}
           </select>
         </div>
-        {/* <select name={name} ref={ref}>
-          {props.data?.map((item) => (
-            <option value="20">{item}</option>
-          ))}
-          <option value="20">20</option>
-          <option value="30">30</option>
-        </select> */}
       </>
     );
   }

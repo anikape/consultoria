@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import Footer from "../../component/Footer";
@@ -9,14 +9,12 @@ const EntrepriseProfile = () => {
   const { id } = useParams();
   console.log(id);
 
-  const [company, loading, erro] = useData({
-    method: "GET",
-    url: `company/${id}`,
-    withCrendentials: true,
-  });
+  const { ["data"]: company, loading, error, request } = useData();
 
+  useEffect(() => {
+    request("GET", `company/${id}`, { withCrendentials: true });
+  }, []);
   console.log(company);
-
   // Estado para controlar a exibição do acordeão
   const [expandedDocument, setExpandedDocument] = useState(null);
 
@@ -127,7 +125,7 @@ const EntrepriseProfile = () => {
         <section className={style.documents}>
           <h2>Documentos:</h2>
 
-          {erro ? "Não foi possivel carregar os dados" : "dados"}
+          {error ? "Não foi possivel carregar os dados" : "dados"}
 
           {/* {company.documents.map((document, index) => (
             <div key={index}>

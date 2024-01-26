@@ -1,16 +1,6 @@
 import { api } from "../../services/api";
 
 export const useFetch = () => ({
-  getSimple: async (endpoint) => {
-    try {
-      const response = await api.get(endpoint);
-
-      return response;
-    } catch (error) {
-      return error;
-    }
-  },
-
   getData: async (endpoint) => {
     try {
       const response = await api.get(endpoint, {
