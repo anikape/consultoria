@@ -25,6 +25,7 @@ export const CompanyForm = ({ clients }) => {
     console.log(data);
     postData("company", data);
   };
+  console.log("submitting: ", isSubmitting);
 
   const zipCode = watch("zipcode");
 
@@ -51,10 +52,6 @@ export const CompanyForm = ({ clients }) => {
     }
     handleFetchCEP(zipCode);
   }, [handleFetchCEP, setValue, zipCode]);
-
-  // if (loading) {
-  //   return <Loading />;
-  // }
 
   if (clients === null) {
     return null;
