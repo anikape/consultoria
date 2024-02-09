@@ -1,12 +1,21 @@
 import React, { useState } from "react";
+import { useData } from "../../src/hooks/useData";
+import {Loading} from "../../component/Loading/index"
 import { useParams, Link } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import Footer from "../../component/Footer";
 import style from "./enterprise.module.css";
 
-const EntrepriseProfile = ({ clients }) => {
-  const { cpfCnpj } = useParams();
 
+const EntrepriseProfile = () => {
+  const { _id } = useParams();
+ 
+
+  const [company, loading, error] = useData({
+    method: 'GET',
+    url: 'company/${_id}',
+    withCredentials: true,
+  });
   // Estado para controlar a exibição do acordeão
   const [expandedDocument, setExpandedDocument] = useState(null);
 

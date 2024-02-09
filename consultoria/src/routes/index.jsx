@@ -658,20 +658,21 @@ const RoutesApp = () => {
           path="/profile/:id"
           element={
             <Private
-              Item={() => <Profile clients={clients} />}
+              // Item={() => <Profile clients={clients} />}
               signed={signed}
             />
           }
         />
         <Route
-          path="/entrepriseProfile/:cpfCnpj"
+          path="/entrepriseProfile/:_id"
           element={
             <Private
-              Item={() => <EntrepriseProfile clients={clients} />}
+              // Item={() => <EntrepriseProfile clients={clients} />}
               signed={signed}
             />
           }
         />
+
         <Route
           path="/DocumentsPage"
           element={
