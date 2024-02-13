@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { useData } from "../../src/hooks/useData";
 import { Loading } from "../../component/Loading/index";
 import { FaInfoCircle, FaHome } from "react-icons/fa";
-import style from "./Documents.module.css";
-import pdf from "../../src/assets/pdf.png";
-import edity from "../../src/assets/edity.png";
-import excluir from "../../src/assets/delittt.png";
-import home from "../../src/assets/home.png";
+import style from './Documents.module.css';
+import pdf from '../../src/assets/pdf.png'
+import edity from '../../src/assets/edity.png'
+import excluir from '../../src/assets/delittt.png'
+import home from '../../src/assets/home.png'
 import {
   AiTwotoneDelete,
   AiTwotoneEdit,
@@ -37,10 +37,8 @@ const DocumentsPage = () => {
   return (
     <div className={style.documentContainer}>
       <Link className={style.homeButton} to="/home">
-        <button>
-          {" "}
-          <img src={home} className={style.home} alt="" />
-        </button>
+        
+      <button  > <img src={home} className={style.home} alt="" /></button>
       </Link>
 
       <section className={style.tableContent}>
