@@ -36,12 +36,13 @@ export const CompanyProfileContent = ({ company }) => {
           </div>
           <div className={style.companyButtonsWrapper}>
             <Link
-              to={`/entrepriseProfile/${"enterprise.cpfCnpj"}`}
+              to={`/entrepriseProfile/${"company._id"}`}
               className={style.buttonProfile}>
               PERFIL
             </Link>
+
             <Link
-              to={`/entrepriseProfile/${"enterprise.cpfCnpj"}`}
+              to={`/entrepriseProfile/${"company._id"}`}
               className={style.buttonProfile}>
               EDITAR
             </Link>
