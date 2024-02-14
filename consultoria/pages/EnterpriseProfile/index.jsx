@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useParams, Link } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
 import Footer from "../../component/Footer";
 import style from "./enterprise.module.css";
 import { useData } from "../../src/hooks/useData";
+import { DocumentContainer } from "../../component/DocumentContainer";
 
 const EntrepriseProfile = () => {
   const { id } = useParams();
@@ -73,7 +74,7 @@ const EntrepriseProfile = () => {
           </>
         )}
 
-        {company && !error && (
+        {company && !error && !loading && (
           <>
             <h1 className={style.title1}>{company.companyName}</h1>
 
@@ -135,26 +136,7 @@ const EntrepriseProfile = () => {
           </>
         )}
 
-        {/* {company.documents.map((document, index) => (
-            <div key={index}>
-              <button onClick={() => toggleDocumentAccordion(index)}>
-                {document.name} {expandedDocument === index ? "▲" : "▼"}
-              </button>
-              {expandedDocument === index && (
-                <div>
-                  <p>Emissão: {document.issuanceDate}</p>
-                  <p>Expiração: {document.expirationDate}</p>
-                  <Link to={document.path} target="_blank" download>
-                    <AiOutlineFilePdf />
-                  </Link> */}
-        {/* Opção de exclusão do banco de dados */}
-        {/* <button onClick={() => handleDeleteDocument(document.id)}>
-                    Excluir Documento
-                  </button>
-                </div> */}
-        {/* )} */}
-        {/* </div>
-          ))} */}
+       <DocumentContainer data={id}/>
       </div>
 
       <Footer />
