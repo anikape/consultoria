@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import {useContext} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./home.module.css";
 import docs from "../../src/assets/docs.svg";
@@ -7,7 +7,7 @@ import client from "../../src/assets/client.svg";
 import profile from "../../src/assets/profileIcon.png";
 import out from "../../src/assets/out.svg";
 import { BiLogOut } from "react-icons/bi";
-import {FaUserAlt} from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
 import useAuth from "../../src/hooks/useAuth";
 import { AuthContext } from "../../src/contexts/Auth/AuthContext";
 import DocumentsPage from "../DocumentsPage/DocumentsPage";
@@ -39,17 +39,17 @@ const Home = () => {
 
         <div className={style.links}>
           <Link to="/client" className={style.options}>
-            <img src="../../src/assets/client.svg" alt="" srcset="" />
+            <img src="../../src/assets/client.svg" alt="" />
             Lista de clientes
           </Link>
 
           <Link to="/DocumentsPage" className={style.options}>
-            <img src="../../src/assets/docs.svg" alt="" srcset="" />
+            <img src="../../src/assets/docs.svg" alt="" />
             Documentos
           </Link>
 
           <Link to="/Adm" className={style.options}>
-            <img src="../../src/assets/iconuser.svg" alt="" srcset="" />
+            <img src="../../src/assets/iconuser.svg" alt="" />
             Área Adm
           </Link>
         </div>

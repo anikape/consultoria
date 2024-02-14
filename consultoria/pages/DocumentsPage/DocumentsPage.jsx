@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import { useData } from "../../src/hooks/useData";
 import { Loading } from "../../component/Loading/index";
 import { FaInfoCircle, FaHome } from "react-icons/fa";
-import style from './Documents.module.css';
-import pdf from '../../src/assets/pdf.png'
-import edity from '../../src/assets/edity.png'
-import excluir from '../../src/assets/delittt.png'
-import home from '../../src/assets/home.png'
+import style from "./Documents.module.css";
+import pdf from "../../src/assets/pdf.png";
+import edity from "../../src/assets/edity.png";
+import excluir from "../../src/assets/delittt.png";
+import home from "../../src/assets/home.png";
 import {
   AiTwotoneDelete,
   AiTwotoneEdit,
   AiFillFilePdf,
   AiFillSetting,
 } from "react-icons/ai";
-import Footer from "../../component/Footer/Footer.jsx";
+import Footer from "../../component/Footer";
+
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
@@ -22,30 +23,33 @@ const formatDate = (dateString) => {
 };
 
 const DocumentsPage = () => {
-  const [clientBack, loadingClient, error2] = useData({
-    method: "GET",
-    url: "client",
-    withCredentials: true,
-  });
-
-  const [documents, loading, error] = useData({
-    method: "GET",
-    url: "document",
-    withCredentials: true,
-  });
-
+   
+  const {["data"]: documents, loading, error, request} = useData();
+  
+   useEffect(() => {
+    request("get", "document", { withCredentials: true });
+  }, [request]);
+  
+    
   return (
+    
     <div className={style.documentContainer}>
+      
+      {error && <h1>Não foi possivel carregar os dados</h1>}
+      {loading && <Loading/>}
+      {!loading && !error && <>
+      
       <Link className={style.homeButton} to="/home">
-        
-      <button  > <img src={home} className={style.home} alt="" /></button>
+        <button>
+          <img src={home} className={style.home} alt="" />
+        </button>
       </Link>
-
+      
       <section className={style.tableContent}>
         <table>
           <thead>
             <tr>
-              <th className={style.infos}> </th>
+              <th className={style.infos}>#</th>
               <th className={style.infos}>Documento</th>
               <th className={style.infos}>Tipo</th>
               <th className={style.infos}>Empresa</th>
@@ -57,17 +61,19 @@ const DocumentsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {documents.map((itens) => (
-              <tr key={itens._id}>
-                <td></td>
-                <td>{itens.name}</td>
-                <td>{itens.type}</td>
-                <td>{itens.client}</td>
-                <td>{formatDate(itens.emission)}</td>
-                <td>{formatDate(itens.validity)}</td>
+            {loading ? <Loading/> : <>
+            
+            {documents.map((document) => (
+              <tr key={document._id}>
+                <td>#</td>
+                <td>{document.name}</td>
+                <td>{document.type}</td>
+                <td>{document.client}</td>
+                <td>{formatDate(document.emission)}</td>
+                <td>{formatDate(document.validity)}</td>
                 <td>
                   <a
-                    href={itens.url}
+                    href={document.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -94,9 +100,13 @@ const DocumentsPage = () => {
                 </td>
               </tr>
             ))}
+            
+            </>}
           </tbody>
         </table>
       </section>
+      </>}
+
       <Footer />
     </div>
   );

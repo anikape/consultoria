@@ -1,6 +1,6 @@
-import style from "./ClientBox.module.css";
+import style from "./ClientButton.module.css";
 
-export const ClientBox = ({ client }) => {
+export const ClientButton = ({ client }) => {
   return (
     <>
       <button className={style.buttonName}>{client.name}</button>

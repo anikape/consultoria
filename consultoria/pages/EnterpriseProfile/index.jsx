@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, {useEffect, useState} from "react";
+import { useParams, Link } from "react-router-dom";
 import { AiOutlineFilePdf } from "react-icons/ai";
-import Footer from '../../component/Footer/Footer'
-import style from './enterprise.module.css'
+import Footer from "../../component/Footer";
+import style from "./enterprise.module.css";
+import { useData } from "../../src/hooks/useData";
+import { DocumentContainer } from "../../component/DocumentContainer";
 
-const EntrepriseProfile = ({ clients }) => {
-  const { cpfCnpj } = useParams();
+const EntrepriseProfile = () => {
+  const { id } = useParams();
 
+  const { ["data"]: company, loading, error, request } = useData();
 
+  useEffect(() => {
+    request("GET", `company/${id}`, { withCrendentials: true });
+  }, []);
+  console.log(company);
   // Estado para controlar a exibição do acordeão
   const [expandedDocument, setExpandedDocument] = useState(null);
 
@@ -25,129 +32,115 @@ const EntrepriseProfile = ({ clients }) => {
     try {
       // Fazer uma solicitação para o backend para excluir o documento pelo ID
       // Por exemplo: axios.delete(`/api/documents/${documentId}`);
-      
+
       // Atualizar o estado local para refletir a exclusão
       setExpandedDocument(null);
     } catch (error) {
-      console.error('Erro ao excluir o documento:', error);
+      console.error("Erro ao excluir o documento:", error);
     }
   };
 
   // Verifica se a prop "clients" está definida
-  if (!clients) {
-    return <h1></h1>;
-  }
 
   // Encontra a empresa correspondente ao cpfCnpj
-  const enterprise = clients
-    .flatMap(client => client.entreprise)
-    .find(enterprise => enterprise.cpfCnpj.toString() === cpfCnpj);
+  // const enterprise = clients
+  //   .flatMap((client) => client.entreprise)
+  //   .find((enterprise) => enterprise.cpfCnpj.toString() === cpfCnpj);
 
   // Verifica se a empresa foi encontrada
-  if (!enterprise) {
-    return <h1>Enterprise not found</h1>;
-  }
+  // if (!company) {
+  //   return <h1>Enterprise not found</h1>;
+  // }
 
   return (
-    
-    <div className={style.container}>
-
+    <main className={style.container}>
       <div className={style.contentContainer}>
+        <div className={style.button}>
+          <Link to="/client" className={style.buttons}>
+            <button> Cliente</button>
+          </Link>
 
-    <div className={style.button}>
-      <Link to="/client" className={style.buttons}>
-        <button> Cliente</button>
-      </Link>
-
-      <Link to="/home" className={style.buttons}>
-        <button>HOME</button>
-      </Link>
-      </div>  
-      <h1 className={style.title1}>{enterprise.razaoSocial}</h1>
-      {/* Exibir outras informações da empresa */}
-
-      <section className={style.profile}>
-
-      <div>
-      <h2>CPF/CNPJ</h2> <span>{enterprise.cpfCnpj}</span>
-      </div>
-     
-
-      <div>
-      <h2>E-mail</h2> <span>{enterprise.email}</span>
-      </div>
-      
-      <div>
-      <h2>Telefone Celular</h2> <span>{enterprise.telefone}</span>
-      </div>
-     
-
-      <div>
-      <h2>Telefone Fixo</h2> <span></span>
-      </div>
-      
-
-      <div>
-      <h2>Rua/Logradouro</h2> <span>{enterprise.logradouro}</span>
-      </div>
-      
-
-      <div>
-      <h2>Bairro</h2> <span>{enterprise.bairro}</span>
-      </div>
-      
-
-      <div>
-      <h2>Complemento</h2> <span>{enterprise.complemento}</span>
-      </div>
-    
-
-      <div>
-      <h2>Cidade</h2> <span>{enterprise.cidade}</span>
-      </div>
-      
-
-      <div>
-      <h2>UF</h2> <span>{enterprise.uf}</span>
-      </div>
-      
-
-      <div>
-      <h2>CEP</h2> <span>{enterprise.cep}</span>
-      </div>
-      
-      </section>
-
-<section className={style.documents}>
-      <h2>Documentos:</h2>
-      {enterprise.documents.map((document, index) => (
-        <div key={index}>
-          <button onClick={() => toggleDocumentAccordion(index)}>
-            {document.name} {expandedDocument === index ? '▲' : '▼'}
-          </button>
-          {expandedDocument === index && (
-            <div>
-              <p>Emissão: {document.issuanceDate}</p>
-              <p>Expiração: {document.expirationDate}</p>
-              <Link to={document.path} target="_blank" download >
-                <AiOutlineFilePdf />
-               
-              </Link>
-              {/* Opção de exclusão do banco de dados */}
-              <button onClick={() => handleDeleteDocument(document.id)}>
-                Excluir Documento
-              </button>
-            </div>
-          )}
-      
+          <Link to="/home" className={style.buttons}>
+            <button>HOME</button>
+          </Link>
         </div>
-      ))}
-          </section>
+
+        {!company && error && (
+          <>
+            <div className={style.errorContainer}>
+              <h1>Empresa não encontrada</h1>
+              {error && "Não foi possivel carregar os dados"}
+            </div>
+          </>
+        )}
+
+        {company && !error && !loading && (
+          <>
+            <h1 className={style.title1}>{company.companyName}</h1>
+
+            <section className={style.profile}>
+              <div className={style.profileItem}>
+                <h2>CPF/CNPJ</h2>
+                <span>{company.cnpj}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>E-mail</h2>
+                <span>{company.email}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>Telefone Celular</h2>
+                <span>{company.cellphone}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>Telefone Fixo</h2>
+                <span>{company.phone}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>Rua/Logradouro</h2>
+                <span>{company.address}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>Bairro</h2>
+                <span>{company.bairro}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>Complemento</h2>
+                <span>{company.complemento}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>Cidade</h2>
+                <span>{company.city}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>UF</h2>
+                <span>{company.state}</span>
+              </div>
+
+              <div className={style.profileItem}>
+                <h2>CEP</h2>
+                <span>{company.zipcode}</span>
+              </div>
+            </section>
+
+            <section className={style.documents}>
+              <h2 className={style.title1}>Documentos:</h2>
+            </section>
+          </>
+        )}
+
+       <DocumentContainer data={id}/>
       </div>
 
-    <Footer />
-    </div>
-    
+      <Footer />
+    </main>
   );
 };
 

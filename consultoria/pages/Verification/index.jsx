@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import style from './verification.module.css';
-import Footer from '../../component/Footer/Footer';
+import React from "react";
+import { Link } from "react-router-dom";
+import style from "./verification.module.css";
+import Footer from "../../component/Footer";
 
 const Verification = () => {
   return (
@@ -12,10 +12,12 @@ const Verification = () => {
           <p>Verifique seu e-mail</p>
           <img
             className={style.check}
-            src='../../src/assets/check.png'
-            alt='Imagem de check'
+            src="../../src/assets/check.png"
+            alt="Imagem de check"
           />
-          <Link className={style.back} to='/'>Voltar</Link>
+          <Link className={style.back} to="/">
+            Voltar
+          </Link>
         </div>
       </div>
       <Footer />

@@ -1,37 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { api } from "../../services/api";
 
-export const useData = (configRequest) => {
-  const { method, url, configs = {} } = configRequest;
+export const useData = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    // setLoading(true);
-
+  const request = useCallback(async (method, url, configs = {}) => {
+    let json;
+    let response;
     try {
-      const response = await api[method.toLowerCase()](url, {
+      setError(null);
+      setLoading(true);
+      response = await api[method.toLowerCase()](url, {
         ...configs,
       });
-      console.log(response);
+
       if (response.status !== 200) {
         throw new Error("Não foi possível obter os dados");
       }
+      json = response.data;
 
-      setData(response.data);
-      console.log(data);
+      setData(json);
     } catch ({ message }) {
-      console.log(error);
       setError(message);
+      setData([]);
     } finally {
+      setData(json);
       setLoading(false);
+      return { response, json };
     }
-  };
+  }, []);
 
-  return [data, loading, error];
+  useEffect(() => {
+    request();
+  }, []);
+
+  return { data, loading, error, request };
 };
