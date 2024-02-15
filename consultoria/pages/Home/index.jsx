@@ -15,7 +15,7 @@ import DocumentsPage from "../DocumentsPage/DocumentsPage";
 const Home = () => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
-
+  console.log(auth);
   const navigateToDocumentsPage = () => {
     // Use a função navigate para navegar para DocumentsPage e passe a lista de clientes como estado
     navigate("/DocumentsPage", { state: { clients } });

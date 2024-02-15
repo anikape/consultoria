@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import {useContext} from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PropTypes from "prop-types";
 import Home from "../../pages/Home";
@@ -75,7 +75,7 @@ const RoutesApp = () => {
           path="/profile/:id"
           element={
             <Private
-              Item={() => <Profile clients={clients} />}
+              // Item={() => <Profile clients={clients} />}
               signed={signed}
             />
           }
@@ -90,6 +90,7 @@ const RoutesApp = () => {
             />
           }
         />
+
         <Route
           path="/DocumentsPage"
           element={
