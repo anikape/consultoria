@@ -2,9 +2,9 @@
   display: flex;
   gap: 2rem;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
   min-height: inherit;
   overflow-y: hidden;
   padding: 32px;
@@ -39,9 +39,13 @@
   margin-left: 1em;
 }
 
-.title1 {
+.title1,
+.subtitle {
   font-size: 38px;
   font-weight: 600;
+}
+
+.title1 {
   padding-bottom: 2.5rem;
 }
 

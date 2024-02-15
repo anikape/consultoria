@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { AiOutlineFilePdf } from "react-icons/ai";
 import Footer from "../../component/Footer";
 import style from "./enterprise.module.css";
 import { useData } from "../../src/hooks/useData";
-import { DocumentContainer } from "../../component/DocumentContainer";
+import { DocumentWrapper } from "../../component/DocumentWrapper";
 
 const EntrepriseProfile = () => {
   const { id } = useParams();
@@ -131,12 +130,12 @@ const EntrepriseProfile = () => {
             </section>
 
             <section className={style.documents}>
-              <h2 className={style.title1}>Documentos:</h2>
+              <h2 className={style.subtitle}>Documentos:</h2>
             </section>
           </>
         )}
 
-       <DocumentContainer data={id}/>
+        <DocumentWrapper data={id} />
       </div>
 
       <Footer />

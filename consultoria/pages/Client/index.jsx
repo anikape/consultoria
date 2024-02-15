@@ -26,8 +26,6 @@ const Client = () => {
     request("get", "client", { withCredentials: true });
   }, [request]);
 
-  console.log("render client");
-
   if (loading) {
     return <Loading />;
   }

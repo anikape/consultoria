@@ -1,6 +1,7 @@
-import {useState} from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { mask } from "../../../src/helpers/maskValues";
+import { Popper } from "../../Popper";
 
 import style from "./CompanyProfileContent.module.css";
 
@@ -9,11 +10,10 @@ export const CompanyProfileContent = ({ company }) => {
 
   return (
     <>
-      <div className={style.companyNameWrapper} onClick={() => setShow(!show)}>
+      <Popper.Button show={show} setShow={setShow}>
         <p>{mask.CNPJ(company.cnpj)}</p>
-        <p>{show ? "▲" : "▼"}</p>
-      </div>
-      {show && (
+      </Popper.Button>
+      <Popper.Content show={show}>
         <div className={style.infoEnterpriseContainer}>
           <div className={style.infoEnterpriseWrapper}>
             <div className={style.infoEnterprise}>
@@ -49,7 +49,7 @@ export const CompanyProfileContent = ({ company }) => {
             </Link>
           </div>
         </div>
-      )}
+      </Popper.Content>
     </>
   );
 };
