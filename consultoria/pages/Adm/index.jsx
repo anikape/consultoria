@@ -75,7 +75,7 @@ const Index = () => {
               <label htmlFor="cpf">CPF:</label>
               <input type="text" id="cpf" value={formData.cpf} onChange={handleChange} disabled={!isEditing} />
             </div>
-            {isEditing && <button type="submit">Salvar</button>}
+            {isEditing && <button className={style.links} type="submit">Salvar</button>}
           </form>
         </div>
       </section>
