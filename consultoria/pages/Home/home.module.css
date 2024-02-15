@@ -121,12 +121,13 @@
   right: 20px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .logout svg {
   width: 26.504px;
   height: 26.557px;
-  filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.25));
+  /* filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.25)); */
 }
 
 @media (max-width: 710px) {

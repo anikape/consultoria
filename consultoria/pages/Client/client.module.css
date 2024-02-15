@@ -1,9 +1,9 @@
-.container {
+.mainHome {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* width: 100%; */
+  width: 100%;
   height: inherit;
   min-height: 100%;
   background: url("../../src/assets/bgHome.png");
@@ -13,19 +13,30 @@
   object-fit: cover;
 }
 
-.content {
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: url("../../src/assets/client2.png");
   object-fit: contain;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 960px;
+  width: 1060px;
+  max-width: 100%;
   min-height: 830px;
-  padding: 0 120px;
   margin: 32px;
   border-radius: 24px;
   opacity: 0.7;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   margin-top: 2rem;
+}
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 24px;
+  padding: 2rem 0;
 }
 
 .buttonHome {
@@ -36,13 +47,6 @@
   top: 40px;
   color: #392820;
 }
-/* 
-button {
-  border: none;
-  background-color: transparent;
-  transition: 0.3s;
-  box-shadow: 6px 6px 3px rgba(255, 255, 255, 0.23);
-} */
 
 .butoon:active {
   transform: translateY(5px);
@@ -50,34 +54,6 @@ button {
 
 .home {
   font-size: 34px;
-}
-
-.find {
-  display: flex;
-  align-items: center;
-}
-
-.search {
-  color: rgba(30, 30, 30, 0.9);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  /* margin-left: 25%; */
-}
-
-.searchInput {
-  width: 452px;
-  height: 39px;
-  border-radius: 26px;
-  border: 1px solid rgba(30, 30, 30, 0.43);
-  background: rgba(255, 255, 255, 0.23);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
-    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  padding-left: 1em;
-  margin-left: 1em;
 }
 
 .title {
@@ -95,22 +71,6 @@ button {
   align-items: stretch;
 }
 
-.buttonName {
-  width: 100%;
-  height: 31px;
-  color: #1e1e1e;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 27px;
-  font-weight: 600;
-  line-height: 111%;
-  letter-spacing: 0.34px;
-  text-align: start;
-  /* margin-bottom: 1rem; */
-  background-color: transparent;
-  border: none;
-}
-
 .buttonEnterprise {
   color: #1e1e1e;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -120,29 +80,52 @@ button {
   border: none;
 }
 
-.contentClient {
-  justify-content: flex-start;
-}
-
-.section {
+.header {
   display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 32px;
   width: 100%;
-  justify-content: flex-start;
-  gap: 24px;
-  padding: 2rem 0;
 }
 
-.infoEnterprise {
-  width: 100%;
-  height: 100px;
-  margin-bottom: 2rem;
+.Heading {
+  display: flex;
+  gap: 14px;
+  padding: 32px 0;
+  width: 726px;
 }
 
-.infoName {
-  color: #1e1e1e;
+.headingWrapper {
+  width: 100%;
+}
+
+.search {
+  color: rgba(30, 30, 30, 0.9);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
-  font-size: 17px;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  /* margin-left: 25%; */
+}
+
+.find {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+}
+.searchInput {
+  width: 100%;
+  height: 39px;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  background: rgba(255, 255, 255, 0.23);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  padding-left: 1em;
+  /* margin-left: 1em; */
 }
 
 .buttonProfile {
@@ -165,98 +148,19 @@ button {
   margin: 1rem;
 }
 
-/*Modal de cadastro*/
-.buttonModal {
-  width: 171px;
-  height: 39px;
-  background: #a0b0ac;
-  border-radius: 26px;
-  border: 1px solid rgba(30, 30, 30, 0.43);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  color: rgba(60, 45, 38, 0.9);
-  font-family: Inter;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 150%;
+.modals {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-  gap: 0.4rem;
-}
-
-.buttonModal img {
-  width: 28px;
-  height: 28px;
+  gap: 14px;
+  width: 100%;
 }
 
 .modalContent {
-  display: flex;
-  justify-content: center;
-  /* align-items: center; */
-  width: 549px;
-}
-
-.modalContainer {
-  background-image: url("../../src/assets/bgOpaco.png");
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 549px;
-  height: 760px;
-  border-radius: 24px;
-  justify-content: center;
-  align-items: center;
-  margin: 50px auto;
-}
-
-.h3 {
-  color: rgba(60, 45, 38, 0.9);
-}
-
-.label {
-  width: 164px;
-  height: 32px;
-  color: rgba(60, 45, 38, 0.9);
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.inputGroup {
-  display: flex;
-  flex-direction: column;
-}
-
-.inputGroup input {
-  width: 337px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  height: 25px;
-  border-radius: 9px;
-  background: #849893;
-  box-shadow: 6px 2px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  border: none;
-  outline: none;
-  margin-bottom: 0.5em;
-  padding-left: 0.5em;
-}
-
-.input::placeholder {
-  color: #fff;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 10px;
-  font-style: normal;
-  padding: 2em;
+  width: 100%;
 }
 
 .buttons {
   display: flex;
+  gap: 32px;
   justify-content: space-around;
 }
 
@@ -288,38 +192,13 @@ button {
   margin-top: 1em;
 }
 
-/*Modal Info Cliente*/
-
-.closeButtonContainer {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.close {
-  font-size: 20px;
-}
-
-.modalh2 {
-  color: #1e1e1e;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 22px;
-  border-bottom: 1px solid #1e1e1e;
-  width: 192px;
-}
-
-.modalp {
-  color: #1e1e1e;
-  font-family: Inter;
-  font-size: 18px;
-  padding: 1rem;
-}
-
 @media (max-width: 710px) {
   .container {
     width: 100%;
+    height: fit-content;
     justify-content: center;
+    margin: 0 32px;
+    padding: 1.5rem 32px;
   }
 
   .section {
@@ -330,15 +209,14 @@ button {
     background: none;
   }
 
-  .modalContent {
-    margin: 2rem auto;
+  .buttonEnterprise {
+    padding: 0.5rem 32px;
   }
 
-  .clientList {
-    width: 400px;
-    margin: 3rem;
-    padding: 3rem;
-    justify-content: center;
-    align-items: center;
+  .Heading {
+    flex-wrap: wrap;
+    gap: 32px;
+    padding: 32px 0;
+    width: 100%;
   }
 }
