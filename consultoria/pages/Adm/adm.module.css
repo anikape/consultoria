@@ -33,6 +33,8 @@
 }
 
 .links{
+  background: transparent;
+  border: none;
   display: flex;
   padding: 0.5em;
   color: #436960;

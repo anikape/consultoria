@@ -11,45 +11,40 @@ const EntrepriseProfile = () => {
   const { ["data"]: company, loading, error, request } = useData();
 
   useEffect(() => {
-    request("GET", `company/${id}`, { withCrendentials: true });
+    request("GET", `company/${id}`, { withCredentials: true });
   }, []);
   console.log(company);
-  // Estado para controlar a exibição do acordeão
-  const [expandedDocument, setExpandedDocument] = useState(null);
 
-  // Função para expandir/contrair acordeão
-  const toggleDocumentAccordion = (documentIndex) => {
-    if (expandedDocument === documentIndex) {
-      setExpandedDocument(null);
-    } else {
-      setExpandedDocument(documentIndex);
-    }
+  const [editable, setEditable] = useState(false); // Estado para controlar se os campos estão editáveis
+  const [companyData, setCompanyData] = useState(company); // Estado para armazenar os dados editáveis
+
+  // Função para ativar o modo de edição
+  const handleEdit = () => {
+    setEditable(true);
   };
 
-  // Função para excluir um documento
-  const handleDeleteDocument = async (documentId) => {
+  // Função para salvar as alterações
+  const handleSave = async () => {
     try {
-      // Fazer uma solicitação para o backend para excluir o documento pelo ID
-      // Por exemplo: axios.delete(`/api/documents/${documentId}`);
-
-      // Atualizar o estado local para refletir a exclusão
-      setExpandedDocument(null);
+      // Faça uma solicitação para salvar os dados editados
+      // Por exemplo: await axios.put(`/api/company/${id}`, companyData);
+      setEditable(false); // Desativa o modo de edição após salvar
     } catch (error) {
-      console.error("Erro ao excluir o documento:", error);
+      console.error("Erro ao salvar os dados:", error);
     }
   };
 
-  // Verifica se a prop "clients" está definida
+  // Função para atualizar o estado com os novos valores dos campos editáveis
 
-  // Encontra a empresa correspondente ao cpfCnpj
-  // const enterprise = clients
-  //   .flatMap((client) => client.entreprise)
-  //   .find((enterprise) => enterprise.cpfCnpj.toString() === cpfCnpj);
-
-  // Verifica se a empresa foi encontrada
-  // if (!company) {
-  //   return <h1>Enterprise not found</h1>;
-  // }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    // Cria uma cópia dos dados da empresa
+    const updatedCompanyData = { ...companyData };
+    // Atualiza apenas o campo modificado
+    updatedCompanyData[name] = value;
+    // Atualiza o estado com os novos dados da empresa
+    setCompanyData(updatedCompanyData);
+  };
 
   return (
     <main className={style.container}>
@@ -68,7 +63,7 @@ const EntrepriseProfile = () => {
           <>
             <div className={style.errorContainer}>
               <h1>Empresa não encontrada</h1>
-              {error && "Não foi possivel carregar os dados"}
+              {error && "Não foi possível carregar os dados"}
             </div>
           </>
         )}
@@ -80,54 +75,176 @@ const EntrepriseProfile = () => {
             <section className={style.profile}>
               <div className={style.profileItem}>
                 <h2>CPF/CNPJ</h2>
-                <span>{company.cnpj}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="cnpj"
+                      value={companyData.cnpj}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.cnpj
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>E-mail</h2>
-                <span>{company.email}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="email"
+                      value={companyData.email}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.email
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>Telefone Celular</h2>
-                <span>{company.cellphone}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="cellphone"
+                      value={companyData.cellphone}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.cellphone
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>Telefone Fixo</h2>
-                <span>{company.phone}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="phone"
+                      value={companyData.phone}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.phone
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>Rua/Logradouro</h2>
-                <span>{company.address}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="address"
+                      value={companyData.address}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.address
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>Bairro</h2>
-                <span>{company.bairro}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="bairro"
+                      value={companyData.bairro}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.bairro
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>Complemento</h2>
-                <span>{company.complemento}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="complemento"
+                      value={companyData.complemento}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.complemento
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>Cidade</h2>
-                <span>{company.city}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="city"
+                      value={companyData.city}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.city
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>UF</h2>
-                <span>{company.state}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="state"
+                      value={companyData.state}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.state
+                  )}
+                </span>
               </div>
 
               <div className={style.profileItem}>
                 <h2>CEP</h2>
-                <span>{company.zipcode}</span>
+                <span>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="zipcode"
+                      value={companyData.zipcode}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.zipcode
+                  )}
+                </span>
               </div>
             </section>
+
+            {/* Botões de edição e salvar */}
+            {!editable && (
+              <button className={style.edtSave} onClick={handleEdit}>
+                Editar
+              </button>
+            )}
+            {editable && (
+              <button className={style.edtSave} onClick={handleSave}>
+                Salvar
+              </button>
+            )}
 
             <section className={style.documents}>
               <h2 className={style.subtitle}>Documentos:</h2>

@@ -19,7 +19,7 @@ export const Modal = ({ children, isOpen, setIsOpen, id = "modal" }) => {
     <>
       <div id={id} className={style.backdrop} onClick={handleBackdropClick}>
         <div className={style.modalContainer}>
-          <h3 className={style.h3}>Cadastrar empresa</h3>
+          <h3 className={style.h3}>Cadastro</h3>
           <button
             type="button"
             className={style.modalClose}
