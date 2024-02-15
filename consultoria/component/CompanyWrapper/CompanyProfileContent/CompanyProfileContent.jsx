@@ -42,11 +42,11 @@ export const CompanyProfileContent = ({ company }) => {
               PERFIL
             </Link>
 
-            <Link
+            {/* <Link
               to={`/entrepriseProfile/${company.id}`}
               className={style.buttonProfile}>
               EDITAR
-            </Link>
+            </Link> */}
           </div>
         </div>
       )}

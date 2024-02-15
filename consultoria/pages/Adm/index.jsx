@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import home from '../../src/assets/home.png';
 import userAdd from '../../src/assets/useradd.png';
@@ -6,8 +6,15 @@ import userEdit from '../../src/assets/useredit.png';
 import del from '../../src/assets/delete.png';
 import user2 from '../../src/assets/user2.png';
 import style from './adm.module.css';
+import { AuthContext } from "../../src/contexts/Auth/AuthContext";
+import axios from 'axios';
 
 const Index = () => {
+  const auth = useContext(AuthContext);
+
+
+  const [userData, setUserData] = useState(null);
+
   const admData = {
     id: 1,
     name: "Florencia",
@@ -15,6 +22,22 @@ const Index = () => {
     cpf: "12345678900",
     img: user2
   };
+
+  // useEffect(() => {
+  //   // Função para buscar os dados do usuário do backend
+  //   const fetchUserData = async () => {
+  //     try {
+  //       // Faça uma solicitação ao seu backend para obter os dados do usuário logado
+  //       const response = await axios.get('/api/user'); // Substitua '/api/user' pela rota real da sua API
+  //       setUserData(response.data); // Defina os dados do usuário no estado
+  //     } catch (error) {
+  //       console.error('Erro ao buscar dados do usuário:', error);
+  //     }
+  //   };
+
+  //   // Chame a função para buscar os dados do usuário ao montar o componente
+  //   fetchUserData();
+  // }, []);
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(admData);
