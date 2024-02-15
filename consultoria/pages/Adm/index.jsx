@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import home from '../../src/assets/home.png';
 import userAdd from '../../src/assets/useradd.png';
@@ -17,10 +17,10 @@ const Index = () => {
 
   const admData = {
     id: 1,
-    name: "Florencia",
-    email: "florencia2@gmail.com",
-    cpf: "12345678900",
-    img: user2
+    name: auth.user?.name,
+    email:auth.user?.email,
+    cpf: auth.user?.cpf,
+    img: auth.user?.img
   };
 
   // useEffect(() => {
@@ -40,7 +40,8 @@ const Index = () => {
   // }, []);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(admData);
+  // const [formData, setFormData] = useState(admData);
+  
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -81,22 +82,22 @@ const Index = () => {
             </ul>
           </nav>
         </div>
-
+      
         <div className={style.userData}>
           <h2>Dados do cadastro</h2>
-          <img src={formData.img} alt="Imagem do usuário" />
+          <img src={auth.user?.img} alt="Imagem do usuário" />
           <form className={style.form} onSubmit={handleSubmit}>
             <div>
               <label htmlFor="nome">Nome:</label>
-              <input type="text" id="nome" value={formData.name} onChange={handleChange} disabled={!isEditing} />
+              <input type="text" id="nome" value={auth.user?.name} onChange={handleChange} disabled={!isEditing} />
             </div>
             <div>
               <label htmlFor="email">E-mail:</label>
-              <input type="email" id="email" value={formData.email} onChange={handleChange} disabled={!isEditing} />
+              <input type="email" id="email" value={auth.user?.email} onChange={handleChange} disabled={!isEditing} />
             </div>
             <div>
               <label htmlFor="cpf">CPF:</label>
-              <input type="text" id="cpf" value={formData.cpf} onChange={handleChange} disabled={!isEditing} />
+              <input type="text" id="cpf" value={auth.user?.cpf} onChange={handleChange} disabled={!isEditing} />
             </div>
             {isEditing && <button className={style.links} type="submit">Salvar</button>}
           </form>
