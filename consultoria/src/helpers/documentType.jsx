@@ -12,8 +12,9 @@ export const documentType = (type) => {
     "CR PC": "CR Polícia Civil (controlados)",
     "CRL PF": "CRL e CRF Policia Federal (controlados)",
     LA: "Licenciamento Ambiental",
-    DMR: "Declaração de Movimentação de Resíduos",
+    LO: "Licença de Operação",
+    DMR: "Declaração de Movimentação de Resíduos",
   };
 
-  return types[type.toLowerCase()] || "Nenhum tipo cadastrado";
+  return types[type.toUpperCase()] || "Nenhum tipo cadastrado";
 };

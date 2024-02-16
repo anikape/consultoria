@@ -17,6 +17,7 @@ import { AuthContext } from "../contexts/Auth/AuthContext";
 import Password from "../../pages/Password";
 import Sucess from "../../pages/Sucess/index";
 import SucessCadastro from "../../pages/SucessCadastro";
+import ClientProfile from "../../pages/ClientProfile";
 
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
@@ -69,6 +70,15 @@ const RoutesApp = () => {
               <Private Item={Client} signed={signed} />
             </RequireAuth>
           }
+        />
+        
+        <Route
+        path="/clientProfile/:id"
+        element={
+          <RequireAuth>
+            <Private Item={ClientProfile} signed={signed}/>
+          </RequireAuth>
+        }
         />
 
         <Route

@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  /* height: 100vh; */
+  min-height: inherit;
+  overflow-y: hidden;
+  padding: 32px;
+  background-image: url("../../src/assets/gHome2.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  object-fit: cover;
+}
+
+.contentContainer {
+  background: rgba(255, 255, 255, 0.2);
+  background-repeat: no-repeat;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 1364px;
+  min-height: 80vh;
+  padding: 4rem;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 1rem;
+}
+
+.buttons {
+  text-align: center;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 5em;
+  height: 1em;
+  margin-left: 1em;
+}
+
+.title1,
+.subtitle {
+  font-size: 38px;
+  font-weight: 600;
+}
+
+.title1 {
+  padding-bottom: 2.5rem;
+}
+
+.profile {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem 5rem;
+  padding-bottom: 2.5em;
+}
+
+.profileItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.documents {
+  /* background-color: pink; */
+}
+
+.errorContainer {
+  display: flex;
+  gap: 0.4rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: inherit;
+  height: 100%;
+}
+
+.edtSave{
+  width: 171px;
+  height: 39px;
+  background: #a0b0ac;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: rgba(60, 45, 38, 0.9);
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: ease-in-out 0.3s;
+}
+
+@media (max-width: 720px) {
+  .container {
+    height: inherit;
+  }
+
+  .profile {
+    grid-template-columns: 1fr;
+  }
+}
