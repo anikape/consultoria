@@ -40,6 +40,7 @@ const RoutesApp = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Singin />} />
+        <Route path="/Teste" element={<Teste />} />
         <Route path="/redifine" element={<Redifine />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/password" element={<Password />} />
@@ -84,8 +85,7 @@ const RoutesApp = () => {
           path="/entrepriseProfile/:id"
           element={
             <Private
-              // Item={() => <EntrepriseProfile clients={clients} />}
-              Item={() => <EntrepriseProfile />}
+              Item={EntrepriseProfile}
               signed={signed}
             />
           }
