@@ -18,6 +18,7 @@ import Sucess from "../../pages/Sucess/index";
 import SucessCadastro from "../../pages/SucessCadastro";
 import ClientProfile from "../../pages/ClientProfile";
 
+
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
 };
@@ -40,7 +41,6 @@ const RoutesApp = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Singin />} />
-        <Route path="/Teste" element={<Teste />} />
         <Route path="/redifine" element={<Redifine />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/password" element={<Password />} />

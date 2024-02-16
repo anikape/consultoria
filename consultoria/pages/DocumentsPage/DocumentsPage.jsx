@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import { useData } from "../../src/hooks/useData";
-import { Loading } from "../../component/Loading/index";
+import { Loading } from "../../component/Loading";
 import { FaInfoCircle, FaHome } from "react-icons/fa";
 import style from "./Documents.module.css";
 import pdf from "../../src/assets/pdf.png";

@@ -1,4 +1,6 @@
 export const documentType = (type) => {
+  // type.toUpperCase();
+
   const types = {
     ALF: "Alvará de Localização e Funcionamento",
     AVCB: "Auto de Vistoria de Corpo de Bombeiros",
@@ -16,5 +18,5 @@ export const documentType = (type) => {
     DMR: "Declaração de Movimentação de Resíduos",
   };
 
-  return types[type.toUpperCase()] || "Nenhum tipo cadastrado";
+  return types[type] || "Nenhum tipo cadastrado";
 };
