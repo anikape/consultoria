@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 
-import Profile from "../Profile";
 import EntrepriseProfile from "../EnterpriseProfile";
 import { FaHome } from "react-icons/fa";
 import DocumentPage from "../DocumentsPage/DocumentsPage";
