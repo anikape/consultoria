@@ -5,7 +5,6 @@ import Home from "../../pages/Home";
 import Singin from "../../pages/Signin";
 import Redifine from "../../pages/Redifine";
 import Client from "../../pages/Client";
-import Profile from "../../pages/Profile";
 import EntrepriseProfile from "../../pages/EnterpriseProfile";
 import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
 import Verification from "../../pages/Verification/index";
@@ -80,16 +79,7 @@ const RoutesApp = () => {
           </RequireAuth>
         }
         />
-
-        <Route
-          path="/profile/:id"
-          element={
-            <Private
-              // Item={() => <Profile clients={clients} />}
-              signed={signed}
-            />
-          }
-        />
+        
         <Route
           path="/entrepriseProfile/:id"
           element={
