@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from "react";
 import style from './LoadingAnimation.module.css';
 
-const Index = () => {
+export const Loading = () => {
   const [text, setText] = useState('');
   const [visibleCharacters, setVisibleCharacters] = useState(0);
 
@@ -32,4 +32,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+

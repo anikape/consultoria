@@ -5,7 +5,6 @@ import Home from "../../pages/Home";
 import Singin from "../../pages/Signin";
 import Redifine from "../../pages/Redifine";
 import Client from "../../pages/Client";
-import Profile from "../../pages/Profile";
 import EntrepriseProfile from "../../pages/EnterpriseProfile";
 import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
 import Verification from "../../pages/Verification/index";
@@ -17,7 +16,7 @@ import { AuthContext } from "../contexts/Auth/AuthContext";
 import Password from "../../pages/Password";
 import Sucess from "../../pages/Sucess/index";
 import SucessCadastro from "../../pages/SucessCadastro";
-import Teste from "../../pages/Teste"
+import ClientProfile from "../../pages/ClientProfile";
 
 
 const Private = ({ Item, signed }) => {
@@ -42,7 +41,6 @@ const RoutesApp = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Singin />} />
-        <Route path="/Teste" element={<Teste />} />
         <Route path="/redifine" element={<Redifine />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/password" element={<Password />} />
@@ -73,22 +71,21 @@ const RoutesApp = () => {
             </RequireAuth>
           }
         />
-
+        
         <Route
-          path="/profile/:id"
-          element={
-            <Private
-              // Item={() => <Profile clients={clients} />}
-              signed={signed}
-            />
-          }
+        path="/clientProfile/:id"
+        element={
+          <RequireAuth>
+            <Private Item={ClientProfile} signed={signed}/>
+          </RequireAuth>
+        }
         />
+        
         <Route
           path="/entrepriseProfile/:id"
           element={
             <Private
-              // Item={() => <EntrepriseProfile clients={clients} />}
-              Item={() => <EntrepriseProfile />}
+              Item={EntrepriseProfile}
               signed={signed}
             />
           }

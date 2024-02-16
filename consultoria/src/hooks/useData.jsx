@@ -34,7 +34,7 @@ export const useData = () => {
 
   useEffect(() => {
     request();
-  }, []);
+  }, [request]);
 
   return { data, loading, error, request };
 };
