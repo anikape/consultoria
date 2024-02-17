@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import {useParams, Link} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
 import { useData } from "../../src/hooks/useData";
 import Footer from "../../component/Footer";
@@ -25,25 +25,25 @@ const ClientProfile = () => {
 
   // Função para salvar as alterações
   // const handleSave = async () => {
-    // try {
-      // Faça uma solicitação para salvar os dados editados
-      // Por exemplo: await axios.put(`/api/company/${id}`, clientData);
-      // setEditable(false); // Desativa o modo de edição após salvar
-    // } catch (error) {
-      // console.error("Erro ao salvar os dados:", error);
-    // }
+  // try {
+  // Faça uma solicitação para salvar os dados editados
+  // Por exemplo: await axios.put(`/api/company/${id}`, clientData);
+  // setEditable(false); // Desativa o modo de edição após salvar
+  // } catch (error) {
+  // console.error("Erro ao salvar os dados:", error);
+  // }
   // };
 
   // Função para atualizar o estado com os novos valores dos campos editáveis
 
   // const handleInputChange = (e) => {
   //   const { name, value } = e.target;
-    // Cria uma cópia dos dados da empresa
-    // const updatedclientData = { ...clientData };
-    // Atualiza apenas o campo modificado
-    // updatedclientData[name] = value;
-    // Atualiza o estado com os novos dados da empresa
-    // setclientData(updatedclientData);
+  // Cria uma cópia dos dados da empresa
+  // const updatedclientData = { ...clientData };
+  // Atualiza apenas o campo modificado
+  // updatedclientData[name] = value;
+  // Atualiza o estado com os novos dados da empresa
+  // setclientData(updatedclientData);
   // };
 
   return (
@@ -80,7 +80,7 @@ const ClientProfile = () => {
                     <input
                       type="text"
                       name="cnpj"
-                      value={clientData.cnpj}
+                      value={clientData.cpf}
                       onChange={handleInputChange}
                     />
                   ) : (
@@ -106,130 +106,18 @@ const ClientProfile = () => {
               </div>
 
               <div className={style.profileItem}>
-                <h2>Telefone Celular</h2>
+                <h2>Telefone</h2>
                 <span>
-                  {/* {editable ? (
+                  {editable ? (
                     <input
                       type="text"
                       name="cellphone"
-                      value={clientData.cellphone}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    company.cellphone
-                  )} */}
-                </span>
-              </div>
-
-              <div className={style.profileItem}>
-                <h2>Telefone Fixo</h2>
-                <span>
-                  {/* {editable ? (
-                    <input
-                      type="text"
-                      name="phone"
                       value={clientData.phone}
                       onChange={handleInputChange}
                     />
                   ) : (
-                    company.phone
-                  )} */}
-                </span>
-              </div>
-
-              <div className={style.profileItem}>
-                <h2>Rua/Logradouro</h2>
-                <span>
-                  {/* {editable ? (
-                    <input
-                      type="text"
-                      name="address"
-                      value={clientData.address}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    company.address
-                  )} */}
-                </span>
-              </div>
-
-              <div className={style.profileItem}>
-                <h2>Bairro</h2>
-                <span>
-                  {/* {editable ? (
-                    <input
-                      type="text"
-                      name="bairro"
-                      value={clientData.bairro}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    company.bairro
-                  )} */}
-                </span>
-              </div>
-
-              <div className={style.profileItem}>
-                <h2>Complemento</h2>
-                <span>
-                  {/* {editable ? (
-                    <input
-                      type="text"
-                      name="complemento"
-                      value={clientData.complemento}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    company.complemento
-                  )} */}
-                </span>
-              </div>
-
-              <div className={style.profileItem}>
-                <h2>Cidade</h2>
-                <span>
-                  {/* {editable ? (
-                    <input
-                      type="text"
-                      name="city"
-                      value={clientData.city}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    company.city
-                  )} */}
-                </span>
-              </div>
-
-              <div className={style.profileItem}>
-                <h2>UF</h2>
-                <span>
-                  {/* {editable ? (
-                    <input
-                      type="text"
-                      name="state"
-                      value={clientData.state}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    company.state
-                  )} */}
-                </span>
-              </div>
-
-              <div className={style.profileItem}>
-                <h2>CEP</h2>
-                <span>
-                  {/* {editable ? (
-                    <input
-                      type="text"
-                      name="zipcode"
-                      value={clientData.zipcode}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    company.zipcode
-                  )} */}
+                    client.phone ?? "Nenhum número cadastrado"
+                  )}
                 </span>
               </div>
             </section>
@@ -245,14 +133,12 @@ const ClientProfile = () => {
                 Salvar
               </button>
             )}
-
-           
           </>
         )}
-       </div>
+      </div>
       <Footer />
     </main>
   );
 };
 
-export default ClientProfile
+export default ClientProfile;
