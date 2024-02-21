@@ -19,12 +19,13 @@
   margin-left: -110rem;
   padding-bottom: 4rem;
   background: transparent;
+
+
 }
 
 .homeButton button {
   background: transparent;
   border: none;
-
   transition: 0.3s;
 }
 
@@ -34,6 +35,7 @@
 
 .home {
   font-size: 34px;
+
 }
 
 /* Estilos para a tabela */
