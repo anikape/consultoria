@@ -4,9 +4,32 @@ import Footer from "../../component/Footer";
 import style from "./enterprise.module.css";
 import { useData } from "../../src/hooks/useData";
 import { DocumentWrapper } from "../../component/DocumentWrapper";
+import DocumentModal from "../../component/DocCadastro";
+import axios from 'axios';
 
 const EntrepriseProfile = () => {
   const { id } = useParams();
+
+  //Modal de cadastro de documentos
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  // Estado para armazenar a lista de empresas
+  const [empresas, setEmpresas] = useState([]);
+
+  useEffect(() => {
+    // Faça uma solicitação para obter a lista de empresas do backend
+    axios.get('company')
+      .then(response => {
+        setEmpresas(response.data);
+      })
+      .catch(error => {
+        console.error('Erro ao carregar empresas:', error);
+      });
+  }, []);
+
+  
 
   const { ["data"]: company, loading, error, request } = useData();
 
@@ -253,6 +276,15 @@ const EntrepriseProfile = () => {
         )}
 
         <DocumentWrapper data={id} />
+
+        <div>
+        {/* Botão para abrir o modal */}
+        <button onClick={handleShowModal}>Novo Documento</button>
+        
+        {/* Renderiza o modal apenas se showModal for true */}
+        {showModal && <DocumentModal show={showModal} handleClose={handleCloseModal} />}
+      </div>
+        
       </div>
 
       <Footer />

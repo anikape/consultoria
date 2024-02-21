@@ -42,11 +42,6 @@ export const CompanyProfileContent = ({ company }) => {
               PERFIL
             </Link>
 
-            {/* <Link
-              to={`/entrepriseProfile/${company.id}`}
-              className={style.buttonProfile}>
-              EDITAR
-            </Link> */}
           </div>
         </div>
       </Popper.Content>
