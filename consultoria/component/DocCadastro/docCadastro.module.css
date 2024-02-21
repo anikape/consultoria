@@ -1,0 +1,33 @@
+.modalContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 600px;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  height: 29px;
+}
+
+.input2{
+  width: 200px;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  height: 29px;
+  padding: 1em;
+}
+
+.buttonSubmit{
+  background: #a0b0ac;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  margin-top: 1em;
+  width: 171px;
+  height: 39px;
+}

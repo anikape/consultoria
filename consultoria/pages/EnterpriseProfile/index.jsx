@@ -279,7 +279,7 @@ const EntrepriseProfile = () => {
 
         <div>
         {/* Botão para abrir o modal */}
-        <button onClick={handleShowModal}>Novo Documento</button>
+        <button className={style.openModal} onClick={handleShowModal}>Novo Documento</button>
         
         {/* Renderiza o modal apenas se showModal for true */}
         {showModal && <DocumentModal show={showModal} handleClose={handleCloseModal} />}
