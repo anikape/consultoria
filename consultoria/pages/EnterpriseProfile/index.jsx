@@ -4,34 +4,32 @@ import Footer from "../../component/Footer";
 import style from "./enterprise.module.css";
 import { useData } from "../../src/hooks/useData";
 import { DocumentWrapper } from "../../component/DocumentWrapper";
+import { DocumentForm } from "../../component/Forms/DocumentForm";
+import { Modal } from "../../component/Modal";
 
-import home from '../../src/assets/home.png';
-import DocumentModal from "../../component/DocCadastro";
-import axios from 'axios';
+import home from "../../src/assets/home.png";
+
+import axios from "axios";
 
 const EntrepriseProfile = () => {
   const { id } = useParams();
 
   //Modal de cadastro de documentos
-  const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
 
   // Estado para armazenar a lista de empresas
   const [empresas, setEmpresas] = useState([]);
 
   useEffect(() => {
     // Faça uma solicitação para obter a lista de empresas do backend
-    axios.get('company')
-      .then(response => {
+    axios
+      .get("company")
+      .then((response) => {
         setEmpresas(response.data);
       })
-      .catch(error => {
-        console.error('Erro ao carregar empresas:', error);
+      .catch((error) => {
+        console.error("Erro ao carregar empresas:", error);
       });
   }, []);
-
-  
 
   const { ["data"]: company, loading, error, request } = useData();
 
@@ -80,7 +78,9 @@ const EntrepriseProfile = () => {
           </Link>
 
           <Link to="/home" className={style.buttons}>
-            <button className={style.homeButton}><img src={home} className={style.home} alt="" /></button>
+            <button className={style.homeButton}>
+              <img src={home} className={style.home} alt="" />
+            </button>
           </Link>
         </div>
 
@@ -103,7 +103,6 @@ const EntrepriseProfile = () => {
                 <span className={style.profileInput}>
                   {editable ? (
                     <input
-                    
                       type="text"
                       name="cnpj"
                       value={companyData.cnpj}
@@ -165,7 +164,7 @@ const EntrepriseProfile = () => {
 
               <div className={style.profileItem}>
                 <h2>Rua/Logradouro</h2>
-                <span className={style.profileInput2} >
+                <span className={style.profileInput2}>
                   {editable ? (
                     <input
                       type="text"
@@ -273,7 +272,12 @@ const EntrepriseProfile = () => {
             )}
 
             <section className={style.documents}>
-              <h2 className={style.subtitle}>Documentos:</h2>
+              <div className={style.documentsHeader}>
+                <h2 className={style.subtitle}>Documentos:</h2>
+                <Modal label="Novo Documento">
+                  <DocumentForm />
+                </Modal>
+              </div>
             </section>
           </>
         )}
@@ -281,13 +285,10 @@ const EntrepriseProfile = () => {
         <DocumentWrapper data={id} />
 
         <div>
-        {/* Botão para abrir o modal */}
-        <button className={style.openModal} onClick={handleShowModal}>Novo Documento</button>
-        
-        {/* Renderiza o modal apenas se showModal for true */}
-        {showModal && <DocumentModal show={showModal} handleClose={handleCloseModal} />}
-      </div>
-        
+          {/* Botão para abrir o modal */}
+
+          {/* Renderiza o modal apenas se showModal for true */}
+        </div>
       </div>
 
       <Footer />
