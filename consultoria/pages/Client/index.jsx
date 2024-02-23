@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import EntrepriseProfile from "../EnterpriseProfile";
@@ -10,14 +10,13 @@ import { CompanyForm } from "../../component/Forms/CompanyForm";
 import { ClientForm } from "../../component/Forms/ClientForm";
 import { Loading } from "../../component/Loading";
 import { Modal } from "../../component/Modal";
-import { ButtonOpenModal } from "../../component/Modal/ButtonOpenModal";
 import Footer from "../../component/Footer";
 
 import style from "./client.module.css";
 
 const Client = () => {
-  const [openModalCompany, setOpenModalCompany] = useState(false);
-  const [openModalClient, setOpenModalClient] = useState(false);
+  // const [openModalCompany, setOpenModalCompany] = useState(false);
+  // const [openModalClient, setOpenModalClient] = useState(false);
 
   const { ["data"]: clients, loading, error, request } = useData();
 
@@ -58,28 +57,13 @@ const Client = () => {
               <section className={style.modals}>
                 {/*Modal de cadastro do Cliente*/}
                 <div className={style.modalContent}>
-                  <ButtonOpenModal
-                    label="Cadastrar clientes"
-                    openModal={openModalClient}
-                    setOpenModal={setOpenModalClient}
-                  />
-                  <Modal
-                    isOpen={openModalClient}
-                    setIsOpen={setOpenModalClient}>
+                  <Modal label="Cadastrar clientes">
                     <ClientForm />
                   </Modal>
                 </div>
 
                 <div className={style.modalContent}>
-                  <ButtonOpenModal
-                    label="Cadastrar empresa"
-                    openModal={openModalCompany}
-                    setOpenModal={setOpenModalCompany}
-                  />
-                  <Modal
-                    Modal
-                    isOpen={openModalCompany}
-                    setIsOpen={setOpenModalCompany}>
+                  <Modal label="Cadastrar empresas">
                     <CompanyForm clients={clients} />
                   </Modal>
                 </div>
