@@ -7,7 +7,7 @@ import { useData } from "../../../src/hooks/useData";
 import { useFetch } from "../../../src/hooks/useFetch";
 import { Loading } from "../../Loading";
 
-export const CompanyForm = ({ clients }) => {
+export const CompanyForm = ({ clients, label }) => {
   const {
     setValue,
     register,
