@@ -10,6 +10,7 @@ export const CompanyProfile = ({ client, companys }) => {
         .map((company) => (
           <div className={style.buttonEnterprise} key={company.id}>
             <CompanyWrapper.Content company={company} />
+           
           </div>
         ))}
     </>

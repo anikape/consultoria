@@ -1,4 +1,6 @@
-import React, { useState, useContext, useEffect } from "react"; // Adicionei o useContext
+import React, {useState, useContext, useEffect} from "react"; 
+import iconUser from '../../src/assets/icon_user.svg'
+import iconLock from '../../src/assets/icon_lock.svg'
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../src/hooks/useAuth";
 import { FaUser, FaInfoCircle } from "react-icons/fa";
@@ -16,21 +18,6 @@ const Signin = () => {
       navigate("/home");
     }
   }, [authenticated]);
-
-  const mockUsers = [
-    {
-      id: 1,
-      name: "Usuário de Teste 2",
-      email: "usuario2@teste.com",
-      password: "123456",
-    },
-    {
-      id: 2,
-      name: "Usuário de Teste 1",
-      email: "usuario1@teste.com",
-      password: "123456",
-    },
-  ];
 
   const [useremail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -98,7 +85,7 @@ const Signin = () => {
               )}
               <div className={style.inputGroup}>
                 <div className={style.icon}>
-                  <img src="../../src/assets/icon_user.svg" alt="" />
+                  <img src={iconUser} alt="" />
                 </div>
                 <input
                   className={style.inputText}
@@ -111,7 +98,7 @@ const Signin = () => {
               <div className={style.inputGroup}>
                 {/* {loginError && <p>{loginError}</p>} */}
                 <div className={style.icon}>
-                  <img src="../../src/assets/icon_lock.svg" alt="" />
+                  <img src={iconLock} alt="" />
                 </div>
                 <input
                   className={style.inputPass}

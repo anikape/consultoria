@@ -84,8 +84,8 @@ const Index = () => {
         </div>
       
         <div className={style.userData}>
-          <h2>Dados do cadastro</h2>
-          <img src={auth.user?.img} alt="Imagem do usuário" />
+          <h2 className={style.h2}>Dados do cadastro</h2>
+          {/* <img src={auth.user?.img} alt="Imagem do usuário" /> */}
           <form className={style.form} onSubmit={handleSubmit}>
             <div>
               <label htmlFor="nome">Nome:</label>
