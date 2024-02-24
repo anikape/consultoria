@@ -1,0 +1,22 @@
+.loadingText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.letter {
+  opacity: 0;
+  animation: appear 1s ease forwards;
+  margin-right: 5px; /* Espaço entre as letras */
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

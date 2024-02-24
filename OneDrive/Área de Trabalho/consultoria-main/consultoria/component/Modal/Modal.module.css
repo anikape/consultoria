@@ -1,0 +1,104 @@
+.backdrop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.modalContainer {
+  display: flex;
+  gap: 48px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  min-width: fit-content;
+  width: 100%;
+  max-width: 800px;
+  height: fit-content;
+  padding: 32px;
+  background-image: url("../../src/assets/bgOpaco.png");
+  background-color: #d9d9d9;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 24px;
+  position: relative;
+}
+
+.modalClose {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: black;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+}
+
+.modalClose::before,
+.modalClose::after {
+  content: "";
+  position: absolute;
+  width: 1.25rem;
+  height: 0.125rem;
+  background-color: currentColor;
+  border-radius: 0.125rem;
+  left: 0;
+  top: calc(1.25rem / 2);
+}
+.modalClose::before {
+  transform: rotate(45deg);
+}
+.modalClose::after {
+  transform: rotate(-45deg);
+}
+
+.h3 {
+  color: rgba(60, 45, 38, 0.9);
+}
+
+.buttonModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: max-content;
+  height: 39px;
+  padding: 0 0.8rem;
+  background: #a0b0ac;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: rgba(60, 45, 38, 0.9);
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 150%;
+  outline: none;
+  cursor: pointer;
+}
+
+.buttonModal img {
+  width: 28px;
+  height: 28px;
+}
+
+@media (max-width: 710px) {
+  .modalContent {
+    width: 100%;
+  }
+
+  .buttonModal {
+    width: 100%;
+  }
+}
