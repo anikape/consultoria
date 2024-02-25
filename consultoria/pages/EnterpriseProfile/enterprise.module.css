@@ -40,14 +40,13 @@
   background: transparent;
 }
 
-.homeButton{
+.homeButton {
   background: transparent;
   border: none;
   transition: 0.3s;
 }
 
-.home{
-
+.home {
 }
 
 .title1,
@@ -85,7 +84,6 @@
   width: 200px;
   padding: 0.5em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
 }
 
 .profileInput2 {
@@ -97,8 +95,10 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.documents {
-  /* background-color: pink; */
+.documentsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .errorContainer {
@@ -118,7 +118,8 @@
   background: #a0b0ac;
   border-radius: 26px;
   border: 1px solid rgba(30, 30, 30, 0.43);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   color: rgba(60, 45, 38, 0.9);
   font-family: Inter;
   font-size: 13px;
@@ -137,7 +138,8 @@
   background: #a0b0ac;
   border-radius: 26px;
   border: 1px solid rgba(30, 30, 30, 0.43);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   color: rgba(60, 45, 38, 0.9);
   font-family: Inter;
   font-size: 13px;

@@ -26,14 +26,14 @@ export const DocumentWrapper = ({ data }) => {
                 ) : (
                   // <ClientWrapper.Container data={clients} />
                   <>
-                    <div className={style.list}>
-                      {documents.map((document) => (
+                    {documents.map((document) => (
+                      <div className={style.list}>
                         <DocumentContainer
                           document={document}
                           key={document._id}
                         />
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </>
                 )}
               </section>
