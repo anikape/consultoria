@@ -13,18 +13,15 @@
 
 .content {
   display: flex;
-  gap: 80px;
+  gap: 107px;
   align-items: center;
   flex-direction: column;
-  height: 758px;
-  max-width: 1364px;
-  width: 100%;
+  width: 976px;
+  height: 421px;
   border-radius: 18px;
-  border: 28px solid rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.2);
+  border: 7px solid rgba(255, 255, 255, 0.50);
+  background: rgba(255, 255, 255, 0.20);
   box-shadow: 12px 12px 8px 0px rgba(0, 0, 0, 0.25);
-  padding: 44px;
-  margin: 0 32px;
   position: relative;
 }
 
@@ -39,67 +36,82 @@
   text-align: center;
   width: 284px;
   height: 34px;
-  text-shadow: 6px 6px 4px 0px rgba(0, 0, 0, 0.25);
-  font-family: "Inter", sans-serif;
-  font-size: 30px;
-  font-weight: 723;
+  text-align: center;
+  text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 21px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 60px;
+  margin-left: -70px;
 }
 
 .iconWrapper {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  border: 8px solid #fff;
+  border: 4px solid #fff;
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 45px;
+  height: 45px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  margin-left: 110px;
+  margin-top: 50px;
 }
 
 .icon {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  width: 25px;
+  height: 30px;
+  border-radius: 30%;
   color: #fff;
   object-fit: cover;
   position: relative;
-  bottom: -8px;
+  bottom: -3px;
 }
 
 .links {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 44px;
-  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 60px;
+  margin-top: -70px;
 }
 
 .options {
   display: flex;
+  width: 223px;
+  height: 158px;
   flex-direction: column;
-  width: 280px;
-  padding: 32px 16px;
   justify-content: center;
   align-items: center;
-  gap: 30px;
-  border-radius: 21px;
-  border: 8px solid rgba(255, 255, 255, 0.37);
+  gap: 8px; 
+  border-radius: 18px;
+  border: 5px solid rgba(255, 255, 255, 0.50);
   background: rgba(132, 152, 147, 0.93);
-  box-shadow: 12px 12px 8px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 4px 4px 2px 0px rgba(0, 0, 0, 0.25);
   color: #fff;
-  font-size: 23px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   text-transform: uppercase;
+  transition: all 0.70s ease;
+  text-shadow: 2px 2px 2px rgba(74, 70, 70, 0.5);
 }
 
+
+
 .options:hover {
-  border: 8px solid rgba(83, 119, 110, 0.7);
-  box-shadow: 12px 12px 8px 0px rgba(0, 0, 0, 0.25);
+  border: 8px solid rgba(132, 152, 147, 0.93);
+  box-shadow: 4px 4px 2px 0px rgba(0, 0, 0, 0.25);
+  transform: translateY(-5px);
 }
 
 .links img {
-  width: 111.955px;
-  height: 111.955px;
+  width: 70px;
+  margin-top: 50px;
+  margin-top: 10px;
+
 }
 
 .logout {
@@ -120,44 +132,20 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 
 .logout svg {
   width: 26.504px;
   height: 26.557px;
+  filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.25));
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 710px) {
   .content {
     gap: 50px;
     border: 12px solid rgba(255, 255, 255, 0.5);
     padding: 44px 32px;
     min-height: max-content;
-    margin: 0 32px;
-  }
-  .options {
-    width: 180px;
-    min-height: 180px;
-    text-align: center;
-    gap: 15px;
-
-    font-size: 16px;
-    padding: 16px;
-  }
-  .links img {
-    width: 50px;
-    height: 50px;
-  }
-}
-
-@media (max-width: 720px) {
-  .content {
-    gap: 50px;
-    border: 12px solid rgba(255, 255, 255, 0.5);
-    padding: 44px 32px;
     margin: 0 32px;
   }
 
@@ -167,18 +155,18 @@
 
   .links {
     gap: 50px;
-    flex-wrap: wrap;
+  }
+
+  .links svg {
+    width: 50px;
+    height: 50px;
   }
 
   .options {
-    width: 100%;
-    text-align: center;
+    min-width: fit-content;
     min-height: max-content;
     gap: 15px;
     font-size: 16px;
     padding: 16px;
-  }
-  .logout {
-    bottom: -90px;
   }
 }
