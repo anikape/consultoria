@@ -3,7 +3,7 @@ import style from "./Input.module.css";
 import { forwardRef } from "react";
 
 export const Input = forwardRef(
-  ({ label = "", type = "text", name = "", ...props }, ref) => {
+  ({ label = "", type = "text", name = "", error, ...props }, ref) => {
     return (
       <>
         <div className={style.inputGroup}>
@@ -11,6 +11,7 @@ export const Input = forwardRef(
             {label}
           </label>
           <input type={type} name={name} {...props} ref={ref} />
+          <p className={style.errorMessage}>{error}</p>
         </div>
       </>
     );
