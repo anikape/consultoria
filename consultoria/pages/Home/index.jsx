@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import style from "./home.module.css";
 import docs from "../../src/assets/docs.svg";
-import adm from "../../src/assets/iconuser.svg";
+import user from "../../src/assets/iconuser.svg";
 import client from "../../src/assets/client.svg";
 import profile from "../../src/assets/profileIcon.png";
 import { IoLogOut } from "react-icons/io5";
@@ -45,12 +45,12 @@ const Home = () => {
           </Link>
 
           <Link to="/DocumentsPage" className={style.options}>
-            <img src="../../src/assets/docs.svg" alt="Documentos" />
+            <img src={docs} alt="Documentos" />
             Documentos
           </Link>
 
           <Link to="/Adm" className={style.options}>
-            <img src="../../src/assets/iconuser.svg" alt="Área adm" />
+            <img src={user} alt="Área adm" />
             Área Adm
           </Link>
         </div>
