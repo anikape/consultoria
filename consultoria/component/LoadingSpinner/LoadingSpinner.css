@@ -1,0 +1,41 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Altura definida para o componente pequeno */
+}
+
+.loading-spinner {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.circle {
+  position: absolute;
+  border: 8px solid transparent;
+  border-top-color: #072b22;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra suave */
+}
+
+.show .circle {
+  animation-play-state: running;
+}
+
+.pc-text {
+  position: absolute;
+  margin: 40%;
+  font-weight: bold;
+  font-size: 24px;
+  z-index: 1;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
