@@ -17,7 +17,7 @@ export const ClientForm = () => {
   console.log(errors);
 
   const onSubmit = (data) => {
-    postData("clien", data);
+    postData("client", data);
     console.log(data);
     console.log(errors);
   };
@@ -38,10 +38,15 @@ export const ClientForm = () => {
           {...register("cpf", {
             required: "Campo obrigatório",
             maxLength: { value: 11, message: "Digite apenas numeros" },
+            pattern: {
+              value: /^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}/,
+              message: "Digite apenas números",
+            },
           })}
           label="CPF:"
           placeholder="CPF"
           error={errors.cpf?.message}
+          maxLength={11}
         />
         <Input
           {...register("email", {
@@ -49,7 +54,7 @@ export const ClientForm = () => {
             pattern: {
               value:
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-              message: "Email inválido",
+              message: "Digite um email válido",
             },
           })}
           label="Email"
@@ -57,9 +62,17 @@ export const ClientForm = () => {
           error={errors.email?.message}
         />
         <Input
-          {...register("phone", { required: "Campo obrigatório" })}
+          {...register("phone", {
+            required: "Campo obrigatório",
+            maxLength: { value: 8, message: "Digite apenas números" },
+            pattern: {
+              value: /^[0-9]{8}$/,
+              message: "Digite apenas números",
+            },
+          })}
           label="Telefone:"
           placeholder="Telefone"
+          maxLength={8}
           error={errors.phone?.message}
         />
         <div className={style.buttons}>
