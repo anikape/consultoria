@@ -7,6 +7,7 @@
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -23,6 +24,7 @@
   background: rgba(255, 255, 255, 0.20);
   box-shadow: 12px 12px 8px 0px rgba(0, 0, 0, 0.25);
   position: relative;
+  margin-bottom: 2rem;
 }
 
 .info {
@@ -86,7 +88,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px; 
+  gap: 8px;
   border-radius: 18px;
   border: 5px solid rgba(255, 255, 255, 0.50);
   background: rgba(132, 152, 147, 0.93);
@@ -117,27 +119,34 @@
 .logout {
   width: 64px;
   height: 64px;
+  border: none;
+  background: transparent;
   display: flex;
-  flex-direction: column;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 723;
-  border-radius: 21px;
-  border: 5px solid rgba(255, 255, 255, 0.37);
-  background: rgba(132, 152, 147, 0.93);
-  box-shadow: 4px 4px 3px 0px rgba(0, 0, 0, 0.25);
   justify-content: center;
   align-items: center;
-  text-align: center;
   position: absolute;
   bottom: 20px;
   right: 20px;
 }
 
 .logout svg {
-  width: 26.504px;
-  height: 26.557px;
-  filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.25));
+  width: 40px;
+  height: 40px;
+  color: rgba(132, 152, 147, 0.93);
+  transition: transform 0.60s ease, color 0.3s ease; /* Suaviza a transição de movimento e de cor */
+}
+
+.logout:hover svg {
+  transform: translateY(-5px); /* Move a SVG para cima quando o mouse está sobre ela */
+  color: rgba(255, 255, 255, 0.50); /* Altera a cor da SVG no estado hover */
+}
+
+
+
+.footer {
+  bottom: 0;
+  position: fixed;
+
 }
 
 @media (max-width: 710px) {

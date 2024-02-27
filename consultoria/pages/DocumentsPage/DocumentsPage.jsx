@@ -269,12 +269,7 @@ const DocumentsPage = () => {
             </>
           )}
 
-          <input
-            type="file"
-            accept=".pdf"
-            onChange={(e) => setNewPdf(e.target.files[0])}
-          />
-          <button onClick={handleNewPdfUpload}>Enviar Novo PDF</button>
+          
         </>
       )}
 
