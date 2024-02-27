@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import style from "./CompanyForm.module.css";
 import { Input } from "../../Input";
 import { Select } from "../../Select";
-import { useData } from "../../../src/hooks/useData";
 import { useFetch } from "../../../src/hooks/useFetch";
 import { Loading } from "../../Loading";
 
@@ -13,7 +12,7 @@ export const CompanyForm = ({ clients, label }) => {
     register,
     watch,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm({
     defaultValues: {
       zipcode: "",
@@ -22,10 +21,8 @@ export const CompanyForm = ({ clients, label }) => {
   const { postData } = useFetch();
 
   const onSubmit = async (data) => {
-    console.log(data);
     postData("company", data);
   };
-  console.log("submitting: ", isSubmitting);
 
   const zipCode = watch("zipcode");
 
@@ -64,20 +61,30 @@ export const CompanyForm = ({ clients, label }) => {
       ) : (
         <div className={style.form}>
           <div className={style.formGroup}>
-            <Select {...register("clientId")} label="Cliente" data={clients} />
+            <Select
+              {...register("clientId", { required: "Selecione um cliente" })}
+              label="Cliente"
+              data={clients}
+              error={errors.clientId?.message}
+            />
             <Input
-              {...register("companyName")}
-              type="text"
+              {...register("companyName", {
+                required: "Campo obrigatório",
+                minLength: 3,
+                message: "Digite mais de 3 caracteres",
+              })}
               label="Nome fantasia"
               placeholder="Insira o nome fantasia"
+              error={errors.companyName?.message}
             />
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register("cnpj")}
+              {...register("cnpj", { required: "Campo obrigatório" })}
               type="text"
               label="CNPJ"
               placeholder="Insira o CNPJ"
+              error={errors.cnpj?.message}
             />
             <Input
               {...register("mainActivity")}
@@ -87,10 +94,14 @@ export const CompanyForm = ({ clients, label }) => {
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register("cnae", { setValueAs: (value) => parseInt(value) })}
+              {...register("cnae", {
+                setValueAs: (value) => parseInt(value),
+                required: "Campo obrigatório",
+              })}
               label="CNAE"
               type="text"
               placeholder="Insira o código CNAE"
+              error={errors.cnae?.message}
             />
             <Input
               {...register("secondaryCnae")}
@@ -100,16 +111,25 @@ export const CompanyForm = ({ clients, label }) => {
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register("email")}
+              {...register("email", { required: "Campo obrigatório" })}
               label="Email"
               placeholder="Insira o email"
+              error={errors.email?.message}
             />
 
             <Input
-              {...register("phone")}
+              {...register("phone", {
+                required: "Campo obrigatório",
+                maxLength: { value: 8, message: "Digite apenas números" },
+                pattern: {
+                  value: /^[0-9]{8}$/,
+                  message: "Digite apenas números",
+                },
+              })}
               type="text"
               label="Telefone"
               placeholder="Insira o número de telefone"
+              error={errors.phone?.message}
             />
             <Input
               {...register("cellphone")}
@@ -119,10 +139,11 @@ export const CompanyForm = ({ clients, label }) => {
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register("zipcode")}
+              {...register("zipcode", { required: "Campo obrigatório" })}
               type="text"
               label="CEP"
               placeholder="Insira o CEP apenas números"
+              error={errors.zipcode?.message}
             />
           </div>
           <div className={style.formGroup}>
@@ -156,13 +177,17 @@ export const CompanyForm = ({ clients, label }) => {
               placeholder="Insira os comentários"
             />
           </div>
-
-          <button
-            className={style.button}
-            onClick={handleSubmit(onSubmit)}
-            disabled={isSubmitting}>
-            {isSubmitting ? "Cadastrando..." : "Cadastrar"}
-          </button>
+          <div className={style.buttons}>
+            <button
+              className={style.button}
+              onClick={handleSubmit(onSubmit)}
+              disabled={isSubmitting}>
+              {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+            </button>
+            <button className={style.button2} type="reset">
+              Cancelar
+            </button>
+          </div>
         </div>
       )}
     </>
