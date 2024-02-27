@@ -5,12 +5,13 @@ import docs from "../../src/assets/docs.svg";
 import adm from "../../src/assets/iconuser.svg";
 import client from "../../src/assets/client.svg";
 import profile from "../../src/assets/profileIcon.png";
-import out from "../../src/assets/out.svg";
+import { IoLogOut } from "react-icons/io5";
 import { BiLogOut } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
 import useAuth from "../../src/hooks/useAuth";
 import { AuthContext } from "../../src/contexts/Auth/AuthContext";
 import DocumentsPage from "../DocumentsPage/DocumentsPage";
+import Footer from "../../component/Footer";
 
 const Home = () => {
   const auth = useContext(AuthContext);
@@ -39,25 +40,28 @@ const Home = () => {
 
         <div className={style.links}>
           <Link to="/client" className={style.options}>
-            <img src="../../src/assets/client.svg" alt="" />
+            <img src="../../src/assets/client.svg" alt="Lista de clientes" />
             Lista de clientes
           </Link>
 
           <Link to="/DocumentsPage" className={style.options}>
-            <img src="../../src/assets/docs.svg" alt="" />
+            <img src="../../src/assets/docs.svg" alt="Documentos" />
             Documentos
           </Link>
 
           <Link to="/Adm" className={style.options}>
-            <img src="../../src/assets/iconuser.svg" alt="" />
+            <img src="../../src/assets/iconuser.svg" alt="Área adm" />
             Área Adm
           </Link>
         </div>
 
         <button onClick={handleLogout} className={style.logout}>
-          <img src={out} alt="" />
-          sair
+        <IoLogOut />
+          
         </button>
+      </div>
+      <div className={style.footer}>
+        <Footer />
       </div>
     </section>
   );

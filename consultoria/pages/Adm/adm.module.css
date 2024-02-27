@@ -1,4 +1,4 @@
-.admContainer{
+.admContainer {
   display: flex;
   background-image: url('../../src/assets/bgCadastro.png');
   background-repeat: no-repeat;
@@ -6,14 +6,14 @@
   height: 100vh;
 }
 
-.admContent{
+.admContent {
   display: flex;
   margin: 10rem auto;
-  
+
 
 }
 
-.admNav{
+.admNav {
   align-items: center;
   background: url('../../src/assets/bgnav.png');
   background-repeat: no-repeat;
@@ -21,18 +21,18 @@
   border-radius: 14px 0px 0px 14px;
   opacity: 0.7;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  width: 243px;
-  height: 528px;
+  width: 203px;
+  height: 428px;
 }
 
-.nav{
+.nav {
   display: flex;
   margin: 10rem auto;
   align-items: center;
   justify-content: center;
 }
 
-.links{
+.links {
   background: transparent;
   border: none;
   display: flex;
@@ -42,76 +42,77 @@
   font-family: Inter;
   font-size: 20px;
   font-weight: 600;
-  line-height: 71.023%; 
+  line-height: 71.023%;
   letter-spacing: -0.3px;
   align-items: center;
-  
- 
+
+
 }
 
-.links img{
+.links img {
   width: 42px;
   height: 42px;
   /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
-  
+
 }
 
-.h2{
+.h2 {
   margin-bottom: 3rem;
 }
 
 
-.userData{
+.userData {
   display: flex;
   flex-direction: column;
-  width: 572px;
-height: 528px;
-align-items: center;
-background: url('../../src/assets/bgAdd.png');
-background-repeat: no-repeat;
-border-radius: 0px 14px 14px 0px;
-opacity: 0.7;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-align-items: center;
-justify-content: center;
+  width: 502px;
+  height: 428px;
+  align-items: center;
+  background: url('../../src/assets/bgAdd.png');
+  background-repeat: no-repeat;
+  border-radius: 0px 14px 14px 0px;
+  opacity: 0.7;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  align-items: center;
+  justify-content: center;
 }
 
-.userData h2{
+.userData h2 {
   color: #436960;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
   font-size: 30px;
   font-weight: 600;
-  line-height: 71.023%; 
+  line-height: 71.023%;
   letter-spacing: -0.45px;
 
 }
 
-.userData img{
-margin: 2rem;
+.userData img {
+  margin: 2rem;
 }
 
 
 
-.form div{
+.form div {
   display: flex;
   flex-direction: column;
   padding-bottom: 1rem;
 }
 
-.form label{
+.form label {
   width: 66px;
   color: #436960;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
   font-size: 20px;
   font-weight: 600;
-  line-height: 71.023%; /* 14.205px */
+  line-height: 71.023%;
+  /* 14.205px */
   letter-spacing: -0.3px;
   padding-bottom: .5rem;
 }
 
-.form input{
+.form input {
   width: 372px;
   height: 46px;
   border-radius: 7px;
@@ -127,4 +128,3 @@ margin: 2rem;
   padding: 1rem;
   outline: none;
 }
-

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import EntrepriseProfile from "../EnterpriseProfile";
-import { FaHome } from "react-icons/fa";
+import { RiHomeHeartLine } from "react-icons/ri";
 import DocumentPage from "../DocumentsPage/DocumentsPage";
 import { useData } from "../../src/hooks/useData";
 import { ClientWrapper } from "../../component/ClientWrapper";
@@ -35,7 +35,7 @@ const Client = () => {
           <div className={style.header}>
             <div className={style.headingWrapper}>
               <Link className={style.buttonHome} to="/home">
-                <FaHome className={style.home} />
+                <RiHomeHeartLine  className={style.home} />
               </Link>
               <h1 className={style.title}>Clientes</h1>
             </div>
