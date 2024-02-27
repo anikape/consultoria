@@ -133,12 +133,15 @@
   width: 40px;
   height: 40px;
   color: rgba(132, 152, 147, 0.93);
-  transition: transform 0.60s ease, color 0.3s ease; /* Suaviza a transição de movimento e de cor */
+  transition: transform 0.60s ease, color 0.3s ease;
+  /* Suaviza a transição de movimento e de cor */
 }
 
 .logout:hover svg {
-  transform: translateY(-5px); /* Move a SVG para cima quando o mouse está sobre ela */
-  color: rgba(255, 255, 255, 0.50); /* Altera a cor da SVG no estado hover */
+  transform: translateY(-5px);
+  /* Move a SVG para cima quando o mouse está sobre ela */
+  color: rgba(255, 255, 255, 0.50);
+  /* Altera a cor da SVG no estado hover */
 }
 
 
@@ -150,20 +153,29 @@
 }
 
 @media (max-width: 710px) {
+  .containerHome {
+    height: 110vh;
+  }
+
   .content {
     gap: 50px;
     border: 12px solid rgba(255, 255, 255, 0.5);
     padding: 44px 32px;
     min-height: max-content;
     margin: 0 32px;
+    width: 90%;
+    height: auto;
   }
 
   .info {
     align-self: center;
+    margin-bottom: 3rem;
+
   }
 
   .links {
-    gap: 50px;
+    gap: 10px;
+    flex-direction: column;
   }
 
   .links svg {
@@ -177,5 +189,16 @@
     gap: 15px;
     font-size: 16px;
     padding: 16px;
+  }
+
+  .logout {
+    bottom: 5px;
+    right: 8px;
+  }
+
+  .footer {
+    position: relative;
+    top: 2rem;
+
   }
 }

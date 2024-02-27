@@ -75,7 +75,12 @@ const Client = () => {
             {loading ? <Loading /> : <ClientWrapper.Container data={clients} />}
           </section>
         </div>
-        <Footer />
+
+        <div className={style.footer}>
+
+        <Footer  />
+        </div>
+       
       </main>
     );
   }
