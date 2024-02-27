@@ -50,7 +50,7 @@ const EntrepriseProfile = () => {
   const handleSave = async () => {
     try {
       // Faça uma solicitação para salvar os dados editados
-      // Por exemplo: await axios.put(`/api/company/${id}`, companyData);
+      await axios.put(`/api/company/${id}`, companyData);
       setEditable(false); // Desativa o modo de edição após salvar
     } catch (error) {
       console.error("Erro ao salvar os dados:", error);
