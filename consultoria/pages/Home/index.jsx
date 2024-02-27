@@ -40,7 +40,7 @@ const Home = () => {
 
         <div className={style.links}>
           <Link to="/client" className={style.options}>
-            <img src="../../src/assets/client.svg" alt="Lista de clientes" />
+            <img src={client} alt="Lista de clientes" />
             Lista de clientes
           </Link>
 
