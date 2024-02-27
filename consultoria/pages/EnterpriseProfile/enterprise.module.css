@@ -38,6 +38,14 @@
   height: 1em;
   margin-left: 1em;
   background: transparent;
+ 
+}
+
+.buttons button{
+  border: none;
+  background: transparent;
+  font-size: 45px;
+  color: #392820;
 }
 
 .homeButton {
@@ -47,6 +55,8 @@
 }
 
 .home {
+  font-size: 45px;
+  color: #392820;
 }
 
 .title1,
@@ -158,7 +168,20 @@
     height: inherit;
   }
 
+  .title1{
+    font-size: 2rem;
+    padding-top: 1em;
+  }
+
   .profile {
     grid-template-columns: 1fr;
+  }
+
+  .profileInput2{
+    width: 90%;
+  }
+
+  .documentsHeader{
+    flex-direction: column;
   }
 }

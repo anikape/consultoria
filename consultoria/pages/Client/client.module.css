@@ -201,7 +201,7 @@
     margin: 0 32px;
     padding: 1.5rem 32px;
   }
-
+ 
   .section {
     flex-direction: column;
     justify-content: center;
@@ -219,5 +219,9 @@
     gap: 32px;
     padding: 32px 0;
     width: 100%;
+  }
+
+  .footer{
+    margin-top: 3rem;
   }
 }

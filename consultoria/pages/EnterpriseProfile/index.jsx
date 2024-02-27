@@ -6,9 +6,9 @@ import { useData } from "../../src/hooks/useData";
 import { DocumentWrapper } from "../../component/DocumentWrapper";
 import { DocumentForm } from "../../component/Forms/DocumentForm";
 import { Modal } from "../../component/Modal";
-
+import { RiHomeHeartLine } from "react-icons/ri";
 import home from "../../src/assets/home.png";
-
+import { FaUserGroup } from "react-icons/fa6";
 import axios from "axios";
 
 const EntrepriseProfile = () => {
@@ -74,12 +74,13 @@ const EntrepriseProfile = () => {
       <div className={style.contentContainer}>
         <div className={style.button}>
           <Link to="/client" className={style.buttons}>
-            <button> Cliente</button>
+            <button> <FaUserGroup /></button>
           </Link>
 
           <Link to="/home" className={style.buttons}>
             <button className={style.homeButton}>
-              <img src={home} className={style.home} alt="" />
+              {/* <img src={home} className={style.home} alt="" /> */}
+              <RiHomeHeartLine  className={style.home} />
             </button>
           </Link>
         </div>

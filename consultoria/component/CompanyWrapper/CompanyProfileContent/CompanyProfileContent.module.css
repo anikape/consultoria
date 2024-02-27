@@ -217,6 +217,10 @@
     justify-content: center;
   }
 
+  .infoEnterpriseWrapper{
+    flex-direction: column;
+  }
+
   .section {
     flex-direction: column;
     justify-content: center;

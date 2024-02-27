@@ -8,6 +8,7 @@ import edity from '../../src/assets/edity.png';
 import excluir from '../../src/assets/delittt.png';
 import home from '../../src/assets/home.png';
 import { AiFillSetting } from 'react-icons/ai';
+import { RiHomeHeartLine } from "react-icons/ri";
 import Footer from '../../component/Footer';
 
 const formatDate = (dateString) => {
@@ -128,7 +129,8 @@ const DocumentsPage = () => {
         <>
           <Link className={style.homeButton} to="/home">
             <button>
-              <img src={home} className={style.home} alt="" />
+            <RiHomeHeartLine className={style.home}  />
+              {/* <img src={home}  alt="" /> */}
             </button>
           </Link>
 

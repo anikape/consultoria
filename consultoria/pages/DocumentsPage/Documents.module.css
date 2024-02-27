@@ -35,7 +35,7 @@
 
 .home {
   font-size: 34px;
-
+  color: #392820;
 }
 
 /* Estilos para a tabela */
@@ -98,4 +98,114 @@ td {
 .footer {
   position: fixed;
   bottom: 0;
+}
+
+/* DocumentsPage.module.css */
+
+/* Adicione a regra de mídia para largura máxima de 710px */
+@media (max-width: 710px) {
+  .documentContainer {
+    background: url("../../src/assets/documentsBg.png");
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    width: 100%;
+    /* Defina a largura máxima */
+    background-size: 100% 100%;
+    min-height: 100vh;
+  }
+
+  .homeButton {
+    display: flex;
+    margin-top: 2rem;
+    justify-content: flex-start !important;
+    margin-left: -30em;
+    padding-bottom: 4rem;
+    background: transparent;
+  }
+
+  .homeButton button {
+    background: transparent;
+    border: none;
+    transition: 0.3s;
+  }
+
+  .homeButton button:active {
+    transform: translateY(5px);
+  }
+
+ 
+
+  /* Estilos para a tabela */
+  .tableContent {
+    width: 100%;
+    overflow-x: auto;
+    /* Adiciona rolagem horizontal se necessário */
+  }
+
+
+  table {
+    width: 80%;
+    /* Defina a largura desejada para a tabela */
+    margin: 0 auto;
+    /* Centraliza a tabela horizontalmente */
+    border-collapse: collapse;
+  }
+
+  .infos {
+    color: #392820;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Franklin Gothic Medium;
+    font-size: 15px;
+    text-align: center;
+    background-color: rgba(217, 217, 217, 0.43);
+  }
+
+  /* Estilo para linhas pares da tabela */
+  tr:nth-child(even) {
+    background-color: rgba(217, 217, 217, 0.43);
+  }
+
+  /* Estilo para linhas ímpares da tabela */
+  tr:nth-child(odd) {
+    background-color: rgba(132, 152, 147, 0.13);
+  }
+
+  th,
+  td {
+    padding: 8px 5px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    justify-content: center;
+    align-items: center;
+    color: #392820;
+  }
+
+  .documentsIcons {
+    font-size: 20px;
+  }
+
+  .iconButton {
+    border: none;
+    background: transparent;
+    margin-left: 0;
+  }
+
+  /*Dragzone*/
+
+  .buttonSave {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+  }
 }
