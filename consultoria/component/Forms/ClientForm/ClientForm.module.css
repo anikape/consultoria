@@ -31,6 +31,12 @@
   margin-top: 2rem;
 }
 
+.formContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .section {
   display: flex;
   width: 100%;
@@ -273,7 +279,8 @@ button {
 
 .buttons {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 32px;
 }
 
 .button1 {

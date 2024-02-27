@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import style from "./Select.module.css";
 
 export const Select = forwardRef(
-  ({ label = "", name = "", data, onChange, onBlur }, ref) => {
+  ({ label = "", name = "", data, error, onChange, onBlur }, ref) => {
     return (
       <>
         <div className={style.inputGroup}>
@@ -11,13 +11,16 @@ export const Select = forwardRef(
             {label}:
           </label>
           <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
-            <option value="">Selecione uma opção...</option>
+            <option selected disabled>
+              Selecione uma opção...
+            </option>
             {data?.map(({ id, name }) => (
               <option key={id} value={id} disabled={data ? "" : "disabled"}>
                 {data ? name : "carregando..."}
               </option>
             ))}
           </select>
+          <p className={style.errorMessage}>{error}</p>
         </div>
       </>
     );

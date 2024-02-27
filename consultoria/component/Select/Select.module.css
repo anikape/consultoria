@@ -6,13 +6,6 @@
   top: 40px;
   color: #392820;
 }
-/* 
-button {
-  border: none;
-  background-color: transparent;
-  transition: 0.3s;
-  box-shadow: 6px 6px 3px rgba(255, 255, 255, 0.23);
-} */
 
 .butoon:active {
   transform: translateY(5px);
@@ -24,6 +17,14 @@ button {
   flex-direction: column;
   width: 100%;
   padding: 0px;
+  position: relative;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0.5rem;
 }
 
 .label {
@@ -34,28 +35,6 @@ button {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-}
-
-.inputGroup input {
-  width: 100%;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  height: 28px;
-  border-radius: 9px;
-  background: #849893;
-  box-shadow: 6px 2px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  border: none;
-  outline: none;
-  padding-left: 0.5em;
-}
-
-.input::placeholder {
-  color: #fff;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 10px;
-  font-style: normal;
-  padding-left: 0.5em;
 }
 
 .inputGroup select {

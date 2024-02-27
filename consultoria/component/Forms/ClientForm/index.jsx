@@ -1,4 +1,4 @@
-import {useEffect, useCallback} from "react";
+import { useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useFetch } from "../../../src/hooks/useFetch";
 
@@ -9,76 +9,84 @@ import style from "./ClientForm.module.css";
 export const ClientForm = () => {
   const {
     register,
-    // watch,
-    // setValue,
     handleSubmit,
-    formState: { isSubmitting },
-  } = useForm(/*{
-    defaultValues: {
-      zipcode: "",
-    },
-  }*/);
+    formState: { isSubmitting, errors },
+  } = useForm();
   const { postData } = useFetch();
+
+  console.log(errors);
 
   const onSubmit = (data) => {
     postData("client", data);
     console.log(data);
+    console.log(errors);
   };
-
-  // const zipCode = watch("zipcode");
-
-  // const handleSetData = useCallback((data) => {
-  //   setValue("street", data.logradouro);
-  //   setValue("city", data.localidade);
-  //   setValue("state", data.uf);
-  //   setValue("bairro", data.bairro);
-  // }, []);
-
-  // const handleFetchCEP = useCallback(
-  //   async (zipCode) => {
-  //     const data = await fetch(`https://viacep.com.br/ws/${zipCode}/json`);
-  //     const response = await data.json();
-
-  //     handleSetData(response);
-  //   },
-  //   [setValue]
-  // );
-
-  // useEffect(() => {
-  //   if (zipCode.length !== 8) {
-  //     return;
-  //   }
-  //   handleFetchCEP(zipCode);
-  // }, [handleFetchCEP, setValue, zipCode]);
 
   return (
     <>
-      <Input {...register("name")} label="Nome" placeholder="Nome Completo" />
-      <Input {...register("cpf")} label="CPF:" placeholder="CPF" />
-      <Input {...register("email")} label="Email" placeholder="E-mail" />
-      <Input {...register("phone")} label="Telefone:" placeholder="Telefone" />
-      {/* <Input {...register("zipcode")} label="CEP" placeholder="CEP" />
-      <Input {...register("state")} label="Estado" placeholder="Estado" />
-      <Input {...register("city")} label="Cidade" placeholder="Cidade" />
-      <Input {...register("bairro")} label="Bairro" placeholder="Bairro" />
-      <Input
-        {...register("street")}
-        label="Rua/Logradouro"
-        placeholder="Rua/Logradouro"
-      /> */}
-
-      <div className={style.buttons}>
-        <button
-          className={style.button1}
-          type="submit"
-          disabled={isSubmitting}
-          onClick={handleSubmit(onSubmit)}>
-          {isSubmitting ? "Salvando..." : "Salvar"}
-        </button>
-        <button className={style.button2} onClick={"closeModal1"}>
-          Cancelar
-        </button>
-      </div>
+      <form className={style.formContent} onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          {...register("name", {
+            required: "Campo obrigatório",
+            minLength: { value: 3, message: "Digite ao menos 3 caracteres" },
+          })}
+          label="Nome"
+          placeholder="Nome Completo"
+          error={errors.name?.message}
+        />
+        <Input
+          {...register("cpf", {
+            required: "Campo obrigatório",
+            maxLength: { value: 11, message: "Digite apenas numeros" },
+            pattern: {
+              value: /^[0-9]{3}.?[0-9]{3}.?[0-9]{3}-?[0-9]{2}/,
+              message: "Digite apenas números",
+            },
+          })}
+          label="CPF:"
+          placeholder="CPF"
+          error={errors.cpf?.message}
+          maxLength={11}
+        />
+        <Input
+          {...register("email", {
+            required: "Campo obrigarório",
+            pattern: {
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: "Digite um email válido",
+            },
+          })}
+          label="Email"
+          placeholder="E-mail"
+          error={errors.email?.message}
+        />
+        <Input
+          {...register("phone", {
+            required: "Campo obrigatório",
+            maxLength: { value: 8, message: "Digite apenas números" },
+            pattern: {
+              value: /^[0-9]{8}$/,
+              message: "Digite apenas números",
+            },
+          })}
+          label="Telefone:"
+          placeholder="Telefone"
+          maxLength={8}
+          error={errors.phone?.message}
+        />
+        <div className={style.buttons}>
+          <button
+            className={style.button1}
+            type="submit"
+            disabled={isSubmitting}>
+            {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+          </button>
+          <button className={style.button2} type="reset">
+            Cancelar
+          </button>
+        </div>
+      </form>
     </>
   );
 };
