@@ -1,0 +1,12 @@
+[build]
+  
+  base = "dist"
+  publish = "dist"
+
+[[headers]]
+  
+  for = "/*"
+    [headers.values]
+      Access-Control-Allow-Headers = "*"
+      Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+      Access-Control-Allow-Credentials = "true"
