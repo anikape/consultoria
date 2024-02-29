@@ -10,13 +10,29 @@ export const DocumentForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm();
 
   const { postData } = useFetch();
 
   const onSubmit = (data) => {
-    // postData("client", data);
+    let formData = new FormData();
+    formData.append("file", data.file[0]);
+
+    // console.log(formData);
+    data = {
+      ...data,
+      // ...data.file[0],
+      file: data.file[0],
+      // file: data.file[0],
+      // size: data.file[0].size,
+      // name: data.file[0].name,
+    };
+    // formData.append("recipe", JSON.stringify(data));
+
+    console.log(formData);
+
+    postData("document/upload", data);
     console.log(data);
   };
 
@@ -52,9 +68,9 @@ export const DocumentForm = () => {
 
   return (
     <>
-      <form className={styles.formContent} onSubmit={"handleSubmit"}>
+      <form className={styles.formContent} onSubmit={handleSubmit(onSubmit)}>
         <Input
-          {...register("nome")}
+          {...register("name")}
           label="Nome"
           placeholder="Insira o nome do documento"
         />
@@ -62,17 +78,22 @@ export const DocumentForm = () => {
 
         <Input {...register("validity")} label="Data de validade" type="date" />
 
-        <Select {...register("clientId")} label="Empresa" data={[]} />
+        {/* <Select {...register("clientId")} label="Empresa" data={[]} /> */}
 
-        <Select {...register("clientId")} label="Tipo de documento" data={[]} />
+        {/* <Select {...register("clientId")} label="Tipo de documento" data={[]} /> */}
 
-        <Input {...register("name")} label="Anexar arquivo" type="file" />
+        <input {...register("company")} value={"65b3b75d413fd3683f846855"} />
 
-        <button
-          className={styles.buttonSubmit}
-          onClick={handleSubmit(onSubmit)}>
-          Enviar
-        </button>
+        {/* <Input
+          {...register("file")}
+          label="Anexar arquivo"
+          type="file"
+          name="file"
+          
+        /> */}
+        <input {...register("file")} type="file" name="file" />
+
+        <button className={styles.buttonSubmit}>Enviar</button>
       </form>
     </>
   );
