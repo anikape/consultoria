@@ -74,13 +74,16 @@ const EntrepriseProfile = () => {
       <div className={style.contentContainer}>
         <div className={style.button}>
           <Link to="/client" className={style.buttons}>
-            <button> <FaUserGroup /></button>
+            <button>
+              {" "}
+              <FaUserGroup />
+            </button>
           </Link>
 
           <Link to="/home" className={style.buttons}>
             <button className={style.homeButton}>
               {/* <img src={home} className={style.home} alt="" /> */}
-              <RiHomeHeartLine  className={style.home} />
+              <RiHomeHeartLine className={style.home} />
             </button>
           </Link>
         </div>
@@ -280,18 +283,10 @@ const EntrepriseProfile = () => {
                 </Modal>
               </div>
             </section>
+            <DocumentWrapper data={id} />
           </>
         )}
-
-        <DocumentWrapper data={id} />
-
-        <div>
-          {/* Botão para abrir o modal */}
-
-          {/* Renderiza o modal apenas se showModal for true */}
-        </div>
       </div>
-
       <Footer />
     </main>
   );

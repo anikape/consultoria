@@ -24,4 +24,15 @@ export const useFetch = () => ({
       return error;
     }
   },
+  deleteData: async (endpoint, body) => {
+    try {
+      const response = await api.delete(endpoint, body, {
+        withCredentials: true,
+      });
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
 });
