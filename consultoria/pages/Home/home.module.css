@@ -130,8 +130,8 @@
 }
 
 .logout svg {
-  width: 40px;
-  height: 40px;
+  width: 80px;
+  height: 80px;
   color: rgba(132, 152, 147, 0.93);
   transition: transform 0.60s ease, color 0.3s ease;
   /* Suaviza a transição de movimento e de cor */
@@ -154,28 +154,34 @@
 
 @media (max-width: 710px) {
   .containerHome {
-    height: 110vh;
+    height: max-content;
+    background-size: cover;
   }
 
   .content {
     gap: 50px;
-    border: 12px solid rgba(255, 255, 255, 0.5);
-    padding: 44px 32px;
+    /* border: 12px solid rgba(255, 255, 255, 0.5); */
+    padding: 0;
     min-height: max-content;
-    margin: 0 32px;
+    /* margin: 0 32px; */
     width: 90%;
     height: auto;
+    background: none;
+    border: none;
+    box-shadow: none;
   }
 
   .info {
     align-self: center;
-    margin-bottom: 3rem;
-
+    /* margin-bottom: 3rem; */
+    margin-top: 0;
   }
+
 
   .links {
     gap: 10px;
     flex-direction: column;
+    margin-top: -1rem;
   }
 
   .links svg {
@@ -184,16 +190,19 @@
   }
 
   .options {
-    min-width: fit-content;
-    min-height: max-content;
-    gap: 15px;
+    /* min-width: fit-content;
+    min-height: max-content; */
+    width: 200px;
+    height: 138px;
     font-size: 16px;
-    padding: 16px;
+    padding: 10px;
+
+
   }
 
   .logout {
-    bottom: 5px;
-    right: 8px;
+    right: 2px;
+    bottom: 6px;
   }
 
   .footer {
