@@ -38,10 +38,9 @@
   height: 1em;
   margin-left: 1em;
   background: transparent;
- 
 }
 
-.buttons button{
+.buttons button {
   border: none;
   background: transparent;
   font-size: 45px;
@@ -109,6 +108,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 32px;
 }
 
 .errorContainer {
@@ -168,7 +168,7 @@
     height: inherit;
   }
 
-  .title1{
+  .title1 {
     font-size: 2rem;
     padding-top: 1em;
   }
@@ -177,11 +177,11 @@
     grid-template-columns: 1fr;
   }
 
-  .profileInput2{
+  .profileInput2 {
     width: 90%;
   }
 
-  .documentsHeader{
+  .documentsHeader {
     flex-direction: column;
   }
 }

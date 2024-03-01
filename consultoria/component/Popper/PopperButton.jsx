@@ -8,7 +8,7 @@ export const PopperButton = ({ children, show, setShow }) => {
       <div className={style.popper} onClick={() => setShow(!show)}>
         {children}
         {/* <p>{mask.CNPJ(company.cnpj)}</p> */}
-        <p>{show ? "▲" : "▼"}</p>
+        <p className={style.popperButton}>{show ? "▲" : "▼"}</p>
       </div>
     </>
   );
