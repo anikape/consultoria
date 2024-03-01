@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
+import { useData } from "../../../src/hooks/useData";
 import { Select } from "../../Select";
+import { Option } from "../../Option";
 
 import styles from "./DocumentForm.module.css";
 
@@ -13,85 +15,79 @@ export const DocumentForm = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const { postData } = useFetch();
+  const { uploadFile } = useFetch();
+  const { ["data"]: companys, loading, error, request } = useData();
+
+  useEffect(() => {
+    request("get", "company", { withCrendentials: true });
+  }, [request]);
+
+  console.log(companys);
 
   const onSubmit = (data) => {
-    let formData = new FormData();
-    formData.append("file", data.file[0]);
-
-    // console.log(formData);
     data = {
       ...data,
-      // ...data.file[0],
       file: data.file[0],
-      // file: data.file[0],
-      // size: data.file[0].size,
-      // name: data.file[0].name,
     };
-    // formData.append("recipe", JSON.stringify(data));
 
-    console.log(formData);
-
-    postData("document/upload", data);
+    uploadFile("document/upload", data);
     console.log(data);
   };
 
-  const [formData, setFormData] = useState({
-    nome: "",
-    dataEmissao: "",
-    dataVencimento: "",
-    empresa: "",
-    tipoDocumento: "",
-    arquivo: null,
-  });
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleFileChange = (event) => {
-    setFormData({
-      ...formData,
-      arquivo: event.target.files[0],
-    });
-  };
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log(formData);
-  //   // handleClose();
+  // const handleFileChange = (event) => {
+  //   setFormData({
+  //     ...formData,
+  //     arquivo: event.target.files[0],
+  //   });
   // };
 
   return (
     <>
       <form className={styles.formContent} onSubmit={handleSubmit(onSubmit)}>
         <Input
-          {...register("name")}
+          {...register("name", { required: "Informe o nome do arquivo" })}
           label="Nome"
           placeholder="Insira o nome do documento"
+          error={errors.name?.message}
         />
-        <Input {...register("emission")} label="Data de Emissão" type="date" />
+        <Input
+          {...register("city", { required: "Informe uma cidade" })}
+          label="Nome"
+          placeholder="Insira o nome do documento"
+          error={errors.name?.message}
+        />
+        <Input
+          {...register("emission", { required: "Informe a data de emissão" })}
+          label="Data de Emissão"
+          type="date"
+          error={errors.emission?.message}
+        />
 
-        <Input {...register("validity")} label="Data de validade" type="date" />
+        <Input
+          {...register("validity", { required: "Informe a data de validade" })}
+          label="Data de validade"
+          type="date"
+          error={errors.validity?.message}
+        />
 
-        {/* <Select {...register("clientId")} label="Empresa" data={[]} /> */}
+        <Select {...register("clientId")} label="Empresa">
+          {companys?.map(({ id, companyName }) => (
+            <Option data={(id, companyName)} />
+          ))}
+        </Select>
 
-        {/* <Select {...register("clientId")} label="Tipo de documento" data={[]} /> */}
+        <Select
+          {...register("clientId")}
+          label="Tipo de documento"
+          data={companys}
+        />
 
-        <input {...register("company")} value={"65b3b75d413fd3683f846855"} />
-
-        {/* <Input
+        <Input
           {...register("file")}
           label="Anexar arquivo"
           type="file"
           name="file"
-          
-        /> */}
-        <input {...register("file")} type="file" name="file" />
+        />
 
         <button className={styles.buttonSubmit}>Enviar</button>
       </form>
