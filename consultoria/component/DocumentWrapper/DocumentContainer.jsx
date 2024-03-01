@@ -6,9 +6,16 @@ import { Loading } from "../Loading";
 import { Popper } from "../Popper";
 import { useState } from "react";
 import style from "./DocumentWrapper.module.css";
+import { useFetch } from "../../src/hooks/useFetch";
 
 export const DocumentContainer = ({ document, loading }) => {
   const [show, setShow] = useState(false);
+
+  const { deleteData } = useFetch();
+
+  const handleDeleteDocument = (documentId) => {
+    deleteData(`document/${documentId}`, documentId);
+  };
   return (
     <>
       {loading ? (
@@ -50,7 +57,7 @@ export const DocumentContainer = ({ document, loading }) => {
               <div>
                 <button
                   className={style.button}
-                  onClick={() => handleDeleteDocument(document.id)}>
+                  onClick={() => handleDeleteDocument(document._id)}>
                   Excluir Documento
                 </button>
               </div>
