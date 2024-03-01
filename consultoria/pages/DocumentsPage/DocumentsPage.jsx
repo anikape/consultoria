@@ -6,10 +6,10 @@ import style from './Documents.module.css';
 import pdf from '../../src/assets/pdf.png';
 import edity from '../../src/assets/edity.png';
 import excluir from '../../src/assets/delittt.png';
-import home from '../../src/assets/home.png';
 import { AiFillSetting } from 'react-icons/ai';
 import { RiHomeHeartLine } from "react-icons/ri";
 import Footer from '../../component/Footer';
+import axios from 'axios';
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -26,27 +26,28 @@ const DocumentsPage = () => {
     request('get', 'document', { withCredentials: true });
   }, [request]);
 
-  const handleDeleteDocument = async (filename, event) => {
-    event.stopPropagation(); // Evitar a propagação do evento para evitar recarregamento da página
-    console.log(filename);
+ 
+
+  const handleDeleteDocument = async (id, event) => {
+    event.stopPropagation();
+     
+    console.log(id);
+  
     try {
-      // Fazer uma solicitação de exclusão ao backend
-      await fetch(`document/${filename}`, {
-        method: "DELETE",
+      // Continue com a exclusão do documento usando Axios
+      await axios.delete(`document/${id}`, {
         headers: {
-          // "Content-Type": "application/json",
           // Incluir cabeçalhos de autenticação, se necessário
         },
       });
-
+  
       // Atualizar a lista de documentos após a exclusão
       request("get", "document", { withCredentials: true });
     } catch (error) {
-      console.error("Erro ao excluir documento:", error);
-      // Lidar com o erro, se necessário
+      console.error("Erro ao excluir documento:", error.message);
     }
-    
   };
+  
 
   const handleEditDocument = async (documentId, newData) => {
     try {
@@ -83,6 +84,7 @@ const DocumentsPage = () => {
   };
 
   const handleEditButtonClick = (document) => {
+    //função para editar dados do documento
     setIsEditing(true);
     setEditedDocument({ ...document }); // Copia os dados do documento para editar
   };
@@ -245,8 +247,7 @@ const DocumentsPage = () => {
                       <button
                         className={style.iconButton}
                         onClick={(event) =>
-                          handleDeleteDocument(document.key, event)
-                          
+                          handleDeleteDocument(document._id, event)
                         }
                       >
                         <img

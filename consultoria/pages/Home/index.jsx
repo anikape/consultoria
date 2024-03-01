@@ -55,11 +55,13 @@ const Home = () => {
           </Link>
         </div>
 
-        <button onClick={handleLogout} className={style.logout}>
-        <IoLogOut />
-          
-        </button>
       </div>
+
+
+      <button onClick={handleLogout} className={style.logout}>
+        <IoLogOut />
+      </button>
+    
       <div className={style.footer}>
         <Footer />
       </div>
