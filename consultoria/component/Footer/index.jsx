@@ -10,7 +10,7 @@ const Footer = () => {
       <div className={style.lineFooter}>
       </div>
 
-      <p className={style.paragraph}>© 2023 PC CONSULTORIA PROJETOS & SERVIÇOS AMBIENTAIS. TODOS OS DIREITOS RESERVADOS.</p>
+      <p className={style.paragraph}>© 2024 PC CONSULTORIA PROJETOS & SERVIÇOS AMBIENTAIS. TODOS OS DIREITOS RESERVADOS.</p>
 
 
     </section>
