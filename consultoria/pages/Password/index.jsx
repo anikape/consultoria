@@ -56,8 +56,8 @@ const Password = () => {
         <div className={style.info}>
           <img src={info} alt="Simbolo de Informação" />
           <p>
-            A senha deverá conter exatamente 6 caracteres, dos quais 4 deverão
-            ser numéricos e 2 alfanuméricos.
+            A senha deve ter exatamente 6 caracteres, <br />
+            sendo 4 deles numéricos e 2 alfanuméricos.
           </p>
         </div>
         <form className={style.form} onSubmit={handleSubmit}>
@@ -84,9 +84,10 @@ const Password = () => {
             <span
               className={`${style.error} ${
                 errors.password ? style.visible : ""
-              }`}>
-              A senha deve conter 6 caracteres, sendo 4 numéricos e 2
-              alfanuméricos.
+              }`}
+            >
+              A senha deve ter exatamente 6 caracteres, <br />
+              sendo 4 deles numéricos e 2 alfanuméricos.
             </span>
           </div>
           <div className={style.formContent}>
@@ -110,7 +111,8 @@ const Password = () => {
             <span
               className={`${style.error} ${
                 errors.confirmPassword ? style.visible : ""
-              }`}>
+              }`}
+            >
               As senhas não coincidem.
             </span>
           </div>
