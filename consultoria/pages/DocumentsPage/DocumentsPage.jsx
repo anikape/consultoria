@@ -7,12 +7,12 @@ import pdf from '../../src/assets/pdf.png';
 import edity from '../../src/assets/edity.png';
 import excluir from '../../src/assets/delittt.png';
 import { AiFillSetting } from 'react-icons/ai';
-import { RiHomeHeartLine } from "react-icons/ri";
+import { RiHomeHeartLine } from 'react-icons/ri';
 import Footer from '../../component/Footer';
-import { useFetch } from "../../src/hooks/useFetch";
+import { useFetch } from '../../src/hooks/useFetch';
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
   return new Date(dateString).toLocaleDateString('pt-BR', options);
 };
 
@@ -23,12 +23,11 @@ const DocumentsPage = () => {
   const [editedDocument, setEditedDocument] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
+  const { deleteData, editData } = useFetch(); // Adicionando editData aqui
 
   useEffect(() => {
     request('get', 'document', { withCredentials: true });
   }, [request]);
-
-  const { deleteData } = useFetch();
 
   const handleDeleteDocument = async (documentId) => {
     try {
@@ -45,13 +44,7 @@ const DocumentsPage = () => {
 
   const handleEditDocument = async (documentId, newData) => {
     try {
-      await fetch(`document/${documentId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newData),
-      });
+      await editData(documentId, newData); // Utilizando o novo hook editData
       request('get', 'document', { withCredentials: true });
       setIsEditing(false);
       setEditedDocument(null);
@@ -60,27 +53,9 @@ const DocumentsPage = () => {
     }
   };
 
-  const handleNewPdfUpload = async () => {
-    if (!newPdf) return;
-
-    try {
-      const formData = new FormData();
-      formData.append('pdf', newPdf);
-
-      await fetch(`uploadPdf`, {
-        method: 'POST',
-        body: formData,
-      });
-      request('get', 'document', { withCredentials: true });
-    } catch (error) {
-      console.error('Erro ao enviar novo PDF:', error);
-    }
-  };
-
   const handleEditButtonClick = (document) => {
-    //função para editar dados do documento
     setIsEditing(true);
-    setEditedDocument({ ...document }); // Copia os dados do documento para editar
+    setEditedDocument({ ...document });
   };
 
   const handleCancelEdit = () => {
@@ -88,42 +63,56 @@ const DocumentsPage = () => {
     setEditedDocument(null);
   };
 
+  const handleInputChange = (fieldName, value) => {
+    // Verifica se o campo de entrada está relacionado a uma data
+    if (fieldName === 'emission' || fieldName === 'validity') {
+      if (fieldName === 'validity') {
+        // Atualiza a data de vencimento como uma string diretamente
+        setEditedDocument((prevDocument) => ({
+          ...prevDocument,
+          validity: value,
+        }));
+      } else {
+        // Converte a data de emissão para o formato de objeto Date
+        const date = new Date(value);
+        setEditedDocument((prevDocument) => ({
+          ...prevDocument,
+          [fieldName]: date,
+        }));
+      }
+    } else {
+      // Se não for uma data, atualiza o estado diretamente
+      setEditedDocument((prevDocument) => ({
+        ...prevDocument,
+        [fieldName]: value,
+      }));
+    }
+  };
+
   const handleSaveEdit = async () => {
     if (!editedDocument) return;
 
     try {
-      const newData = {
-        name: editedDocument.name,
-        type: editedDocument.type,
-        client: editedDocument.client,
-        emission: editedDocument.emission,
-        validity: editedDocument.validity,
-      };
+      const response = await editData(
+        `document/${editedDocument._id}`,
+        editedDocument,
+      );
 
-      await handleEditDocument(editedDocument._id, newData);
-
-      // Atualiza os estados para sair do modo de edição e limpar os dados do documento editado
-      setIsEditing(false);
-      setEditedDocument(null);
+      if (response.ok) {
+        request('get', 'document', { withCredentials: true });
+        setIsEditing(false);
+        setEditedDocument(null);
+        window.location.reload(); // Recarrega a página após o salvamento bem-sucedido
+      } else {
+        console.error('Erro ao salvar as alterações:', response.statusText);
+      }
     } catch (error) {
       console.error('Erro ao salvar as alterações:', error);
     }
   };
 
-  const handleInputChange = (fieldName, value) => {
-    setEditedDocument((prevDocument) => ({
-      ...prevDocument,
-      [fieldName]: value,
-    }));
-  };
-
   return (
     <div className={style.documentContainer}>
-      <div>
-        {confirmationMessage && deletedDocumentId && (
-          <div>{confirmationMessage}</div>
-        )}
-      </div>
       {error && <h1>Não foi possível carregar os dados</h1>}
       {loading && <Loading />}
       {!loading && !error && (
@@ -131,9 +120,14 @@ const DocumentsPage = () => {
           <Link className={style.homeButton} to="/home">
             <button>
               <RiHomeHeartLine className={style.home} />
-              {/* <img src={home}  alt="" /> */}
             </button>
           </Link>
+
+          <div>
+            {confirmationMessage && deletedDocumentId && (
+              <div>{confirmationMessage}</div>
+            )}
+          </div>
 
           <section className={style.tableContent}>
             <table>
@@ -209,7 +203,7 @@ const DocumentsPage = () => {
                     <td>
                       {isEditing && editedDocument?._id === document._id ? (
                         <input
-                          type="text"
+                          type="date"
                           value={formatDate(editedDocument.validity)}
                           onChange={(e) =>
                             handleInputChange('validity', e.target.value)
@@ -268,8 +262,6 @@ const DocumentsPage = () => {
               <button onClick={handleCancelEdit}>Cancelar</button>
             </>
           )}
-
-          
         </>
       )}
 
