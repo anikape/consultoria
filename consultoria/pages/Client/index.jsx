@@ -24,7 +24,7 @@ const Client = () => {
     request("get", "client", { withCredentials: true });
   }, [request]);
 
-  if (loading) {
+  if (loading && !clients) {
     return <Loading />;
   }
 
@@ -35,7 +35,7 @@ const Client = () => {
           <div className={style.header}>
             <div className={style.headingWrapper}>
               <Link className={style.buttonHome} to="/home">
-                <RiHomeHeartLine  className={style.home} />
+                <RiHomeHeartLine className={style.home} />
               </Link>
               <h1 className={style.title}>Clientes</h1>
             </div>
@@ -77,10 +77,8 @@ const Client = () => {
         </div>
 
         <div className={style.footer}>
-
-        <Footer  />
+          <Footer />
         </div>
-       
       </main>
     );
   }

@@ -24,8 +24,21 @@ export const useFetch = () => ({
       return error;
     }
   },
+  uploadFile: async (endpoint, body) => {
+    try {
+      const response = await api.post(endpoint, body, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-  deleteData: async (endpoint) => {
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+  deleteData: async (endpoint, body) => {
     try {
       const response = await api.delete(endpoint, {
         withCredentials: true,

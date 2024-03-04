@@ -4,13 +4,14 @@ import "./LoadingSpinner.css"; // Estilos CSS para o componente de loading
 const LoadingSpinner = () => {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000); // Tempo de espera em milissegundos (2 segundos neste caso)
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // Tempo de espera em milissegundos (2 segundos neste caso)
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   return (
     <div className="loading-container">
