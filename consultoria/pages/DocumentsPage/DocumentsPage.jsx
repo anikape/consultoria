@@ -23,7 +23,7 @@ const DocumentsPage = () => {
   const [editedDocument, setEditedDocument] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
-  const { deleteData, editData } = useFetch(); // Adicionando editData aqui
+  const { deleteData, editData } = useFetch();
 
   useEffect(() => {
     request('get', 'document', { withCredentials: true });
@@ -34,8 +34,6 @@ const DocumentsPage = () => {
       await deleteData(`document/${documentId}`, documentId);
       setDeletedDocumentId(documentId);
       setConfirmationMessage('Documento excluído com sucesso!');
-
-      // Após a exclusão, busca os documentos atualizados
       await request('get', 'document', { withCredentials: true });
     } catch (error) {
       console.error('Erro ao excluir documento:', error);
@@ -44,8 +42,8 @@ const DocumentsPage = () => {
 
   const handleEditDocument = async (documentId, newData) => {
     try {
-      await editData(documentId, newData); // Utilizando o novo hook editData
-      request('get', 'document', { withCredentials: true });
+      await editData(documentId, newData);
+      await request('get', 'document', { withCredentials: true });
       setIsEditing(false);
       setEditedDocument(null);
     } catch (error) {
@@ -65,38 +63,33 @@ const DocumentsPage = () => {
 
   const handleInputChange = (fieldName, value) => {
     if (fieldName === 'emission') {
-      // Garante que a data de emissão seja uma string no formato 'yyyy-MM-dd'
       const formattedDate = formatDate(new Date(value));
-      setEditedDocument(prevDocument => ({
+      setEditedDocument((prevDocument) => ({
         ...prevDocument,
-        emission: formattedDate
+        emission: formattedDate,
       }));
     } else if (fieldName === 'validity') {
-      // Converte a data de vencimento para objeto Date
       const date = new Date(value);
-      const validity = date.toISOString(); // Converte para o formato ISO 8601
-      setEditedDocument(prevDocument => ({
+      const validity = `${date.getFullYear()}-${(
+        '0' +
+        (date.getMonth() + 1)
+      ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+      setEditedDocument((prevDocument) => ({
         ...prevDocument,
-        validity
+        validity,
       }));
     } else {
-      setEditedDocument(prevDocument => ({
+      setEditedDocument((prevDocument) => ({
         ...prevDocument,
-        [fieldName]: value
+        [fieldName]: value,
       }));
     }
   };
-  
-  
-  
-  
-  
 
   const handleSaveEdit = async () => {
     if (!editedDocument) return;
 
     try {
-      // Convertendo a data de emissão de volta para string
       const editedDocumentToSend = {
         ...editedDocument,
         emission: formatDate(editedDocument.emission),
@@ -108,10 +101,18 @@ const DocumentsPage = () => {
       );
 
       if (response.ok) {
-        request('get', 'document', { withCredentials: true });
+        const updatedDocuments = documents.map((doc) => {
+          if (doc._id === editedDocumentToSend._id) {
+            return editedDocumentToSend;
+          }
+          return doc;
+        });
+
+        setDocuments(updatedDocuments); // Atualiza o estado documents com os documentos atualizados
+
         setIsEditing(false);
         setEditedDocument(null);
-        window.location.reload(); // Recarrega a página após o salvamento bem-sucedido
+        setConfirmationMessage('Alterações salvas com sucesso!');
       } else {
         console.error('Erro ao salvar as alterações:', response.statusText);
       }
@@ -119,6 +120,7 @@ const DocumentsPage = () => {
       console.error('Erro ao salvar as alterações:', error);
     }
   };
+
   return (
     <div className={style.documentContainer}>
       {error && <h1>Não foi possível carregar os dados</h1>}
