@@ -42,10 +42,21 @@ const DocumentsPage = () => {
 
   const handleEditDocument = async (documentId, newData) => {
     try {
-      await editData(documentId, newData);
-      await request('get', 'document', { withCredentials: true });
-      setIsEditing(false);
-      setEditedDocument(null);
+      const response = await editData(`document/${documentId}`, newData);
+      if (response.ok) {
+        const updatedDocuments = documents.map((doc) => {
+          if (doc._id === documentId) {
+            return { ...doc, ...newData }; // Atualiza o documento editado
+          }
+          return doc;
+        });
+        request('get', 'document', { withCredentials: true });
+        setIsEditing(false);
+        setEditedDocument(null);
+        setConfirmationMessage('Alterações salvas com sucesso!');
+      } else {
+        console.error('Erro ao editar documento:', response.statusText);
+      }
     } catch (error) {
       console.error('Erro ao editar documento:', error);
     }
@@ -63,12 +74,14 @@ const DocumentsPage = () => {
 
   const handleInputChange = (fieldName, value) => {
     if (fieldName === 'emission') {
+      // Garante que a data de emissão seja uma string no formato 'yyyy-MM-dd'
       const formattedDate = formatDate(new Date(value));
       setEditedDocument((prevDocument) => ({
         ...prevDocument,
         emission: formattedDate,
       }));
     } else if (fieldName === 'validity') {
+      // Converte a data de vencimento para formato 'YYYY-MM-DD'
       const date = new Date(value);
       const validity = `${date.getFullYear()}-${(
         '0' +
@@ -90,6 +103,7 @@ const DocumentsPage = () => {
     if (!editedDocument) return;
 
     try {
+      // Convertendo a data de emissão de volta para string
       const editedDocumentToSend = {
         ...editedDocument,
         emission: formatDate(editedDocument.emission),
@@ -97,19 +111,12 @@ const DocumentsPage = () => {
 
       const response = await editData(
         `document/${editedDocumentToSend._id}`,
-        editedDocumentToSend,
+        editedDocumentToSend
       );
 
       if (response.ok) {
-        const updatedDocuments = documents.map((doc) => {
-          if (doc._id === editedDocumentToSend._id) {
-            return editedDocumentToSend;
-          }
-          return doc;
-        });
-
-        setDocuments(updatedDocuments); // Atualiza o estado documents com os documentos atualizados
-
+        // Atualiza os documentos após salvar as alterações
+        await request('get', 'document', { withCredentials: true });
         setIsEditing(false);
         setEditedDocument(null);
         setConfirmationMessage('Alterações salvas com sucesso!');
