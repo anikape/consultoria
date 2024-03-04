@@ -1,29 +1,54 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useFetch } from "../../../src/hooks/useFetch";
-
+import LoadingSpinner from "../../LoadingSpinner";
 import { Input } from "../../Input";
 
 import style from "./ClientForm.module.css";
 
 export const ClientForm = () => {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
   const {
     register,
+    reset,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, isSubmitSuccessful },
   } = useForm();
+
   const { postData } = useFetch();
 
-  console.log(errors);
+  const onSubmit = async (data) => {
+    try {
+      const { response, status } = await postData("client", data);
 
-  const onSubmit = (data) => {
-    postData("client", data);
+      if (status !== 201) {
+        setMessage(response.data);
+        throw new Error(response.data);
+      }
+
+      setMessage("Cliente cadastrado com sucesso!");
+    } catch ({ message }) {
+      setMessage(message);
+    }
+
     console.log(data);
     console.log(errors);
+    console.log(isSubmitSuccessful, isSubmitting);
   };
 
   return (
     <>
+      <div>{message}</div>
+
       <form className={style.formContent} onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register("name", {
@@ -76,15 +101,21 @@ export const ClientForm = () => {
           error={errors.phone?.message}
         />
         <div className={style.buttons}>
-          <button
-            className={style.button1}
-            type="submit"
-            disabled={isSubmitting}>
-            {isSubmitting ? "Cadastrando..." : "Cadastrar"}
-          </button>
-          <button className={style.button2} type="reset">
-            Cancelar
-          </button>
+          {isSubmitting ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <button
+                className={style.button1}
+                type="submit"
+                disabled={isSubmitting}>
+                {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+              </button>
+              <button className={style.button2} type="reset" onClick={reset}>
+                Cancelar
+              </button>
+            </>
+          )}
         </div>
       </form>
     </>
