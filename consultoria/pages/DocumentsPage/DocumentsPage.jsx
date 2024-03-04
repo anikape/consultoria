@@ -9,7 +9,7 @@ import excluir from '../../src/assets/delittt.png';
 import { AiFillSetting } from 'react-icons/ai';
 import { RiHomeHeartLine } from "react-icons/ri";
 import Footer from '../../component/Footer';
-import axios from 'axios';
+import { useFetch } from "../../src/hooks/useFetch";
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -21,33 +21,27 @@ const DocumentsPage = () => {
   const [newPdf, setNewPdf] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDocument, setEditedDocument] = useState(null);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [deletedDocumentId, setDeletedDocumentId] = useState(null);
 
   useEffect(() => {
     request('get', 'document', { withCredentials: true });
   }, [request]);
 
- 
+  const { deleteData } = useFetch();
 
-  const handleDeleteDocument = async (id, event) => {
-    event.stopPropagation();
-     
-    console.log(id);
-  
+  const handleDeleteDocument = async (documentId) => {
     try {
-      // Continue com a exclusão do documento usando Axios
-      await axios.delete(`document/${id}`, {
-        headers: {
-          // Incluir cabeçalhos de autenticação, se necessário
-        },
-      });
-  
-      // Atualizar a lista de documentos após a exclusão
-      request("get", "document", { withCredentials: true });
+      await deleteData(`document/${documentId}`, documentId);
+      setDeletedDocumentId(documentId);
+      setConfirmationMessage('Documento excluído com sucesso!');
+
+      // Após a exclusão, busca os documentos atualizados
+      await request('get', 'document', { withCredentials: true });
     } catch (error) {
-      console.error("Erro ao excluir documento:", error.message);
+      console.error('Erro ao excluir documento:', error);
     }
   };
-  
 
   const handleEditDocument = async (documentId, newData) => {
     try {
@@ -125,13 +119,18 @@ const DocumentsPage = () => {
 
   return (
     <div className={style.documentContainer}>
+      <div>
+        {confirmationMessage && deletedDocumentId && (
+          <div>{confirmationMessage}</div>
+        )}
+      </div>
       {error && <h1>Não foi possível carregar os dados</h1>}
       {loading && <Loading />}
       {!loading && !error && (
         <>
           <Link className={style.homeButton} to="/home">
             <button>
-            <RiHomeHeartLine className={style.home}  />
+              <RiHomeHeartLine className={style.home} />
               {/* <img src={home}  alt="" /> */}
             </button>
           </Link>
@@ -246,9 +245,7 @@ const DocumentsPage = () => {
                       )}
                       <button
                         className={style.iconButton}
-                        onClick={(event) =>
-                          handleDeleteDocument(document._id, event)
-                        }
+                        onClick={() => handleDeleteDocument(document._id)}
                       >
                         <img
                           className={style.documentsIcons}
