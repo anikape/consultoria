@@ -82,6 +82,7 @@ td {
   border: none;
   background: transparent;
   margin-left: 2em;
+  cursor: pointer;
 }
 
 /*Dragzone*/

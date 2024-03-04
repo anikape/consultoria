@@ -40,7 +40,19 @@ export const useFetch = () => ({
   },
   deleteData: async (endpoint, body) => {
     try {
-      const response = await api.delete(endpoint, body, {
+      const response = await api.delete(endpoint, {
+        withCredentials: true,
+      });
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+
+  editData: async (endpoint, body) => {
+    try {
+      const response = await api.put(endpoint, body, {
         withCredentials: true,
       });
 

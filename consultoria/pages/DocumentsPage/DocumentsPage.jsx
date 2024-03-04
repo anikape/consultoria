@@ -7,12 +7,14 @@ import pdf from '../../src/assets/pdf.png';
 import edity from '../../src/assets/edity.png';
 import excluir from '../../src/assets/delittt.png';
 import { AiFillSetting } from 'react-icons/ai';
-import { RiHomeHeartLine } from "react-icons/ri";
+import { RiHomeHeartLine } from 'react-icons/ri';
+import { FaSave } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 import Footer from '../../component/Footer';
-import axios from 'axios';
+import { useFetch } from '../../src/hooks/useFetch';
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
   return new Date(dateString).toLocaleDateString('pt-BR', options);
 };
 
@@ -21,72 +23,50 @@ const DocumentsPage = () => {
   const [newPdf, setNewPdf] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDocument, setEditedDocument] = useState(null);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [deletedDocumentId, setDeletedDocumentId] = useState(null);
+  const { deleteData, editData } = useFetch();
 
   useEffect(() => {
     request('get', 'document', { withCredentials: true });
   }, [request]);
 
- 
-
-  const handleDeleteDocument = async (id, event) => {
-    event.stopPropagation();
-     
-    console.log(id);
-  
+  const handleDeleteDocument = async (documentId) => {
     try {
-      // Continue com a exclusão do documento usando Axios
-      await axios.delete(`document/${id}`, {
-        headers: {
-          // Incluir cabeçalhos de autenticação, se necessário
-        },
-      });
-  
-      // Atualizar a lista de documentos após a exclusão
-      request("get", "document", { withCredentials: true });
+      await deleteData(`document/${documentId}`, documentId);
+      setDeletedDocumentId(documentId);
+      setConfirmationMessage('Documento excluído com sucesso!');
+      await request('get', 'document', { withCredentials: true });
     } catch (error) {
-      console.error("Erro ao excluir documento:", error.message);
+      console.error('Erro ao excluir documento:', error);
     }
   };
-  
 
   const handleEditDocument = async (documentId, newData) => {
     try {
-      await fetch(`document/${documentId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newData),
-      });
-      request('get', 'document', { withCredentials: true });
-      setIsEditing(false);
-      setEditedDocument(null);
+      const response = await editData(`document/${documentId}`, newData);
+      if (response.ok) {
+        const updatedDocuments = documents.map((doc) => {
+          if (doc._id === documentId) {
+            return { ...doc, ...newData }; // Atualiza o documento editado
+          }
+          return doc;
+        });
+        request('get', 'document', { withCredentials: true });
+        setIsEditing(false);
+        setEditedDocument(null);
+        setConfirmationMessage('Alterações salvas com sucesso!');
+      } else {
+        console.error('Erro ao editar documento:', response.statusText);
+      }
     } catch (error) {
       console.error('Erro ao editar documento:', error);
     }
   };
 
-  const handleNewPdfUpload = async () => {
-    if (!newPdf) return;
-
-    try {
-      const formData = new FormData();
-      formData.append('pdf', newPdf);
-
-      await fetch(`uploadPdf`, {
-        method: 'POST',
-        body: formData,
-      });
-      request('get', 'document', { withCredentials: true });
-    } catch (error) {
-      console.error('Erro ao enviar novo PDF:', error);
-    }
-  };
-
   const handleEditButtonClick = (document) => {
-    //função para editar dados do documento
     setIsEditing(true);
-    setEditedDocument({ ...document }); // Copia os dados do documento para editar
+    setEditedDocument({ ...document });
   };
 
   const handleCancelEdit = () => {
@@ -94,33 +74,60 @@ const DocumentsPage = () => {
     setEditedDocument(null);
   };
 
+  const handleInputChange = (fieldName, value) => {
+    if (fieldName === 'emission') {
+      // Garante que a data de emissão seja uma string no formato 'yyyy-MM-dd'
+      const formattedDate = formatDate(new Date(value));
+      setEditedDocument((prevDocument) => ({
+        ...prevDocument,
+        emission: formattedDate,
+      }));
+    } else if (fieldName === 'validity') {
+      // Converte a data de vencimento para formato 'YYYY-MM-DD'
+      const date = new Date(value);
+      const validity = `${date.getFullYear()}-${(
+        '0' +
+        (date.getMonth() + 1)
+      ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+      setEditedDocument((prevDocument) => ({
+        ...prevDocument,
+        validity,
+      }));
+    } else {
+      setEditedDocument((prevDocument) => ({
+        ...prevDocument,
+        [fieldName]: value,
+      }));
+    }
+  };
+
   const handleSaveEdit = async () => {
     if (!editedDocument) return;
 
     try {
-      const newData = {
-        name: editedDocument.name,
-        type: editedDocument.type,
-        client: editedDocument.client,
-        emission: editedDocument.emission,
-        validity: editedDocument.validity,
+      // Convertendo a data de emissão de volta para string
+      const editedDocumentToSend = {
+        ...editedDocument,
+        emission: formatDate(editedDocument.emission),
       };
 
-      await handleEditDocument(editedDocument._id, newData);
+      const response = await editData(
+        `document/${editedDocumentToSend._id}`,
+        editedDocumentToSend
+      );
 
-      // Atualiza os estados para sair do modo de edição e limpar os dados do documento editado
-      setIsEditing(false);
-      setEditedDocument(null);
+      if (response.ok) {
+        // Atualiza os documentos após salvar as alterações
+        await request('get', 'document', { withCredentials: true });
+        setIsEditing(false);
+        setEditedDocument(null);
+        setConfirmationMessage('Alterações salvas com sucesso!');
+      } else {
+        console.error('Erro ao salvar as alterações:', response.statusText);
+      }
     } catch (error) {
       console.error('Erro ao salvar as alterações:', error);
     }
-  };
-
-  const handleInputChange = (fieldName, value) => {
-    setEditedDocument((prevDocument) => ({
-      ...prevDocument,
-      [fieldName]: value,
-    }));
   };
 
   return (
@@ -131,10 +138,15 @@ const DocumentsPage = () => {
         <>
           <Link className={style.homeButton} to="/home">
             <button>
-            <RiHomeHeartLine className={style.home}  />
-              {/* <img src={home}  alt="" /> */}
+              <RiHomeHeartLine className={style.home} />
             </button>
           </Link>
+
+          <div>
+            {confirmationMessage && deletedDocumentId && (
+              <div>{confirmationMessage}</div>
+            )}
+          </div>
 
           <section className={style.tableContent}>
             <table>
@@ -198,7 +210,7 @@ const DocumentsPage = () => {
                       {isEditing && editedDocument?._id === document._id ? (
                         <input
                           type="text"
-                          value={formatDate(editedDocument.emission)}
+                          value={editedDocument.emission}
                           onChange={(e) =>
                             handleInputChange('emission', e.target.value)
                           }
@@ -210,7 +222,7 @@ const DocumentsPage = () => {
                     <td>
                       {isEditing && editedDocument?._id === document._id ? (
                         <input
-                          type="text"
+                          type="date"
                           value={formatDate(editedDocument.validity)}
                           onChange={(e) =>
                             handleInputChange('validity', e.target.value)
@@ -246,9 +258,7 @@ const DocumentsPage = () => {
                       )}
                       <button
                         className={style.iconButton}
-                        onClick={(event) =>
-                          handleDeleteDocument(document._id, event)
-                        }
+                        onClick={() => handleDeleteDocument(document._id)}
                       >
                         <img
                           className={style.documentsIcons}
@@ -257,7 +267,22 @@ const DocumentsPage = () => {
                         />
                       </button>
                       {isEditing && editedDocument?._id === document._id && (
-                        <button onClick={handleSaveEdit}>Salvar</button>
+                        <button
+                          className={style.iconButton}
+                          onClick={handleSaveEdit}
+                        >
+                          <FaSave />
+                        </button>
+                      )}
+                      {isEditing && editedDocument && (
+                        <>
+                          <button
+                            className={style.iconButton}
+                            onClick={handleCancelEdit}
+                          >
+                            <MdCancel />
+                          </button>
+                        </>
                       )}
                     </td>
                   </tr>
@@ -265,14 +290,6 @@ const DocumentsPage = () => {
               </tbody>
             </table>
           </section>
-
-          {isEditing && editedDocument && (
-            <>
-              <button onClick={handleCancelEdit}>Cancelar</button>
-            </>
-          )}
-
-          
         </>
       )}
 
