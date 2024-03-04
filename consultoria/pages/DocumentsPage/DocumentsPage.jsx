@@ -8,6 +8,8 @@ import edity from '../../src/assets/edity.png';
 import excluir from '../../src/assets/delittt.png';
 import { AiFillSetting } from 'react-icons/ai';
 import { RiHomeHeartLine } from 'react-icons/ri';
+import { FaSave } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 import Footer from '../../component/Footer';
 import { useFetch } from '../../src/hooks/useFetch';
 
@@ -269,7 +271,7 @@ const DocumentsPage = () => {
                           className={style.iconButton}
                           onClick={handleSaveEdit}
                         >
-                          Salvar
+                          <FaSave />
                         </button>
                       )}
                       {isEditing && editedDocument && (
@@ -278,7 +280,7 @@ const DocumentsPage = () => {
                             className={style.iconButton}
                             onClick={handleCancelEdit}
                           >
-                            Cancelar
+                            <MdCancel />
                           </button>
                         </>
                       )}
