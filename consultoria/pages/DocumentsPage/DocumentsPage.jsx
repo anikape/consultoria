@@ -64,38 +64,47 @@ const DocumentsPage = () => {
   };
 
   const handleInputChange = (fieldName, value) => {
-    // Verifica se o campo de entrada está relacionado a uma data
-    if (fieldName === 'emission' || fieldName === 'validity') {
-      if (fieldName === 'validity') {
-        // Atualiza a data de vencimento como uma string diretamente
-        setEditedDocument((prevDocument) => ({
-          ...prevDocument,
-          validity: value,
-        }));
-      } else {
-        // Converte a data de emissão para o formato de objeto Date
-        const date = new Date(value);
-        setEditedDocument((prevDocument) => ({
-          ...prevDocument,
-          [fieldName]: date,
-        }));
-      }
-    } else {
-      // Se não for uma data, atualiza o estado diretamente
-      setEditedDocument((prevDocument) => ({
+    if (fieldName === 'emission') {
+      // Garante que a data de emissão seja uma string no formato 'yyyy-MM-dd'
+      const formattedDate = formatDate(new Date(value));
+      setEditedDocument(prevDocument => ({
         ...prevDocument,
-        [fieldName]: value,
+        emission: formattedDate
+      }));
+    } else if (fieldName === 'validity') {
+      // Converte a data de vencimento para objeto Date
+      const date = new Date(value);
+      const validity = date.toISOString(); // Converte para o formato ISO 8601
+      setEditedDocument(prevDocument => ({
+        ...prevDocument,
+        validity
+      }));
+    } else {
+      setEditedDocument(prevDocument => ({
+        ...prevDocument,
+        [fieldName]: value
       }));
     }
   };
+  
+  
+  
+  
+  
 
   const handleSaveEdit = async () => {
     if (!editedDocument) return;
 
     try {
+      // Convertendo a data de emissão de volta para string
+      const editedDocumentToSend = {
+        ...editedDocument,
+        emission: formatDate(editedDocument.emission),
+      };
+
       const response = await editData(
-        `document/${editedDocument._id}`,
-        editedDocument,
+        `document/${editedDocumentToSend._id}`,
+        editedDocumentToSend,
       );
 
       if (response.ok) {
@@ -110,7 +119,6 @@ const DocumentsPage = () => {
       console.error('Erro ao salvar as alterações:', error);
     }
   };
-
   return (
     <div className={style.documentContainer}>
       {error && <h1>Não foi possível carregar os dados</h1>}
@@ -191,7 +199,7 @@ const DocumentsPage = () => {
                       {isEditing && editedDocument?._id === document._id ? (
                         <input
                           type="text"
-                          value={formatDate(editedDocument.emission)}
+                          value={editedDocument.emission}
                           onChange={(e) =>
                             handleInputChange('emission', e.target.value)
                           }
@@ -248,7 +256,22 @@ const DocumentsPage = () => {
                         />
                       </button>
                       {isEditing && editedDocument?._id === document._id && (
-                        <button onClick={handleSaveEdit}>Salvar</button>
+                        <button
+                          className={style.iconButton}
+                          onClick={handleSaveEdit}
+                        >
+                          Salvar
+                        </button>
+                      )}
+                      {isEditing && editedDocument && (
+                        <>
+                          <button
+                            className={style.iconButton}
+                            onClick={handleCancelEdit}
+                          >
+                            Cancelar
+                          </button>
+                        </>
                       )}
                     </td>
                   </tr>
@@ -256,12 +279,6 @@ const DocumentsPage = () => {
               </tbody>
             </table>
           </section>
-
-          {isEditing && editedDocument && (
-            <>
-              <button onClick={handleCancelEdit}>Cancelar</button>
-            </>
-          )}
         </>
       )}
 
