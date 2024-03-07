@@ -8,8 +8,11 @@ export const DocumentWrapper = ({ data }) => {
   const { ["data"]: documents, loading, error, request } = useData();
 
   useEffect(() => {
-    request("GET", `/document?company=${data}`, { withCrendentials: true });
-  }, []);
+    const loadData = async () =>
+      await request("GET", `/document?company=${data}`, {
+        withCrendentials: true,
+      });
+  }, [request]);
 
   return (
     <>

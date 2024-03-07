@@ -18,7 +18,9 @@ export const DocumentForm = () => {
   const { ["data"]: companys, loading, error, request } = useData();
 
   useEffect(() => {
-    request("get", "company", { withCrendentials: true });
+    const loadData = async () =>
+      await request("get", "company", { withCrendentials: true });
+    loadData();
   }, [request]);
 
   const onSubmit = (data) => {
@@ -42,8 +44,8 @@ export const DocumentForm = () => {
         />
         <Input
           {...register("city", { required: "Informe uma cidade" })}
-          label="Nome"
-          placeholder="Insira o nome do documento"
+          label="Cidade"
+          placeholder="Informe a cidade"
           error={errors.name?.message}
         />
         <Input
@@ -71,11 +73,11 @@ export const DocumentForm = () => {
           ))}
         </Select>
 
-        <Select
-          {...register("clientId")}
-          label="Tipo de documento"
-          data={companys}
-        />
+        <Select {...register("type")} label="Tipo de documento">
+          <option value="" disabled>
+            Selecione um tipo
+          </option>
+        </Select>
 
         <Input
           {...register("file")}
