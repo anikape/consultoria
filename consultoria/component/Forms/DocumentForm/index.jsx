@@ -4,7 +4,6 @@ import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
 import { useData } from "../../../src/hooks/useData";
 import { Select } from "../../Select";
-import { Option } from "../../Option";
 
 import styles from "./DocumentForm.module.css";
 
@@ -22,8 +21,6 @@ export const DocumentForm = () => {
     request("get", "company", { withCrendentials: true });
   }, [request]);
 
-  console.log(companys);
-
   const onSubmit = (data) => {
     data = {
       ...data,
@@ -33,13 +30,6 @@ export const DocumentForm = () => {
     uploadFile("document/upload", data);
     console.log(data);
   };
-
-  // const handleFileChange = (event) => {
-  //   setFormData({
-  //     ...formData,
-  //     arquivo: event.target.files[0],
-  //   });
-  // };
 
   return (
     <>
@@ -70,9 +60,14 @@ export const DocumentForm = () => {
           error={errors.validity?.message}
         />
 
-        <Select {...register("clientId")} label="Empresa">
+        <Select {...register("company")} label="Empresa">
+          <option value="" disabled>
+            Selecione uma empresa
+          </option>
           {companys?.map(({ id, companyName }) => (
-            <Option data={(id, companyName)} />
+            <option key={id} value={id} disabled={id ? "" : "disabled"}>
+              {id ? companyName : "carregando..."}
+            </option>
           ))}
         </Select>
 

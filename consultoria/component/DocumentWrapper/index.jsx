@@ -27,11 +27,8 @@ export const DocumentWrapper = ({ data }) => {
                   // <ClientWrapper.Container data={clients} />
                   <>
                     {documents.map((document) => (
-                      <div className={style.list}>
-                        <DocumentContainer
-                          document={document}
-                          key={document._id}
-                        />
+                      <div className={style.list} key={document._id}>
+                        <DocumentContainer document={document} />
                       </div>
                     ))}
                   </>
