@@ -1,26 +1,66 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import { useData } from "../../src/hooks/useData";
+import { useFetch } from "../../src/hooks/useFetch";
 import Footer from "../../component/Footer";
 import style from "./ClientProfile.module.css";
 
 const ClientProfile = () => {
+  const [message, setMessage] = useState("");
   const { id } = useParams();
-
+  const { editData } = useFetch();
   const { ["data"]: client, loading, error, request } = useData();
-
-  useEffect(() => {
-    request("GET", `client/${id}`, { withCredentials: true });
-  }, []);
+  console.log(id);
   console.log(client);
 
-  const [editable, setEditable] = useState(false); // Estado para controlar se os campos estão editáveis
-  const [clientData, setclientData] = useState(client); // Estado para armazenar os dados editáveis
+  useEffect(() => {
+    loadData();
+  }, []);
 
+  const loadData = async () =>
+    await request("GET", `client/${id}`, { withCredentials: true });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { isSubmitting, errors },
+  } = useForm();
+
+  const [editable, setEditable] = useState(false); // Estado para controlar se os campos estão editáveis
+  // const [clientData, setclientData] = useState(client); // Estado para armazenar os dados editáveis
+
+  // console.log(client.name);
   // Função para ativar o modo de edição
   const handleEdit = () => {
     setEditable(true);
+    setValue("name", client.name);
+    setValue("cpf", client.cpf);
+    setValue("email", client.email);
+    setValue("phone", client.phone);
+  };
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    data = {
+      ...data,
+      id: data.id,
+    };
+    try {
+      const { response, status } = await editData(`client/${id}`, data);
+
+      if (status !== 201) {
+        setMessage(response.data);
+        throw new Error(response.data);
+      }
+
+      setMessage("Cadastro atualizado com sucesso!");
+      // handleFormSubmit();
+    } catch ({ message }) {
+      setMessage(message);
+    }
   };
 
   // Função para salvar as alterações
@@ -73,66 +113,62 @@ const ClientProfile = () => {
             <h1 className={style.title1}>{client.name}</h1>
 
             <section className={style.profile}>
-              <div className={style.profileItem}>
-                <h2>CPF</h2>
-                <span>
-                  {editable ? (
-                    <input
-                      type="text"
-                      name="cnpj"
-                      value={clientData.cpf}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    client.cpf
-                  )}
-                </span>
-              </div>
+              {message}
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className={style.profileItem}>
+                  <h2>Nome</h2>
+                  <span>
+                    {editable ? (
+                      <input type="text" {...register("name")} />
+                    ) : (
+                      client.name
+                    )}
+                  </span>
+                </div>
+                <div className={style.profileItem}>
+                  <h2>CPF</h2>
+                  <span>
+                    {editable ? (
+                      <input type="text" name="cpf" {...register("cpf")} />
+                    ) : (
+                      client.cpf
+                    )}
+                  </span>
+                </div>
 
-              <div className={style.profileItem}>
-                <h2>E-mail</h2>
-                <span>
-                  {editable ? (
-                    <input
-                      type="text"
-                      name="email"
-                      value={clientData.email}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    client.email
-                  )}
-                </span>
-              </div>
+                <div className={style.profileItem}>
+                  <h2>E-mail</h2>
+                  <span>
+                    {editable ? (
+                      <input type="text" {...register("email")} />
+                    ) : (
+                      client.email
+                    )}
+                  </span>
+                </div>
 
-              <div className={style.profileItem}>
-                <h2>Telefone</h2>
-                <span>
-                  {editable ? (
-                    <input
-                      type="text"
-                      name="cellphone"
-                      value={clientData.phone}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    client.phone ?? "Nenhum número cadastrado"
-                  )}
-                </span>
-              </div>
+                <div className={style.profileItem}>
+                  <h2>Telefone</h2>
+                  <span>
+                    {editable ? (
+                      <input type="text" {...register("phone")} />
+                    ) : (
+                      client.phone ?? "Nenhum número cadastrado"
+                    )}
+                  </span>
+                </div>
+                {!editable && (
+                  <button className={style.edtSave} onClick={handleEdit}>
+                    Editar
+                  </button>
+                )}
+                {editable && (
+                  <button className={style.edtSave} type="submit">
+                    Salvar
+                  </button>
+                )}
+              </form>
             </section>
-
-            {/* Botões de edição e salvar */}
-            {!editable && (
-              <button className={style.edtSave} onClick={handleEdit}>
-                Editar
-              </button>
-            )}
-            {editable && (
-              <button className={style.edtSave} onClick={handleSave}>
-                Salvar
-              </button>
-            )}
           </>
         )}
       </div>
