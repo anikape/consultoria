@@ -6,12 +6,14 @@ import { Loading } from "../Loading";
 
 export const DocumentWrapper = ({ data }) => {
   const { ["data"]: documents, loading, error, request } = useData();
+  console.log(documents);
 
   useEffect(() => {
     const loadData = async () =>
       await request("GET", `/document?company=${data}`, {
         withCrendentials: true,
       });
+    loadData();
   }, [request]);
 
   return (
@@ -37,9 +39,6 @@ export const DocumentWrapper = ({ data }) => {
                   </>
                 )}
               </section>
-              {/* {documents.map((document) => (
-                <DocumentContainer document={document} key={document._id} />
-              ))} */}
             </>
           )}
         </>

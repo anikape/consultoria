@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
@@ -6,8 +6,10 @@ import { useData } from "../../../src/hooks/useData";
 import { Select } from "../../Select";
 
 import styles from "./DocumentForm.module.css";
+import LoadingSpinner from "../../LoadingSpinner";
 
 export const DocumentForm = () => {
+  const [message, setMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -18,23 +20,45 @@ export const DocumentForm = () => {
   const { ["data"]: companys, loading, error, request } = useData();
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
+  useEffect(() => {
     const loadData = async () =>
       await request("get", "company", { withCrendentials: true });
     loadData();
   }, [request]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data = {
       ...data,
       file: data.file[0],
     };
 
-    uploadFile("document/upload", data);
+    try {
+      const { status } = await uploadFile("document/upload", data);
+
+      if (status !== 201) {
+        setMessage("Erro ao enviar aquivo");
+        throw new Error("Não foi possível enviar o arquivo");
+      }
+
+      setMessage("Arquivo enviado com sucesso!");
+    } catch ({ message }) {
+      setMessage(message);
+    }
+
     console.log(data);
   };
 
   return (
     <>
+      <div>{message}</div>
+
       <form className={styles.formContent} onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register("name", { required: "Informe o nome do arquivo" })}
@@ -86,7 +110,13 @@ export const DocumentForm = () => {
           name="file"
         />
 
-        <button className={styles.buttonSubmit}>Enviar</button>
+        {isSubmitting ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <button className={styles.buttonSubmit}>Enviar</button>
+          </>
+        )}
       </form>
     </>
   );

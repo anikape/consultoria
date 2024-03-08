@@ -57,7 +57,7 @@ export const DocumentContainer = ({ document, loading }) => {
               <div>
                 <button
                   className={style.button}
-                  onClick={() => handleDeleteDocument(document._id)}>
+                  onClick={() => handleDeleteDocument(document.company)}>
                   Excluir Documento
                 </button>
               </div>
