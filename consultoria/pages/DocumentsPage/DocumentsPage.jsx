@@ -31,16 +31,38 @@ const DocumentsPage = () => {
     request('get', 'document', { withCredentials: true });
   }, [request]);
 
+  // const handleDeleteDocument = async (documentId) => {
+  //   try {
+  //     await deleteData(`document/${documentId}`, documentId);
+  //     setDeletedDocumentId(documentId);
+  //     setConfirmationMessage('Documento excluído com sucesso!');
+  //     await request('get', 'document', { withCredentials: true });
+  //   } catch (error) {
+  //     console.error('Erro ao excluir documento:', error);
+  //   }
+  // };
+
   const handleDeleteDocument = async (documentId) => {
     try {
-      await deleteData(`document/${documentId}`, documentId);
-      setDeletedDocumentId(documentId);
-      setConfirmationMessage('Documento excluído com sucesso!');
-      await request('get', 'document', { withCredentials: true });
+      // Exibe um popup de confirmação
+      const userConfirmed = window.confirm('Confirma a exclusão do documento?');
+  
+      if (userConfirmed) {
+        // Se o usuário confirmar, exclui o documento
+        await deleteData(`document/${documentId}`, documentId);
+        setDeletedDocumentId(documentId);
+        setConfirmationMessage('Documento excluído com sucesso!');
+        await request('get', 'document', { withCredentials: true });
+      } else {
+        // Se o usuário cancelar, não faz nada
+        console.log('Operação de exclusão cancelada pelo usuário.');
+      }
     } catch (error) {
       console.error('Erro ao excluir documento:', error);
     }
   };
+
+  
 
   const handleEditDocument = async (documentId, newData) => {
     try {
