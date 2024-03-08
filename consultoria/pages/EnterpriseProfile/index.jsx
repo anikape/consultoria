@@ -4,8 +4,7 @@ import Footer from "../../component/Footer";
 import style from "./enterprise.module.css";
 import { useData } from "../../src/hooks/useData";
 import { DocumentWrapper } from "../../component/DocumentWrapper";
-import { DocumentForm } from "../../component/Forms/DocumentForm";
-import { Modal } from "../../component/Modal";
+
 import { RiHomeHeartLine } from "react-icons/ri";
 import home from "../../src/assets/home.png";
 import { FaUserGroup } from "react-icons/fa6";
@@ -17,7 +16,6 @@ const EntrepriseProfile = () => {
   //Modal de cadastro de documentos
 
   // Estado para armazenar a lista de empresas
-  const [empresas, setEmpresas] = useState([]);
 
   useEffect(() => {
     // Faça uma solicitação para obter a lista de empresas do backend
@@ -291,14 +289,15 @@ const EntrepriseProfile = () => {
               </button>
             )}
 
-            <section className={style.documents}>
+            {/* <section className={style.documents}>
               <div className={style.documentsHeader}>
                 <h2 className={style.subtitle}>Documentos:</h2>
                 <Modal label="Novo Documento">
-                  <DocumentForm />
+                  <DocumentForm handleSubmit={onSubmitModalForm} />
                 </Modal>
               </div>
-            </section>
+              <DocumentWrapper data={id} />
+            </section> */}
             <DocumentWrapper data={id} />
           </>
         )}

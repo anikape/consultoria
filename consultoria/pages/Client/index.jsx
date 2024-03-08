@@ -15,13 +15,17 @@ import Footer from "../../component/Footer";
 import style from "./client.module.css";
 
 const Client = () => {
-  // const [openModalCompany, setOpenModalCompany] = useState(false);
-  // const [openModalClient, setOpenModalClient] = useState(false);
+  const { ["data"]: clients, loading, error, request } = useData(false);
 
-  const { ["data"]: clients, loading, error, request } = useData();
+  const loadData = async () =>
+    await request("get", "client", { withCredentials: true });
+
+  const onSubmitModalForm = () => {
+    loadData();
+  };
 
   useEffect(() => {
-    request("get", "client", { withCredentials: true });
+    loadData();
   }, [request]);
 
   if (loading && !clients) {
@@ -58,13 +62,16 @@ const Client = () => {
                 {/*Modal de cadastro do Cliente*/}
                 <div className={style.modalContent}>
                   <Modal label="Cadastrar clientes">
-                    <ClientForm />
+                    <ClientForm handleFormSubmit={onSubmitModalForm} />
                   </Modal>
                 </div>
 
                 <div className={style.modalContent}>
                   <Modal label="Cadastrar empresas">
-                    <CompanyForm clients={clients} />
+                    <CompanyForm
+                      handleFormSubmit={onSubmitModalForm}
+                      clients={clients}
+                    />
                   </Modal>
                 </div>
               </section>

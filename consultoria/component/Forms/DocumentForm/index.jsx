@@ -8,30 +8,48 @@ import { Select } from "../../Select";
 import styles from "./DocumentForm.module.css";
 import LoadingSpinner from "../../LoadingSpinner";
 
-export const DocumentForm = () => {
+export const DocumentForm = ({ handleFormSubmit }) => {
   const [message, setMessage] = useState("");
+  const [companys, setCompany] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const { request } = useData();
+  const { uploadFile } = useFetch();
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const { uploadFile } = useFetch();
-  const { ["data"]: companys, loading, error, request } = useData();
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [companysData, typesData] = await Promise.all([
+        request("get", "company", { withCredetials: true }),
+        request("get", "types", { withCredetials: true }),
+      ]);
+
+      setCompany(companysData.json);
+      setTypes(typesData.json);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    loadData();
     const timer = setTimeout(() => {
       setMessage("");
     }, 4000);
 
     return () => clearTimeout(timer);
   }, [message]);
-
-  useEffect(() => {
-    const loadData = async () =>
-      await request("get", "company", { withCrendentials: true });
-    loadData();
-  }, [request]);
 
   const onSubmit = async (data) => {
     data = {
@@ -44,6 +62,7 @@ export const DocumentForm = () => {
 
       if (status !== 201) {
         setMessage("Erro ao enviar aquivo");
+        handleFormSubmit();
         throw new Error("Não foi possível enviar o arquivo");
       }
 
@@ -87,20 +106,33 @@ export const DocumentForm = () => {
         />
 
         <Select {...register("company")} label="Empresa">
-          <option value="" disabled>
-            Selecione uma empresa
-          </option>
-          {companys?.map(({ id, companyName }) => (
-            <option key={id} value={id} disabled={id ? "" : "disabled"}>
-              {id ? companyName : "carregando..."}
-            </option>
-          ))}
+          {!loading && (
+            <>
+              <option value="" disabled>
+                Selecione uma empresa
+              </option>
+              {...companys?.map(({ id, companyName }) => (
+                <option key={id} value={id} disabled={id ? "" : "disabled"}>
+                  {id ? companyName : "carregando..."}
+                </option>
+              ))}
+            </>
+          )}
         </Select>
 
         <Select {...register("type")} label="Tipo de documento">
-          <option value="" disabled>
-            Selecione um tipo
-          </option>
+          {!loading && (
+            <>
+              <option value="" disabled>
+                Selecione um tipo
+              </option>
+              {...types?.map(({ _id, description }) => (
+                <option key={_id} value={_id} disabled={_id ? "" : "disabled"}>
+                  {_id ? description : "carregando..."}
+                </option>
+              ))}
+            </>
+          )}
         </Select>
 
         <Input
