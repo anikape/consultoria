@@ -6,7 +6,7 @@ import { Input } from "../../Input";
 
 import style from "./ClientForm.module.css";
 
-export const ClientForm = () => {
+export const ClientForm = ({ handleFormSubmit }) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export const ClientForm = () => {
     register,
     reset,
     handleSubmit,
-    formState: { isSubmitting, errors, isSubmitSuccessful },
+    formState: { isSubmitting, errors },
   } = useForm();
 
   const { postData } = useFetch();
@@ -36,13 +36,10 @@ export const ClientForm = () => {
       }
 
       setMessage("Cliente cadastrado com sucesso!");
+      handleFormSubmit();
     } catch ({ message }) {
       setMessage(message);
     }
-
-    console.log(data);
-    console.log(errors);
-    console.log(isSubmitSuccessful, isSubmitting);
   };
 
   return (
