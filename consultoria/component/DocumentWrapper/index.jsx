@@ -8,8 +8,11 @@ export const DocumentWrapper = ({ data }) => {
   const { ["data"]: documents, loading, error, request } = useData();
 
   useEffect(() => {
-    request("GET", `/document?company=${data}`, { withCrendentials: true });
-  }, []);
+    const loadData = async () =>
+      await request("GET", `/document?company=${data}`, {
+        withCrendentials: true,
+      });
+  }, [request]);
 
   return (
     <>
@@ -27,11 +30,8 @@ export const DocumentWrapper = ({ data }) => {
                   // <ClientWrapper.Container data={clients} />
                   <>
                     {documents.map((document) => (
-                      <div className={style.list}>
-                        <DocumentContainer
-                          document={document}
-                          key={document._id}
-                        />
+                      <div className={style.list} key={document._id}>
+                        <DocumentContainer document={document} />
                       </div>
                     ))}
                   </>

@@ -4,7 +4,6 @@ import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
 import { useData } from "../../../src/hooks/useData";
 import { Select } from "../../Select";
-import { Option } from "../../Option";
 
 import styles from "./DocumentForm.module.css";
 
@@ -19,10 +18,10 @@ export const DocumentForm = () => {
   const { ["data"]: companys, loading, error, request } = useData();
 
   useEffect(() => {
-    request("get", "company", { withCrendentials: true });
+    const loadData = async () =>
+      await request("get", "company", { withCrendentials: true });
+    loadData();
   }, [request]);
-
-  console.log(companys);
 
   const onSubmit = (data) => {
     data = {
@@ -33,13 +32,6 @@ export const DocumentForm = () => {
     uploadFile("document/upload", data);
     console.log(data);
   };
-
-  // const handleFileChange = (event) => {
-  //   setFormData({
-  //     ...formData,
-  //     arquivo: event.target.files[0],
-  //   });
-  // };
 
   return (
     <>
@@ -52,8 +44,8 @@ export const DocumentForm = () => {
         />
         <Input
           {...register("city", { required: "Informe uma cidade" })}
-          label="Nome"
-          placeholder="Insira o nome do documento"
+          label="Cidade"
+          placeholder="Informe a cidade"
           error={errors.name?.message}
         />
         <Input
@@ -70,17 +62,22 @@ export const DocumentForm = () => {
           error={errors.validity?.message}
         />
 
-        <Select {...register("clientId")} label="Empresa">
+        <Select {...register("company")} label="Empresa">
+          <option value="" disabled>
+            Selecione uma empresa
+          </option>
           {companys?.map(({ id, companyName }) => (
-            <Option data={(id, companyName)} />
+            <option key={id} value={id} disabled={id ? "" : "disabled"}>
+              {id ? companyName : "carregando..."}
+            </option>
           ))}
         </Select>
 
-        <Select
-          {...register("clientId")}
-          label="Tipo de documento"
-          data={companys}
-        />
+        <Select {...register("type")} label="Tipo de documento">
+          <option value="" disabled>
+            Selecione um tipo
+          </option>
+        </Select>
 
         <Input
           {...register("file")}
