@@ -34,6 +34,7 @@ export const CompanyProfileContent = ({ company }) => {
               <p className={style.infoName}>CPF/CNPJ:</p>
               <p>{mask.CNPJ(company.cnpj)}</p>
             </div>
+           
           </div>
           <div className={style.companyButtonsWrapper}>
             <Link
