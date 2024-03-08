@@ -119,6 +119,22 @@ const EntrepriseProfile = () => {
               </div>
 
               <div className={style.profileItem}>
+                <h2>CNAE</h2>
+                <span className={style.profileInput}>
+                  {editable ? (
+                    <input
+                      type="text"
+                      name="cnae"
+                      value={companyData.cnae}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    company.cnae
+                  )}
+                </span>
+              </div>   
+
+              <div className={style.profileItem}>
                 <h2>E-mail</h2>
                 <span className={style.profileInput}>
                   {editable ? (

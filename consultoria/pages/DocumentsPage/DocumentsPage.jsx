@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import { Link } from "react-router-dom";
 import { useData } from "../../src/hooks/useData";
 import { Loading } from "../../component/Loading";
@@ -26,25 +27,79 @@ const DocumentsPage = () => {
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const { deleteData, editData } = useFetch();
+  const [documentos, setDocumentos] = useState([]);
 
   useEffect(() => {
     request("get", "document", { withCredentials: true });
   }, [request]);
 
+
+
+  // const handleDeleteDocument = async (documentId) => {
+  //   try {
+  //     await deleteData(`document/${documentId}`, documentId);
+  //     setDeletedDocumentId(documentId);
+  //     setConfirmationMessage('Documento excluído com sucesso!');
+  //     await request('get', 'document', { withCredentials: true });
+  //   } catch (error) {
+  //     console.error('Erro ao excluir documento:', error);
+  //   }
+  // };
+
   const handleDeleteDocument = async (documentId) => {
     try {
-      await deleteData(`document/${documentId}`, documentId);
-      setDeletedDocumentId(documentId);
-      setConfirmationMessage("Documento excluído com sucesso!");
-      await request("get", "document", { withCredentials: true });
+      // Exibe um popup de confirmação
+      const userConfirmed = window.confirm('Confirma a exclusão do documento?');
+  
+      if (userConfirmed) {
+        // Se o usuário confirmar, exclui o documento
+        await deleteData(`document/${documentId}`, documentId);
+        setDeletedDocumentId(documentId);
+        setConfirmationMessage('Documento excluído com sucesso!');
+        await request('get', 'document', { withCredentials: true });
+      } else {
+        // Se o usuário cancelar, não faz nada
+        console.log('Operação de exclusão cancelada pelo usuário.');
+      }
     } catch (error) {
       console.error("Erro ao excluir documento:", error);
     }
   };
 
+  // const handleEditDocument = async (documentId, newData) => {
+  //   try {
+  //    const response = await editData(`document/${documentId}`, newData);
+  //    if (response.ok) {
+  //     const updatedDocuments = documents.map((doc) => {
+  //      if (doc._id === documentId) {
+  //       return { ...doc, ...newData }; // Atualiza o documento editado
+  //      }
+  //      return doc;
+  //     });
+  //     request("get", "document", { withCredentials: true });
+  //     setIsEditing(false);
+  //     setEditedDocument(null);
+  //     setConfirmationMessage("Alterações salvas com sucesso!");
+  //    } else {
+  //     console.error("Erro ao editar documento:", response.statusText);
+  //    }
+  //   } catch (error) {
+  //    console.error("Erro ao editar documento:", error);
+  //   }
+  //  };
+
   const handleEditDocument = async (documentId, newData) => {
     try {
-      const response = await editData(`document/${documentId}`, newData);
+      // Formatando a data para o formato esperado pelo backend
+      const formattedDate = format(new Date(newData.date), 'yyyy-MM-dd');
+  
+      // Criando um novo objeto com a data formatada
+      const formattedData = {
+        ...newData,
+        date: formattedDate,
+      };
+  
+      const response = await editData(`document/${documentId}`, formattedData);
       if (response.ok) {
         const updatedDocuments = documents.map((doc) => {
           if (doc._id === documentId) {
@@ -141,6 +196,13 @@ const DocumentsPage = () => {
               <RiHomeHeartLine className={style.home} />
             </button>
           </Link>
+
+          
+
+          <nav className={style.nav}>
+           
+          </nav>
+        
 
           <div>
             {confirmationMessage && deletedDocumentId && (
@@ -284,7 +346,9 @@ const DocumentsPage = () => {
                 </tbody>
               </table>
             </div>
+            
           </section>
+        
         </>
       )}
 
