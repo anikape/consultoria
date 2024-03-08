@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useData } from '../../src/hooks/useData';
-import { Loading } from '../../component/Loading';
-import style from './Documents.module.css';
-import pdf from '../../src/assets/pdf.png';
-import edity from '../../src/assets/edity.png';
-import excluir from '../../src/assets/delittt.png';
-import { AiFillSetting } from 'react-icons/ai';
-import { RiHomeHeartLine } from 'react-icons/ri';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useData } from "../../src/hooks/useData";
+import { Loading } from "../../component/Loading";
+import style from "./Documents.module.css";
+import { BsFiletypePdf } from "react-icons/bs";
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteOutline } from "react-icons/md";
+import { AiFillSetting } from "react-icons/ai";
+import { RiHomeHeartLine } from "react-icons/ri";
 import { FaSave } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-import Footer from '../../component/Footer';
-import { useFetch } from '../../src/hooks/useFetch';
+import Footer from "../../component/Footer";
+import { useFetch } from "../../src/hooks/useFetch";
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString('pt-BR', options);
+  const options = { year: "numeric", month: "numeric", day: "numeric" };
+  return new Date(dateString).toLocaleDateString("pt-BR", options);
 };
 
 const DocumentsPage = () => {
-  const { ['data']: documents, loading, error, request } = useData();
+  const { ["data"]: documents, loading, error, request } = useData();
   const [newPdf, setNewPdf] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDocument, setEditedDocument] = useState(null);
-  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const { deleteData, editData } = useFetch();
 
   useEffect(() => {
-    request('get', 'document', { withCredentials: true });
+    request("get", "document", { withCredentials: true });
   }, [request]);
 
   const handleDeleteDocument = async (documentId) => {
     try {
       await deleteData(`document/${documentId}`, documentId);
       setDeletedDocumentId(documentId);
-      setConfirmationMessage('Documento excluído com sucesso!');
-      await request('get', 'document', { withCredentials: true });
+      setConfirmationMessage("Documento excluído com sucesso!");
+      await request("get", "document", { withCredentials: true });
     } catch (error) {
-      console.error('Erro ao excluir documento:', error);
+      console.error("Erro ao excluir documento:", error);
     }
   };
 
@@ -52,15 +52,15 @@ const DocumentsPage = () => {
           }
           return doc;
         });
-        request('get', 'document', { withCredentials: true });
+        request("get", "document", { withCredentials: true });
         setIsEditing(false);
         setEditedDocument(null);
-        setConfirmationMessage('Alterações salvas com sucesso!');
+        setConfirmationMessage("Alterações salvas com sucesso!");
       } else {
-        console.error('Erro ao editar documento:', response.statusText);
+        console.error("Erro ao editar documento:", response.statusText);
       }
     } catch (error) {
-      console.error('Erro ao editar documento:', error);
+      console.error("Erro ao editar documento:", error);
     }
   };
 
@@ -75,20 +75,20 @@ const DocumentsPage = () => {
   };
 
   const handleInputChange = (fieldName, value) => {
-    if (fieldName === 'emission') {
+    if (fieldName === "emission") {
       // Garante que a data de emissão seja uma string no formato 'yyyy-MM-dd'
       const formattedDate = formatDate(new Date(value));
       setEditedDocument((prevDocument) => ({
         ...prevDocument,
         emission: formattedDate,
       }));
-    } else if (fieldName === 'validity') {
+    } else if (fieldName === "validity") {
       // Converte a data de vencimento para formato 'YYYY-MM-DD'
       const date = new Date(value);
       const validity = `${date.getFullYear()}-${(
-        '0' +
+        "0" +
         (date.getMonth() + 1)
-      ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
+      ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
       setEditedDocument((prevDocument) => ({
         ...prevDocument,
         validity,
@@ -118,15 +118,15 @@ const DocumentsPage = () => {
 
       if (response.ok) {
         // Atualiza os documentos após salvar as alterações
-        await request('get', 'document', { withCredentials: true });
+        await request("get", "document", { withCredentials: true });
         setIsEditing(false);
         setEditedDocument(null);
-        setConfirmationMessage('Alterações salvas com sucesso!');
+        setConfirmationMessage("Alterações salvas com sucesso!");
       } else {
-        console.error('Erro ao salvar as alterações:', response.statusText);
+        console.error("Erro ao salvar as alterações:", response.statusText);
       }
     } catch (error) {
-      console.error('Erro ao salvar as alterações:', error);
+      console.error("Erro ao salvar as alterações:", error);
     }
   };
 
@@ -149,146 +149,141 @@ const DocumentsPage = () => {
           </div>
 
           <section className={style.tableContent}>
-            <table>
-              <thead>
-                <tr>
-                  <th className={style.infos}>#</th>
-                  <th className={style.infos}>Documento</th>
-                  <th className={style.infos}>Tipo</th>
-                  <th className={style.infos}>Empresa</th>
-                  <th className={style.infos}>Emissão</th>
-                  <th className={style.infos}>Vencimento</th>
-                  <th className={style.infos}>
-                    <AiFillSetting />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {documents.map((document, index) => (
-                  <tr key={document._id}>
-                    <td>{index + 1}</td>
-                    <td>
-                      {isEditing && editedDocument?._id === document._id ? (
-                        <input
-                          type="text"
-                          value={editedDocument.name}
-                          onChange={(e) =>
-                            handleInputChange('name', e.target.value)
-                          }
-                        />
-                      ) : (
-                        document.name
-                      )}
-                    </td>
-                    <td>
-                      {isEditing && editedDocument?._id === document._id ? (
-                        <input
-                          type="text"
-                          value={editedDocument.type}
-                          onChange={(e) =>
-                            handleInputChange('type', e.target.value)
-                          }
-                        />
-                      ) : (
-                        document.type
-                      )}
-                    </td>
-                    <td>
-                      {isEditing && editedDocument?._id === document._id ? (
-                        <input
-                          type="text"
-                          value={editedDocument.client}
-                          onChange={(e) =>
-                            handleInputChange('client', e.target.value)
-                          }
-                        />
-                      ) : (
-                        document.client
-                      )}
-                    </td>
-                    <td>
-                      {isEditing && editedDocument?._id === document._id ? (
-                        <input
-                          type="text"
-                          value={editedDocument.emission}
-                          onChange={(e) =>
-                            handleInputChange('emission', e.target.value)
-                          }
-                        />
-                      ) : (
-                        formatDate(document.emission)
-                      )}
-                    </td>
-                    <td>
-                      {isEditing && editedDocument?._id === document._id ? (
-                        <input
-                          type="date"
-                          value={formatDate(editedDocument.validity)}
-                          onChange={(e) =>
-                            handleInputChange('validity', e.target.value)
-                          }
-                        />
-                      ) : (
-                        formatDate(document.validity)
-                      )}
-                    </td>
-                    <td>
-                      <a
-                        href={document.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <img
-                          className={style.documentsIcons}
-                          src={pdf}
-                          alt=""
-                        />
-                      </a>
-                      {!isEditing && (
-                        <button
-                          className={style.iconButton}
-                          onClick={() => handleEditButtonClick(document)}
-                        >
-                          <img
-                            className={style.documentsIcons}
-                            src={edity}
-                            alt=""
+            <div className={style.tableContainer}>
+              <table>
+                <thead>
+                  <tr>
+                    <th className={style.infos} colspan="2">
+                      Documento
+                    </th>
+                    <th className={style.infos}>Tipo</th>
+                    <th className={style.infos}>Empresa</th>
+                    <th className={style.infos}>Emissão</th>
+                    <th className={style.infos}>Vencimento</th>
+                    <th className={style.infos}>
+                      <AiFillSetting />
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {documents.map((document, index) => (
+                    <tr key={document._id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        {isEditing && editedDocument?._id === document._id ? (
+                          <input
+                            type="text"
+                            value={editedDocument.name}
+                            onChange={(e) =>
+                              handleInputChange("name", e.target.value)
+                            }
                           />
-                        </button>
-                      )}
-                      <button
-                        className={style.iconButton}
-                        onClick={() => handleDeleteDocument(document._id)}
-                      >
-                        <img
-                          className={style.documentsIcons}
-                          src={excluir}
-                          alt=""
-                        />
-                      </button>
-                      {isEditing && editedDocument?._id === document._id && (
-                        <button
-                          className={style.iconButton}
-                          onClick={handleSaveEdit}
+                        ) : (
+                          document.name
+                        )}
+                      </td>
+                      <td>
+                        {isEditing && editedDocument?._id === document._id ? (
+                          <input
+                            type="text"
+                            value={editedDocument.type}
+                            onChange={(e) =>
+                              handleInputChange("type", e.target.value)
+                            }
+                          />
+                        ) : (
+                          document.type
+                        )}
+                      </td>
+                      <td>
+                        {isEditing && editedDocument?._id === document._id ? (
+                          <input
+                            type="text"
+                            value={editedDocument.client}
+                            onChange={(e) =>
+                              handleInputChange("client", e.target.value)
+                            }
+                          />
+                        ) : (
+                          document.client
+                        )}
+                      </td>
+                      <td>
+                        {isEditing && editedDocument?._id === document._id ? (
+                          <input
+                            type="text"
+                            value={editedDocument.emission}
+                            onChange={(e) =>
+                              handleInputChange("emission", e.target.value)
+                            }
+                          />
+                        ) : (
+                          formatDate(document.emission)
+                        )}
+                      </td>
+                      <td>
+                        {isEditing && editedDocument?._id === document._id ? (
+                          <input
+                            type="date"
+                            value={formatDate(editedDocument.validity)}
+                            onChange={(e) =>
+                              handleInputChange("validity", e.target.value)
+                            }
+                          />
+                        ) : (
+                          formatDate(document.validity)
+                        )}
+                      </td>
+                      <td>
+                        <a
+                          href={document.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
-                          <FaSave />
-                        </button>
-                      )}
-                      {isEditing && editedDocument && (
-                        <>
+                          <BsFiletypePdf className={style.documentsIcons} />
+                        </a>
+
+                        {!isEditing && (
                           <button
                             className={style.iconButton}
-                            onClick={handleCancelEdit}
+                            onClick={() => handleEditButtonClick(document)}
                           >
-                            <MdCancel />
+                            <CiEdit className={style.documentsIcons} 
+                            />
                           </button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        )}
+                        <button
+                          className={style.iconButton}
+                          onClick={() => handleDeleteDocument(document._id)}
+                        >
+                          <MdDeleteOutline className={style.documentsIcons} 
+                          />
+                        </button>
+                        {isEditing && editedDocument?._id === document._id && (
+                          <button
+                            className={style.iconButton}
+                            onClick={handleSaveEdit}
+                          >
+                            <FaSave />
+                          </button>
+                        )}
+                        {isEditing && editedDocument && (
+                          <>
+                            <button
+                              className={style.iconButton}
+                              onClick={handleCancelEdit}
+                            >
+                              <MdCancel />
+                            </button>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
         </>
       )}
