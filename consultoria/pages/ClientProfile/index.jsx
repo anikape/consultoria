@@ -1,52 +1,100 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { useParams, Link } from "react-router-dom";
-
+import { useForm } from "react-hook-form";
+import LoadingSpinner from "../../component/LoadingSpinner";
 import { useData } from "../../src/hooks/useData";
+import { useFetch } from "../../src/hooks/useFetch";
+import { Input } from "../../component/Input";
+import ErrorComponent from "../../component/ErrorComponente/ErrorComponent";
 import Footer from "../../component/Footer";
 import style from "./ClientProfile.module.css";
 
 const ClientProfile = () => {
+  const [message, setMessage] = useState("");
   const { id } = useParams();
-
+  const { editData } = useFetch();
   const { ["data"]: client, loading, error, request } = useData();
-
-  useEffect(() => {
-    request("GET", `client/${id}`, { withCredentials: true });
-  }, []);
+  console.log(id);
   console.log(client);
 
-  const [editable, setEditable] = useState(false); // Estado para controlar se os campos estão editáveis
-  const [clientData, setclientData] = useState(client); // Estado para armazenar os dados editáveis
+  useEffect(() => {
+    loadData();
+  }, []);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 4000);
 
-  // Função para ativar o modo de edição
+    return () => clearTimeout(timer);
+  }, [message]);
+  
+  
+
+  const loadData = async () =>
+    await request("GET", `client/${id}`, { withCredentials: true });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { isSubmitting, errors },
+  } = useForm();
+
+  const [editable, setEditable] = useState(false); 
+  
   const handleEdit = () => {
     setEditable(true);
+    setValue("name", client.name);
+    setValue("cpf", client.cpf);
+    setValue("email", client.email);
+    setValue("phone", client.phone);
   };
 
-  // Função para salvar as alterações
-  // const handleSave = async () => {
-  // try {
-  // Faça uma solicitação para salvar os dados editados
-  // Por exemplo: await axios.put(`/api/company/${id}`, clientData);
-  // setEditable(false); // Desativa o modo de edição após salvar
-  // } catch (error) {
-  // console.error("Erro ao salvar os dados:", error);
-  // }
-  // };
+  const onSubmit = async (data) => {
+    console.log(data);
+    data = {
+      ...data,
+      id: data.id,
+    };
+    try {
+      const { response, status } = await editData(`client/${id}`, data);
+      
+      console.log("dentro do submit:", response)
+      console.log("dentro do submit:", status)
+      
+      if (status !== 200) {
+        setMessage(response.data.errors[0]);
+        throw new Error(response.data.errors[0]);
+      }
+      setMessage("Cadastro atualizado com sucesso!");
+      loadData()
+      setEditable(false)
+    } catch ({ message }) {
+      setMessage(message);
+    }
+  };
+  
+  const handleDele = async (id) => {
+    const userConfirmed = window.confirm('Deseja realmente apagar o registro? Essa ação não pode ser desfeita.');
 
-  // Função para atualizar o estado com os novos valores dos campos editáveis
+    try {
+      
+      if (userConfirmed) {
+      // await deleteData(`document/${documentId}`, documentId);
+        console.log('apagou')
+       
+      } else {
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  // Cria uma cópia dos dados da empresa
-  // const updatedclientData = { ...clientData };
-  // Atualiza apenas o campo modificado
-  // updatedclientData[name] = value;
-  // Atualiza o estado com os novos dados da empresa
-  // setclientData(updatedclientData);
-  // };
+        console.log('Operação de exclusão cancelada pelo usuário.');
 
-  return (
+      }
+    } catch (error) {
+      console.error("Erro ao excluir documento:", error);
+    }
+  };
+
+   return (
     <main className={style.container}>
       <div className={style.contentContainer}>
         <div className={style.button}>
@@ -73,66 +121,77 @@ const ClientProfile = () => {
             <h1 className={style.title1}>{client.name}</h1>
 
             <section className={style.profile}>
-              <div className={style.profileItem}>
-                <h2>CPF</h2>
-                <span>
-                  {editable ? (
-                    <input
-                      type="text"
-                      name="cnpj"
-                      value={clientData.cpf}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    client.cpf
-                  )}
-                </span>
-              </div>
+              {message}
+              <form className={style.editForm} onSubmit={handleSubmit(onSubmit)}>
+                <div className={style.profileItem}>
+                  <h2>Nome</h2>
+                  <span>
+                    {editable ? (
+                      <Input {...register("name")}/>
+                    ) : (
+                      client.name
+                    )}
+                  </span>
+                </div>
+                <div className={style.profileItem}>
+                  <h2>CPF</h2>
+                  <span>
+                    {editable ? (
+                      <Input  name="cpf" {...register("cpf",{required:"Campo Obrigatório"})} 
+                      error={errors.cpf?.message}
+                      />
+                      
+                    ) : (
+                      client.cpf
+                    )}
+                  </span>
+                </div>
 
-              <div className={style.profileItem}>
-                <h2>E-mail</h2>
-                <span>
-                  {editable ? (
-                    <input
-                      type="text"
-                      name="email"
-                      value={clientData.email}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    client.email
-                  )}
-                </span>
-              </div>
+                <div className={style.profileItem}>
+                  <h2>E-mail</h2>
+                  <span>
+                    {editable ? (
+                      <>
+                      <Input  {...register("email",{required:"Campo obrigatório"})}
+                      error={errors.email?.message}
+                      />
+                      </>
+                    ) : (
+                      client.email
+                    )}
+                  </span>
+                </div>
 
-              <div className={style.profileItem}>
-                <h2>Telefone</h2>
-                <span>
-                  {editable ? (
-                    <input
-                      type="text"
-                      name="cellphone"
-                      value={clientData.phone}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    client.phone ?? "Nenhum número cadastrado"
-                  )}
-                </span>
-              </div>
+                <div className={style.profileItem}>
+                  <h2>Telefone</h2>
+                  <span>
+                    {editable ? (
+                      <Input {...register("phone")}/>
+                    ) : (
+                      client.phone ?? "Nenhum número cadastrado"
+                    )}
+                  </span>
+                </div>
+                 {isSubmitting ? <LoadingSpinner/>:<>
+                 <div className={style.groupButtons}>
+                {!editable && (
+                  <button className={style.edtSave} onClick={handleEdit}>
+                    Editar
+                  </button>
+                )}
+                {editable && (
+                  <button className={style.edtSave} type="submit">
+                    Salvar
+                  </button>
+                )}
+                <button className={style.edtSave} onClick={handleDele}>
+                    Excluir
+                  </button>
+                </div>
+                </>}
+                
+              </form>
             </section>
-
-            {/* Botões de edição e salvar */}
-            {!editable && (
-              <button className={style.edtSave} onClick={handleEdit}>
-                Editar
-              </button>
-            )}
-            {editable && (
-              <button className={style.edtSave} onClick={handleSave}>
-                Salvar
-              </button>
-            )}
           </>
         )}
       </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useRef, useState} from "react";
 import mais from "../../src/assets/mais.png";
 import style from "./Modal.module.css";
 
@@ -22,7 +22,7 @@ export const Modal = ({ children, label }) => {
 
   return (
     <>
-      <div>
+      
         <button type="button" className={style.buttonModal} onClick={openModal}>
           <img src={mais} alt="simbolo de mais" /> {label ?? "Adicionar"}
         </button>
@@ -34,7 +34,7 @@ export const Modal = ({ children, label }) => {
             </div>
           </div>
         )}
-      </div>
+      
     </>
   );
 };

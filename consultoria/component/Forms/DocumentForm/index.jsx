@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
@@ -140,6 +140,7 @@ export const DocumentForm = ({ handleFormSubmit }) => {
           label="Anexar arquivo"
           type="file"
           name="file"
+          
         />
 
         {isSubmitting ? (
