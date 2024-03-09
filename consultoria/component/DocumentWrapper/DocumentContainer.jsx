@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import { formatDate } from "../../src/helpers/formatDate";
 import { documentType } from "../../src/helpers/documentType";
 import { AiOutlineFilePdf } from "react-icons/ai";
@@ -7,12 +7,35 @@ import { Popper } from "../Popper";
 import { useState } from "react";
 import style from "./DocumentWrapper.module.css";
 import { useFetch } from "../../src/hooks/useFetch";
+import { useData } from "../../src/hooks/useData";
+import { useEffect } from "react";
 
-export const DocumentContainer = ({ document, loading }) => {
+export const DocumentContainer = ({ document }) => {
   const [show, setShow] = useState(false);
-
+  const {['data']:types, loading, request}=useData()
   const { deleteData } = useFetch();
 
+  const loadData = async()=>{
+    const {response} = await request('get','types',{withCredentials:true})
+    
+    try {
+      if(response.status !== 200){
+        throw new Error('Não foi possível obter os dados')
+      }
+  
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+  
+  useEffect(()=>{
+    loadData()
+  },[])
+  
+  console.log(types)
+  console.log(document)
+  
   const handleDeleteDocument = (documentId) => {
     deleteData(`document/${documentId}`, documentId);
   };
@@ -23,7 +46,10 @@ export const DocumentContainer = ({ document, loading }) => {
       ) : (
         <>
           <Popper.Button show={show} setShow={setShow}>
-            {document.type} - {documentType(document.type)}
+            {/* {document.type} - {documentType(document.type)} */}
+            {types?.filter(({_id})=>(
+               _id ===document.type ? <>{_id}</> :''
+            )).map(({description})=>description)}
           </Popper.Button>
           <Popper.Content show={show}>
             <div className={style.infoEnterpriseWrapper}>
