@@ -184,9 +184,20 @@ const ClientProfile = () => {
                     Salvar
                   </button>
                 )}
-                <button className={style.edtSave} onClick={handleDele}>
+                
+                 {!editable && (
+                 <button className={style.edtSave} onClick={handleDele}>
                     Excluir
                   </button>
+                )}
+                {editable && (
+                  <button className={style.edtSave} onClick={()=>setEditable(false)} >
+                    Cancelar
+                  </button>
+                )}
+                
+                
+                
                 </div>
                 </>}
                 

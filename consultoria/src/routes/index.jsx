@@ -30,13 +30,15 @@ Private.propTypes = {
 
 const RoutesApp = () => {
   // Defina o estado de autenticação corretamente
-  const { authenticated, loading, token } = useContext(AuthContext); // Obtenha a função signin do contexto
-  if (loading) {
-    return <Loading />;
-  }
+  const { authenticated, loading } = useContext(AuthContext);
+  
+  // Obtenha a função signin do contexto
+  
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
-  const signed = authenticated;
-
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -50,7 +52,7 @@ const RoutesApp = () => {
           path="/Adm"
           element={
             <RequireAuth>
-              <Private Item={Adm} signed={signed} />
+              <Private Item={Adm} signed={authenticated} />
             </RequireAuth>
           }
         />
@@ -58,7 +60,7 @@ const RoutesApp = () => {
           path="/home"
           element={
             <RequireAuth>
-              <Private Item={Home} signed={signed} />
+              <Private Item={Home} signed={authenticated} />
             </RequireAuth>
           }
         />
@@ -67,7 +69,7 @@ const RoutesApp = () => {
           path="/client"
           element={
             <RequireAuth>
-              <Private Item={Client} signed={signed} />
+              <Private Item={Client} signed={authenticated} />
             </RequireAuth>
           }
         />
@@ -76,7 +78,7 @@ const RoutesApp = () => {
         path="/clientProfile/:id"
         element={
           <RequireAuth>
-            <Private Item={ClientProfile} signed={signed}/>
+            <Private Item={ClientProfile} signed={authenticated}/>
           </RequireAuth>
         }
         />
@@ -86,7 +88,7 @@ const RoutesApp = () => {
           element={
             <Private
               Item={EntrepriseProfile}
-              signed={signed}
+              signed={authenticated}
             />
           }
         />
@@ -95,7 +97,7 @@ const RoutesApp = () => {
           path="/DocumentsPage"
           element={
             <RequireAuth>
-              <Private Item={DocumentsPage} signed={signed} />
+              <Private Item={DocumentsPage} signed={authenticated} />
             </RequireAuth>
           }
         />
@@ -104,7 +106,7 @@ const RoutesApp = () => {
           path="/CadastroAdm"
           element={
             <RequireAuth>
-              <Private Item={CadastroAdm} signed={signed} />
+              <Private Item={CadastroAdm} signed={authenticated} />
             </RequireAuth>
           }
         />
