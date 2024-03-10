@@ -55,7 +55,7 @@
 
 .inputGroup {
   display: flex;
-  gap: 12px;
+  gap: 18px;
   align-items: center;
   width: 337px;
   height: 29px;
@@ -85,7 +85,7 @@
 }
 
 .input {
-  width: 100%;
+  width: inherit;
   background-color: transparent;
   border: 1px transparent;
   height: inherit;
@@ -96,11 +96,25 @@
   border-left: solid 1px rgba(255, 255, 255, 0.42);;
 } 
 
-.input:focus, .input:autofill,.input:-webkit-autofill,.input:-internal-autofill-selected{
+.input:focus{
   background-color: transparent !important;
-  
 }
 
+ 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.59) !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+ 
 .input::placeholder {
   color: rgba(255, 255, 255, 0.59);
   font-size: 17px;
@@ -108,17 +122,12 @@
   opacity: 0.8; 
 }
   
-
-
 .user {
   border-radius: 9px;
   background: #849893;
   box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.5),
     0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }
-
-
-
 
 .containerForm button {
   width: 337px;
@@ -195,16 +204,18 @@
 
 @media (max-width: 710px) {
 
+  
+  
   .form {
     background: none;
     border: none;
     box-shadow: none;
+    width: 100%;
+    padding: 0 32px;
   }
   
   .inputGroup,.containerForm button{
     width: 100%;
   }
   
-  
-
 }
