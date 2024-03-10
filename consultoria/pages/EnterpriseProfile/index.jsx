@@ -41,6 +41,12 @@ const EntrepriseProfile = () => {
   const [editable, setEditable] = useState(false); // Estado para controlar se os campos estão editáveis
   const [companyData, setCompanyData] = useState(company); // Estado para armazenar os dados editáveis
 
+  // Função para cancelar a edição e restaurar os dados originais
+  const handleCancel = () => {
+    setCompanyData(company); // Restaura os dados originais
+    setEditable(false); // Desativa o modo de edição
+  };
+
   // Função para ativar o modo de edição
   const handleEdit = () => {
     setEditable(true);
@@ -99,7 +105,9 @@ const EntrepriseProfile = () => {
 
         {company && !error && !loading && (
           <>
-            <h1 className={style.title1}>{company.companyName}</h1>
+            <h1 className={`${style.title1} ${style.clientName}`}>
+              {company.companyName}
+            </h1>
 
             <section className={style.profile}>
               <div className={style.profileItem}>
@@ -264,16 +272,29 @@ const EntrepriseProfile = () => {
             </section>
 
             {/* Botões de edição e salvar */}
-            {!editable && (
-              <button className={style.edtSave} onClick={handleEdit}>
-                Editar
-              </button>
-            )}
-            {editable && (
-              <button className={style.edtSave} onClick={handleSave}>
-                Salvar
-              </button>
-            )}
+
+            <>
+              {!editable && (
+                <>
+                  <button className={style.edtSave} onClick={handleEdit}>
+                    Editar
+                  </button>
+                  <button className={style.edtCancel} onClick={handleCancel}>
+                    Cancelar
+                  </button>
+                </>
+              )}
+              {editable && (
+                <>
+                  <button className={style.edtSave} onClick={handleSave}>
+                    Salvar
+                  </button>
+                  <button className={style.edtCancel} onClick={handleCancel}>
+                    Cancelar
+                  </button>
+                </>
+              )}
+            </>
 
             <section className={style.documents}>
               <div className={style.documentsHeader}>
