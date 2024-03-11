@@ -19,6 +19,7 @@ const EntrepriseProfile = () => {
   // Estado para armazenar a lista de empresas
   const [empresas, setEmpresas] = useState([]);
 
+  
   useEffect(() => {
     // Faça uma solicitação para obter a lista de empresas do backend
     axios
