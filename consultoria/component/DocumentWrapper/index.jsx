@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 import { useData } from "../../src/hooks/useData";
 import style from "./DocumentWrapper.module.css";
 import { DocumentContainer } from "./DocumentContainer";
@@ -28,7 +28,7 @@ export const DocumentWrapper = ({ data }) => {
       {!loading && !error && (
         <>
           {loading ? (
-            <Loading />
+            <p>Carregando...</p>
           ) : (
             <>
               <section className={style.documents}>
@@ -41,7 +41,7 @@ export const DocumentWrapper = ({ data }) => {
 
                 <div className={style.contentClientList}>
                   {loading ? (
-                    <Loading />
+                   <p>Carregando...</p>
                   ) : (
                     <>
                       {documents.map((document) => (
