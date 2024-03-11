@@ -1,17 +1,25 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 import { useData } from "../../src/hooks/useData";
 import style from "./DocumentWrapper.module.css";
 import { DocumentContainer } from "./DocumentContainer";
 import { Loading } from "../Loading";
+import { DocumentForm } from "../../component/Forms/DocumentForm";
+import { Modal } from "../../component/Modal";
 
 export const DocumentWrapper = ({ data }) => {
   const { ["data"]: documents, loading, error, request } = useData();
 
+  const loadData = async () =>
+    await request("GET", `/document?company=${data}`, {
+      withCrendentials: true,
+    });
+
+  const onSubmitModalForm = () => {
+    loadData();
+  };
+
   useEffect(() => {
-    const loadData = async () =>
-      await request("GET", `/document?company=${data}`, {
-        withCrendentials: true,
-      });
+    loadData();
   }, [request]);
 
   return (
@@ -20,26 +28,31 @@ export const DocumentWrapper = ({ data }) => {
       {!loading && !error && (
         <>
           {loading ? (
-            <Loading />
+            <p>Carregando...</p>
           ) : (
             <>
-              <section className={style.contentClientList}>
-                {loading ? (
-                  <Loading />
-                ) : (
-                  // <ClientWrapper.Container data={clients} />
-                  <>
-                    {documents.map((document) => (
-                      <div className={style.list} key={document._id}>
-                        <DocumentContainer document={document} />
-                      </div>
-                    ))}
-                  </>
-                )}
+              <section className={style.documents}>
+                <div className={style.documentsHeader}>
+                  <h2 className={style.subtitle}>Documentos:</h2>
+                  <Modal label="Novo Documento">
+                    <DocumentForm handleFormSubmit={onSubmitModalForm} />
+                  </Modal>
+                </div>
+
+                <div className={style.contentClientList}>
+                  {loading ? (
+                   <p>Carregando...</p>
+                  ) : (
+                    <>
+                      {documents.map((document) => (
+                        <div className={style.list} key={document._id}>
+                          <DocumentContainer document={document} />
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
               </section>
-              {/* {documents.map((document) => (
-                <DocumentContainer document={document} key={document._id} />
-              ))} */}
             </>
           )}
         </>

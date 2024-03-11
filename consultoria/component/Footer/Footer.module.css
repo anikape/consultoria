@@ -1,9 +1,11 @@
 .footerContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  margin-top: 9rem;
+  height: 100px;
+  padding-bottom: 1rem;
+  margin: 0 32px;
 }
 
 .logoFooter {
@@ -13,7 +15,6 @@
   background-size: contain;
   width: 181px;
   height: 55px;
-  margin-bottom: -20px;
 }
 
 .lineFooter {
@@ -35,9 +36,6 @@
 
 /* Responsividade */
 @media screen and (max-width: 768px) {
-  .footerContainer {
-    margin-top: 6rem; 
-  }
   
   .lineFooter {
     width: 80%; 

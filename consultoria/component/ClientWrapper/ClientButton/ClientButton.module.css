@@ -1,5 +1,13 @@
-.buttonName {
+.clientButtonsWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
   width: 100%;
+}
+
+.buttonName {
   color: #1e1e1e;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
@@ -8,10 +16,47 @@
   line-height: 111%;
   letter-spacing: 0.34px;
   text-align: start;
-  padding-bottom: 0.5rem;
   background-color: transparent;
   border: none;
 }
 
+.buttonProfile {
+  width: 171px;
+  height: 39px;
+  background: #a0b0ac;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: rgba(60, 45, 38, 0.9);
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: ease-in-out 0.3s;
+}
+
+.buttonProfile:hover {
+  transform: scale(1.02);
+  background-color: #c9d7d7;
+}
+
+
 @media (max-width: 710px) {
+  .clientButtonsWrapper {
+  flex-direction: column;
+  align-items: flex-start;
+}
+  
+  .buttonName{
+    font-size: 24px;
+  }
+  
+  .buttonProfile {
+  width:100%;
+  }
 }

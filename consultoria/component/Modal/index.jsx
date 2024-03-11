@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import mais from "../../src/assets/mais.png";
+import React, {useRef, useState} from "react";
+import { HiOutlineDocumentPlus } from "react-icons/hi2";
 import style from "./Modal.module.css";
 
 export const Modal = ({ children, label }) => {
@@ -22,9 +22,9 @@ export const Modal = ({ children, label }) => {
 
   return (
     <>
-      <div>
+      
         <button type="button" className={style.buttonModal} onClick={openModal}>
-          <img src={mais} alt="simbolo de mais" /> {label ?? "Adicionar"}
+          <HiOutlineDocumentPlus /> {label ?? "Adicionar"}
         </button>
         {isOpen && (
           <div className={style.backdrop} onClick={handleOutsideClick}>
@@ -34,7 +34,7 @@ export const Modal = ({ children, label }) => {
             </div>
           </div>
         )}
-      </div>
+      
     </>
   );
 };

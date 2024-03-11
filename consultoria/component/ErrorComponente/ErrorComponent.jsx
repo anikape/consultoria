@@ -8,8 +8,8 @@ const ErrorComponent = ({ message }) => {
   return <span className={style.error}>{message}</span>;
 };
 
-ErrorComponent.propTypes = {
-  message: PropTypes.string.isRequired,
-};
+// ErrorComponent.propTypes = {
+//   message: PropTypes.string.isRequired,
+// };
 
 export default ErrorComponent;

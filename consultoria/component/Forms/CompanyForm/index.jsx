@@ -6,7 +6,17 @@ import { Select } from "../../Select";
 import { useFetch } from "../../../src/hooks/useFetch";
 import { Loading } from "../../Loading";
 
-export const CompanyForm = ({ clients, label }) => {
+export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
+  const [message, setMessage] = useState("");
+  console.log(clients);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
   const {
     setValue,
     register,
@@ -21,7 +31,19 @@ export const CompanyForm = ({ clients, label }) => {
   const { postData } = useFetch();
 
   const onSubmit = async (data) => {
-    postData("company", data);
+    try {
+      const { response, status } = await postData("company", data);
+
+      if (status !== 201) {
+        setMessage(response.data);
+        throw new Error(response.data);
+      }
+
+      setMessage("Empresa cadastrada com sucesso!");
+      handleFormSubmit();
+    } catch ({ message }) {
+      setMessage(message);
+    }
   };
 
   const zipCode = watch("zipcode");
@@ -64,9 +86,16 @@ export const CompanyForm = ({ clients, label }) => {
             <Select
               {...register("clientId", { required: "Selecione um cliente" })}
               label="Cliente"
-              data={clients}
-              error={errors.clientId?.message}
-            />
+              error={errors.clientId?.message}>
+              <option value="" disabled>
+                Selecione uma empresa
+              </option>
+              {clients?.map(({ id, name }) => (
+                <option key={id} value={id} disabled={id ? "" : "disabled"}>
+                  {id ? name : "carregando..."}
+                </option>
+              ))}
+            </Select>
             <Input
               {...register("companyName", {
                 required: "Campo obrigatório",
