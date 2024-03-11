@@ -14,8 +14,7 @@ const ClientProfile = () => {
   const { id } = useParams();
   const { editData } = useFetch();
   const { ["data"]: client, loading, error, request } = useData();
-  console.log(id);
-  console.log(client);
+  
 
   useEffect(() => {
     loadData();
@@ -52,11 +51,12 @@ const ClientProfile = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     data = {
       ...data,
-      id: data.id,
+      id
     };
+    
     try {
       const { response, status } = await editData(`client/${id}`, data);
       
@@ -195,8 +195,6 @@ const ClientProfile = () => {
                     Cancelar
                   </button>
                 )}
-                
-                
                 
                 </div>
                 </>}

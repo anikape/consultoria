@@ -33,9 +33,6 @@ export const DocumentContainer = ({ document }) => {
     loadData()
   },[])
   
-  console.log(types)
-  console.log(document)
-  
   const handleDeleteDocument = (documentId) => {
     deleteData(`document/${documentId}`, documentId);
   };
@@ -46,7 +43,6 @@ export const DocumentContainer = ({ document }) => {
       ) : (
         <>
           <Popper.Button show={show} setShow={setShow}>
-            {/* {document.type} - {documentType(document.type)} */}
             {types?.filter(({_id})=>(
                _id ===document.type ? <>{_id}</> :''
             )).map(({description})=>description)}
@@ -73,20 +69,18 @@ export const DocumentContainer = ({ document }) => {
                 <p>{formatDate(document.validity)}</p>
               </div>
             </div>
-            <div className={style.infoEnterpriseWrapper}>
+            <div className={style.buttonsActions}>
               <Link to={document.url} target="_blank" download>
                 <div className={style.button}>
                   <AiOutlineFilePdf />
                   Abrir arquivo
                 </div>
               </Link>
-              <div>
-                <button
+               <button
                   className={style.button}
                   onClick={() => handleDeleteDocument(document.company)}>
                   Excluir Documento
                 </button>
-              </div>
             </div>
           </Popper.Content>
         </>

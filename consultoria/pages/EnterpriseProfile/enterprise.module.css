@@ -2,9 +2,7 @@
   display: flex;
   gap: 2rem;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
-  /* height: 100vh; */
   min-height: inherit;
   overflow-y: hidden;
   padding: 32px;
@@ -43,6 +41,11 @@
 
 .contentContainer::-webkit-scrollbar-thumb:hover {
   background-color: #6d78769e;
+}
+
+.groupButtons{
+  display: flex;
+  gap: 32px;
 }
 
 .button {
@@ -195,7 +198,6 @@
   width: inherit;
   height: 100%;
 }
-
 
 .openModal {
   width: 171px;
