@@ -419,6 +419,7 @@ const DocumentsPage = () => {
         </>
       )}
 
+    {/*Modal de confirmação de exclusão de documentos*/}
       <Modal
         className={style.modal}
         // overlayClassName={style.overlay} 
