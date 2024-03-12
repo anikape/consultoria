@@ -1,31 +1,28 @@
-.container {
+.company {
   display: flex;
-  gap: 2rem;
   flex-direction: column;
   align-items: center;
   min-height: inherit;
-  overflow-y: hidden;
-  padding: 32px;
   background-image: url("../../src/assets/gHome2.png");
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
+  background-size: cover;
+  background-position: right 5% bottom 45%;
   object-fit: cover;
-  overflow-x: auto;
-  overflow-y: scroll;
-  width: 100%;
+}
+.container {
+  gap: 2rem;
+  width: 990px;
+  padding: 32px;
 }
 
 .contentContainer {
   background: rgba(255, 255, 255, 0.212);
   background-repeat: no-repeat;
   border-radius: 7px;
-  width: 990px;
-  max-width: 100%;
+  width: 100%;
   min-height: 700px;
   padding: 2rem;
-  overflow-x: auto;
-  overflow-y: scroll;
   border: #849893;
   box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.25);
 }
@@ -43,8 +40,9 @@
   background-color: #6d78769e;
 }
 
-.groupButtons{
+.groupButtons {
   display: flex;
+  justify-content: flex-end;
   gap: 32px;
 }
 
@@ -66,12 +64,12 @@
   background: transparent;
   font-size: 30px;
   color: #4e5b58;
-  transition: transform 0.30s;
+  transition: transform 0.3s;
 }
 
 .buttons button:hover,
 .buttons .homeButton:hover {
-  transform: scale(0.70);
+  transform: scale(0.7);
 }
 
 .buttons .homeButton {
@@ -93,7 +91,6 @@
   padding-bottom: 2.5rem;
 }
 
-
 .subtitle {
   font-size: 20px;
   font-weight: 700;
@@ -107,11 +104,15 @@
   font-size: 15px;
   font-weight: 600;
   color: #363f3d;
+}
 
+.formContainer {
+  width: 100%;
 }
 
 .profile {
   display: grid;
+  width: inherit;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.6rem 4rem;
   padding-bottom: 3.5em;
@@ -138,13 +139,11 @@
     -4px 0px 2px -2px rgba(0, 0, 0, 0.25) inset;
 }
 
-
 /* Estilo para quando o campo está em foco */
 .profileInput:focus,
 .profileInput2:focus {
   outline: none;
   border-color: #4e5b58;
-
 }
 
 .edtSave,
@@ -152,7 +151,8 @@
   border: solid 1px transparent;
   border-top-style: none;
   border-radius: 9px;
-  width: 10%;
+  /* width: 10%; */
+  min-width: 110px;
   min-height: 25px;
   padding: 0.3em;
   background: #8f9f9c38;
@@ -161,14 +161,14 @@
   font-weight: 600;
   box-shadow: 4px -1px 2px -2px rgba(0, 0, 0, 0.25) inset,
     -4px -4px 2px -1px rgba(0, 0, 0, 0.25) inset;
-  margin-left: 45rem;
+  /* margin-left: 45rem; */
   /* Adicionei um pequeno espaço entre os botões */
 }
 
 .edtSave:hover,
 .edtCancel:hover {
   background: #abb1b099;
-  transform: scale(0.90);
+  transform: scale(0.9);
   cursor: pointer;
   color: #02020281;
 }
@@ -179,14 +179,12 @@
   /* Ajustando a margem à esquerda para que o botão fique do lado direito */
 }
 
-
 .documentsHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 32px;
 }
-
 
 .errorContainer {
   display: flex;
@@ -205,7 +203,8 @@
   background: #a0b0ac;
   border-radius: 26px;
   border: 1px solid rgba(30, 30, 30, 0.43);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   color: #4e5b58;
   font-family: Inter;
   font-size: 13px;
@@ -219,14 +218,10 @@
   margin-top: 3rem;
 }
 
-.footer {
-  position: fixed;
-  bottom: 0;
-}
-
 @media (max-width: 720px) {
   .container {
     height: inherit;
+    width: 100%;
   }
 
   .title1 {
@@ -244,10 +239,5 @@
 
   .documentsHeader {
     flex-direction: column;
-  }
-
-  .footer {
-    position: fixed;
-    bottom: 0;
   }
 }

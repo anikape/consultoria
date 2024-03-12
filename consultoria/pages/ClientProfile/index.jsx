@@ -1,25 +1,32 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import LoadingSpinner from "../../component/LoadingSpinner";
+
+import { RiHomeHeartLine } from "react-icons/ri";
+import { FaUserGroup } from "react-icons/fa6";
+
 import { useData } from "../../src/hooks/useData";
 import { useFetch } from "../../src/hooks/useFetch";
+
+import LoadingSpinner from "../../component/LoadingSpinner";
 import { Input } from "../../component/Input";
 import ErrorComponent from "../../component/ErrorComponente/ErrorComponent";
 import Footer from "../../component/Footer";
+
 import style from "./ClientProfile.module.css";
 
 const ClientProfile = () => {
   const [message, setMessage] = useState("");
+  const [editable, setEditable] = useState(false);
+
   const { id } = useParams();
   const { editData } = useFetch();
   const { ["data"]: client, loading, error, request } = useData();
-  
 
   useEffect(() => {
     loadData();
   }, []);
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setMessage("");
@@ -27,8 +34,6 @@ const ClientProfile = () => {
 
     return () => clearTimeout(timer);
   }, [message]);
-  
-  
 
   const loadData = async () =>
     await request("GET", `client/${id}`, { withCredentials: true });
@@ -40,8 +45,6 @@ const ClientProfile = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const [editable, setEditable] = useState(false); 
-  
   const handleEdit = () => {
     setEditable(true);
     setValue("name", client.name);
@@ -51,59 +54,57 @@ const ClientProfile = () => {
   };
 
   const onSubmit = async (data) => {
-    // console.log(data);
     data = {
       ...data,
-      id
+      id,
     };
-    
+
     try {
       const { response, status } = await editData(`client/${id}`, data);
-      
-      console.log("dentro do submit:", response)
-      console.log("dentro do submit:", status)
-      
+
       if (status !== 200) {
         setMessage(response.data.errors[0]);
         throw new Error(response.data.errors[0]);
       }
       setMessage("Cadastro atualizado com sucesso!");
-      loadData()
-      setEditable(false)
+      loadData();
+      setEditable(false);
     } catch ({ message }) {
       setMessage(message);
     }
   };
-  
+
   const handleDele = async (id) => {
-    const userConfirmed = window.confirm('Deseja realmente apagar o registro? Essa ação não pode ser desfeita.');
+    const userConfirmed = window.confirm(
+      "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
+    );
 
     try {
-      
       if (userConfirmed) {
-      // await deleteData(`document/${documentId}`, documentId);
-        console.log('apagou')
-       
+        // await deleteData(`document/${documentId}`, documentId);
+        console.log("apagou");
       } else {
-
-        console.log('Operação de exclusão cancelada pelo usuário.');
-
+        console.log("Operação de exclusão cancelada pelo usuário.");
       }
     } catch (error) {
       console.error("Erro ao excluir documento:", error);
     }
   };
 
-   return (
+  return (
     <main className={style.container}>
       <div className={style.contentContainer}>
         <div className={style.button}>
           <Link to="/client" className={style.buttons}>
-            <button>Clientes</button>
+            <button>
+              <FaUserGroup />
+            </button>
           </Link>
 
           <Link to="/home" className={style.buttons}>
-            <button>HOME</button>
+            <button className={style.homeButton}>
+              <RiHomeHeartLine className={style.home} />
+            </button>
           </Link>
         </div>
 
@@ -122,83 +123,85 @@ const ClientProfile = () => {
 
             <section className={style.profile}>
               {message}
-              <form className={style.editForm} onSubmit={handleSubmit(onSubmit)}>
+              <form
+                className={style.editForm}
+                onSubmit={handleSubmit(onSubmit)}>
                 <div className={style.profileItem}>
                   <h2>Nome</h2>
-                  <span>
-                    {editable ? (
-                      <Input {...register("name")}/>
-                    ) : (
-                      client.name
-                    )}
-                  </span>
+                  {editable ? (
+                    <Input {...register("name")} />
+                  ) : (
+                    <span>{client.name}</span>
+                  )}
                 </div>
                 <div className={style.profileItem}>
                   <h2>CPF</h2>
-                  <span>
-                    {editable ? (
-                      <Input  name="cpf" {...register("cpf",{required:"Campo Obrigatório"})} 
+                  {editable ? (
+                    <Input
+                      name="cpf"
+                      {...register("cpf", { required: "Campo Obrigatório" })}
                       error={errors.cpf?.message}
-                      />
-                      
-                    ) : (
-                      client.cpf
-                    )}
-                  </span>
+                    />
+                  ) : (
+                    <span>{client.cpf}</span>
+                  )}
                 </div>
 
                 <div className={style.profileItem}>
                   <h2>E-mail</h2>
-                  <span>
-                    {editable ? (
-                      <>
-                      <Input  {...register("email",{required:"Campo obrigatório"})}
-                      error={errors.email?.message}
+                  {editable ? (
+                    <>
+                      <Input
+                        {...register("email", {
+                          required: "Campo obrigatório",
+                        })}
+                        error={errors.email?.message}
                       />
-                      </>
-                    ) : (
-                      client.email
-                    )}
-                  </span>
+                    </>
+                  ) : (
+                    <span>{client.email}</span>
+                  )}
                 </div>
 
                 <div className={style.profileItem}>
                   <h2>Telefone</h2>
-                  <span>
-                    {editable ? (
-                      <Input {...register("phone")}/>
-                    ) : (
-                      client.phone ?? "Nenhum número cadastrado"
-                    )}
-                  </span>
+                  {editable ? (
+                    <Input {...register("phone")} />
+                  ) : (
+                    <span>{client.phone ?? "Nenhum número cadastrado"}</span>
+                  )}
                 </div>
-                 {isSubmitting ? <LoadingSpinner/>:<>
-                 <div className={style.groupButtons}>
-                {!editable && (
-                  <button className={style.edtSave} onClick={handleEdit}>
-                    Editar
-                  </button>
+                {isSubmitting ? (
+                  <LoadingSpinner />
+                ) : (
+                  <>
+                    <div className={style.groupButtons}>
+                      {!editable && (
+                        <button className={style.edtSave} onClick={handleEdit}>
+                          Editar
+                        </button>
+                      )}
+                      {editable && (
+                        <button className={style.edtSave} type="submit">
+                          Salvar
+                        </button>
+                      )}
+
+                      {!editable && (
+                        <button className={style.edtSave} onClick={handleDele}>
+                          Excluir
+                        </button>
+                      )}
+                      {editable && (
+                        <button
+                          className={style.edtSave}
+                          onClick={() => setEditable(false)}>
+                          Cancelar
+                        </button>
+                      )}
+                    </div>
+                  </>
                 )}
-                {editable && (
-                  <button className={style.edtSave} type="submit">
-                    Salvar
-                  </button>
-                )}
-                
-                 {!editable && (
-                 <button className={style.edtSave} onClick={handleDele}>
-                    Excluir
-                  </button>
-                )}
-                {editable && (
-                  <button className={style.edtSave} onClick={()=>setEditable(false)} >
-                    Cancelar
-                  </button>
-                )}
-                
-                </div>
-                </>}
-                
               </form>
             </section>
           </>
