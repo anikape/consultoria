@@ -94,7 +94,7 @@ export const ClientForm = ({ handleFormSubmit }) => {
           })}
           label="Telefone:"
           placeholder="Telefone"
-          maxLength={8}
+          maxLength={11}
           error={errors.phone?.message}
         />
         <div className={style.buttons}>
