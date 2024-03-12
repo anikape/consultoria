@@ -44,7 +44,7 @@
 
 .modal {
   /* Estilos para o conteúdo do modal */
-  background-color: white;
+  background-color: gainsboro;
   border-radius: 8px;
   padding: 20px;
   width: 400px; /* Defina o tamanho desejado para o modal */
