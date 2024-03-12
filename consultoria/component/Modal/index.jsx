@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import { HiOutlineDocumentPlus } from "react-icons/hi2";
 import style from "./Modal.module.css";
 
@@ -22,19 +22,18 @@ export const Modal = ({ children, label }) => {
 
   return (
     <>
-      
-        <button type="button" className={style.buttonModal} onClick={openModal}>
-          <HiOutlineDocumentPlus /> {label ?? "Adicionar"}
-        </button>
-        {isOpen && (
-          <div className={style.backdrop} onClick={handleOutsideClick}>
-            <div className={style.modalContainer} ref={modalRef}>
-              <button className={style.modalClose} onClick={closeModal} />
-              {children}
-            </div>
+      <button type="button" className={style.buttonModal} onClick={openModal}>
+        <HiOutlineDocumentPlus /> {label ?? "Adicionar"}
+      </button>
+      {isOpen && (
+        <div className={style.backdrop} onClick={handleOutsideClick}>
+          <div className={style.modalContainer} ref={modalRef}>
+            <h3 className={style.h3}>{label}</h3>
+            <button className={style.modalClose} onClick={closeModal} />
+            {children}
           </div>
-        )}
-      
+        </div>
+      )}
     </>
   );
 };

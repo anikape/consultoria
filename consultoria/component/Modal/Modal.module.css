@@ -33,7 +33,7 @@
 
 .modalContainer::-webkit-scrollbar {
   width: 0px;
- }
+}
 
 .modalContainer::-webkit-scrollbar-track {
   background: #91a3a1;
@@ -80,6 +80,7 @@
 
 .h3 {
   color: rgba(60, 45, 38, 0.9);
+  text-align: center;
 }
 
 .buttonModal {
@@ -100,12 +101,11 @@
     -4px -4px 2px -1px rgba(0, 0, 0, 0.25) inset;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
-
 }
 
 .buttonModal:hover {
   background: #abb1b077;
-  transform: scale(0.90);
+  transform: scale(0.9);
   color: #3e4947c4;
 }
 
@@ -117,14 +117,11 @@
   transform: scale(0.95);
 }
 
-
 .buttonModal svg {
   width: 22px;
   height: 22px;
   color: #4e5b58;
 }
-
-
 
 @media (max-width: 710px) {
   .modalContent {
