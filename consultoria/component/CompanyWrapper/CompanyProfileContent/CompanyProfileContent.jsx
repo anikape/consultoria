@@ -11,7 +11,7 @@ export const CompanyProfileContent = ({ company }) => {
   return (
     <>
       <Popper.Button show={show} setShow={setShow}>
-        <p>{mask.CNPJ(company.cnpj)}</p>
+        <p>{company.companyName}</p>
       </Popper.Button>
       <Popper.Content show={show}>
         <div className={style.infoEnterpriseContainer}>
@@ -34,7 +34,6 @@ export const CompanyProfileContent = ({ company }) => {
               <p className={style.infoName}>CPF/CNPJ:</p>
               <p>{mask.CNPJ(company.cnpj)}</p>
             </div>
-           
           </div>
           <div className={style.companyButtonsWrapper}>
             <Link
@@ -42,7 +41,6 @@ export const CompanyProfileContent = ({ company }) => {
               className={style.buttonProfile}>
               PERFIL
             </Link>
-
           </div>
         </div>
       </Popper.Content>
