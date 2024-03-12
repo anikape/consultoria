@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 import { useData } from "../../src/hooks/useData";
 import style from "./DocumentWrapper.module.css";
 import { DocumentContainer } from "./DocumentContainer";
@@ -24,7 +24,19 @@ export const DocumentWrapper = ({ data }) => {
 
   return (
     <>
-      {!loading && error && <p>Nenhum documento encontrado</p>}
+      {!loading && error && (
+        <>
+          <section className={style.documents}>
+            <div className={style.documentsHeader}>
+              <h2 className={style.subtitle}>Documentos:</h2>
+              <Modal label="Novo Documento">
+                <DocumentForm handleFormSubmit={onSubmitModalForm} />
+              </Modal>
+            </div>
+            <p className={style.errorNotFound}>Nenhum documento encontrado</p>
+          </section>
+        </>
+      )}
       {!loading && !error && (
         <>
           {loading ? (
@@ -41,7 +53,7 @@ export const DocumentWrapper = ({ data }) => {
 
                 <div className={style.contentClientList}>
                   {loading ? (
-                   <p>Carregando...</p>
+                    <p>Carregando...</p>
                   ) : (
                     <>
                       {documents.map((document) => (
