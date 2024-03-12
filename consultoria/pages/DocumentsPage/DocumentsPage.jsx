@@ -31,78 +31,53 @@ const DocumentsPage = () => {
 
   useEffect(() => {
     request("get", "document", { withCredentials: true });
+    fetchTypesFromDatabase(); // Função para buscar tipos de documento do banco de dados
   }, [request]);
 
-
-
-  // const handleDeleteDocument = async (documentId) => {
-  //   try {
-  //     // Exibe um popup de confirmação
-  //     const userConfirmed = window.confirm('Confirma a exclusão do documento?');
+  const fetchTypesFromDatabase = async () => {
+    try {
+      const response = await fetch("/document");
+      if (response.ok) {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          setTypes(data);
+        } else {
+          throw new Error("Resposta do servidor não está no formato JSON");
+        }
+      } else {
+        throw new Error(`Erro ao buscar tipos de documento: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar tipos de documento:", error);
+    }
+  };
   
-  //     if (userConfirmed) {
-  //       // Se o usuário confirmar, exclui o documento
-  //       await deleteData(`document/${documentId}`, documentId);
-  //       setDeletedDocumentId(documentId);
-  //       setConfirmationMessage('Documento excluído com sucesso!');
-  //       await request('get', 'document', { withCredentials: true });
-  //     } else {
-  //       // Se o usuário cancelar, não faz nada
-  //       console.log('Operação de exclusão cancelada pelo usuário.');
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro ao excluir documento:", error);
-  //   }
-  // };
+  
+  const getTypeName = (typeId) => {
+    const type = types.find(type => type._id === typeId);
+    return type ? type.description : '';
+  };
 
   const handleDeleteDocument = async (documentId) => {
-  try {
-    // Exibe um popup de confirmação
-    const userConfirmed = window.confirm('Confirma a exclusão do documento?');
-
-    if (userConfirmed) {
-      // Se o usuário confirmar, exclui o documento
-      await deleteData(`document/${documentId}`, documentId);
-      setDeletedDocumentId(documentId);
-      setConfirmationMessage('Documento excluído com sucesso!');
-      await request('get', 'document', { withCredentials: true });
-    } else {
-      // Se o usuário cancelar, não faz nada
-      console.log('Operação de exclusão cancelada pelo usuário.');
+    try {
+      const userConfirmed = window.confirm('Confirma a exclusão do documento?');
+      if (userConfirmed) {
+        await deleteData(`document/${documentId}`, documentId);
+        setDeletedDocumentId(documentId);
+        setConfirmationMessage('Documento excluído com sucesso!');
+        await request('get', 'document', { withCredentials: true });
+      } else {
+        console.log('Operação de exclusão cancelada pelo usuário.');
+      }
+    } catch (error) {
+      console.error("Erro ao excluir documento:", error);
     }
-  } catch (error) {
-    console.error("Erro ao excluir documento:", error);
-  }
-};
-
-  // const handleEditDocument = async (documentId, newData) => {
-  //   try {
-  //    const response = await editData(`document/${documentId}`, newData);
-  //    if (response.ok) {
-  //     const updatedDocuments = documents.map((doc) => {
-  //      if (doc._id === documentId) {
-  //       return { ...doc, ...newData }; // Atualiza o documento editado
-  //      }
-  //      return doc;
-  //     });
-  //     request("get", "document", { withCredentials: true });
-  //     setIsEditing(false);
-  //     setEditedDocument(null);
-  //     setConfirmationMessage("Alterações salvas com sucesso!");
-  //    } else {
-  //     console.error("Erro ao editar documento:", response.statusText);
-  //    }
-  //   } catch (error) {
-  //    console.error("Erro ao editar documento:", error);
-  //   }
-  //  };
+  };
 
   const handleEditDocument = async (documentId, newData) => {
     try {
-      // Formatando a data para o formato esperado pelo backend
       const formattedDate = format(new Date(newData.date), 'yyyy-MM-dd');
-  
-      // Criando um novo objeto com a data formatada
       const formattedData = {
         ...newData,
         date: formattedDate,
@@ -112,7 +87,7 @@ const DocumentsPage = () => {
       if (response.ok) {
         const updatedDocuments = documents.map((doc) => {
           if (doc._id === documentId) {
-            return { ...doc, ...newData }; // Atualiza o documento editado
+            return { ...doc, ...newData };
           }
           return doc;
         });
@@ -140,19 +115,14 @@ const DocumentsPage = () => {
 
   const handleInputChange = (fieldName, value) => {
     if (fieldName === "emission") {
-      // Garante que a data de emissão seja uma string no formato 'yyyy-MM-dd'
       const formattedDate = formatDate(new Date(value));
       setEditedDocument((prevDocument) => ({
         ...prevDocument,
         emission: formattedDate,
       }));
     } else if (fieldName === "validity") {
-      // Converte a data de vencimento para formato 'YYYY-MM-DD'
       const date = new Date(value);
-      const validity = `${date.getFullYear()}-${(
-        "0" +
-        (date.getMonth() + 1)
-      ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+      const validity = `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
       setEditedDocument((prevDocument) => ({
         ...prevDocument,
         validity,
@@ -169,7 +139,6 @@ const DocumentsPage = () => {
     if (!editedDocument) return;
 
     try {
-      // Convertendo a data de emissão de volta para string
       const editedDocumentToSend = {
         ...editedDocument,
         emission: formatDate(editedDocument.emission),
@@ -181,7 +150,6 @@ const DocumentsPage = () => {
       );
 
       if (response.ok) {
-        // Atualiza os documentos após salvar as alterações
         await request("get", "document", { withCredentials: true });
         setIsEditing(false);
         setEditedDocument(null);
@@ -206,13 +174,6 @@ const DocumentsPage = () => {
             </button>
           </Link>
 
-          
-
-          <nav className={style.nav}>
-           
-          </nav>
-        
-
           <div>
             {confirmationMessage && deletedDocumentId && (
               <div>{confirmationMessage}</div>
@@ -224,7 +185,7 @@ const DocumentsPage = () => {
               <table>
                 <thead>
                   <tr>
-                    <th className={style.infos} colspan="2">
+                    <th className={style.infos} colSpan="2">
                       Documento
                     </th>
                     <th className={style.infos}>Tipo</th>
@@ -271,13 +232,13 @@ const DocumentsPage = () => {
                         {isEditing && editedDocument?._id === document._id ? (
                           <input
                             type="text"
-                            value={editedDocument.client}
+                            value={editedDocument.companyName}
                             onChange={(e) =>
-                              handleInputChange("client", e.target.value)
+                              handleInputChange("companyName", e.target.value)
                             }
                           />
-                        ) : (
-                          document.client
+                                                  ) : (
+                          document.companyName
                         )}
                       </td>
                       <td>
