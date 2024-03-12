@@ -37,7 +37,10 @@
   color: #3e4947c5;
 }
 
-
+.notification {
+  width: 80px;
+  height: 80px;
+}
 
 /* Estilos para a tabela */
 table {
