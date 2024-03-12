@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns';
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { useData } from "../../src/hooks/useData";
 import { Loading } from "../../component/Loading";
@@ -20,55 +20,72 @@ const formatDate = (dateString) => {
 };
 
 const DocumentsPage = () => {
-  const { ["data"]: documents, loading, error, request } = useData();
+  const { error, request } = useData();
   const [newPdf, setNewPdf] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDocument, setEditedDocument] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const { deleteData, editData } = useFetch();
-  const [documentos, setDocumentos] = useState([]);
+  const [documents, setDocuments] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [loading, setLoading] = useState([]);
 
   useEffect(() => {
-    request("get", "document", { withCredentials: true });
-    fetchTypesFromDatabase(); // Função para buscar tipos de documento do banco de dados
-  }, [request]);
+    // request("get", "document", { withCredentials: true });
+    loadData();
+  }, []);
 
-  const fetchTypesFromDatabase = async () => {
+  const loadData = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("/document");
-      if (response.ok) {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          const data = await response.json();
-          setTypes(data);
-        } else {
-          throw new Error("Resposta do servidor não está no formato JSON");
-        }
-      } else {
-        throw new Error(`Erro ao buscar tipos de documento: ${response.statusText}`);
-      }
+      const [companysData, typesData] = await Promise.all([
+        request("get", "document", { withCredetials: true }),
+        request("get", "types", { withCredetials: true }),
+      ]);
+
+      setDocuments(companysData.json);
+      setTypes(typesData.json);
+      setLoading(false);
     } catch (error) {
-      console.error("Erro ao buscar tipos de documento:", error);
+      console.log(error);
     }
   };
-  
-  
-  const getTypeName = (typeId) => {
-    const type = types.find(type => type._id === typeId);
-    return type ? type.description : '';
-  };
+
+  console.log(types);
+  console.log(documents);
+
+  const teste = (id) =>
+    types
+      ?.filter(({ _id }) => (_id === document.type ? <>{_id}</> : ""))
+      .map(({ description }) => description);
+
+  console.log();
+
+  // const handleDeleteDocument = async (documentId) => {
+  //   try {
+  //     await deleteData(`document/${documentId}`, documentId);
+  //     setDeletedDocumentId(documentId);
+  //     setConfirmationMessage('Documento excluído com sucesso!');
+  //     await request('get', 'document', { withCredentials: true });
+  //   } catch (error) {
+  //     console.error('Erro ao excluir documento:', error);
+  //   }
+  // };
 
   const handleDeleteDocument = async (documentId) => {
     try {
-      const userConfirmed = window.confirm('Confirma a exclusão do documento?');
+      // Exibe um popup de confirmação
+      const userConfirmed = window.confirm("Confirma a exclusão do documento?");
+
       if (userConfirmed) {
         await deleteData(`document/${documentId}`, documentId);
         setDeletedDocumentId(documentId);
-        setConfirmationMessage('Documento excluído com sucesso!');
-        await request('get', 'document', { withCredentials: true });
+        setConfirmationMessage("Documento excluído com sucesso!");
+        await request("get", "document", { withCredentials: true });
       } else {
-        console.log('Operação de exclusão cancelada pelo usuário.');
+        // Se o usuário cancelar, não faz nada
+        console.log("Operação de exclusão cancelada pelo usuário.");
       }
     } catch (error) {
       console.error("Erro ao excluir documento:", error);
@@ -77,12 +94,15 @@ const DocumentsPage = () => {
 
   const handleEditDocument = async (documentId, newData) => {
     try {
-      const formattedDate = format(new Date(newData.date), 'yyyy-MM-dd');
+      // Formatando a data para o formato esperado pelo backend
+      const formattedDate = format(new Date(newData.date), "yyyy-MM-dd");
+
+      // Criando um novo objeto com a data formatada
       const formattedData = {
         ...newData,
         date: formattedDate,
       };
-  
+
       const response = await editData(`document/${documentId}`, formattedData);
       if (response.ok) {
         const updatedDocuments = documents.map((doc) => {
@@ -174,6 +194,8 @@ const DocumentsPage = () => {
             </button>
           </Link>
 
+          <nav className={style.nav}></nav>
+
           <div>
             {confirmationMessage && deletedDocumentId && (
               <div>{confirmationMessage}</div>
@@ -224,8 +246,19 @@ const DocumentsPage = () => {
                               handleInputChange("type", e.target.value)
                             }
                           />
+                        ) : // types
+                        //   ?.filter(({ _id }) => _id === document.type)
+                        //   .map(({ description }) => description)
+
+                        types
+                            .filter(({ _id }) => _id === document.type)
+                            .map(({ description }) => description).length >
+                          0 ? (
+                          types
+                            .filter(({ _id }) => _id === document.type)
+                            .map(({ description }) => description)
                         ) : (
-                          document.type
+                          ["Tipo não cadastrado"]
                         )}
                       </td>
                       <td>
@@ -237,7 +270,7 @@ const DocumentsPage = () => {
                               handleInputChange("companyName", e.target.value)
                             }
                           />
-                                                  ) : (
+                        ) : (
                           document.companyName
                         )}
                       </td>
@@ -271,32 +304,26 @@ const DocumentsPage = () => {
                         <a
                           href={document.url}
                           target="_blank"
-                          rel="noopener noreferrer"
-                        >
+                          rel="noopener noreferrer">
                           <BsFiletypePdf className={style.documentsIcons} />
                         </a>
 
                         {!isEditing && (
                           <button
                             className={style.iconButton}
-                            onClick={() => handleEditButtonClick(document)}
-                          >
-                            <CiEdit className={style.documentsIcons} 
-                            />
+                            onClick={() => handleEditButtonClick(document)}>
+                            <CiEdit className={style.documentsIcons} />
                           </button>
                         )}
                         <button
                           className={style.iconButton}
-                          onClick={() => handleDeleteDocument(document._id)}
-                        >
-                          <MdDeleteOutline className={style.documentsIcons} 
-                          />
+                          onClick={() => handleDeleteDocument(document._id)}>
+                          <MdDeleteOutline className={style.documentsIcons} />
                         </button>
                         {isEditing && editedDocument?._id === document._id && (
                           <button
                             className={style.iconButton}
-                            onClick={handleSaveEdit}
-                          >
+                            onClick={handleSaveEdit}>
                             <FaSave />
                           </button>
                         )}
@@ -304,8 +331,7 @@ const DocumentsPage = () => {
                           <>
                             <button
                               className={style.iconButton}
-                              onClick={handleCancelEdit}
-                            >
+                              onClick={handleCancelEdit}>
                               <MdCancel />
                             </button>
                           </>
@@ -316,9 +342,7 @@ const DocumentsPage = () => {
                 </tbody>
               </table>
             </div>
-            
           </section>
-        
         </>
       )}
 

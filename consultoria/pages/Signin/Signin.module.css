@@ -1,4 +1,4 @@
-.signin{
+.signin {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,7 +10,6 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: right 5% bottom 45%;
-  
 }
 
 .containerForm {
@@ -22,9 +21,8 @@
   flex: 2;
 }
 
-
 .form {
-  background-image: url('../../src/assets/bgform.png');
+  background-image: url("../../src/assets/bgform.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -33,8 +31,7 @@
   align-items: center;
   flex-direction: column;
   width: 400px;
-  height: 400px;
-
+  height: 480px;
 }
 
 .logo1 {
@@ -92,21 +89,19 @@
   outline: none;
   color: rgba(255, 255, 255, 0.59);
   font-size: 22px;
-  padding-left: .5rem;
-  border-left: solid 1px rgba(255, 255, 255, 0.42);;
-} 
+  padding-left: 0.5rem;
+  border-left: solid 1px rgba(255, 255, 255, 0.42);
+}
 
-.input:focus{
+.input:focus {
   background-color: transparent !important;
 }
 
- 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
-textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
@@ -114,14 +109,14 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
 }
- 
+
 .input::placeholder {
   color: rgba(255, 255, 255, 0.59);
   font-size: 17px;
   font-weight: 600;
-  opacity: 0.8; 
+  opacity: 0.8;
 }
-  
+
 .user {
   border-radius: 9px;
   background: #849893;
@@ -153,7 +148,6 @@ select:-webkit-autofill:focus {
   background: #9aafaa;
 }
 
-
 .forguet {
   color: rgba(60, 45, 38, 0.9);
   text-align: center;
@@ -167,7 +161,6 @@ select:-webkit-autofill:focus {
   text-decoration: none;
   transition: transform 0.3s ease;
   margin-top: 20px;
-
 }
 
 .forguet:hover {
@@ -175,8 +168,6 @@ select:-webkit-autofill:focus {
   transform: scale(0.9);
   /* Aplica o efeito de zoom ao passar o mouse */
 }
-
-
 
 .error {
   display: flex;
@@ -203,9 +194,6 @@ select:-webkit-autofill:focus {
 }
 
 @media (max-width: 710px) {
-
-  
-  
   .form {
     background: none;
     border: none;
@@ -213,9 +201,9 @@ select:-webkit-autofill:focus {
     width: 100%;
     padding: 0 32px;
   }
-  
-  .inputGroup,.containerForm button{
+
+  .inputGroup,
+  .containerForm button {
     width: 100%;
   }
-  
 }
