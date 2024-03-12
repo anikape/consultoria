@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import EntrepriseProfile from "../EnterpriseProfile";
 import { RiHomeHeartLine } from "react-icons/ri";
-import DocumentPage from "../DocumentsPage/DocumentsPage";
+
 import { useData } from "../../src/hooks/useData";
+
 import { ClientWrapper } from "../../component/ClientWrapper";
 import { CompanyForm } from "../../component/Forms/CompanyForm";
 import { ClientForm } from "../../component/Forms/ClientForm";
 import { Loading } from "../../component/Loading";
 import { Modal } from "../../component/Modal";
 import Footer from "../../component/Footer";
+import LoadingSpinner from "../../component/LoadingSpinner";
 
 import style from "./client.module.css";
 
@@ -79,7 +80,11 @@ const Client = () => {
           </div>
 
           <section className={style.contentClientList}>
-            {loading ? <Loading /> : <ClientWrapper.Container data={clients} />}
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <ClientWrapper.Container data={clients} />
+            )}
           </section>
         </div>
 
