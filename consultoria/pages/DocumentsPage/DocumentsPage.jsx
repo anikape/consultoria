@@ -194,15 +194,13 @@ const DocumentsPage = () => {
       {/* Botão de notificação */}
       {showNotification && (
         <div className={style.notificationContainer}>
-          {/* <button onClick={handleCloseNotification} className={style.closeNotificationButton}>
-            Fechar
-          </button> */}
+          
           <span className={style.notificationText}></span>
-          <button
+          <button 
             onClick={handleNotificationButtonClick}
             className={style.showExpiringButton}
           >
-            <IoIosNotificationsOutline />
+            <IoIosNotificationsOutline className={style.notification} />
           </button>
         </div>
       )}
