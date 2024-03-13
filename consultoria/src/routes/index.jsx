@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PropTypes from "prop-types";
 import Home from "../../pages/Home";
@@ -18,7 +18,6 @@ import Sucess from "../../pages/Sucess/index";
 import SucessCadastro from "../../pages/SucessCadastro";
 import ClientProfile from "../../pages/ClientProfile";
 
-
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
 };
@@ -29,16 +28,12 @@ Private.propTypes = {
 };
 
 const RoutesApp = () => {
-  // Defina o estado de autenticação corretamente
   const { authenticated, loading } = useContext(AuthContext);
-  
-  // Obtenha a função signin do contexto
-  
-  // if (loading) {
-  //   return <Loading />;
-  // }
 
-  
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -73,24 +68,19 @@ const RoutesApp = () => {
             </RequireAuth>
           }
         />
-        
+
         <Route
-        path="/clientProfile/:id"
-        element={
-          <RequireAuth>
-            <Private Item={ClientProfile} signed={authenticated}/>
-          </RequireAuth>
-        }
+          path="/clientProfile/:id"
+          element={
+            <RequireAuth>
+              <Private Item={ClientProfile} signed={authenticated} />
+            </RequireAuth>
+          }
         />
-        
+
         <Route
           path="/entrepriseProfile/:id"
-          element={
-            <Private
-              Item={EntrepriseProfile}
-              signed={authenticated}
-            />
-          }
+          element={<Private Item={EntrepriseProfile} signed={authenticated} />}
         />
 
         <Route

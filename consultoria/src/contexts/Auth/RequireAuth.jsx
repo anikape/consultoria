@@ -1,19 +1,13 @@
-import {useContext} from "react";
+import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 
 import { Navigate } from "react-router-dom";
 
 export const RequireAuth = ({ children }) => {
   const auth = useContext(AuthContext);
-  
-  // console.log(auth.validateToken)
+  console.log(auth.token);
 
-  // const teste = async ()=>  await auth.validateToken()
-  // teste()
-  
-  // console.log(auth.authenticated)
-  
-  if (!auth.authenticated) {
+  if (!auth.token) {
     return <Navigate to="/" />;
   }
 
