@@ -6,7 +6,9 @@ const cookies = new Cookies();
 export const useApi = () => ({
   validateToken: (token) => {
     if (token) {
-      return token;
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      api.defaults.withCredentials = true;
+      return true;
     }
 
     return false;
@@ -14,7 +16,6 @@ export const useApi = () => ({
 
   signin: async (email, password) => {
     try {
-            
       const response = await api.post(
         "/admin/login",
         {
@@ -23,23 +24,27 @@ export const useApi = () => ({
         },
         { withCredentials: true }
       );
-      
-      if(response.status !== 200){
-        throw new Error(response.data)
+
+      if (response.status !== 200) {
+        throw new Error(response.data);
       }
-      
-    
+
+      const { data } = response;
+
+      if (data.accessToken) {
+        api.defaults.headers["Authorization"] = `Bearer ${data.accessToken}`;
+        api.defaults.withCredentials = true;
+      }
+
       return response;
-      
-    } catch (error) {
-      console.log(error.response)
-      return error.response;
+    } catch ({ response }) {
+      console.log(response);
+      return response;
     }
   },
 
-  logout: () => {
-    cookies.remove("authToken");
-    cookies.remove("accessToken");
+  logout: async () => {
     api.defaults.headers.common["Authorization"] = "";
+    cookies.remove("authToken");
   },
 });

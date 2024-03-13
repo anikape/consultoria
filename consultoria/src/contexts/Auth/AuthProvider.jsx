@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { useApi } from "../../hooks/useApi";
 import Cookies from "universal-cookie";
@@ -11,74 +11,79 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const api = useApi();
   const cookies = new Cookies();
-  
-  
+
   useEffect(() => {
-    validateToken(token);
-    // setLoading(false);
-    // console.log("Está autenticado: ",authenticated)
+    validateToken();
+    setLoading(false);
   }, [token]);
-  
-  const validateToken = async () => {
+
+  const validateToken = () => {
     setLoading(true);
-    
-    const accessToken = cookies.get("authToken");
-    const isLogged = await api.validateToken(accessToken);
-    
+
+    const token = cookies.get("authToken");
+
     try {
-      if (isLogged) {
-    
-        const decode = jwtDecode(accessToken);
-        setAuthenticated(true);
+      if (token) {
+        const isLogged = api.validateToken(token);
+
         if (isLogged) {
-            setAuthenticated(true);
-            setToken(accessToken);
-            setUser(decode);
-            setLoading(false);
+          const decode = jwtDecode(token);
+          setAuthenticated(true);
+          setToken(token);
+          setUser(decode);
           return true;
-          }
         }
-      } catch (error) {
-        console.log(error);
       }
-      
-      setAuthenticated(false);
       return false;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+
+    return false;
   };
 
   const signin = async (email, password) => {
-    setLoading(true);
     try {
-      const  response  = await api.signin(email, password);
-     
-      const {status, data} = response
-             
-      cookies.set("authToken", data.accessToken, { secure: true, sameSite: "none" });
-      
+      const response = await api.signin(email, password);
+
+      const { status, data } = response;
+
       if (status !== 200) {
         setAuthenticated(false);
         setToken(null);
         setUser(null);
+        console.log(response);
         return response;
       }
-      
-      const decode = jwtDecode(data.accessToken)
-      
-      setLoading(false);
-      setAuthenticated(true);
-      setUser(decode);
-    
+
+      if (data.accessToken) {
+        cookies.set("authToken", data.accessToken, {
+          secure: true,
+          sameSite: "none",
+        });
+
+        const decode = jwtDecode(data.accessToken);
+        setLoading(true);
+        setAuthenticated(true);
+        setUser(decode);
+        setToken(data.accessToken);
+      }
+
       return response;
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const signout = async () => {
-    validateToken(null)
-    setUser(null);
+    setToken("");
     setAuthenticated(false);
-   api.logout();
+    setUser(null);
+    await api.logout();
   };
 
   return (
@@ -87,9 +92,10 @@ export const AuthProvider = ({ children }) => {
         authenticated,
         user,
         token,
+        loading,
         signin,
         signout,
-        validateToken
+        validateToken,
       }}>
       {children}
     </AuthContext.Provider>
