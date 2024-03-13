@@ -16,23 +16,15 @@ import style from "./Signin.module.css";
 
 const Signin = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { authenticated, signin } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-
-  const navigate = useNavigate();
-  const { authenticated, signin } = useContext(AuthContext); // Obtenha a função signin do contexto
-
-  useEffect(() => {
-    if (authenticated) {
-      navigate("/home");
-    }
-  }, [authenticated]);
-
-  const [loginError, setLoginError] = useState("");
-  const [error, setError] = useState("");
 
   const handleLogin = async ({ useremail, password }) => {
     setLoading(true);
@@ -42,16 +34,21 @@ const Signin = () => {
         const response = await signin(useremail, password);
 
         if (response.status !== 200) {
-          setLoginError(response.data);
+          setError(response.data);
           setLoading(false);
           return;
         }
-        setLoading(false);
-        navigate("/home");
+
+        if (authenticated) {
+          navigate("/home");
+        }
+
+        return;
       }
     } catch (error) {
-      setLoginError("Usuário e/ou senha incorretos");
-      console.log(error);
+      setError(error.response.data);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,9 +60,9 @@ const Signin = () => {
 
           <form onSubmit={handleSubmit(handleLogin)}>
             <div className={style.inputContainer}>
-              {loginError && (
+              {error && (
                 <p className={style.error}>
-                  <FaInfoCircle /> {loginError}
+                  <FaInfoCircle /> {error}
                 </p>
               )}
               <div className={style.inputGroup}>
