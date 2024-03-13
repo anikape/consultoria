@@ -9,6 +9,9 @@ import { Modal } from "../../component/Modal";
 export const DocumentWrapper = ({ data }) => {
   const { ["data"]: documents, loading, error, request } = useData();
 
+  console.log("documents: ", documents);
+  console.log("document: ", data);
+
   const loadData = async () =>
     await request("GET", `/document?company=${data}`, {
       withCrendentials: true,
