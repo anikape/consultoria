@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     validateToken();
     setLoading(false);
-  }, [token]);
+  }, []);
 
   const validateToken = () => {
     setLoading(true);

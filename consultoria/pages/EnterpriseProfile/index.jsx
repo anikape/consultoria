@@ -30,6 +30,7 @@ const EntrepriseProfile = () => {
   } = useForm();
 
   const { ["data"]: company, loading, error, request } = useData();
+  console.log(company);
 
   const loadData = async () =>
     await request("GET", `company/${id}`, { withCredentials: true });
