@@ -11,6 +11,17 @@
   padding: 1rem 0;
 }
 
+.container {
+  width: 100%;
+}
+.center {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .list {
   display: flex;
   flex-direction: column;

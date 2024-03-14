@@ -8,6 +8,7 @@ import { useFetch } from "../../src/hooks/useFetch";
 import { useData } from "../../src/hooks/useData";
 
 import { Popper } from "../Popper";
+import LoadingSpinner from "../LoadingSpinner";
 import { Loading } from "../Loading";
 
 import style from "./DocumentWrapper.module.css";
@@ -45,9 +46,11 @@ export const DocumentContainer = ({ document }) => {
     }
   };
   return (
-    <>
+    <div className={style.container}>
       {loading ? (
-        <Loading />
+        <div className={style.center}>
+          <LoadingSpinner />
+        </div>
       ) : (
         <>
           <Popper.Body>
@@ -99,6 +102,6 @@ export const DocumentContainer = ({ document }) => {
           </Popper.Body>
         </>
       )}
-    </>
+    </div>
   );
 };
