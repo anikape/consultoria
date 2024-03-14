@@ -47,7 +47,7 @@ export const DocumentContainer = ({ document }) => {
       // Após 30 segundos, limpa a mensagem
       setTimeout(() => {
         setMessage('');
-      }, 30000);
+      }, 100000);
 
       // Atualizar a página
       window.location.reload();
@@ -64,7 +64,7 @@ export const DocumentContainer = ({ document }) => {
         </div>
       ) : (
         <>
-          {message && <div className={style.successMessage}>{message}</div>}
+          {message && <div className={style.successMessage}>{message}</div>} {/* Renderizar a mensagem de sucesso */}
           <Popper.Body>
             <Popper.Button>
               {types
