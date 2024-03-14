@@ -37,6 +37,7 @@ const DocumentsPage = () => {
   const [showNotification, setShowNotification] = useState(true);
   const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   useEffect(() => {
     loadData();
