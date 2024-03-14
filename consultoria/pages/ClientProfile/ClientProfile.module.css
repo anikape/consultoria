@@ -2,13 +2,10 @@
   display: flex;
   gap: 2rem;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
-  /* height: 100vh; */
   min-height: inherit;
   overflow-y: hidden;
   padding: 32px;
-  background-image: url("../../src/assets/gHome2.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;

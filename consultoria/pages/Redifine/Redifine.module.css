@@ -1,5 +1,5 @@
-.container{
-  background-image: url('../../src/assets/bgHome.png');
+.container {
+  /* background-image: url('../../src/assets/bgHome.png'); */
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -8,12 +8,11 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height:100vh;
+  height: 100vh;
 }
 
-
-.content{
-  background-image: url('../../src/assets/bgform.png');
+.content {
+  background-image: url("../../src/assets/bgform.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -25,81 +24,81 @@
   height: 634px;
 }
 
-.logo1{
-  background-image: url('../../src/assets/logo1.png');
+.logo1 {
+  background-image: url("../../src/assets/logo1.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   width: 300px;
-height: 65px;
-padding-bottom: 77px;
+  height: 65px;
+  padding-bottom: 77px;
 }
 
-.content label{
+.content label {
   width: 377px;
-height: 32px;
-color: rgba(60, 45, 38, 0.90);
-font-family: Inter;
-font-size: 15px;
-font-weight: 600;
+  height: 32px;
+  color: rgba(60, 45, 38, 0.9);
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-.input{
+.input {
   width: 377px;
-height: 49px;
-border: none;
-border-radius: 9px;
-background: #849893;
-box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.50), 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-outline: none;
-color: rgba(255, 255, 255, 0.59);
-padding-left: 1rem;
-font-size: 17px;
+  height: 49px;
+  border: none;
+  border-radius: 9px;
+  background: #849893;
+  box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.5),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  outline: none;
+  color: rgba(255, 255, 255, 0.59);
+  padding-left: 1rem;
+  font-size: 17px;
 }
 
-.input::placeholder{
+.input::placeholder {
   color: rgba(255, 255, 255, 0.59);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-size: 17px;
 }
 
-.recaptcha{
+.recaptcha {
   width: 380px;
-height: 74px;
-padding: 8px 10px 7px 12px;
-justify-content: center;
-align-items: center;
-gap: 119px;
-border-radius: 24px;
-opacity: 0.7;
+  height: 74px;
+  padding: 8px 10px 7px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 119px;
+  border-radius: 24px;
+  opacity: 0.7;
 }
 
-
-.button1{
+.button1 {
   width: 377px;
   height: 45px;
   border: none;
   border-radius: 9px;
-background: #849893;
-box-shadow: 5px 3px 16px 0px #FFF, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-color: #FFF;
-text-align: center;
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-font-family: Inter;
-font-size: 23px;
-font-style: normal;
-font-weight: 723;
-outline: none;
+  background: #849893;
+  box-shadow: 5px 3px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  text-align: center;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 723;
+  outline: none;
 }
 
-.button2{
+.button2 {
   width: 377px;
   height: 45px;
   border: none;
   border-radius: 9px;
-  background: #D9D9D9;
-  box-shadow: 5px 3px 16px 0px #FFF, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  color: rgba(60, 45, 38, 0.90);
+  background: #d9d9d9;
+  box-shadow: 5px 3px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: rgba(60, 45, 38, 0.9);
   text-align: center;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
@@ -110,22 +109,22 @@ outline: none;
   margin-top: 2rem;
 }
 
-.back{
-  display:flex;
-  color: #FFF;
-text-align: center;
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-font-family: Inter;
-font-size: 23px;
-font-weight: 723;
-width: 377px;
-height: 45px;
-border: none;
-border-radius: 9px;
-background: #859594;
-box-shadow: 5px 3px 16px 0px #FFF, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-text-decoration: none;
-justify-content: center;
-align-items: center;
-margin:1em ;
+.back {
+  display: flex;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 23px;
+  font-weight: 723;
+  width: 377px;
+  height: 45px;
+  border: none;
+  border-radius: 9px;
+  background: #859594;
+  box-shadow: 5px 3px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  margin: 1em;
 }
