@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
@@ -62,11 +62,11 @@ export const DocumentForm = ({ handleFormSubmit }) => {
 
       if (status !== 201) {
         setMessage("Erro ao enviar aquivo");
-        handleFormSubmit();
         throw new Error("Não foi possível enviar o arquivo");
       }
 
       setMessage("Arquivo enviado com sucesso!");
+      handleFormSubmit();
     } catch ({ message }) {
       setMessage(message);
     }
@@ -92,14 +92,20 @@ export const DocumentForm = ({ handleFormSubmit }) => {
           error={errors.name?.message}
         />
         <Input
-          {...register("emission", { required: "Informe a data de emissão" })}
+          {...register("emission", {
+            required: "Informe a data de emissão",
+            valueAsDate: true,
+          })}
           label="Data de Emissão"
           type="date"
           error={errors.emission?.message}
         />
 
         <Input
-          {...register("validity", { required: "Informe a data de validade" })}
+          {...register("validity", {
+            required: "Informe a data de validade",
+            valueAsDate: true,
+          })}
           label="Data de validade"
           type="date"
           error={errors.validity?.message}
@@ -140,7 +146,6 @@ export const DocumentForm = ({ handleFormSubmit }) => {
           label="Anexar arquivo"
           type="file"
           name="file"
-          
         />
 
         {isSubmitting ? (
