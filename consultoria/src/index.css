@@ -9,7 +9,8 @@
 
 html {
   min-height: 100%;
-  background-image: url("../../src/assets/gHome2.png");
+  background-image: url("../src/assets/gHome2.png");
+  /* background-image: url("../../src/assets/gHome2.png"); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right 5% bottom 45%;
