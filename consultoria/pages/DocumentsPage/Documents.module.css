@@ -1,7 +1,7 @@
 /* DocumentsPage.module.css */
 
 .documentContainer {
-  background: url("../../src/assets/documentsBg.png");
+  /* background: url("../../src/assets/documentsBg.png"); */
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
@@ -88,7 +88,7 @@ td {
 .documentsIcons {
   font-size: 25px;
   color: #3e4947c5;
-  transition: color 0.3s ease, transform 0.50s ease;
+  transition: color 0.3s ease, transform 0.5s ease;
 }
 
 .documentsIcons:hover {
@@ -105,7 +105,7 @@ td {
   cursor: pointer;
   font-size: 21px;
   color: #3e4947c5;
-  transition: color 0.3s ease, transform 0.50s ease;
+  transition: color 0.3s ease, transform 0.5s ease;
 }
 
 .iconButton:hover {
@@ -124,7 +124,6 @@ td {
   border-radius: 5px;
   cursor: pointer;
 }
-
 
 .footer {
   position: fixed;
