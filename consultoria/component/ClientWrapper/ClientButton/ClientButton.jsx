@@ -1,17 +1,15 @@
 import style from "./ClientButton.module.css";
 import { Link } from "react-router-dom";
+import { BsInfoCircle } from "react-icons/bs";
 
 export const ClientButton = ({ client }) => {
   return (
-    <>
-      <div className={style.clientButtonsWrapper}>
-        <button className={style.buttonName}>{client.name}</button>
-            <Link
-              to={`/clientProfile/${client.id}`}
-              className={style.buttonProfile}>
-              PERFIL
-            </Link>
-          </div>
-    </>
+    <div className={style.clientButtonsWrapper}>
+      <button className={style.buttonName}>{client.name}</button>
+      <Link to={`/clientProfile/${client.id}`} className={style.buttonProfile}>
+        <BsInfoCircle className={style.icon} />
+        <span></span>
+      </Link>
+    </div>
   );
 };

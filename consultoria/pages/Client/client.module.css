@@ -11,19 +11,20 @@
   object-fit: cover;
 }
 
+
 .container {
   gap: 2rem;
   width: 100%;
   max-width: 990px;
-  padding: 32px;
+  padding: 22px;
 }
 
+
+
 .clientContent {
-  background: rgba(255, 255, 255, 0.212);
-  background-repeat: no-repeat;
-  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.156);
   width: 100%;
-  min-height: 700px;
+  min-height: 600px;
   padding: 2rem;
   border: #849893;
   box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.25);
@@ -36,17 +37,50 @@
   gap: 24px;
   padding: 2rem 0;
 }
+
 .contentClientList {
   padding: 0 32px;
 }
 
-.buttonHome {
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #84989337;
+  border-radius: 30px;
+  width: 60%;
+  margin: 4rem auto;
+  padding: 10px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+  }
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  /* Alinhar itens verticalmente ao centro */
+}
+
+/* Estilos específicos para os botões e inputs dentro do container */
+.buttonContainer button,
+.buttonContainer input {
+  margin-right: 10px;
+  /* Espaçamento entre os elementos */
+}
+
+/* .buttonHome {
   display: flex;
   object-fit: contain;
   position: relative;
   left: 24px;
   top: 40px;
   color: #392820;
+} */
+
+.modalContent {
+  margin-top: 13px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .butoon:active {
@@ -58,13 +92,14 @@
 }
 
 .title {
-  color: #392820;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: #3e4947c1;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
   font-family: Franklin Gothic Medium;
-  font-size: 55px;
+  font-size: 35px;
   font-weight: 400;
   line-height: 150%;
   text-align: center;
+  margin-right: 80px;
 }
 
 .icon {
@@ -81,34 +116,26 @@
   border: none;
 }
 
+
 .header {
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 32px;
+  gap: 35px;
   width: 100%;
 }
 
 .Heading {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 14px;
-  padding: 32px;
+  padding: 40px;
   width: 100%;
 }
 
 .headingWrapper {
   width: 100%;
-}
-
-.search {
-  color: rgba(30, 30, 30, 0.9);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  /* margin-left: 25%; */
 }
 
 .find {
@@ -118,16 +145,47 @@
   width: 100%;
 }
 
+.search {
+  position: relative;
+  display: inline-block;
+  color: #3e4947;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  /* Posição do ícone em relação ao input */
+  transform: translateY(-50%);
+  color: #4e5b58ca;
+  width: 23px;
+  /* Tamanho do ícone */
+  height: auto;
+  margin-top: 4px;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.093);
+  /* Efeito de sombra */
+}
+
+
 .searchInput {
-  width: 100%;
-  height: 39px;
-  border-radius: 26px;
-  border: 1px solid rgba(30, 30, 30, 0.43);
+  position: relative;
+  /* Importante para posicionamento do pseudo-elemento */
+  width: 90%;
+  height: 30px;
+  border-radius: 22px;
+  border: none;
   background: rgba(255, 255, 255, 0.23);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
-    0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
-  padding-left: 1em;
-  /* margin-left: 1em; */
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.46),
+    0px 3px 3px 0px rgba(0, 0, 0, 0.368) inset;
+  padding-left: 15px;
+  /* Adicionando espaço para o ícone */
+
 }
 
 .buttonProfile {
@@ -136,8 +194,7 @@
   background: #a0b0ac;
   border-radius: 26px;
   border: 1px solid rgba(30, 30, 30, 0.43);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
-    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   color: rgba(60, 45, 38, 0.9);
   font-family: Inter;
   font-size: 13px;
@@ -152,13 +209,16 @@
 
 .modals {
   display: flex;
-  gap: 14px;
-  width: 100%;
+  align-items: center;
+  /* Alinha os itens verticalmente */
+  margin-left: auto;
+  /* Empurra os modais para a direita */
 }
 
 .modalContent {
   width: 100%;
 }
+
 
 .button {
   display: flex;
@@ -216,7 +276,7 @@
   border-radius: 9px;
   background: #d9d9d9;
   box-shadow: 5px 3px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  color: rgba(60, 45, 38, 0.9);
+  color: #3e4947;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
   font-size: 22px;
