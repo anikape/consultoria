@@ -86,9 +86,9 @@ export const ClientForm = ({ handleFormSubmit }) => {
         <Input
           {...register("phone", {
             required: "Campo obrigatório",
-            maxLength: { value: 8, message: "Digite apenas números" },
+            maxLength: { value: 12, message: "Digite apenas números" },
             pattern: {
-              value: /^[0-9]{8}$/,
+              value: /^[0-9]{10,12}$/,
               message: "Digite apenas números",
             },
           })}
