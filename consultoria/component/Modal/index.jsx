@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
-import { HiMiniUserPlus } from "react-icons/hi2";
-import style from "./Modal.module.css";
+import React, { useRef, useState } from 'react';
+import { HiMiniUserPlus } from 'react-icons/hi2';
+import style from './Modal.module.css';
 
 export const Modal = ({ children, label }) => {
   const modalRef = useRef(null);
@@ -23,7 +23,7 @@ export const Modal = ({ children, label }) => {
   return (
     <>
       <button type="button" className={style.buttonModal} onClick={openModal}>
-        <HiMiniUserPlus /> {label ?? "Adicionar"}
+        <HiMiniUserPlus /> {label ?? 'Adicionar'}
       </button>
       {isOpen && (
         <div className={style.backdrop} onClick={handleOutsideClick}>
