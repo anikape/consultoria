@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { RiHomeHeartLine } from "react-icons/ri";
@@ -37,6 +37,11 @@ const Client = () => {
   }
 
   if (clients) {
+    // Ordenar os clientes por ordem alfabética
+    const sortedClients = [...clients].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
     return (
       <main className={style.ClientHome}>
         <div className={style.container}>
@@ -97,7 +102,7 @@ const Client = () => {
               {loading ? (
                 <LoadingSpinner />
               ) : (
-                <ClientWrapper.Container data={clients} />
+                <ClientWrapper.Container data={sortedClients} />
               )}
             </section>
           </div>
