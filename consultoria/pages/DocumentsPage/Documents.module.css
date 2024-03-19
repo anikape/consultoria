@@ -42,19 +42,30 @@
   height: 80px;
 }
 
+/* Estilos para o conteúdo do modal */
 .modal {
-  /* Estilos para o conteúdo do modal */
-  background-color: gainsboro;
   border-radius: 8px;
-  padding: 20px;
-  width: 400px; /* Defina o tamanho desejado para o modal */
-  max-width: 90%;
-  margin: 20% auto;
+  width: 90%; /* Tamanho máximo do modal */
+  max-width: 400px; /* Defina o tamanho máximo desejado para o modal */
+  margin: 20% auto; /* Centraliza verticalmente */
+  background: #849893cb; /* Fundo semi-transparente branco */
+  box-shadow: 0px 4px 8px rgba(214, 209, 209, 0.2); /* Sombra suave */
+  padding: 2rem; /* Espaçamento interno */
+  border: 6px solid #849893; /* Borda sólida */
 }
 
+/* Estilos para o overlay */
 .overlay {
-  background: rgba(0, 0, 0, 0.5); /* Defina a cor de fundo do overlay com transparência */
+  position: fixed; /* Posicionamento fixo para cobrir a tela inteira */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0); 
+  z-index: 999; 
 }
+
+
 
 
 /* Estilos para a tabela */
