@@ -1,16 +1,4 @@
-.container {
-  display: flex;
-  gap: 2rem;
-  flex-direction: column;
-  align-items: center;
-  min-height: inherit;
-  overflow-y: hidden;
-  padding: 32px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-  object-fit: cover;
-}
+
 
 .contentContainer {
   background: rgba(255, 255, 255, 0.2);
