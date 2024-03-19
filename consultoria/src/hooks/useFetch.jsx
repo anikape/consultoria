@@ -38,7 +38,7 @@ export const useFetch = () => ({
       return error;
     }
   },
-  deleteData: async (endpoint, body) => {
+  deleteData: async (endpoint) => {
     try {
       const response = await api.delete(endpoint, {
         withCredentials: true,
@@ -61,4 +61,31 @@ export const useFetch = () => ({
       return error;
     }
   },
+
+  deleteClient: async (id) => {
+    const endpoint = `/client/${id}`;
+    try {
+      const response = await api.delete(endpoint, {
+        withCredentials: true,
+      });
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+
+  deleteCompany: async (id) => {
+    const endpoint = `/company/${id}`;
+    try {
+      const response = await api.delete(endpoint, {
+        withCredentials: true,
+      });
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
+  
 });

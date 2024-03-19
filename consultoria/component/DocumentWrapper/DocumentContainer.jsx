@@ -18,8 +18,6 @@ export const DocumentContainer = ({ document }) => {
   const { deleteData } = useFetch();
   const [message, setMessage] = useState('');
 
-  console.log(document);
-
   const loadData = async () => {
     const { response } = await request('get', 'types', {
       withCredentials: true,
@@ -39,6 +37,14 @@ export const DocumentContainer = ({ document }) => {
   }, []);
 
   const handleDeleteDocument = async (documentId) => {
+    const userConfirmed = window.confirm(
+      'Deseja realmente apagar o documento? Esta ação não pode ser desfeita.'
+    );
+
+    if (!userConfirmed) {
+      return;
+    }
+
     try {
       await deleteData(`document/${documentId}`, documentId);
       loadData();
@@ -47,10 +53,7 @@ export const DocumentContainer = ({ document }) => {
       // Após 30 segundos, limpa a mensagem
       setTimeout(() => {
         setMessage('');
-      }, 100000);
-
-      // Atualizar a página
-      window.location.reload();
+      }, 30000);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +67,7 @@ export const DocumentContainer = ({ document }) => {
         </div>
       ) : (
         <>
-          {message && <div className={style.successMessage}>{message}</div>} {/* Renderizar a mensagem de sucesso */}
+          {message && <div className={style.successMessage}>{message}</div>}
           <Popper.Body>
             <Popper.Button>
               {types
@@ -89,7 +92,7 @@ export const DocumentContainer = ({ document }) => {
 
               <div className={style.infoEnterpriseWrapper}>
                 <div className={style.infoEnterprise}>
-                  <p className={style.infoName}>Emissao:</p>
+                  <p className={style.infoName}>Emissão:</p>
                   <p>{formatDate(document.emission)}</p>
                 </div>
                 <div className={style.infoEnterprise}>
@@ -104,16 +107,12 @@ export const DocumentContainer = ({ document }) => {
                     Abrir arquivo
                   </div>
                 </Link>
-                {loading ? (
-                  <LoadingSpinner />
-                ) : (
-                  <button
-                    className={style.button}
-                    onClick={() => handleDeleteDocument(document._id)}
-                  >
-                    Excluir Documento
-                  </button>
-                )}
+                <button
+                  className={style.button}
+                  onClick={() => handleDeleteDocument(document._id)}
+                >
+                  Excluir Documento
+                </button>
               </div>
             </Popper.Content>
           </Popper.Body>

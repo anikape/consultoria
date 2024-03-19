@@ -20,7 +20,7 @@ const ClientProfile = () => {
   const [editable, setEditable] = useState(false);
 
   const { id } = useParams();
-  const { editData } = useFetch();
+  const { deleteClient, editData } = useFetch(); // Adicione deleteClient aqui
   const { ["data"]: client, loading, error, request } = useData();
 
   useEffect(() => {
@@ -74,20 +74,25 @@ const ClientProfile = () => {
     }
   };
 
-  const handleDele = async (id) => {
+  const handleDelete = async () => {
     const userConfirmed = window.confirm(
       "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
     );
 
     try {
       if (userConfirmed) {
-        // await deleteData(`document/${documentId}`, documentId);
-        console.log("apagou");
+        const { response, status } = await deleteClient(id);
+        if (status === 200) {
+          setMessage("Cliente excluído com sucesso!");
+          // Aqui você pode redirecionar ou fazer qualquer outra coisa após a exclusão bem-sucedida
+        } else {
+          setMessage(response.data.errors[0]);
+        }
       } else {
         console.log("Operação de exclusão cancelada pelo usuário.");
       }
     } catch (error) {
-      console.error("Erro ao excluir documento:", error);
+      console.error("Erro ao excluir cliente:", error);
     }
   };
 
@@ -188,9 +193,11 @@ const ClientProfile = () => {
                       )}
 
                       {!editable && (
-                        <button className={style.edtSave} onClick={handleDele}>
-                          Excluir
-                        </button>
+                        <Link to="/client" className={style.edtSave}>
+                          <button className={style.edtSave} onClick={handleDelete}>
+                            Excluir
+                          </button>
+                        </Link>
                       )}
                       {editable && (
                         <button
