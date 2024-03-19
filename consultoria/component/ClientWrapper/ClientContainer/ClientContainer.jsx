@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 import { useData } from "../../../src/hooks/useData";
 import { ClientWrapper } from "../../ClientWrapper";
 import { CompanyWrapper } from "../../CompanyWrapper";
@@ -18,7 +18,7 @@ export const ClientContainer = ({ data }) => {
   if (companys === null) {
     return null;
   }
-
+  
   return (
     <>
       {data.map((client) => (
