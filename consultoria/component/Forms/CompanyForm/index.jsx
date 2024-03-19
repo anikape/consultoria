@@ -1,10 +1,14 @@
-import { useForm } from 'react-hook-form';
-import { useCallback, useEffect, useState } from 'react';
-import style from './CompanyForm.module.css';
+import {useCallback, useEffect, useState} from "react";
+import {useForm} from "react-hook-form";
+
+import { formatCpfCnpj } from '../../../src/helpers/maskValues';
+
 import { Input } from '../../Input';
 import { Select } from '../../Select';
 import { useFetch } from '../../../src/hooks/useFetch';
 import { Loading } from '../../Loading';
+
+import style from './CompanyForm.module.css';
 
 export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
   const [message, setMessage] = useState('');
@@ -33,19 +37,25 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
   console.log('Errors:', errors); // Adicionando log para os erros
 
   const onSubmit = async (data) => {
-    try {
-      const { response, status } = await postData('company', data);
+    // data = {
+    //   ...data,
+    //   cnpj:formatCpfCnpj(data.cnpj)
+    // }
+    
+    // try {
+    //   const { response, status } = await postData('company', data);
 
-      if (status !== 201) {
-        setMessage(response.data);
-        throw new Error(response.data);
-      }
+    //   if (status !== 201) {
+    //     setMessage(response.data);
+    //     throw new Error(response.data);
+    //   }
 
-      setMessage('Empresa cadastrada com sucesso!');
-      handleFormSubmit();
-    } catch ({ message }) {
-      setMessage(message);
-    }
+    //   setMessage('Empresa cadastrada com sucesso!');
+    //   handleFormSubmit();
+    // } catch ({ message }) {
+    //   setMessage(message);
+    // }
+    console.log(data)
   };
 
   const zipCode = watch('zipcode');
@@ -54,7 +64,7 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
     setValue('address', data.logradouro);
     setValue('city', data.localidade);
     setValue('state', data.uf);
-    setValue('bairro', data.bairro);
+    setValue('district', data.bairro);
   }, []);
 
   const handleFetchCEP = useCallback(
@@ -66,6 +76,15 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
     },
     [setValue],
   );
+  
+  const cnpjRaw = watch('cnpj')
+  console.log(cnpjRaw)
+  // const cpfRaw = watch('cpf')
+  
+  useEffect(()=>{
+    setValue('cnpj',formatCpfCnpj(cnpjRaw))
+    // setValue('cpf',formatCpfCnpj(cpfRaw))
+  },[cnpjRaw])
 
   useEffect(() => {
     if (zipCode.length !== 8) {
@@ -114,19 +133,28 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
             <Input
               {...register('cnpj', {
                 required: 'Campo obrigatório',
-                minLength: {
+                validate: {teste: v=> formatCpfCnpj(v)},
+                maxLength: {
                   value: 14,
-                  message: 'Digite um CNPJ válido',
+                  message: 'CPF/CNPJ deve conter 14 caracteres.',
                 },
+                minLength:{
+                  value:11,
+                  message:'CPF/CNPJ deve conter no mínimo 11 caracteres.',
+                },
+                
                 pattern: {
-                  value: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
-                  message: 'Digite um CNPJ válido',
+                  value:/^(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|\d{3}\.?\d{3}\.?\d{3}-?\d{2})$/,
+                  message: 'Digite um CPF ou CNPJ válido, informe apenas número',
                 },
               })}
               type="text"
-              label="CNPJ"
-              placeholder="Insira o CNPJ"
-              error={errors.cnpj && errors.cnpj.message} // Verifica se há erro e passa a mensagem de erro
+              label="CPF/CNPJ"
+              placeholder="Insira um CPF ou CNPJ"
+              error={errors.cnpj?.message}
+              maxLength={14}
+              minLength={11}
+              // Verifica se há erro e passa a mensagem de erro
             />
             {console.log('CNPJ error:', errors.cnpj?.message)} 
             <Input
@@ -201,7 +229,7 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
               placeholder="Insira a cidade"
             />
             <Input
-              {...register('bairro')}
+              {...register('district')}
               label="Bairro"
               placeholder="Insira o bairro"
             />
@@ -211,6 +239,13 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
               {...register('address')}
               label="Endereço"
               placeholder="Insira o endereço"
+            />
+          </div>
+          <div className={style.formGroup}>
+            <Input
+              {...register('addressComplement')}
+              label="Complemento"
+              placeholder="Insira um complemento"
             />
           </div>
           <div className={style.formGroup}>

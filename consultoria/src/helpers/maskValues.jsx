@@ -24,3 +24,30 @@ export const mask = {
       .replace(/(\d{5})(\d{4})(\d)/, "$1-$2");
   },
 };
+
+export const formatCpfCnpj = (value) => {
+    if (!value) return ''
+    
+  const cleanedValue = value.replace(/\D/g, ''); // remove caracteres não numéricos
+
+  if (cleanedValue.length <= 11) {
+    cleanedValue
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1');
+    console.log(cleanedValue)
+    return cleanedValue
+  } else {
+    // CNPJ
+    cleanedValue
+      .replace(/(\d{2})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2');
+    
+      console.log(cleanedValue)
+    
+    return cleanedValue
+  }
+};

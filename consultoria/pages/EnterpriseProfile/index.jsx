@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link,useNavigate } from "react-router-dom";
 
 import { useData } from "../../src/hooks/useData";
 import { useForm } from "react-hook-form";
@@ -21,6 +21,7 @@ const EntrepriseProfile = () => {
 
   const { deleteCompany, editData } = useFetch();
   const { id } = useParams();
+  const navigate = useNavigate()
   const { register, handleSubmit, setValue, formState: { isSubmitting, errors } } = useForm();
   const { ["data"]: company, loading, error, request } = useData();
 
@@ -90,7 +91,9 @@ const EntrepriseProfile = () => {
         console.log(response); // Adicione este console.log para depurar
         if (status === 200) {
           setMessage("Empresa excluída com sucesso!");
-          window.location.href = "/client"; // Redireciona para a rota /client após a exclusão
+          // window.location.href = "/client"; // Redireciona para a rota /client após a exclusão
+          navigate('/client')
+          
         } else {
           setMessage(response.data.errors[0]);
         }
