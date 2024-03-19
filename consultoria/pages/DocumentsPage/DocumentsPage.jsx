@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useData } from '../../src/hooks/useData';
+import Modal from 'react-modal'; //linha nova
 import { Loading } from '../../component/Loading';
 import style from './Documents.module.css';
 import { BsFiletypePdf } from 'react-icons/bs';
@@ -14,6 +15,8 @@ import { MdCancel } from 'react-icons/md';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import Footer from '../../component/Footer';
 import { useFetch } from '../../src/hooks/useFetch';
+
+Modal.setAppElement('#root');
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -31,8 +34,10 @@ const DocumentsPage = () => {
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
-  const [showNotification, setShowNotification] = useState(true); // Alteração aqui: definir como true inicialmente
+  const [showNotification, setShowNotification] = useState(true);
   const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   useEffect(() => {
     loadData();
@@ -97,20 +102,48 @@ const DocumentsPage = () => {
   {
     /*Função para deletar documentos */
   }
+  // const handleDeleteDocument = async (documentId) => {
+  //   try {
+  //     const userConfirmed = window.confirm('Confirma a exclusão do documento?');
+  //     if (userConfirmed) {
+  //       await deleteData(`document/${documentId}`, documentId);
+  //       setDeletedDocumentId(documentId); // Atualiza deletedDocumentId
+  //       setConfirmationMessage('Documento excluído com sucesso!');
+  //     } else {
+  //       console.log('Operação de exclusão cancelada pelo usuário.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Erro ao excluir documento:', error);
+  //   }
+  // };
+
   const handleDeleteDocument = async (documentId) => {
     try {
-      const userConfirmed = window.confirm('Confirma a exclusão do documento?');
-      if (userConfirmed) {
-        await deleteData(`document/${documentId}`, documentId);
-        setDeletedDocumentId(documentId); // Atualiza deletedDocumentId
-        setConfirmationMessage('Documento excluído com sucesso!');
-      } else {
-        console.log('Operação de exclusão cancelada pelo usuário.');
-      }
+      // Ao invés de usar window.confirm, definimos isModalOpen como true
+      setIsModalOpen(true);
+      // Salvamos o id do documento que será excluído
+      setDeletedDocumentId(documentId);
     } catch (error) {
       console.error('Erro ao excluir documento:', error);
     }
   };
+
+  const handleDeleteConfirmed = async () => {
+    try {
+      // Chama a função de exclusão de dados
+      await deleteData(`document/${deletedDocumentId}`, deletedDocumentId);
+      // Atualiza a mensagem de confirmação
+      setConfirmationMessage('Documento excluído com sucesso!');
+      // Atualiza a lista de documentos após a exclusão
+      setDocuments(documents.filter(document => document._id !== deletedDocumentId));
+    } catch (error) {
+      console.error('Erro ao excluir documento:', error);
+    } finally {
+      // Fecha o modal após a exclusão
+      setIsModalOpen(false);
+    }
+  };
+  
 
   const handleEditDocument = async (documentId, newData) => {
     try {
@@ -194,9 +227,8 @@ const DocumentsPage = () => {
       {/* Botão de notificação */}
       {showNotification && (
         <div className={style.notificationContainer}>
-          
           <span className={style.notificationText}></span>
-          <button 
+          <button
             onClick={handleNotificationButtonClick}
             className={style.showExpiringButton}
           >
@@ -385,21 +417,22 @@ const DocumentsPage = () => {
               </table>
             </div>
           </section>
-          {/* {documentsExpiringSoon.length > 0 && (
-            <div className={style.expiringSoon}>
-              <h2>Documentos Próximos de Vencer</h2>
-              <ul>
-                {documentsExpiringSoon.map((document) => (
-                  <li key={document._id}>
-                    {document.name} - Vencimento em{' '}
-                    {formatDate(document.validity)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )} */}
         </>
       )}
+
+    {/*Modal de confirmação de exclusão de documentos*/}
+      <Modal
+        className={style.modal}
+        // overlayClassName={style.overlay} 
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Excluir Documento"
+      >
+        <h2>Excluir Documento</h2>
+        <p>Confirma a exclusão do documento?</p>
+        <button onClick={() => setIsModalOpen(false)}>Cancelar</button>
+        <button onClick={handleDeleteConfirmed}>Confirmar</button>
+      </Modal>
 
       <Footer />
     </div>

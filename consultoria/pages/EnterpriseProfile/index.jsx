@@ -210,10 +210,10 @@ const EntrepriseProfile = () => {
                     <div className={style.profileItem}>
                       <h2>Bairro</h2>
                       {editable ? (
-                        <Input {...register("bairro")} />
+                        <Input {...register("district")} />
                       ) : (
                         <span className={style.profileInput}>
-                          {company.bairro}
+                          {company.district}
                         </span>
                       )}
                     </div>
