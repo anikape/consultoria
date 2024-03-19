@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { RiHomeHeartLine } from "react-icons/ri";
-import { FaUserGroup } from "react-icons/fa6";
-import { AiFillAndroid } from "react-icons/ai";
+import { HiUsers } from "react-icons/hi2";
+import { FaUserPlus } from "react-icons/fa6";
+import { IoMdSearch } from "react-icons/io";
+
 import { useData } from "../../src/hooks/useData";
 
 import { ClientWrapper } from "../../component/ClientWrapper";
@@ -43,59 +45,53 @@ const Client = () => {
           <div className={style.clientContent}>
             <div className={style.header}>
               <div className={style.headingWrapper}>
-                {/* <Link className={style.buttonHome} to="/home">
-                  <RiHomeHeartLine className={style.home} />
-                </Link> */}
-
-                <div className={style.button}>
-                  <Link to="/client" className={style.buttons}>
-                    <button>
-                      <FaUserGroup />
-                    </button>
-                  </Link>
-
+              <h1 className={style.title}>Clientes</h1>
+              
+                <div className={style.buttonContainer}>
                   <Link to="/home" className={style.buttons}>
                     <button className={style.homeButton}>
                       <RiHomeHeartLine className={style.home} />
                     </button>
                   </Link>
+                  <Link to="/client" className={style.buttons}>
+                    <button>
+                      <HiUsers />
+                    </button>
+                  </Link>
+
+                  <section className={style.modals}>
+                    {/* Modal de cadastro do Cliente */}
+                    <div className={style.modalContent}>
+                      <Modal label="Clientes">
+                        <ClientForm handleFormSubmit={onSubmitModalForm} />
+                      </Modal>
+                    </div>
+
+                    <div className={style.modalContent}>
+                      <Modal label="Empresas">
+                        <CompanyForm
+                          handleFormSubmit={onSubmitModalForm}
+                          clients={clients}
+                        />
+                      </Modal>
+                    </div>
+                  </section>
+
+                  {/* <div className={style.Heading}>
+                    <div className={style.find}>
+                      <label className={style.search} htmlFor="searchCnpj">
+                        <input
+                          className={style.searchInput}
+                          type="text"
+                          placeholder="Buscar por CNPJ..."
+                          value={""}
+                          onChange={() => console.log("oi")}
+                        />
+                        <IoMdSearch className={style.searchIcon} />
+                      </label>
+                    </div>
+                  </div> */}
                 </div>
-
-                <h1 className={style.title}>Clientes</h1>
-              </div>
-
-              <div className={style.Heading}>
-                <div className={style.find}>
-                  <label className={style.search} htmlFor="searchCnpj">
-                    CNPJ:
-                  </label>
-                  <input
-                    className={style.searchInput}
-                    type="text"
-                    placeholder="Buscar por CNPJ..."
-                    value={""}
-                    onChange={() => console.log("oi")}
-                  />
-                </div>
-
-                <section className={style.modals}>
-                  {/*Modal de cadastro do Cliente*/}
-                  <div className={style.modalContent}>
-                    <Modal label="Cadastrar clientes">
-                      <ClientForm handleFormSubmit={onSubmitModalForm} />
-                    </Modal>
-                  </div>
-
-                  <div className={style.modalContent}>
-                    <Modal label="Cadastrar empresas">
-                    
-                      <CompanyForm
-                        handleFormSubmit={onSubmitModalForm}
-                        clients={clients}
-                      />
-                    </Modal>
-                  </div>
-                </section>
               </div>
             </div>
 
