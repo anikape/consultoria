@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { RiHomeHeartLine } from "react-icons/ri";
 import { FaUserGroup } from "react-icons/fa6";
-
+import { AiFillAndroid } from "react-icons/ai";
 import { useData } from "../../src/hooks/useData";
 
 import { ClientWrapper } from "../../component/ClientWrapper";
@@ -19,6 +19,8 @@ import style from "./client.module.css";
 const Client = () => {
   const { ["data"]: clients, loading, error, request } = useData(false);
 
+
+  
   const loadData = async () =>
     await request("get", "client", { withCredentials: true });
 
@@ -86,6 +88,7 @@ const Client = () => {
 
                   <div className={style.modalContent}>
                     <Modal label="Cadastrar empresas">
+                    
                       <CompanyForm
                         handleFormSubmit={onSubmitModalForm}
                         clients={clients}
