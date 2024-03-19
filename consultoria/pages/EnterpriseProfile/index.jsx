@@ -119,51 +119,195 @@ const EntrepriseProfile = () => {
               {message}
               <section className={style.formContainer}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  {/* Formulário de edição aqui... */}
+                <div className={style.profile}>
+                    <div className={style.profileItem}>
+                      <h2>Nome da empresa</h2>
+                      {editable ? (
+                        <Input {...register("companyName")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.companyName}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>CPF/CNPJ</h2>
+                      {editable ? (
+                        <Input {...register("cnpj")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.cnpj}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>Ramo de atividade</h2>
+                      {editable ? (
+                        <Input {...register("mainActivity")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.mainActivity}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>CNAE</h2>
+                      {editable ? (
+                        <Input {...register("cnae")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.cnae}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>E-mail</h2>
+                      {editable ? (
+                        <Input {...register("email")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.email}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>Telefone Celular</h2>
+                      {editable ? (
+                        <Input {...register("cellphone")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.cellphone}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>Telefone Fixo</h2>
+                      {editable ? (
+                        <Input {...register("phone")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.phone}
+                        </span>
+                      )}
+                    </div>
 
-                  <div>
-                    {isSubmitting ? (
-                      <LoadingSpinner />
-                    ) : (
-                      <>
-                        <div className={style.groupButtons}>
-                          {!editable && (
-                            <>
-                              <button
-                                className={style.edtSave}
-                                onClick={handleEdit}
-                              >
-                                Editar
-                              </button>
-                              <button
-                                className={style.edtCancel}
-                                onClick={handleDelete}
-                              >
-                                Excluir
-                              </button>
-                            </>
-                          )}
-                          {editable && (
-                            <>
-                              <button
-                                className={style.edtSave}
-                                type="submit"
-                              >
-                                Salvar
-                              </button>
-
-                              <button
-                                className={style.edtCancel}
-                                onClick={handleCancel}
-                              >
-                                Cancelar
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </>
-                    )}
+                    <div className={style.profileItem}>
+                      <h2>Rua/Logradouro</h2>
+                      {editable ? (
+                        <Input {...register("address")} />
+                      ) : (
+                        <span className={style.profileInput2}>
+                          {company.address}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>Bairro</h2>
+                      {editable ? (
+                        <Input {...register("district")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.district}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>Complemento</h2>
+                      {editable ? (
+                        <Input {...register("complemento")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.complemento}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>Cidade</h2>
+                      {editable ? (
+                        <Input {...register("city")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.city}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>UF</h2>
+                      {editable ? (
+                        <Input {...register("state")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.state}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>CEP</h2>
+                      {editable ? (
+                        <Input {...register("zipcode")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.zipcode}
+                        </span>
+                      )}
+                    </div>
+                    <div className={style.profileItem}>
+                      <h2>Comentários</h2>
+                      {editable ? (
+                        <Input {...register("comments")} />
+                      ) : (
+                        <span className={style.profileInput}>
+                          {company.comments}
+                        </span>
+                      )}
+                    </div>
                   </div>
+
+                  <>
+                    <div>
+                      {isSubmitting ? (
+                        <LoadingSpinner />
+                      ) : (
+                        <>
+                          <div className={style.groupButtons}>
+                            {!editable && (
+                              <>
+                                <button
+                                  className={style.edtSave}
+                                  onClick={handleEdit}
+                                >
+                                  Editar
+                                </button>
+                                <button
+                                  className={style.edtCancel}
+                                  onClick={handleDelete}
+                                >
+                                  Excluir
+                                </button>
+                              </>
+                            )}
+                            {editable && (
+                              <>
+                                <button
+                                  className={style.edtSave}
+                                  type="submit"
+                                >
+                                  Salvar
+                                </button>
+
+                                <button
+                                  className={style.edtCancel}
+                                  onClick={handleCancel}
+                                >
+                                  Cancelar
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </>
                 </form>
               </section>
 
