@@ -21,8 +21,6 @@ import style from "./client.module.css";
 const Client = () => {
   const { ["data"]: clients, loading, error, request } = useData(false);
 
-
-  
   const loadData = async () =>
     await request("get", "client", { withCredentials: true });
 
@@ -39,14 +37,19 @@ const Client = () => {
   }
 
   if (clients) {
+    // Ordenar os clientes por ordem alfabética
+    const sortedClients = [...clients].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
     return (
       <main className={style.ClientHome}>
         <div className={style.container}>
           <div className={style.clientContent}>
             <div className={style.header}>
               <div className={style.headingWrapper}>
-              <h1 className={style.title}>Clientes</h1>
-              
+                <h1 className={style.title}>Clientes</h1>
+
                 <div className={style.buttonContainer}>
                   <Link to="/home" className={style.buttons}>
                     <button className={style.homeButton}>
@@ -99,7 +102,7 @@ const Client = () => {
               {loading ? (
                 <LoadingSpinner />
               ) : (
-                <ClientWrapper.Container data={clients} />
+                <ClientWrapper.Container data={sortedClients} />
               )}
             </section>
           </div>
