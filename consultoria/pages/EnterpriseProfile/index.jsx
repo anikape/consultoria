@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { useParams, Link } from "react-router-dom";
 
 import { useData } from "../../src/hooks/useData";
@@ -25,6 +25,14 @@ const EntrepriseProfile = () => {
   const { ["data"]: company, loading, error, request } = useData();
 
   const loadData = async () => await request("GET", `company/${id}`, { withCredentials: true });
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
 
   useEffect(() => {
     loadData();
@@ -38,7 +46,19 @@ const EntrepriseProfile = () => {
     setEditable(true);
     setValue("companyName", company.companyName);
     setValue("cnpj", company.cnpj);
-    // Outros campos...
+    setValue("address",company.address);
+    setValue("cellphone",company.cellphone);
+    setValue("city",company.city);
+    setValue("cnae",company.cnae);
+    setValue("comments",company.comments);
+    setValue("addressComplement",company.addressComplement);
+    setValue("district",company.district);
+    setValue("email",company.email);
+    setValue("mainActivity",company.mainActivity);
+    setValue("phone",company.phone);
+    setValue("state",company.state);
+    setValue("zipcode",company.zipcode);
+
   };
 
   const onSubmit = async (data) => {
@@ -116,7 +136,8 @@ const EntrepriseProfile = () => {
                 {company.companyName}
               </h1>
 
-              {message}
+              <p>{message}</p>
+              
               <section className={style.formContainer}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={style.profile}>
@@ -214,7 +235,7 @@ const EntrepriseProfile = () => {
                     <div className={style.profileItem}>
                       <h2>Complemento</h2>
                       {editable ? (
-                        <Input {...register("complemento")} />
+                        <Input {...register("addressComplement")} />
                       ) : (
                         <span className={style.profileInput}>
                           {company.complemento}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
@@ -79,12 +79,6 @@ export const DocumentForm = ({ handleFormSubmit }) => {
       <div>{message}</div>
 
       <form className={styles.formContent} onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          {...register("name", { required: "Informe o nome do arquivo" })}
-          label="Nome"
-          placeholder="Insira o nome do documento"
-          error={errors.name?.message}
-        />
         <Input
           {...register("city", { required: "Informe uma cidade" })}
           label="Cidade"
