@@ -16,8 +16,7 @@ import style from "./Signin.module.css";
 
 const Signin = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { authenticated, signin } = useContext(AuthContext);
+  const { signin, error } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const {
@@ -28,25 +27,19 @@ const Signin = () => {
 
   const handleLogin = async ({ useremail, password }) => {
     setLoading(true);
-
     try {
       if (useremail && password) {
         const response = await signin(useremail, password);
 
-        if (response.status !== 200) {
-          setError(response.data);
-          setLoading(false);
-          return;
+        if (!response.status === 200 || !response) {
+          navigate("/");
+          throw new Error(response.data);
         }
-
-        if (authenticated) {
-          navigate("/home");
-        }
-
-        return;
+        navigate("/home");
       }
     } catch (error) {
-      setError(error.response.data);
+      console.log(error);
+      return;
     } finally {
       setLoading(false);
     }
@@ -60,11 +53,16 @@ const Signin = () => {
 
           <form onSubmit={handleSubmit(handleLogin)}>
             <div className={style.inputContainer}>
-              {error && (
-                <p className={style.error}>
-                  <FaInfoCircle /> {error}
-                </p>
-              )}
+              <div className={style.errorWrapper}>
+                {error && (
+                  <>
+                    <span className={style.error}>
+                      <FaInfoCircle />
+                      {error}
+                    </span>
+                  </>
+                )}
+              </div>
               <div className={style.inputGroup}>
                 <div className={style.icon}>
                   <img src={iconUser} alt="" />
@@ -89,7 +87,26 @@ const Signin = () => {
                 />
                 <ErrorComponent message={errors.password?.message} />
               </div>
-              {loading ? (
+              <div className={style.actions}>
+                {loading ? (
+                  <>
+                    <LoadindSpiner />
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className={style.send}
+                      type="submit"
+                      disabled={loading}>
+                      Entrar
+                    </button>
+                    <Link to="/redifine" className={style.forguet}>
+                      Esqueceu a senha?
+                    </Link>
+                  </>
+                )}
+              </div>
+              {/* {loading ? (
                 <LoadindSpiner />
               ) : (
                 <>
@@ -101,7 +118,7 @@ const Signin = () => {
                     Esqueceu a senha?
                   </Link>
                 </>
-              )}
+              )} */}
             </div>
           </form>
         </div>

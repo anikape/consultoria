@@ -2,7 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px; /* Altura definida para o componente pequeno */
+  height: 100px;
+  /* Altura definida para o componente pequeno */
 }
 
 .loading-spinner {

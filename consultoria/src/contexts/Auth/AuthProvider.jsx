@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const api = useApi();
   const cookies = new Cookies();
 
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }) => {
       return false;
     } catch (error) {
       console.log(error);
+      setError(error);
     } finally {
       setLoading(false);
     }
@@ -54,8 +57,9 @@ export const AuthProvider = ({ children }) => {
         setAuthenticated(false);
         setToken(null);
         setUser(null);
-        console.log(response);
-        return response;
+
+        setError(response.data);
+        throw new Error(response.data);
       }
 
       if (data.accessToken) {
@@ -73,6 +77,7 @@ export const AuthProvider = ({ children }) => {
 
       return response;
     } catch (error) {
+      setError(error.message);
       console.log(error);
     } finally {
       setLoading(false);
@@ -83,6 +88,7 @@ export const AuthProvider = ({ children }) => {
     setToken("");
     setAuthenticated(false);
     setUser(null);
+    setError(null);
     await api.logout();
   };
 
@@ -92,6 +98,7 @@ export const AuthProvider = ({ children }) => {
         authenticated,
         user,
         token,
+        error,
         loading,
         signin,
         signout,
