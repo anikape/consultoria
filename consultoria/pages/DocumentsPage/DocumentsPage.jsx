@@ -430,8 +430,18 @@ const DocumentsPage = () => {
       >
         <h2>Excluir Documento</h2>
         <p>Confirma a exclusão do documento?</p>
-        <button onClick={() => setIsModalOpen(false)}>Cancelar</button>
-        <button onClick={handleDeleteConfirmed}>Confirmar</button>
+        <button
+          className={`${style.button} ${style.cancel}`}
+          onClick={() => setIsModalOpen(false)}
+        >
+          Cancelar
+        </button>
+        <button
+          className={`${style.button} ${style.confirm}`}
+          onClick={handleDeleteConfirmed}
+        >
+          Confirmar
+        </button>
       </Modal>
 
       <Footer />
