@@ -16,6 +16,7 @@ import { MdCancel } from 'react-icons/md';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import Footer from '../../component/Footer';
 import { useFetch } from '../../src/hooks/useFetch';
+import { FaArrowRight } from 'react-icons/fa';
 
 Modal.setAppElement('#root');
 
@@ -252,18 +253,19 @@ const DocumentsPage = () => {
       </div>
       {/* Lista de documentos próximos de vencer */}
       {showExpiringDocuments && (
-        <div className={style.expiringDocumentsContainer}>
-          <h2>Documentos Próximos de Vencer</h2>
-          <ul>
-            {documentsExpiringSoon.map((document) => (
-              <li key={document._id}>
-                {document.name} - Vencimento em {formatDate(document.validity)}
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleCloseExpiringDocuments}>Fechar</button>
-        </div>
-      )}
+  <div className={style.expiringDocumentsContainer}>
+    <h2>Documentos Próximos de Vencer</h2>
+    <ul>
+      {documentsExpiringSoon.map((document) => (
+        <li key={document._id}>
+          <FaArrowRight /> {/* Ícone de seta */}
+          {document.name} - Vencimento em {formatDate(document.validity)}
+        </li>
+      ))}
+    </ul>
+    <button onClick={handleCloseExpiringDocuments}>Fechar</button>
+  </div>
+)}
 
       {error && <h1>Não foi possível carregar os dados</h1>}
       {loading && <Loading />}
