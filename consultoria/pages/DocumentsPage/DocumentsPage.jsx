@@ -223,7 +223,13 @@ const DocumentsPage = () => {
   };
 
   return (
+    
     <div className={style.documentContainer}>
+        <Link className={style.homeButton} to="/home">
+            <button>
+              <RiHomeHeartLine className={style.home} />
+            </button>
+          </Link>
       {/* Botão de notificação */}
       {showNotification && (
         <div className={style.notificationContainer}>
@@ -256,11 +262,7 @@ const DocumentsPage = () => {
       {loading && <Loading />}
       {!loading && !error && (
         <>
-          <Link className={style.homeButton} to="/home">
-            <button>
-              <RiHomeHeartLine className={style.home} />
-            </button>
-          </Link>
+        
 
           <nav className={style.nav}></nav>
 
