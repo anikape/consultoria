@@ -40,6 +40,6 @@ body::-webkit-scrollbar-thumb {
 
 @media only screen and (max-width: 710px) {
   html {
-    background-image: url(smaller-image.jpg);
+    background-image: url('../src/assets/bg-mobile.svg');
   }
 }

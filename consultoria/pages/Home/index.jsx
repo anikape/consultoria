@@ -47,7 +47,7 @@ const Home = () => {
                   Documentos
                 </Link>
 
-                <Link  to="" className={style.options}>
+                <Link to="" className={style.options}>
                   <img src={user} alt="Área adm" />
                   Área Adm
                 </Link>
