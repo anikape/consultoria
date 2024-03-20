@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { format } from "date-fns";
-import { Link } from "react-router-dom";
-import { useData } from "../../src/hooks/useData";
-import Modal from "react-modal"; //linha nova
-import { Loading } from "../../component/Loading";
-import style from "./Documents.module.css";
-import { BsFiletypePdf } from "react-icons/bs";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteOutline } from "react-icons/md";
-import { AiFillSetting } from "react-icons/ai";
-import { RiHomeHeartLine } from "react-icons/ri";
-import { FaSave } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import Footer from "../../component/Footer";
-import { useFetch } from "../../src/hooks/useFetch";
+import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { useData } from '../../src/hooks/useData';
+import Modal from 'react-modal'; //linha nova
+import { Loading } from '../../component/Loading';
+import style from './Documents.module.css';
+import { BsFiletypePdf } from 'react-icons/bs';
+import { CiEdit } from 'react-icons/ci';
+import { MdDeleteOutline } from 'react-icons/md';
+import { AiFillSetting } from 'react-icons/ai';
+import { FaUserGroup } from "react-icons/fa6";
+import { RiHomeHeartLine } from 'react-icons/ri';
+import { FaSave } from 'react-icons/fa';
+import { MdCancel } from 'react-icons/md';
+import { IoIosNotificationsOutline } from 'react-icons/io';
+import Footer from '../../component/Footer';
+import { useFetch } from '../../src/hooks/useFetch';
 
-Modal.setAppElement("#root");
+Modal.setAppElement('#root');
 
 const formatDate = (dateString) => {
-  const options = { year: "numeric", month: "numeric", day: "numeric" };
-  return new Date(dateString).toLocaleDateString("pt-BR", options);
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('pt-BR', options);
 };
 
 const DocumentsPage = () => {
@@ -31,7 +32,7 @@ const DocumentsPage = () => {
   const [loading, setLoading] = useState(false);
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
   const soonThreshold = 7; // Limite de dias para considerar como "próximo de vencer"
-  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const [showNotification, setShowNotification] = useState(true);
@@ -45,7 +46,7 @@ const DocumentsPage = () => {
   useEffect(() => {
     if (confirmationMessage) {
       const timer = setTimeout(() => {
-        setConfirmationMessage(""); // Limpa a mensagem após 3 segundos
+        setConfirmationMessage(''); // Limpa a mensagem após 3 segundos
       }, 3000);
 
       return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
@@ -62,8 +63,8 @@ const DocumentsPage = () => {
     setLoading(true);
     try {
       const [companysData, typesData] = await Promise.all([
-        request("get", "document", { withCredentials: true }),
-        request("get", "types", { withCredentials: true }),
+        request('get', 'document', { withCredentials: true }),
+        request('get', 'types', { withCredentials: true }),
       ]);
 
       setDocuments(companysData.json);
@@ -74,7 +75,7 @@ const DocumentsPage = () => {
       const expiringSoon = companysData.json.filter((document) => {
         const validityDate = new Date(document.validity);
         const differenceInDays = Math.ceil(
-          (validityDate - today) / (1000 * 60 * 60 * 24)
+          (validityDate - today) / (1000 * 60 * 60 * 24),
         );
         return differenceInDays >= 0 && differenceInDays <= soonThreshold;
       });
@@ -123,7 +124,7 @@ const DocumentsPage = () => {
       // Salvamos o id do documento que será excluído
       setDeletedDocumentId(documentId);
     } catch (error) {
-      console.error("Erro ao excluir documento:", error);
+      console.error('Erro ao excluir documento:', error);
     }
   };
 
@@ -132,13 +133,13 @@ const DocumentsPage = () => {
       // Chama a função de exclusão de dados
       await deleteData(`document/${deletedDocumentId}`, deletedDocumentId);
       // Atualiza a mensagem de confirmação
-      setConfirmationMessage("Documento excluído com sucesso!");
+      setConfirmationMessage('Documento excluído com sucesso!');
       // Atualiza a lista de documentos após a exclusão
       setDocuments(
-        documents.filter((document) => document._id !== deletedDocumentId)
+        documents.filter((document) => document._id !== deletedDocumentId),
       );
     } catch (error) {
-      console.error("Erro ao excluir documento:", error);
+      console.error('Erro ao excluir documento:', error);
     } finally {
       // Fecha o modal após a exclusão
       setIsModalOpen(false);
@@ -147,16 +148,16 @@ const DocumentsPage = () => {
 
   const handleEditDocument = async (documentId, newData) => {
     try {
-      const formattedDate = format(new Date(newData.date), "yyyy-MM-dd");
+      const formattedDate = format(new Date(newData.date), 'yyyy-MM-dd');
       const formattedData = { ...newData, date: formattedDate };
       const response = await editData(`document/${documentId}`, formattedData);
       if (response.ok) {
-        await request("get", "document", { withCredentials: true });
+        await request('get', 'document', { withCredentials: true });
       } else {
-        console.error("Erro ao editar documento:", response.statusText);
+        console.error('Erro ao editar documento:', response.statusText);
       }
     } catch (error) {
-      console.error("Erro ao editar documento:", error);
+      console.error('Erro ao editar documento:', error);
     }
   };
 
@@ -171,18 +172,18 @@ const DocumentsPage = () => {
   };
 
   const handleInputChange = (fieldName, value) => {
-    if (fieldName === "emission") {
+    if (fieldName === 'emission') {
       const formattedDate = formatDate(new Date(value));
       setEditedDocument((prevDocument) => ({
         ...prevDocument,
         emission: formattedDate,
       }));
-    } else if (fieldName === "validity") {
+    } else if (fieldName === 'validity') {
       const date = new Date(value);
       const validity = `${date.getFullYear()}-${(
-        "0" +
+        '0' +
         (date.getMonth() + 1)
-      ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+      ).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
       setEditedDocument((prevDocument) => ({
         ...prevDocument,
         validity,
@@ -206,43 +207,49 @@ const DocumentsPage = () => {
 
       const response = await editData(
         `document/${editedDocumentToSend._id}`,
-        editedDocumentToSend
+        editedDocumentToSend,
       );
 
       if (response.ok) {
-        await request("get", "document", { withCredentials: true });
+        await request('get', 'document', { withCredentials: true });
         setIsEditing(false);
         setEditedDocument(null);
-        setConfirmationMessage("Alterações salvas com sucesso!");
+        setConfirmationMessage('Alterações salvas com sucesso!');
       } else {
-        console.error("Erro ao salvar as alterações:", response.statusText);
+        console.error('Erro ao salvar as alterações:', response.statusText);
       }
     } catch (error) {
-      console.error("Erro ao salvar as alterações:", error);
+      console.error('Erro ao salvar as alterações:', error);
     }
   };
 
   return (
-    
     <div className={style.documentContainer}>
+      <div className={style.navigation}>
         <Link className={style.homeButton} to="/home">
-            <button>
-              <RiHomeHeartLine className={style.home} />
-            </button>
-          </Link>
-      {/* Botão de notificação */}
-      {showNotification && (
-        <div className={style.notificationContainer}>
-          <span className={style.notificationText}></span>
-          <button
-            onClick={handleNotificationButtonClick}
-            className={style.showExpiringButton}
-          >
-            <IoIosNotificationsOutline className={style.notification} />
+          <button>
+            <RiHomeHeartLine className={style.home} />
           </button>
-        </div>
-      )}
+        </Link>
 
+        <Link to="/client" className={style.buttons}>
+          <button>
+            <FaUserGroup />
+          </button>
+        </Link>
+        {/* Botão de notificação */}
+        {showNotification && (
+          <div className={style.notificationContainer}>
+            <span className={style.notificationText}></span>
+            <button
+              onClick={handleNotificationButtonClick}
+              className={style.showExpiringButton}
+            >
+              <IoIosNotificationsOutline className={style.notification} />
+            </button>
+          </div>
+        )}
+      </div>
       {/* Lista de documentos próximos de vencer */}
       {showExpiringDocuments && (
         <div className={style.expiringDocumentsContainer}>
@@ -262,8 +269,6 @@ const DocumentsPage = () => {
       {loading && <Loading />}
       {!loading && !error && (
         <>
-        
-
           <nav className={style.nav}></nav>
 
           <div>
@@ -300,7 +305,7 @@ const DocumentsPage = () => {
                             type="text"
                             value={editedDocument.name}
                             onChange={(e) =>
-                              handleInputChange("name", e.target.value)
+                              handleInputChange('name', e.target.value)
                             }
                           />
                         ) : (
@@ -313,7 +318,7 @@ const DocumentsPage = () => {
                             type="text"
                             value={editedDocument.type}
                             onChange={(e) =>
-                              handleInputChange("type", e.target.value)
+                              handleInputChange('type', e.target.value)
                             }
                           />
                         ) : // types
@@ -328,7 +333,7 @@ const DocumentsPage = () => {
                             .filter(({ _id }) => _id === document.type)
                             .map(({ description }) => description)
                         ) : (
-                          ["Tipo não cadastrado"]
+                          ['Tipo não cadastrado']
                         )}
                       </td>
                       <td>
@@ -337,7 +342,7 @@ const DocumentsPage = () => {
                             type="text"
                             value={editedDocument.companyName}
                             onChange={(e) =>
-                              handleInputChange("companyName", e.target.value)
+                              handleInputChange('companyName', e.target.value)
                             }
                           />
                         ) : (
@@ -350,7 +355,7 @@ const DocumentsPage = () => {
                             type="text"
                             value={editedDocument.emission}
                             onChange={(e) =>
-                              handleInputChange("emission", e.target.value)
+                              handleInputChange('emission', e.target.value)
                             }
                           />
                         ) : (
@@ -363,7 +368,7 @@ const DocumentsPage = () => {
                             type="date"
                             value={formatDate(editedDocument.validity)}
                             onChange={(e) =>
-                              handleInputChange("validity", e.target.value)
+                              handleInputChange('validity', e.target.value)
                             }
                           />
                         ) : (
