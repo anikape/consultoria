@@ -5,7 +5,6 @@
   align-items: center;
   width: 100%;
   height: 100vh;
-  /* background-image: url("../../src/assets/gHome2.png"); */
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   background-repeat: no-repeat;
   background-size: cover;
@@ -31,7 +30,8 @@
   align-items: center;
   flex-direction: column;
   width: 400px;
-  height: 480px;
+  min-height: 480px;
+  gap: 12px;
 }
 
 .logo1 {
@@ -41,13 +41,13 @@
   background-size: contain;
   width: 200px;
   height: 65px;
-  margin-bottom: 30px;
 }
 
 .inputContainer {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  position: relative;
 }
 
 .inputGroup {
@@ -160,13 +160,17 @@ select:-webkit-autofill:focus {
   font-size: 16px;
   text-decoration: none;
   transition: transform 0.3s ease;
-  margin-top: 20px;
 }
 
 .forguet:hover {
   color: #ffffff;
   transform: scale(0.9);
   /* Aplica o efeito de zoom ao passar o mouse */
+}
+
+.errorWrapper {
+  background-color: transparent;
+  min-height: 44px;
 }
 
 .error {
@@ -184,6 +188,9 @@ select:-webkit-autofill:focus {
   background: rgba(217, 217, 217, 0.85);
   box-shadow: -3px -3px 16px 0px rgba(0, 0, 0, 0.25) inset,
     0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  position: relative;
+  bottom: 0;
+  right: 0;
 }
 
 .error svg {
@@ -191,6 +198,13 @@ select:-webkit-autofill:focus {
   margin-right: 5px;
   width: 23px;
   height: 23px;
+}
+
+.actions {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 @media (max-width: 710px) {
