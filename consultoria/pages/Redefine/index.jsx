@@ -6,12 +6,12 @@ import check from "../../src/assets/check.png";
 // import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 
-import style from "./Redifine.module.css";
+import style from "./Redefine.module.css";
 
 import Footer from "../../component/Footer";
 import LoadingSpinner from "../../component/LoadingSpinner";
 
-const Redifine = () => {
+const Redefine = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
@@ -117,4 +117,4 @@ const Redifine = () => {
   );
 };
 
-export default Redifine;
+export default Redefine;
