@@ -106,19 +106,6 @@ const Signin = () => {
                   </>
                 )}
               </div>
-              {/* {loading ? (
-                <LoadindSpiner />
-              ) : (
-                <>
-                  <button className={style.send} type="submit">
-                    Entrar
-                  </button>
-
-                  <Link to="/redifine" className={style.forguet}>
-                    Esqueceu a senha?
-                  </Link>
-                </>
-              )} */}
             </div>
           </form>
         </div>
