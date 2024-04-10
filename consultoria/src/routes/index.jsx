@@ -3,7 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PropTypes from "prop-types";
 import Home from "../../pages/Home";
 import Singin from "../../pages/Signin";
-import Redifine from "../../pages/Redifine";
+import Redefine from "../../pages/Redefine";
 import Client from "../../pages/Client";
 import EntrepriseProfile from "../../pages/EnterpriseProfile";
 import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
@@ -38,7 +38,7 @@ const RoutesApp = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Singin />} />
-        <Route path="/redifine" element={<Redifine />} />
+        <Route path="/redefine" element={<Redefine />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/password" element={<Password />} />
         <Route path="/sucess" element={<Sucess />} />
