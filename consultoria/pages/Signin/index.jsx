@@ -100,7 +100,7 @@ const Signin = () => {
                       disabled={loading}>
                       Entrar
                     </button>
-                    <Link to="/redifine" className={style.forguet}>
+                    <Link to="/redefine" className={style.forguet}>
                       Esqueceu a senha?
                     </Link>
                   </>
