@@ -1,21 +1,21 @@
-import {useCallback, useEffect, useState} from "react";
-import {useForm} from "react-hook-form";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { formatCpfCnpj } from '../../../src/helpers/maskValues';
+import { formatCpfCnpj } from "../../../src/helpers/maskValues";
 
-import { Input } from '../../Input';
-import { Select } from '../../Select';
-import { useFetch } from '../../../src/hooks/useFetch';
-import { Loading } from '../../Loading';
+import { Input } from "../../Input";
+import { Select } from "../../Select";
+import { useFetch } from "../../../src/hooks/useFetch";
+import { Loading } from "../../Loading";
 
-import style from './CompanyForm.module.css';
+import style from "./CompanyForm.module.css";
 
 export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   console.log(clients);
   useEffect(() => {
     const timer = setTimeout(() => {
-      setMessage('');
+      setMessage("");
     }, 4000);
 
     return () => clearTimeout(timer);
@@ -29,42 +29,42 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
     formState: { isSubmitting, errors },
   } = useForm({
     defaultValues: {
-      zipcode: '',
+      zipcode: "",
     },
   });
   const { postData } = useFetch();
 
-  console.log('Errors:', errors); // Adicionando log para os erros
+  console.log("Errors:", errors); // Adicionando log para os erros
 
   const onSubmit = async (data) => {
-    // data = {
-    //   ...data,
-    //   cnpj:formatCpfCnpj(data.cnpj)
-    // }
-    
-    // try {
-    //   const { response, status } = await postData('company', data);
+    data = {
+      ...data,
+      cnpj: formatCpfCnpj(data.cnpj),
+    };
 
-    //   if (status !== 201) {
-    //     setMessage(response.data);
-    //     throw new Error(response.data);
-    //   }
+    try {
+      const { response, status } = await postData("company", data);
 
-    //   setMessage('Empresa cadastrada com sucesso!');
-    //   handleFormSubmit();
-    // } catch ({ message }) {
-    //   setMessage(message);
-    // }
-    console.log(data)
+      if (status !== 201) {
+        setMessage(response.data);
+        throw new Error(response.data);
+      }
+
+      setMessage("Empresa cadastrada com sucesso!");
+      handleFormSubmit();
+    } catch ({ message }) {
+      setMessage(message);
+    }
+    console.log(data);
   };
 
-  const zipCode = watch('zipcode');
+  const zipCode = watch("zipcode");
 
   const handleSetData = useCallback((data) => {
-    setValue('address', data.logradouro);
-    setValue('city', data.localidade);
-    setValue('state', data.uf);
-    setValue('district', data.bairro);
+    setValue("address", data.logradouro);
+    setValue("city", data.localidade);
+    setValue("state", data.uf);
+    setValue("district", data.bairro);
   }, []);
 
   const handleFetchCEP = useCallback(
@@ -74,17 +74,17 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
 
       handleSetData(response);
     },
-    [setValue],
+    [setValue]
   );
-  
-  const cnpjRaw = watch('cnpj')
-  console.log(cnpjRaw)
+
+  const cnpjRaw = watch("cnpj");
+  console.log(cnpjRaw);
   // const cpfRaw = watch('cpf')
-  
-  useEffect(()=>{
-    setValue('cnpj',formatCpfCnpj(cnpjRaw))
+
+  useEffect(() => {
+    setValue("cnpj", formatCpfCnpj(cnpjRaw));
     // setValue('cpf',formatCpfCnpj(cpfRaw))
-  },[cnpjRaw])
+  }, [cnpjRaw]);
 
   useEffect(() => {
     if (zipCode.length !== 8) {
@@ -105,24 +105,23 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
         <div className={style.form}>
           <div className={style.formGroup}>
             <Select
-              {...register('clientId', { required: 'Selecione um cliente' })}
+              {...register("clientId", { required: "Selecione um cliente" })}
               label="Cliente"
-              error={errors.clientId?.message}
-            >
+              error={errors.clientId?.message}>
               <option value="" disabled>
                 Selecione uma empresa
               </option>
               {clients?.map(({ id, name }) => (
-                <option key={id} value={id} disabled={id ? '' : 'disabled'}>
-                  {id ? name : 'carregando...'}
+                <option key={id} value={id} disabled={id ? "" : "disabled"}>
+                  {id ? name : "carregando..."}
                 </option>
               ))}
             </Select>
             <Input
-              {...register('companyName', {
-                required: 'Campo obrigatório',
+              {...register("companyName", {
+                required: "Campo obrigatório",
                 minLength: 3,
-                message: 'Digite mais de 3 caracteres',
+                message: "Digite mais de 3 caracteres",
               })}
               label="Nome fantasia"
               placeholder="Insira o nome fantasia"
@@ -131,21 +130,23 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('cnpj', {
-                required: 'Campo obrigatório',
-                validate: {teste: v=> formatCpfCnpj(v)},
+              {...register("cnpj", {
+                required: "Campo obrigatório",
+                validate: { teste: (v) => formatCpfCnpj(v) },
                 maxLength: {
                   value: 14,
-                  message: 'CPF/CNPJ deve conter 14 caracteres.',
+                  message: "CPF/CNPJ deve conter 14 caracteres.",
                 },
-                minLength:{
-                  value:11,
-                  message:'CPF/CNPJ deve conter no mínimo 11 caracteres.',
+                minLength: {
+                  value: 11,
+                  message: "CPF/CNPJ deve conter no mínimo 11 caracteres.",
                 },
-                
+
                 pattern: {
-                  value:/^(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|\d{3}\.?\d{3}\.?\d{3}-?\d{2})$/,
-                  message: 'Digite um CPF ou CNPJ válido, informe apenas número',
+                  value:
+                    /^(\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}|\d{3}\.?\d{3}\.?\d{3}-?\d{2})$/,
+                  message:
+                    "Digite um CPF ou CNPJ válido, informe apenas número",
                 },
               })}
               type="text"
@@ -156,18 +157,18 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
               minLength={11}
               // Verifica se há erro e passa a mensagem de erro
             />
-            {console.log('CNPJ error:', errors.cnpj?.message)} 
+            {console.log("CNPJ error:", errors.cnpj?.message)}
             <Input
-              {...register('mainActivity')}
+              {...register("mainActivity")}
               label="Atividade"
               placeholder="Insira o ramo de atividade"
             />
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('cnae', {
+              {...register("cnae", {
                 setValueAs: (value) => parseInt(value),
-                required: 'Campo obrigatório',
+                required: "Campo obrigatório",
               })}
               label="CNAE"
               type="text"
@@ -175,26 +176,26 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
               error={errors.cnae?.message}
             />
             <Input
-              {...register('secondaryCnae')}
+              {...register("secondaryCnae")}
               label="CNAE Secundário"
               placeholder="Insira o código CNAE Secundário"
             />
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('email', { required: 'Campo obrigatório' })}
+              {...register("email", { required: "Campo obrigatório" })}
               label="Email"
               placeholder="Insira o email"
               error={errors.email?.message}
             />
 
             <Input
-              {...register('phone', {
-                required: 'Campo obrigatório',
-                maxLength: { value: 12, message: 'Digite apenas números' },
+              {...register("phone", {
+                required: "Campo obrigatório",
+                maxLength: { value: 12, message: "Digite apenas números" },
                 pattern: {
                   value: /^[0-9]{10,12}$/,
-                  message: 'Digite apenas números',
+                  message: "Digite apenas números",
                 },
               })}
               type="text"
@@ -203,14 +204,14 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
               error={errors.phone?.message}
             />
             <Input
-              {...register('cellphone')}
+              {...register("cellphone")}
               label="Celular"
               placeholder="Insira o número de celular"
             />
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('zipcode', { required: 'Campo obrigatório' })}
+              {...register("zipcode", { required: "Campo obrigatório" })}
               type="text"
               label="CEP"
               placeholder="Insira o CEP apenas números"
@@ -219,38 +220,38 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('state')}
+              {...register("state")}
               label="Estado"
               placeholder="Insira o estado"
             />
             <Input
-              {...register('city')}
+              {...register("city")}
               label="Cidade"
               placeholder="Insira a cidade"
             />
             <Input
-              {...register('district')}
+              {...register("district")}
               label="Bairro"
               placeholder="Insira o bairro"
             />
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('address')}
+              {...register("address")}
               label="Endereço"
               placeholder="Insira o endereço"
             />
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('addressComplement')}
+              {...register("addressComplement")}
               label="Complemento"
               placeholder="Insira um complemento"
             />
           </div>
           <div className={style.formGroup}>
             <Input
-              {...register('comments')}
+              {...register("comments")}
               label="Comentários"
               placeholder="Insira os comentários"
             />
@@ -259,9 +260,8 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
             <button
               className={style.button}
               onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
+              disabled={isSubmitting}>
+              {isSubmitting ? "Cadastrando..." : "Cadastrar"}
             </button>
             <button className={style.button2} type="reset">
               Cancelar
