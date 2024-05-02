@@ -28,7 +28,6 @@ const Redefine = () => {
       const response = await postData("admin/mailer", data);
 
       if (response.status !== 200) {
-        console.log(response);
         throw new Error("Não foi possível localizar a conta");
       }
       setError(false);
@@ -38,7 +37,6 @@ const Redefine = () => {
       setLoading(false);
       setError(true);
       setMessage(error.message);
-      console.log(error);
     } finally {
       setLoading(false);
     }

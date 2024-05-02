@@ -30,7 +30,6 @@ const ResetPassword = () => {
         throw new Error("Não autorizado");
       }
       setHasAuthorization(true);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }

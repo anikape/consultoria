@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
@@ -10,6 +10,7 @@ import Footer from "../../component/Footer";
 import LoadingSpinner from "../../component/LoadingSpinner";
 
 import style from "./password.module.css";
+import { AxiosError } from "axios";
 
 const Password = () => {
   const [loading, setLoading] = useState(false);
@@ -27,14 +28,17 @@ const Password = () => {
 
   const { editPassword } = useFetch();
 
+  useEffect(() => {
+    if (!state) {
+      navigate("/redefine");
+    }
+  }, [state]);
+
   const onSubmit = async (data) => {
     const password = data.rawPassword;
     setLoading(true);
 
     try {
-      if (!state.id) {
-        return;
-      }
       const response = await editPassword(`admin/${state.id}`, {
         password,
       });
@@ -48,7 +52,9 @@ const Password = () => {
     } catch (error) {
       setLoading(false);
       setError(true);
-      setMessage(error.message);
+      if (error instanceof AxiosError) {
+        setMessage(error.message);
+      }
     } finally {
       setLoading(false);
     }
