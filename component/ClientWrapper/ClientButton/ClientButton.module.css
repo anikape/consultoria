@@ -1,0 +1,64 @@
+.clientButtonsWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  width: 100%;
+}
+
+.buttonName {
+  color: #1e1e1e;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 111%;
+  letter-spacing: 0.34px;
+  text-align: start;
+  background-color: transparent;
+  border: none;
+}
+
+.buttonProfile {
+  width: 171px;
+  height: 39px;
+  color: #3e4947c1;
+  font-family: Inter;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: ease-in-out 0.60s;
+  gap: 9px
+  
+}
+.icon {
+  width: 26px;
+  height: 26px;
+}
+
+
+.buttonProfile:hover {
+  transform: scale(0.80);
+  color: #3e494794;
+  }
+
+
+@media (max-width: 710px) {
+  .clientButtonsWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .buttonName {
+    font-size: 24px;
+  }
+
+  .buttonProfile {
+    width: 100%;
+  }
+}
