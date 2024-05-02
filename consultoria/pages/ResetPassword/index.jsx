@@ -31,6 +31,7 @@ const ResetPassword = () => {
       }
       setHasAuthorization(true);
     } catch (error) {
+      navigate("/redefine");
       console.log(error);
     }
   };
