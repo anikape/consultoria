@@ -24,7 +24,7 @@ const ResetPassword = () => {
         `/admin/reset-password/${id}?token=${tokenAuthorization}`
       );
 
-      if (!response.status === 200) {
+      if (response.status !== 200) {
         setLoading(false);
         setHasAuthorization(false);
         throw new Error("Não autorizado");
@@ -37,7 +37,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     getAuthorization(id);
-    if (hasAuthorization) {
+    if (!hasAuthorization) {
       navigate("/redefine");
     }
     navigate("/password", { state: { id } });
