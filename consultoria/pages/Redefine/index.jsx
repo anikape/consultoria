@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useFetch } from "../../src/hooks/useFetch";
-import check from "../../src/assets/check.png";
-
-// import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 
-import style from "./Redefine.module.css";
+import { useFetch } from "../../src/hooks/useFetch";
 
+import check from "../../src/assets/check.png";
 import Footer from "../../component/Footer";
 import LoadingSpinner from "../../component/LoadingSpinner";
+
+import style from "./Redefine.module.css";
 
 const Redefine = () => {
   const [loading, setLoading] = useState(false);

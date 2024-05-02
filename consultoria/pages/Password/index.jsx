@@ -1,134 +1,161 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import style from "./password.module.css";
-import logo from "../../src/assets/logo1.png";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
+import { useFetch } from "../../src/hooks/useFetch";
+
+import check from "../../src/assets/check.png";
 import info from "../../src/assets/info.png";
 import Footer from "../../component/Footer";
+import LoadingSpinner from "../../component/LoadingSpinner";
+
+import style from "./password.module.css";
 
 const Password = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const validatePassword = (value) => {
-    const passwordRegex = /^(?=(?:\D*\d){4})(?=(?:[^\d]*\d){2})[a-zA-Z0-9]{6}$/;
-    return passwordRegex.test(value);
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm();
+  const navigate = useNavigate();
+  const { state } = useLocation();
 
-  const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
-    const passwordValid = validatePassword(value);
-    setErrors((prevErrors) => ({ ...prevErrors, password: !passwordValid }));
-  };
+  const { editPassword } = useFetch();
 
-  const handleConfirmPasswordChange = (e) => {
-    const value = e.target.value;
-    setConfirmPassword(value);
-    const passwordMatch = value === password;
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      confirmPassword: !passwordMatch,
-    }));
-  };
+  const onSubmit = async (data) => {
+    const password = data.rawPassword;
+    setLoading(true);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here, e.g., send data to server
-    if (!errors.password && !errors.confirmPassword) {
-      // Form is valid, proceed with submission
-      console.log(
-        "Form is valid. Password:",
+    try {
+      if (!state.id) {
+        return;
+      }
+      const response = await editPassword(`admin/${state.id}`, {
         password,
-        "Confirm Password:",
-        confirmPassword
-      );
-    } else {
-      // Form has errors, handle them accordingly
-      console.log("Form has errors.");
+      });
+
+      if (response.status !== 200) {
+        throw new Error(`${response.response.data.errors[0]}`);
+      }
+      setError(false);
+      setLoading(false);
+      setMessage("Senha atualizada com sucesso");
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+      setMessage(error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
+  const handleCancel = () => {
+    setError(true);
+    setMessage("");
+    setLoading(false);
+    navigate("/");
+  };
+
   return (
-    <section className={style.passContainer}>
-      <div className={style.passContent}>
-        <img className={style.logo} src={logo} alt="Logo" />
+    <section className={style.redefine}>
+      <div className={style.container}>
+        <div className={style.content}>
+          <div className={style.logo1}></div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {!error && loading ? (
+              <>
+                <LoadingSpinner />
+              </>
+            ) : (
+              <>
+                <div className={style.inputContainer}>
+                  {!loading && error && (
+                    <>
+                      <div className={style.info}>
+                        <img src={info} alt="Erro ao atualizar senha" />
+                        <p>{message}</p>
+                      </div>
+                    </>
+                  )}
 
-        <div className={style.info}>
-          <img src={info} alt="Simbolo de Informação" />
-          <p>
-            A senha deve ter exatamente 6 caracteres, <br />
-            sendo 4 deles numéricos e 2 alfanuméricos.
-          </p>
-        </div>
-        <form className={style.form} onSubmit={handleSubmit}>
-          <div className={style.formContent}>
-            <label className={style.label} htmlFor="password">
-              Digite a senha:
-            </label>
-            <div className={style.inputGroup}>
-              <div className={style.icon}>
-                <div className={style.icon}>
-                  <img src="../../src/assets/icon_lock.svg" alt="" />
+                  {!error && !loading && isSubmitSuccessful ? (
+                    <>
+                      <div className={style.success}>
+                        <p>{!loading && message}</p>
+                        <img src={check} alt="" />
+                        <Link
+                          className={style.back}
+                          to="/"
+                          onClick={handleCancel}>
+                          Voltar
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {loading ? (
+                        <>
+                          <LoadingSpinner />
+                        </>
+                      ) : (
+                        <>
+                          <div className={style.inputGroup}>
+                            <input
+                              {...register("rawPassword", {
+                                required: "Campo obrigatóprio",
+                                pattern: {
+                                  value:
+                                    /^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).*[A-Z].*$/,
+                                  message:
+                                    "Senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caracter especial",
+                                },
+                              })}
+                              className={style.input}
+                              type="password"
+                              placeholder="Digite a senha:"
+                            />
+                            <p className={style.errorMessage}>
+                              {errors.rawPassword?.message}
+                            </p>
+                          </div>
+                          <div className={style.inputGroup}>
+                            <input
+                              {...register("confirmPassword", {
+                                required: "Campo obrigatório",
+                                validate: (value) =>
+                                  value === watch("rawPassword") ||
+                                  "Os campos não correspondem, devem ser iguais",
+                              })}
+                              className={style.input}
+                              type="password"
+                              placeholder="Repita a senha:"
+                            />
+                            <p className={style.errorMessage}>
+                              {errors.confirmPassword?.message}
+                            </p>
+                          </div>
+                          <button className={style.submit} type="submit">
+                            Enviar
+                          </button>
+                          <button
+                            className={style.cancel}
+                            onClick={handleCancel}>
+                            Cancelar
+                          </button>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
-              </div>
-              <input
-                className={style.input}
-                type="password"
-                id="password"
-                value={password}
-                onChange={handlePasswordChange}
-                placeholder="*****"
-              />
-            </div>
-
-            <span
-              className={`${style.error} ${
-                errors.password ? style.visible : ""
-              }`}
-            >
-              A senha deve ter exatamente 6 caracteres, <br />
-              sendo 4 deles numéricos e 2 alfanuméricos.
-            </span>
-          </div>
-          <div className={style.formContent}>
-            <label className={style.label} htmlFor="confirmPassword">
-              Repita a senha:
-            </label>
-
-            <div className={style.inputGroup}>
-              <div className={style.icon}>
-                <img src="../../src/assets/icon_lock.svg" alt="" />
-              </div>
-              <input
-                className={style.input}
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                placeholder="*****"
-              />
-            </div>
-            <span
-              className={`${style.error} ${
-                errors.confirmPassword ? style.visible : ""
-              }`}
-            >
-              As senhas não coincidem.
-            </span>
-          </div>
-
-          <div className={style.buttonGroup}>
-            <button className={style.button1} type="submit">
-              Redefinir
-            </button>
-            <button className={style.button2} type="submit">
-              Cancelar
-            </button>
-            <Link to="/" className={style.back}>
-              Voltar
-            </Link>
-          </div>
-        </form>
+              </>
+            )}
+          </form>
+        </div>
       </div>
 
       <Footer />

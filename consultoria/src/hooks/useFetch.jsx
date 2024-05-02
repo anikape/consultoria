@@ -61,6 +61,17 @@ export const useFetch = () => ({
       return error;
     }
   },
+  editPassword: async (endpoint, body) => {
+    try {
+      const response = await api.patch(endpoint, body, {
+        withCredentials: true,
+      });
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  },
 
   deleteClient: async (id) => {
     const endpoint = `/client/${id}`;
@@ -87,5 +98,4 @@ export const useFetch = () => ({
       return error;
     }
   },
-  
 });

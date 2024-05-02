@@ -14,6 +14,7 @@ import { RequireAuth } from "../contexts/Auth/RequireAuth";
 import { Loading } from "../../component/Loading";
 import { AuthContext } from "../contexts/Auth/AuthContext";
 import Password from "../../pages/Password";
+import ResetPassword from "../../pages/ResetPassword";
 import Sucess from "../../pages/Sucess/index";
 import SucessCadastro from "../../pages/SucessCadastro";
 import ClientProfile from "../../pages/ClientProfile";
@@ -41,6 +42,7 @@ const RoutesApp = () => {
         <Route path="/redefine" element={<Redefine />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/password" element={<Password />} />
+        <Route path="/admin/reset-password/:id" element={<ResetPassword />} />
         <Route path="/sucess" element={<Sucess />} />
         <Route path="/sucessCadastro" element={<SucessCadastro />} />
         <Route
