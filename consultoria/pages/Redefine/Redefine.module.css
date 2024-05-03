@@ -11,7 +11,7 @@
   background-position: right 5% bottom 45%;
 }
 
-.container {
+.containerForm {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +20,7 @@
   flex: 2;
 }
 
-.content {
+.form {
   background-image: url("../../src/assets/bgform.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -39,18 +39,8 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  width: 300px;
+  width: 200px;
   height: 65px;
-  padding-bottom: 77px;
-}
-
-.content label {
-  width: 377px;
-  height: 32px;
-  color: rgba(60, 45, 38, 0.9);
-  font-family: Inter;
-  font-size: 15px;
-  font-weight: 600;
 }
 
 .inputContainer {
@@ -58,35 +48,72 @@
   flex-direction: column;
   gap: 32px;
   position: relative;
-  padding: 32px;
 }
 
-.input {
-  width: 377px;
-  height: 49px;
-  border: none;
+.inputGroup {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+  height: 29px;
   border-radius: 9px;
   background: #849893;
   box-shadow: 10px 3px 16px 0px rgba(255, 255, 255, 0.5),
     0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  border: none;
+  color: rgba(255, 255, 255, 0.59);
+  font-size: 22px;
+  padding: 20px;
+  flex-direction: row;
+  margin-top: 3px;
+  position: relative;
+}
+
+.inputGroup:focus-within {
+  box-shadow: 6px 2px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.input {
+  width: inherit;
+  background-color: transparent;
+  border: 1px transparent;
+  height: inherit;
   outline: none;
   color: rgba(255, 255, 255, 0.59);
-  padding-left: 1rem;
-  font-size: 17px;
+  font-size: 22px;
+  padding-left: 0.5rem;
+}
+
+.input:focus {
+  background-color: transparent !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.59) !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .input::placeholder {
   color: rgba(255, 255, 255, 0.59);
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-size: 17px;
+  font-weight: 600;
+  opacity: 0.8;
 }
+
 .success {
   display: flex;
   width: 428px;
   max-width: 100%;
   flex-direction: column;
   gap: 32px;
-  background-color: red;
   align-items: center;
   padding: 32px;
   border-radius: 31px;
@@ -101,6 +128,13 @@
 
 .success img {
   width: 73px;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  bottom: -1.2rem;
 }
 
 .recaptcha {
@@ -169,7 +203,7 @@
 }
 
 @media (max-width: 710px) {
-  .content {
+  .form {
     background: none;
     border: none;
     box-shadow: none;
@@ -178,7 +212,6 @@
   }
 
   .inputGroup,
-  .success,
   .containerForm button {
     width: 100%;
   }

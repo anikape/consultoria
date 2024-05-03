@@ -51,8 +51,8 @@ const Redefine = () => {
 
   return (
     <section className={style.redefine}>
-      <div className={style.container}>
-        <div className={style.content}>
+      <div className={style.containerForm}>
+        <div className={style.form}>
           <div className={style.logo1}></div>
           <form onSubmit={handleSubmit(onSubmit)}>
             {!error && loading ? (
@@ -84,12 +84,25 @@ const Redefine = () => {
                         </>
                       ) : (
                         <>
-                          <input
-                            {...register("emailTo")}
-                            className={style.input}
-                            type="email"
-                            placeholder="Digite seu e-mail"
-                          />
+                          <div className={style.inputGroup}>
+                            <input
+                              {...register("emailTo", {
+                                required: "Campo obrigatório",
+                                pattern: {
+                                  value:
+                                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                  message: "Digite um email válido",
+                                },
+                              })}
+                              className={style.input}
+                              type="email"
+                              placeholder="Digite seu e-mail"
+                            />
+                            <p className={style.errorMessage}>
+                              {errors.emailTo?.message}
+                            </p>
+                          </div>
+
                           <button className={style.submit} type="submit">
                             Enviar
                           </button>
