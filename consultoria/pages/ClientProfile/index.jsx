@@ -136,19 +136,20 @@ const ClientProfile = () => {
                   {editable ? (
                     <Input {...register("name")} />
                   ) : (
-                    <span>{client.name}</span>
+                    <span className={style.clientInput}>{client.name}</span>
                   )}
                 </div>
                 <div className={style.profileItem}>
                   <h2>CPF</h2>
                   {editable ? (
                     <Input
+                   
                       name="cpf"
                       {...register("cpf", { required: "Campo Obrigatório" })}
                       error={errors.cpf?.message}
                     />
                   ) : (
-                    <span>{client.cpf}</span>
+                    <span  id="input1"  className={style.clientInput}>{client.cpf}</span>
                   )}
                 </div>
 
@@ -164,7 +165,7 @@ const ClientProfile = () => {
                       />
                     </>
                   ) : (
-                    <span>{client.email}</span>
+                    <span className={style.clientInput}>{client.email}</span>
                   )}
                 </div>
 
@@ -173,7 +174,7 @@ const ClientProfile = () => {
                   {editable ? (
                     <Input {...register("phone")} />
                   ) : (
-                    <span>{client.phone ?? "Nenhum número cadastrado"}</span>
+                    <span className={style.clientInput}>{client.phone ?? "Nenhum número cadastrado"}</span>
                   )}
                 </div>
                 {isSubmitting ? (
