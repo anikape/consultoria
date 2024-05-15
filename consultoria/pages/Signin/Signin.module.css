@@ -125,7 +125,6 @@ select:-webkit-autofill:focus {
 }
 
 .containerForm button {
-  width: 337px;
   height: 35px;
   border: none;
   border-radius: 9px;
@@ -139,7 +138,11 @@ select:-webkit-autofill:focus {
   font-style: normal;
   font-weight: 483;
   outline: none;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  transition: background-color 0.3s box-shadow 0.3s;
+}
+
+.send {
+  transition: ease-in 0.3s;
 }
 
 .containerForm button:hover {

@@ -5,12 +5,10 @@ import { DocumentContainer } from "./DocumentContainer";
 import { Loading } from "../Loading";
 import { DocumentForm } from "../../component/Forms/DocumentForm";
 import { Modal } from "../../component/Modal";
+import { HiMiniUserPlus } from "react-icons/hi2";
 
 export const DocumentWrapper = ({ data }) => {
   const { ["data"]: documents, loading, error, request } = useData();
-
-  console.log("documents: ", documents);
-  console.log("document: ", data);
 
   const loadData = async () =>
     await request("GET", `/document?company=${data}`, {
@@ -32,9 +30,18 @@ export const DocumentWrapper = ({ data }) => {
           <section className={style.documents}>
             <div className={style.documentsHeader}>
               <h2 className={style.subtitle}>Documentos:</h2>
-              <Modal label="Novo Documento">
-                <DocumentForm handleFormSubmit={onSubmitModalForm} />
-              </Modal>
+
+              <Modal.Context>
+                <Modal.Button>
+                  <HiMiniUserPlus />
+                  Novo Documento
+                </Modal.Button>
+                <Modal.Body>
+                  <Modal.Content label="Novo Documento">
+                    <DocumentForm handleFormSubmit={onSubmitModalForm} />
+                  </Modal.Content>
+                </Modal.Body>
+              </Modal.Context>
             </div>
             <p className={style.errorNotFound}>Nenhum documento encontrado</p>
           </section>
@@ -49,9 +56,17 @@ export const DocumentWrapper = ({ data }) => {
               <section className={style.documents}>
                 <div className={style.documentsHeader}>
                   <h2 className={style.subtitle}>Documentos:</h2>
-                  <Modal label="Novo Documento">
-                    <DocumentForm handleFormSubmit={onSubmitModalForm} />
-                  </Modal>
+                  <Modal.Context>
+                    <Modal.Button>
+                      <HiMiniUserPlus />
+                      Novo Documento
+                    </Modal.Button>
+                    <Modal.Body>
+                      <Modal.Content label="Novo Documento">
+                        <DocumentForm handleFormSubmit={onSubmitModalForm} />
+                      </Modal.Content>
+                    </Modal.Body>
+                  </Modal.Context>
                 </div>
 
                 <div className={style.contentClientList}>
