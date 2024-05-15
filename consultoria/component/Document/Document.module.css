@@ -1,0 +1,29 @@
+.DocumentBody {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  /* background-color: red; */
+}
+.DocumentContent {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  border: 1px solid red;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.DocumentItem {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  /* background-color: blue; */
+}
+
+.DocumentItem p:first-child {
+  font-weight: bold;
+}
