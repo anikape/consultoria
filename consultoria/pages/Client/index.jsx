@@ -52,17 +52,17 @@ const Client = () => {
                 <div className={style.nav}>
                   <div className={style.buttonContainer}>
                     <Link to="/home" className={style.buttons}>
-                      <button className={style.homeButton}>
-                        <RiHomeHeartLine className={style.home} />
-                      </button>
+                      {/* <button className={style.homeButton}> */}
+                      <RiHomeHeartLine className={style.home} />
+                      {/* </button> */}
                     </Link>
                     <Link to="/client" className={style.buttons}>
-                      <button>
-                        <HiUsers />
-                      </button>
+                      {/* <button> */}
+                      <HiUsers />
+                      {/* </button> */}
                     </Link>
 
-                    <section className={style.modals}>
+                    <div className={style.modals}>
                       {/* Modal de cadastro do Cliente */}
                       <div className={style.modalContent}>
                         <Modal label="Clientes">
@@ -78,7 +78,7 @@ const Client = () => {
                           />
                         </Modal>
                       </div>
-                    </section>
+                    </div>
 
                     {/* <div className={style.Heading}>
                     <div className={style.find}>
