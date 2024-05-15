@@ -1,0 +1,44 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #84989337;
+  border-radius: 30px;
+  max-width: 60%;
+  width: 100%;
+  padding: 15px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2rem;
+}
+
+.navMobile {
+  display: none;
+}
+
+@media (max-width: 890px) {
+  .nav {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 570px) {
+  .nav {
+    display: none;
+  }
+  .navMobile {
+    display: flex;
+  }
+
+  .buttonContainer {
+    width: 100%;
+  }
+  .labelModalButton {
+    display: none;
+  }
+}

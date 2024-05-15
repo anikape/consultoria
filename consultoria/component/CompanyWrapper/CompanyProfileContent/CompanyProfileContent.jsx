@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { mask } from "../../../src/helpers/maskValues";
 import { Popper } from "../../Popper";

@@ -1,5 +1,3 @@
-// import { ButtonModal } from "./ButtonModal";
-// import { HiMiniUserPlus } from "react-icons/hi2";
 import style from "./Modal.module.css";
 import { useModal } from "./ModalContext";
 
