@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { useFetch } from "../../../src/hooks/useFetch";
 import LoadingSpinner from "../../LoadingSpinner";
 import { Input } from "../../Input";
-
+import { useModal } from "../../Modal/ModalContext";
 import style from "./ClientForm.module.css";
 
 export const ClientForm = ({ handleFormSubmit }) => {
+  const { closeModal } = useModal();
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -37,6 +38,7 @@ export const ClientForm = ({ handleFormSubmit }) => {
 
       setMessage("Cliente cadastrado com sucesso!");
       handleFormSubmit();
+      closeModal();
     } catch ({ message }) {
       setMessage(message);
     }

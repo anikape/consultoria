@@ -6,8 +6,6 @@ import { Popper } from "../../Popper";
 import style from "./CompanyProfileContent.module.css";
 
 export const CompanyProfileContent = ({ company }) => {
-  // const [show, setShow] = useState(false);
-
   return (
     <>
       <Popper.Body>

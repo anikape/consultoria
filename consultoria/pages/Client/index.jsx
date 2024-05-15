@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { RiHomeHeartLine } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi2";
-import { FaUserPlus } from "react-icons/fa6";
-import { IoMdSearch } from "react-icons/io";
+import { HiMiniUserPlus } from "react-icons/hi2";
 
 import { useData } from "../../src/hooks/useData";
 
@@ -12,11 +11,12 @@ import { ClientWrapper } from "../../component/ClientWrapper";
 import { CompanyForm } from "../../component/Forms/CompanyForm";
 import { ClientForm } from "../../component/Forms/ClientForm";
 import { Loading } from "../../component/Loading";
-import { Modal } from "../../component/Modal";
+
 import Footer from "../../component/Footer";
 import LoadingSpinner from "../../component/LoadingSpinner";
 
 import style from "./client.module.css";
+import { Modal } from "../../component/Modal";
 
 const Client = () => {
   const { ["data"]: clients, loading, error, request } = useData(false);
@@ -52,31 +52,43 @@ const Client = () => {
                 <div className={style.nav}>
                   <div className={style.buttonContainer}>
                     <Link to="/home" className={style.buttons}>
-                      {/* <button className={style.homeButton}> */}
                       <RiHomeHeartLine className={style.home} />
-                      {/* </button> */}
                     </Link>
                     <Link to="/client" className={style.buttons}>
-                      {/* <button> */}
                       <HiUsers />
-                      {/* </button> */}
                     </Link>
 
                     <div className={style.modals}>
                       {/* Modal de cadastro do Cliente */}
                       <div className={style.modalContent}>
-                        <Modal label="Clientes">
-                          <ClientForm handleFormSubmit={onSubmitModalForm} />
-                        </Modal>
+                        <Modal.Context>
+                          <Modal.Button>
+                            <HiMiniUserPlus /> Clientes
+                          </Modal.Button>
+                          <Modal.Body>
+                            <Modal.Content label="Cadastrar clientes">
+                              <ClientForm
+                                handleFormSubmit={onSubmitModalForm}
+                              />
+                            </Modal.Content>
+                          </Modal.Body>
+                        </Modal.Context>
                       </div>
 
                       <div className={style.modalContent}>
-                        <Modal label="Empresas">
-                          <CompanyForm
-                            handleFormSubmit={onSubmitModalForm}
-                            clients={clients}
-                          />
-                        </Modal>
+                        <Modal.Context>
+                          <Modal.Button>
+                            <HiMiniUserPlus /> Empresas
+                          </Modal.Button>
+                          <Modal.Body>
+                            <Modal.Content label="Cadastrar empresas">
+                              <CompanyForm
+                                handleFormSubmit={onSubmitModalForm}
+                                clients={clients}
+                              />
+                            </Modal.Content>
+                          </Modal.Body>
+                        </Modal.Context>
                       </div>
                     </div>
 

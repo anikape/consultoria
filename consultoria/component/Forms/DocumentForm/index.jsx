@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../../Input";
 import { useFetch } from "../../../src/hooks/useFetch";
@@ -7,13 +7,14 @@ import { Select } from "../../Select";
 
 import styles from "./DocumentForm.module.css";
 import LoadingSpinner from "../../LoadingSpinner";
+import { useModal } from "../../Modal/ModalContext";
 
 export const DocumentForm = ({ handleFormSubmit }) => {
+  const { closeModal } = useModal();
   const [message, setMessage] = useState("");
   const [companys, setCompany] = useState([]);
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(false);
-  
 
   const { request } = useData();
   const { uploadFile } = useFetch();
@@ -68,6 +69,7 @@ export const DocumentForm = ({ handleFormSubmit }) => {
 
       setMessage("Arquivo enviado com sucesso!");
       handleFormSubmit();
+      closeModal();
     } catch ({ message }) {
       setMessage(message);
     }

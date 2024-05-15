@@ -1,39 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { HiMiniUserPlus } from 'react-icons/hi2';
-import style from './Modal.module.css';
+import { OpenButtonModal } from "./OpenButtonModal";
+import { ModalContent } from "./ModalContent";
+import { ModalProvider } from "./ModalContext";
+import { ModalBody } from "./ModalBody";
 
-export const Modal = ({ children, label }) => {
-  const modalRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const handleOutsideClick = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
-      closeModal();
-    }
-  };
-
-  return (
-    <>
-      <button type="button" className={style.buttonModal} onClick={openModal}>
-        <HiMiniUserPlus /> {label ?? 'Adicionar'}
-      </button>
-      {isOpen && (
-        <div className={style.backdrop} onClick={handleOutsideClick}>
-          <div className={style.modalContainer} ref={modalRef}>
-            <h3 className={style.h3}>{label}</h3>
-            <button className={style.modalClose} onClick={closeModal} />
-            {children}
-          </div>
-        </div>
-      )}
-    </>
-  );
+export const Modal = {
+  Body: ModalBody,
+  Content: ModalContent,
+  Button: OpenButtonModal,
+  Context: ModalProvider,
 };
