@@ -28,25 +28,62 @@
   border-radius: 18px;
 }
 
-.itemHeader {
-  flex: 1;
+.header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 35px;
+  width: 100%;
 }
 
-.navigation {
+.headingWrapper {
   width: 100%;
+  flex-direction: column;
   display: flex;
+  gap: 50px;
   justify-content: center;
   align-items: center;
-  background-color: #84989337;
-  border-radius: 30px;
-  width: 30%;
-  margin: 2rem auto;
-  padding: 10px;
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+  margin-bottom: 50px;
+}
+
+.buttons {
+  margin: 0;
+  padding: 0;
+  height: 30px;
+  background: transparent;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  color: #4e5b58;
+  transition: transform 0.3s;
+}
+
+.buttons:hover {
+  transform: scale(0.9);
+}
+
+.buttons .home {
+  font-size: 30px;
+  height: 30px;
+  color: #4e5b58;
+}
+
+.itemHeader {
+  width: 100%;
+}
+
+.title {
+  color: #3e4947c1;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+  font-family: Franklin Gothic Medium;
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 150%;
+  text-align: center;
 }
 
 /* Ajustes para os botões de casa e notificação */
-.homeButton,
+/* .homeButton, */
 .notificationContainer {
   /* position: fixed;
   top: 20px;
@@ -56,23 +93,23 @@
 }
 
 /* Estilos para o botão de casa */
-.homeButton button,
+/* .homeButton button, */
 .showExpiringButton {
   background-color: transparent;
   border: none;
   padding: 0;
   cursor: pointer;
   transition: transform 0.3s ease;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 }
 
 /* Estilos para o botão de notificação */
-.homeButton button:hover,
+/* .homeButton button:hover, */
 .showExpiringButton:hover {
   transform: scale(0.7);
 }
 
-.home,
+/* .home, */
 .notification {
   width: 40px;
   height: 40px;
@@ -86,14 +123,14 @@
 
 /* Estilos para os botões */
 
-.buttons {
+/* .buttons {
   width: 3em;
   height: 2em;
   margin-left: 0.5em;
   background: transparent;
-}
+} */
 
-.buttons button {
+/* .buttons button {
   border: none;
   background: transparent;
   font-size: 30px;
@@ -109,12 +146,19 @@
 .buttons .homeButton {
   background: transparent;
   border: none;
-}
+} */
 
 /* Estilos para os textos dentro do componente expiringDocumentsContainer */
 .expiringDocumentsContainer {
   color: #3e4947;
   font-size: 16px;
+  position: absolute;
+  right: 20px;
+  top: 40px;
+  background-color: #92a2a1;
+  padding: 1.5rem;
+  border-radius: 18px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
 /* Estilos para o título (h2) */

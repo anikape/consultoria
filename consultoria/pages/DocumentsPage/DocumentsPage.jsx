@@ -19,15 +19,20 @@ import { useFetch } from "../../src/hooks/useFetch";
 import { FaArrowRight } from "react-icons/fa";
 import { Document } from "../../component/Document";
 import { Navigation } from "../../component/Navigation";
+import { useForm } from "react-hook-form";
+import { formatDate } from "../../src/helpers/formatDate";
+import { Input } from "../../component/Input";
+import { Select } from "../../component/Select";
 
 Modal.setAppElement("#root");
 
-const formatDate = (dateString) => {
-  const options = { year: "numeric", month: "numeric", day: "numeric" };
-  return new Date(dateString).toLocaleDateString("pt-BR", options);
-};
-
 const DocumentsPage = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const { error, request } = useData();
   const { deleteData, editData } = useFetch();
   const [documents, setDocuments] = useState([]);
@@ -36,7 +41,7 @@ const DocumentsPage = () => {
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
   const soonThreshold = 7; // Limite de dias para considerar como "próximo de vencer"
   const [confirmationMessage, setConfirmationMessage] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+  const [editable, setEditable] = useState(false);
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const [showNotification, setShowNotification] = useState(true);
   const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
@@ -142,6 +147,7 @@ const DocumentsPage = () => {
         documents.filter((document) => document._id !== deletedDocumentId)
       );
     } catch (error) {
+      setConfirmationMessage("Erro ao excluir documento.");
       console.error("Erro ao excluir documento:", error);
     } finally {
       // Fecha o modal após a exclusão
@@ -150,28 +156,33 @@ const DocumentsPage = () => {
   };
 
   const handleEditDocument = async (documentId, newData) => {
-    try {
-      const formattedDate = format(new Date(newData.date), "yyyy-MM-dd");
-      const formattedData = { ...newData, date: formattedDate };
-      const response = await editData(`document/${documentId}`, formattedData);
-      if (response.ok) {
-        await request("get", "document", { withCredentials: true });
-      } else {
-        console.error("Erro ao editar documento:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Erro ao editar documento:", error);
-    }
+    // try {
+    //   const formattedDate = format(new Date(newData.date), "yyyy-MM-dd");
+    //   const formattedData = { ...newData, date: formattedDate };
+    //   const response = await editData(`document/${documentId}`, formattedData);
+    //   if (response.ok) {
+    //     await request("get", "document", { withCredentials: true });
+    //   } else {
+    //     console.error("Erro ao editar documento:", response.statusText);
+    //   }
+    // } catch (error) {
+    //   console.error("Erro ao editar documento:", error);
+    // }
   };
 
-  const handleEditButtonClick = (document) => {
-    setIsEditing(true);
-    setEditedDocument({ ...document });
+  const handleEditButtonClick = (data) => {
+    console.log(data);
+    setEditable(true);
+    setValue("name", data.name);
+    setValue("companyName", "client.cpf");
+    setValue("type", "client.email");
+    setValue("emission", "2020-02-20");
+    setValue("validity", "2020-03-20");
   };
 
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEditedDocument(null);
+  const handleCancelEdit = (e) => {
+    e.preventDefault();
+    setEditable(false);
   };
 
   const handleInputChange = (fieldName, value) => {
@@ -199,144 +210,188 @@ const DocumentsPage = () => {
     }
   };
 
-  const handleSaveEdit = async () => {
-    if (!editedDocument) return;
-
-    try {
-      const editedDocumentToSend = {
-        ...editedDocument,
-        emission: formatDate(editedDocument.emission),
-      };
-
-      const response = await editData(
-        `document/${editedDocumentToSend._id}`,
-        editedDocumentToSend
-      );
-
-      if (response.ok) {
-        await request("get", "document", { withCredentials: true });
-        setIsEditing(false);
-        setEditedDocument(null);
-        setConfirmationMessage("Alterações salvas com sucesso!");
-      } else {
-        console.error("Erro ao salvar as alterações:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Erro ao salvar as alterações:", error);
-    }
+  const handleSaveEdit = async (data) => {
+    console.log(data);
+    // if (!editedDocument) return;
+    // try {
+    //   const editedDocumentToSend = {
+    //     ...editedDocument,
+    //     emission: formatDate(editedDocument.emission),
+    //   };
+    //   const response = await editData(
+    //     `document/${editedDocumentToSend._id}`,
+    //     editedDocumentToSend
+    //   );
+    //   if (response.ok) {
+    //     await request("get", "document", { withCredentials: true });
+    //     setIsEditing(false);
+    //     setEditedDocument(null);
+    //     setConfirmationMessage("Alterações salvas com sucesso!");
+    //   } else {
+    //     console.error("Erro ao salvar as alterações:", response.statusText);
+    //   }
+    // } catch (error) {
+    //   console.error("Erro ao salvar as alterações:", error);
+    // }
   };
 
   return (
     <section className={style.Document}>
       <div className={style.container}>
         <div className={style.content}>
-          <Navigation>
-            <Link className={style.homeButton} to="/home">
-              <RiHomeHeartLine className={style.home} />
-            </Link>
-            <Link to="/client" className={style.buttons}>
-              <FaUserGroup />
-            </Link>
-            {showNotification && (
-              <div className={style.notificationContainer}>
-                <span className={style.notificationText}></span>
-                <button
-                  onClick={handleNotificationButtonClick}
-                  className={style.showExpiringButton}
-                >
-                  <IoIosNotificationsOutline className={style.notification} />
-                </button>
-              </div>
-            )}
-          </Navigation>
-          {/* <div> */}
+          <div className={style.header}>
+            <div className={style.headingWrapper}>
+              <h1 className={style.title}>Documentos</h1>
+              <Navigation>
+                <Link className={style.buttons} to="/home">
+                  <RiHomeHeartLine className={style.home} />
+                </Link>
+                <Link to="/client" className={style.buttons}>
+                  <FaUserGroup />
+                </Link>
+                {showNotification && (
+                  <div className={style.notificationContainer}>
+                    <span className={style.notificationText}></span>
+                    <button
+                      onClick={handleNotificationButtonClick}
+                      className={style.showExpiringButton}
+                    >
+                      <IoIosNotificationsOutline
+                        className={style.notification}
+                      />
+                    </button>
+                  </div>
+                )}
+              </Navigation>
+            </div>
+          </div>
           <Document.Body>
             {documents.map((document) => (
-              <Document.Content>
-                <div className={style.itemHeader}>
-                  <Document.Item>
-                    <p>Documento</p>
-                    <p>{document.name}</p>
-                  </Document.Item>
-                  <Document.Item>
-                    <p>Empresa</p>
-                    <p>{document.companyName}</p>
-                  </Document.Item>
-                  <Document.Item>
-                    <p>Tipo</p>
-                    <p>
-                      {types
-                        .filter(({ _id }) => _id === document.type)
-                        .map(({ description }) => description).length > 0
-                        ? types
+              <form
+                onSubmit={handleSubmit(handleEditDocument)}
+                key={document._id}
+              >
+                <Document.Content>
+                  <div className={style.itemHeader}>
+                    <Document.Item>
+                      <p>Documento</p>
+                      {editable ? (
+                        <Input {...register("name")} />
+                      ) : (
+                        <p>{document.name}</p>
+                      )}
+                    </Document.Item>
+                    <Document.Item>
+                      <p>Empresa</p>
+                      {editable ? (
+                        <Input {...register("companyName")} />
+                      ) : (
+                        <p>{document.companyName}</p>
+                      )}
+                    </Document.Item>
+                    <Document.Item>
+                      <p>Tipo</p>
+                      {editable ? (
+                        <>
+                          <Select
+                            {...register("type")}
+                            defaultValue={document.type}
+                          >
+                            {types?.map(({ _id, description }) => (
+                              <option
+                                key={_id}
+                                value={_id}
+                                disabled={types ? "" : "disabled"}
+                              >
+                                {types ? description : "carregando..."}
+                              </option>
+                            ))}
+                          </Select>
+                        </>
+                      ) : (
+                        <p>
+                          {types
                             .filter(({ _id }) => _id === document.type)
-                            .map(({ description }) => description)
-                        : ["Tipo não cadastrado"]}
-                    </p>
-                  </Document.Item>
-                </div>
-                <div>
-                  <Document.Item>
-                    <p>Emissão</p>
-                    <p>{formatDate(document.emission)}</p>
-                  </Document.Item>
-                  <Document.Item>
-                    <p>Validade</p>
-                    <p>{formatDate(document.companyName)}</p>
-                  </Document.Item>
-                </div>
-                <div>
-                  <>
-                    <a
-                      href={document.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BsFiletypePdf className={style.documentsIcons} />
-                    </a>
+                            .map(({ description }) => description).length > 0
+                            ? types
+                                .filter(({ _id }) => _id === document.type)
+                                .map(({ description }) => description)
+                            : ["Tipo não cadastrado"]}
+                        </p>
+                      )}
+                    </Document.Item>
+                  </div>
+                  <div className={style.itemHeader}>
+                    <Document.Item>
+                      <p>Emissão</p>
+                      {editable ? (
+                        <Input {...register("emission")} type="date" />
+                      ) : (
+                        <p>{formatDate(document.emission)}</p>
+                      )}
+                    </Document.Item>
+                    <Document.Item>
+                      <p>Validade</p>
+                      {editable ? (
+                        <Input {...register("validity")} type="date" />
+                      ) : (
+                        <p>{formatDate(document.validity)}</p>
+                      )}
+                    </Document.Item>
+                  </div>
+                  <Document.Actions>
+                    <>
+                      <a
+                        href={document.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={style.buttons}
+                      >
+                        <BsFiletypePdf />
+                      </a>
 
-                    {!isEditing && (
-                      <button
-                        disabled
-                        className={style.iconButton}
-                        onClick={() => handleEditButtonClick(document)}
-                      >
-                        <CiEdit className={style.documentsIcons} />
-                      </button>
-                    )}
-                    <button
-                      className={style.iconButton}
-                      onClick={() => handleDeleteDocument(document._id)}
-                    >
-                      <MdDeleteOutline className={style.documentsIcons} />
-                    </button>
-                    {isEditing && editedDocument?._id === document._id && (
-                      <button
-                        className={style.iconButton}
-                        onClick={handleSaveEdit}
-                      >
-                        <FaSave />
-                      </button>
-                    )}
-                    {isEditing && editedDocument && (
-                      <>
+                      {editable ? (
+                        <>
+                          <button
+                            className={style.buttons}
+                            onClick={handleSaveEdit}
+                          >
+                            <FaSave />
+                          </button>
+                        </>
+                      ) : (
                         <button
-                          className={style.iconButton}
+                          className={style.buttons}
+                          onClick={handleSubmit(handleEditButtonClick)}
+                        >
+                          <CiEdit />
+                        </button>
+                      )}
+
+                      {editable ? (
+                        <button
+                          className={style.buttons}
                           onClick={handleCancelEdit}
                         >
                           <MdCancel />
                         </button>
-                      </>
-                    )}
-                  </>
-                </div>
-              </Document.Content>
+                      ) : (
+                        <button
+                          className={style.buttons}
+                          onClick={() => handleDeleteDocument(document._id)}
+                        >
+                          <MdDeleteOutline />
+                        </button>
+                      )}
+                    </>
+                  </Document.Actions>
+                </Document.Content>
+              </form>
             ))}
           </Document.Body>
-          {/* </div> */}
         </div>
       </div>
-      <div className={style.navigation}>{/* Botão de notificação */}</div>
+
       {/* Lista de documentos próximos de vencer */}
       {showExpiringDocuments && (
         <div className={style.expiringDocumentsContainer}>
@@ -357,15 +412,13 @@ const DocumentsPage = () => {
       {loading && <Loading />}
       {!loading && !error && (
         <>
-          <nav className={style.nav}></nav>
-
           <div>
             {confirmationMessage && deletedDocumentId && (
               <div>{confirmationMessage}</div>
             )}
           </div>
 
-          <section className={style.tableContent}>
+          {/* <section className={style.tableContent}>
             <div className={style.tableContainer}>
               <table>
                 <thead>
@@ -511,7 +564,7 @@ const DocumentsPage = () => {
                 </tbody>
               </table>
             </div>
-          </section>
+          </section> */}
         </>
       )}
 
