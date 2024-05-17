@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { formatDate } from "../../src/helpers/formatDate";
 import { Input } from "../../component/Input";
 import { Select } from "../../component/Select";
+import { Documents } from "../../component/Documents";
 
 Modal.setAppElement("#root");
 
@@ -66,6 +67,13 @@ const DocumentsPage = () => {
       setShowNotification(true);
     }
   }, [documentsExpiringSoon]); // Atualiza quando documentsExpiringSoon muda
+
+  const loadDataUpdate = async () =>
+    await request("get", "document", { withCredentials: true });
+
+  const onSubmitModalForm = () => {
+    loadDataUpdate();
+  };
 
   const loadData = async () => {
     setLoading(true);
@@ -265,7 +273,19 @@ const DocumentsPage = () => {
               </Navigation>
             </div>
           </div>
-          <Document.Body>
+
+          <section>
+            {documents?.map((document) => (
+              <Documents
+                document={document}
+                key={document._id}
+                handleFormSubmit={onSubmitModalForm}
+                types={types}
+              />
+            ))}
+          </section>
+
+          {/* <Document.Body>
             {documents.map((document) => (
               <form
                 onSubmit={handleSubmit(handleEditDocument)}
@@ -388,7 +408,7 @@ const DocumentsPage = () => {
                 </Document.Content>
               </form>
             ))}
-          </Document.Body>
+          </Document.Body> */}
         </div>
       </div>
 

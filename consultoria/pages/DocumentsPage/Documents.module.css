@@ -68,10 +68,6 @@
   color: #4e5b58;
 }
 
-.itemHeader {
-  width: 100%;
-}
-
 .title {
   color: #3e4947c1;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
@@ -355,11 +351,6 @@ td {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
 }
 
 /* Adicione a regra de mídia para largura máxima de 710px */
