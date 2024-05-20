@@ -53,7 +53,7 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
     setLoading(true);
 
     try {
-      const response = await deleteData(`documen/${id}`, {
+      const response = await deleteData(`document/${id}`, {
         withCredentials: true,
       });
 
