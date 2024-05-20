@@ -1,56 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { format } from "date-fns";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useData } from "../../src/hooks/useData";
-import Modal from "react-modal"; //linha nova
-import { Loading } from "../../component/Loading";
-import style from "./Documents.module.css";
-import { BsFiletypePdf } from "react-icons/bs";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteOutline } from "react-icons/md";
-import { AiFillSetting } from "react-icons/ai";
+
 import { FaUserGroup } from "react-icons/fa6";
 import { RiHomeHeartLine } from "react-icons/ri";
-import { FaSave } from "react-icons/fa";
-import { MdCancel } from "react-icons/md";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import Footer from "../../component/Footer";
-import { useFetch } from "../../src/hooks/useFetch";
 import { FaArrowRight } from "react-icons/fa";
-import { Document } from "../../component/Document";
-import { Navigation } from "../../component/Navigation";
-import { useForm } from "react-hook-form";
+import { IoIosNotificationsOutline } from "react-icons/io";
+
+import { useData } from "../../src/hooks/useData";
 import { formatDate } from "../../src/helpers/formatDate";
-import { Input } from "../../component/Input";
-import { Select } from "../../component/Select";
+
+import { Loading } from "../../component/Loading";
+import Footer from "../../component/Footer";
+import { Navigation } from "../../component/Navigation";
 import { Documents } from "../../component/Documents";
 
-Modal.setAppElement("#root");
+import style from "./Documents.module.css";
 
 const DocumentsPage = () => {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
   const { error, request } = useData();
-  const { deleteData, editData } = useFetch();
   const [documents, setDocuments] = useState([]);
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
   const soonThreshold = 7; // Limite de dias para considerar como "próximo de vencer"
   const [confirmationMessage, setConfirmationMessage] = useState("");
-  const [editable, setEditable] = useState(false);
+
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const [showNotification, setShowNotification] = useState(true);
   const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     loadData();
-  }, [deletedDocumentId]); // Atualiza quando deletedDocumentId muda
+  }, []); // Atualiza quando deletedDocumentId muda
 
   useEffect(() => {
     if (confirmationMessage) {
@@ -68,11 +49,8 @@ const DocumentsPage = () => {
     }
   }, [documentsExpiringSoon]); // Atualiza quando documentsExpiringSoon muda
 
-  const loadDataUpdate = async () =>
-    await request("get", "document", { withCredentials: true });
-
   const onSubmitModalForm = () => {
-    loadDataUpdate();
+    loadData();
   };
 
   const loadData = async () => {
@@ -86,7 +64,6 @@ const DocumentsPage = () => {
       setDocuments(companysData.json);
       setTypes(typesData.json);
 
-      // Calcular documentos próximos de vencer
       const today = new Date();
       const expiringSoon = companysData.json.filter((document) => {
         const validityDate = new Date(document.validity);
@@ -96,6 +73,7 @@ const DocumentsPage = () => {
         return differenceInDays >= 0 && differenceInDays <= soonThreshold;
       });
       setDocumentsExpiringSoon(expiringSoon);
+      console.log(expiringSoon);
 
       setLoading(false);
     } catch (error) {
@@ -109,138 +87,6 @@ const DocumentsPage = () => {
 
   const handleCloseExpiringDocuments = () => {
     setShowExpiringDocuments(false);
-  };
-
-  const handleCloseNotification = () => {
-    setShowNotification(false);
-  };
-
-  {
-    /*Função para deletar documentos */
-  }
-  // const handleDeleteDocument = async (documentId) => {
-  //   try {
-  //     const userConfirmed = window.confirm('Confirma a exclusão do documento?');
-  //     if (userConfirmed) {
-  //       await deleteData(`document/${documentId}`, documentId);
-  //       setDeletedDocumentId(documentId); // Atualiza deletedDocumentId
-  //       setConfirmationMessage('Documento excluído com sucesso!');
-  //     } else {
-  //       console.log('Operação de exclusão cancelada pelo usuário.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Erro ao excluir documento:', error);
-  //   }
-  // };
-
-  const handleDeleteDocument = async (documentId) => {
-    try {
-      // Ao invés de usar window.confirm, definimos isModalOpen como true
-      setIsModalOpen(true);
-      // Salvamos o id do documento que será excluído
-      setDeletedDocumentId(documentId);
-    } catch (error) {
-      console.error("Erro ao excluir documento:", error);
-    }
-  };
-
-  const handleDeleteConfirmed = async () => {
-    try {
-      // Chama a função de exclusão de dados
-      await deleteData(`document/${deletedDocumentId}`, deletedDocumentId);
-      // Atualiza a mensagem de confirmação
-      setConfirmationMessage("Documento excluído com sucesso!");
-      // Atualiza a lista de documentos após a exclusão
-      setDocuments(
-        documents.filter((document) => document._id !== deletedDocumentId)
-      );
-    } catch (error) {
-      setConfirmationMessage("Erro ao excluir documento.");
-      console.error("Erro ao excluir documento:", error);
-    } finally {
-      // Fecha o modal após a exclusão
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleEditDocument = async (documentId, newData) => {
-    // try {
-    //   const formattedDate = format(new Date(newData.date), "yyyy-MM-dd");
-    //   const formattedData = { ...newData, date: formattedDate };
-    //   const response = await editData(`document/${documentId}`, formattedData);
-    //   if (response.ok) {
-    //     await request("get", "document", { withCredentials: true });
-    //   } else {
-    //     console.error("Erro ao editar documento:", response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error("Erro ao editar documento:", error);
-    // }
-  };
-
-  const handleEditButtonClick = (data) => {
-    console.log(data);
-    setEditable(true);
-    setValue("name", data.name);
-    setValue("companyName", "client.cpf");
-    setValue("type", "client.email");
-    setValue("emission", "2020-02-20");
-    setValue("validity", "2020-03-20");
-  };
-
-  const handleCancelEdit = (e) => {
-    e.preventDefault();
-    setEditable(false);
-  };
-
-  const handleInputChange = (fieldName, value) => {
-    if (fieldName === "emission") {
-      const formattedDate = formatDate(new Date(value));
-      setEditedDocument((prevDocument) => ({
-        ...prevDocument,
-        emission: formattedDate,
-      }));
-    } else if (fieldName === "validity") {
-      const date = new Date(value);
-      const validity = `${date.getFullYear()}-${(
-        "0" +
-        (date.getMonth() + 1)
-      ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
-      setEditedDocument((prevDocument) => ({
-        ...prevDocument,
-        validity,
-      }));
-    } else {
-      setEditedDocument((prevDocument) => ({
-        ...prevDocument,
-        [fieldName]: value,
-      }));
-    }
-  };
-
-  const handleSaveEdit = async (data) => {
-    console.log(data);
-    // if (!editedDocument) return;
-    // try {
-    //   const editedDocumentToSend = {
-    //     ...editedDocument,
-    //     emission: formatDate(editedDocument.emission),
-    //   };
-    //   const response = await editData(
-    //     `document/${editedDocumentToSend._id}`,
-    //     editedDocumentToSend
-    //   );
-    //   if (response.ok) {
-    //     await request("get", "document", { withCredentials: true });
-    //     setIsEditing(false);
-    //     setEditedDocument(null);
-    //     setConfirmationMessage("Alterações salvas com sucesso!");
-    //   } else {
-    //     console.error("Erro ao salvar as alterações:", response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error("Erro ao salvar as alterações:", error);
-    // }
   };
 
   return (
@@ -284,142 +130,16 @@ const DocumentsPage = () => {
               />
             ))}
           </section>
-
-          {/* <Document.Body>
-            {documents.map((document) => (
-              <form
-                onSubmit={handleSubmit(handleEditDocument)}
-                key={document._id}
-              >
-                <Document.Content>
-                  <div className={style.itemHeader}>
-                    <Document.Item>
-                      <p>Documento</p>
-                      {editable ? (
-                        <Input {...register("name")} />
-                      ) : (
-                        <p>{document.name}</p>
-                      )}
-                    </Document.Item>
-                    <Document.Item>
-                      <p>Empresa</p>
-                      {editable ? (
-                        <Input {...register("companyName")} />
-                      ) : (
-                        <p>{document.companyName}</p>
-                      )}
-                    </Document.Item>
-                    <Document.Item>
-                      <p>Tipo</p>
-                      {editable ? (
-                        <>
-                          <Select
-                            {...register("type")}
-                            defaultValue={document.type}
-                          >
-                            {types?.map(({ _id, description }) => (
-                              <option
-                                key={_id}
-                                value={_id}
-                                disabled={types ? "" : "disabled"}
-                              >
-                                {types ? description : "carregando..."}
-                              </option>
-                            ))}
-                          </Select>
-                        </>
-                      ) : (
-                        <p>
-                          {types
-                            .filter(({ _id }) => _id === document.type)
-                            .map(({ description }) => description).length > 0
-                            ? types
-                                .filter(({ _id }) => _id === document.type)
-                                .map(({ description }) => description)
-                            : ["Tipo não cadastrado"]}
-                        </p>
-                      )}
-                    </Document.Item>
-                  </div>
-                  <div className={style.itemHeader}>
-                    <Document.Item>
-                      <p>Emissão</p>
-                      {editable ? (
-                        <Input {...register("emission")} type="date" />
-                      ) : (
-                        <p>{formatDate(document.emission)}</p>
-                      )}
-                    </Document.Item>
-                    <Document.Item>
-                      <p>Validade</p>
-                      {editable ? (
-                        <Input {...register("validity")} type="date" />
-                      ) : (
-                        <p>{formatDate(document.validity)}</p>
-                      )}
-                    </Document.Item>
-                  </div>
-                  <Document.Actions>
-                    <>
-                      <a
-                        href={document.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={style.buttons}
-                      >
-                        <BsFiletypePdf />
-                      </a>
-
-                      {editable ? (
-                        <>
-                          <button
-                            className={style.buttons}
-                            onClick={handleSaveEdit}
-                          >
-                            <FaSave />
-                          </button>
-                        </>
-                      ) : (
-                        <button
-                          className={style.buttons}
-                          onClick={handleSubmit(handleEditButtonClick)}
-                        >
-                          <CiEdit />
-                        </button>
-                      )}
-
-                      {editable ? (
-                        <button
-                          className={style.buttons}
-                          onClick={handleCancelEdit}
-                        >
-                          <MdCancel />
-                        </button>
-                      ) : (
-                        <button
-                          className={style.buttons}
-                          onClick={() => handleDeleteDocument(document._id)}
-                        >
-                          <MdDeleteOutline />
-                        </button>
-                      )}
-                    </>
-                  </Document.Actions>
-                </Document.Content>
-              </form>
-            ))}
-          </Document.Body> */}
         </div>
       </div>
 
-      {/* Lista de documentos próximos de vencer */}
       {showExpiringDocuments && (
         <div className={style.expiringDocumentsContainer}>
           <h2>Documentos Próximos de Vencer</h2>
           <ul>
             {documentsExpiringSoon.map((document) => (
               <li key={document._id}>
-                <FaArrowRight /> {/* Ícone de seta */}
+                <FaArrowRight />
                 {document.name} - Vencimento em {formatDate(document.validity)}
               </li>
             ))}
@@ -437,180 +157,8 @@ const DocumentsPage = () => {
               <div>{confirmationMessage}</div>
             )}
           </div>
-
-          {/* <section className={style.tableContent}>
-            <div className={style.tableContainer}>
-              <table>
-                <thead>
-                  <tr>
-                    <th className={style.infos} colSpan="2">
-                      Documento
-                    </th>
-                    <th className={style.infos}>Tipo</th>
-                    <th className={style.infos}>Empresa</th>
-                    <th className={style.infos}>Emissão</th>
-                    <th className={style.infos}>Vencimento</th>
-                    <th className={style.infos}>
-                      <AiFillSetting />
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {documents.map((document, index) => (
-                    <tr key={document._id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {isEditing && editedDocument?._id === document._id ? (
-                          <input
-                            type="text"
-                            value={editedDocument.name}
-                            onChange={(e) =>
-                              handleInputChange("name", e.target.value)
-                            }
-                          />
-                        ) : (
-                          document.name
-                        )}
-                      </td>
-                      <td>
-                        {isEditing && editedDocument?._id === document._id ? (
-                          <input
-                            type="text"
-                            value={editedDocument.type}
-                            onChange={(e) =>
-                              handleInputChange("type", e.target.value)
-                            }
-                          />
-                        ) : // types
-                        //   ?.filter(({ _id }) => _id === document.type)
-                        //   .map(({ description }) => description)
-
-                        types
-                            .filter(({ _id }) => _id === document.type)
-                            .map(({ description }) => description).length >
-                          0 ? (
-                          types
-                            .filter(({ _id }) => _id === document.type)
-                            .map(({ description }) => description)
-                        ) : (
-                          ["Tipo não cadastrado"]
-                        )}
-                      </td>
-                      <td>
-                        {isEditing && editedDocument?._id === document._id ? (
-                          <input
-                            type="text"
-                            value={editedDocument.companyName}
-                            onChange={(e) =>
-                              handleInputChange("companyName", e.target.value)
-                            }
-                          />
-                        ) : (
-                          document.companyName
-                        )}
-                      </td>
-                      <td>
-                        {isEditing && editedDocument?._id === document._id ? (
-                          <input
-                            type="text"
-                            value={editedDocument.emission}
-                            onChange={(e) =>
-                              handleInputChange("emission", e.target.value)
-                            }
-                          />
-                        ) : (
-                          formatDate(document.emission)
-                        )}
-                      </td>
-                      <td>
-                        {isEditing && editedDocument?._id === document._id ? (
-                          <input
-                            type="date"
-                            value={formatDate(editedDocument.validity)}
-                            onChange={(e) =>
-                              handleInputChange("validity", e.target.value)
-                            }
-                          />
-                        ) : (
-                          formatDate(document.validity)
-                        )}
-                      </td>
-                      <td>
-                        <a
-                          href={document.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <BsFiletypePdf className={style.documentsIcons} />
-                        </a>
-
-                        {!isEditing && (
-                          <button
-                            disabled
-                            className={style.iconButton}
-                            onClick={() => handleEditButtonClick(document)}
-                          >
-                            <CiEdit className={style.documentsIcons} />
-                          </button>
-                        )}
-                        <button
-                          className={style.iconButton}
-                          onClick={() => handleDeleteDocument(document._id)}
-                        >
-                          <MdDeleteOutline className={style.documentsIcons} />
-                        </button>
-                        {isEditing && editedDocument?._id === document._id && (
-                          <button
-                            className={style.iconButton}
-                            onClick={handleSaveEdit}
-                          >
-                            <FaSave />
-                          </button>
-                        )}
-                        {isEditing && editedDocument && (
-                          <>
-                            <button
-                              className={style.iconButton}
-                              onClick={handleCancelEdit}
-                            >
-                              <MdCancel />
-                            </button>
-                          </>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section> */}
         </>
       )}
-
-      {/*Modal de confirmação de exclusão de documentos*/}
-      <Modal
-        className={style.modal} // Aplica os estilos ao modal
-        overlayClassName={style.overlay} // Aplica os estilos ao overlay
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Excluir Documento"
-      >
-        <h2>Excluir Documento</h2>
-        <p>Confirma a exclusão do documento?</p>
-        <button
-          className={`${style.button} ${style.cancel}`}
-          onClick={() => setIsModalOpen(false)}
-        >
-          Cancelar
-        </button>
-        <button
-          className={`${style.button} ${style.confirm}`}
-          onClick={handleDeleteConfirmed}
-        >
-          Confirmar
-        </button>
-      </Modal>
 
       <Footer />
     </section>
