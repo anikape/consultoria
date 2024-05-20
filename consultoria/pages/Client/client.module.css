@@ -224,4 +224,7 @@
   .labelModalButton {
     display: none;
   }
+  .contentClientList {
+    padding: 0;
+  }
 }
