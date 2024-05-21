@@ -1,0 +1,126 @@
+.form {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+}
+
+.itemHeader {
+  width: 100%;
+}
+
+.buttons {
+  margin: 0;
+  padding: 0;
+  height: 30px;
+  background: transparent;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  color: #4e5b58;
+  transition: transform 0.3s;
+}
+
+.buttons:hover {
+  transform: scale(0.9);
+}
+
+.buttons .home {
+  font-size: 30px;
+  height: 30px;
+  color: #4e5b58;
+}
+
+.modalDeleteDocument {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+/* Estilos para a tag h2 dentro do modal */
+.modalTitle {
+  font-size: 24px;
+  color: #393e3dd8;
+}
+
+/* Estilos para a tag p dentro do modal */
+.modalParagraph,
+.modalParagraphMessage {
+  font-size: 15px;
+  color: #242827d6;
+}
+
+.modalParagraphMessage {
+  text-align: center;
+}
+
+.buttonsModal {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.buttonsWrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.buttonsWrapper button,
+.messageWrapper button {
+  color: #3e4947;
+  transition: transform 0.3s ease;
+  border: 1px solid #3e4947;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 9px;
+  padding: 5px 10px;
+}
+
+.buttonsWrapper button:first-child {
+  background-color: transparent;
+  color: #3e4947;
+  transition: transform 0.3s ease;
+}
+
+.buttonsWrapper button:last-child,
+.messageWrapper button {
+  background-color: #f3f3f3e4;
+  color: #3e4947;
+  transition: transform 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.cancel:hover {
+  transform: scale(0.9);
+  color: #3e4947;
+}
+
+.confirm:hover {
+  transform: scale(0.9);
+  color: #a2a0a0;
+}
+
+@media (max-width: 730px) {
+  .content {
+    flex-wrap: wrap;
+  }
+}

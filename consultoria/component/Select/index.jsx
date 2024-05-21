@@ -8,7 +8,7 @@ export const Select = forwardRef(
       <>
         <div className={style.inputGroup}>
           <label className={style.label} htmlFor={name}>
-            {label}:
+            {label ? `${label} :` : ""}
           </label>
           <select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
             {/* <option selected disabled>
