@@ -17,7 +17,7 @@ const SucessCadastro = () => {
 
         <h4>Sucesso!</h4>
 
-        <p>Cadastro alterad com sucesso.</p>
+        <p>Cadastro alterado com sucesso.</p>
 
         <Link className={style.link} to="/adm">
           Sair
