@@ -108,7 +108,7 @@ const Client = () => {
                   </Modal.Context>
                 </Navigation>
               </div>
-              <div className={style.Heading}>
+              {/* <div className={style.Heading}>
                 <div className={style.find}>
                   <label className={style.search} htmlFor="searchCnpj">
                     <input
@@ -118,10 +118,10 @@ const Client = () => {
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    {/* <IoMdSearch className={style.searchIcon} /> */}
+                    <IoMdSearch className={style.searchIcon} />
                   </label>
                 </div>
-              </div>
+              </div> */}
             </div>
             <section className={style.contentClientList}>
               {loading ? (
