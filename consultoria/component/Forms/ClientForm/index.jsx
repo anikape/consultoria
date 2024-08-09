@@ -111,7 +111,7 @@ export const ClientForm = ({ handleFormSubmit }) => {
                 {isSubmitting ? "Cadastrando..." : "Cadastrar"}
               </button>
               <button className={style.button2} type="reset" onClick={reset}>
-                Cancelar
+               Limpar
               </button>
             </>
           )}

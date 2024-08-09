@@ -285,7 +285,7 @@ button {
 
 .button1 {
   width: 110px;
-  height: 35px;
+  height: 37px;
   border-radius: 9px;
   background: #849893;
   box-shadow: 5px 3px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -299,7 +299,7 @@ button {
 
 .button2 {
   width: 100px;
-  height: 35px;
+  height: 37px;
   border-radius: 9px;
   background: #d9d9d9;
   box-shadow: 5px 3px 16px 0px #fff, 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -309,6 +309,13 @@ button {
   font-size: 22px;
   font-weight: 600;
   margin-top: 1em;
+  transition: transform 0.3s, background 0.3s, color 0.3s;
+}
+
+.button2:hover {
+  transform: scale(1.1);
+  background: #a8a8a8;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /*Modal Info Cliente*/

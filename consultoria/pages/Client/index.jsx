@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { RiHomeHeartLine } from "react-icons/ri";
@@ -22,9 +22,12 @@ import style from "./client.module.css";
 
 const Client = () => {
   const { ["data"]: clients, loading, error, request } = useData(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredClients, setFilteredClients] = useState([]);
 
-  const loadData = async () =>
+  const loadData = async () => {
     await request("get", "client", { withCredentials: true });
+  };
 
   const onSubmitModalForm = () => {
     loadData();
@@ -34,13 +37,31 @@ const Client = () => {
     loadData();
   }, [request]);
 
+  useEffect(() => {
+    if (clients) {
+      setFilteredClients(
+        clients.filter(client => {
+          const hasName = client.name && client.name.toLowerCase().includes(searchTerm.toLowerCase());
+          const hasCnpj = client.cnpj && client.cnpj.includes(searchTerm);
+          return hasName || hasCnpj;
+        })
+      );
+    }
+  }, [clients, searchTerm]);
+
+  useEffect(() => {
+    console.log("Loading:", loading);
+    console.log("Clients:", clients);
+    console.log("Filtered Clients:", filteredClients);
+    console.log("Search Term:", searchTerm);
+  }, [loading, clients, filteredClients, searchTerm]);
+
   if (loading && !clients) {
     return <Loading />;
   }
 
   if (clients) {
-    // Ordenar os clientes por ordem alfabética
-    const sortedClients = [...clients].sort((a, b) =>
+    const sortedClients = [...filteredClients].sort((a, b) =>
       a.name.localeCompare(b.name)
     );
 
@@ -85,23 +106,22 @@ const Client = () => {
                       </Modal.Content>
                     </Modal.Body>
                   </Modal.Context>
-
-                  {/* <div className={style.Heading}>
-                    <div className={style.find}>
-                      <label className={style.search} htmlFor="searchCnpj">
-                        <input
-                          className={style.searchInput}
-                          type="text"
-                          placeholder="Buscar por CNPJ..."
-                          value={""}
-                          onChange={() => console.log("oi")}
-                        />
-                        <IoMdSearch className={style.searchIcon} />
-                      </label>
-                    </div>
-                  </div> */}
                 </Navigation>
               </div>
+              {/* <div className={style.Heading}>
+                <div className={style.find}>
+                  <label className={style.search} htmlFor="searchCnpj">
+                    <input
+                      className={style.searchInput}
+                      type="text"
+                      placeholder="Digite o nome..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <IoMdSearch className={style.searchIcon} />
+                  </label>
+                </div>
+              </div> */}
             </div>
             <section className={style.contentClientList}>
               {loading ? (
@@ -117,6 +137,8 @@ const Client = () => {
       </main>
     );
   }
+
+  return null;
 };
 
 export default Client;
