@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import { FaUserGroup } from "react-icons/fa6";
 import { RiHomeHeartLine } from "react-icons/ri";
 import { FaArrowRight } from "react-icons/fa";
@@ -22,36 +21,13 @@ const DocumentsPage = () => {
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
-  const soonThreshold = 7; // Limite de dias para considerar como "próximo de vencer"
-  const [confirmationMessage, setConfirmationMessage] = useState("");
-
-  const [deletedDocumentId, setDeletedDocumentId] = useState(null);
-  const [showNotification, setShowNotification] = useState(true);
-  const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
+  const [filterBy, setFilterBy] = useState("date"); // "date", "type" ou "company"
+  const [sortOrder, setSortOrder] = useState("asc"); // "asc" ou "desc"
+  const soonThreshold = 7;
 
   useEffect(() => {
     loadData();
-  }, []); // Atualiza quando deletedDocumentId muda
-
-  useEffect(() => {
-    if (confirmationMessage) {
-      const timer = setTimeout(() => {
-        setConfirmationMessage(""); // Limpa a mensagem após 3 segundos
-      }, 3000);
-
-      return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
-    }
-  }, [confirmationMessage]);
-
-  useEffect(() => {
-    if (documentsExpiringSoon.length > 0) {
-      setShowNotification(true);
-    }
-  }, [documentsExpiringSoon]); // Atualiza quando documentsExpiringSoon muda
-
-  const onSubmitModalForm = () => {
-    loadData();
-  };
+  }, []); 
 
   const loadData = async () => {
     setLoading(true);
@@ -73,7 +49,6 @@ const DocumentsPage = () => {
         return differenceInDays >= 0 && differenceInDays <= soonThreshold;
       });
       setDocumentsExpiringSoon(expiringSoon);
-      console.log(expiringSoon);
 
       setLoading(false);
     } catch (error) {
@@ -81,12 +56,50 @@ const DocumentsPage = () => {
     }
   };
 
-  const handleNotificationButtonClick = () => {
-    setShowExpiringDocuments(true);
+  // Função para ordenar por data de vencimento
+  const sortByDate = (docs) => {
+    return [...docs].sort((a, b) => {
+      const dateA = new Date(a.validity);
+      const dateB = new Date(b.validity);
+      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+    });
   };
 
-  const handleCloseExpiringDocuments = () => {
-    setShowExpiringDocuments(false);
+  // Função para ordenar por tipo de documento
+  const sortByType = (docs) => {
+    return [...docs].sort((a, b) => {
+      const typeA = a.type.toLowerCase();
+      const typeB = b.type.toLowerCase();
+      if (sortOrder === "asc") {
+        return typeA > typeB ? 1 : -1;
+      } else {
+        return typeA < typeB ? 1 : -1;
+      }
+    });
+  };
+
+  // Função para ordenar por nome da empresa
+  const sortByCompany = (docs) => {
+    return [...docs].sort((a, b) => {
+      const companyA = a.company?.toLowerCase() || "";
+      const companyB = b.company?.toLowerCase() || "";
+      if (sortOrder === "asc") {
+        return companyA > companyB ? 1 : -1;
+      } else {
+        return companyA < companyB ? 1 : -1;
+      }
+    });
+  };
+
+  // Documentos filtrados com base no critério selecionado
+  const filteredDocuments = () => {
+    if (filterBy === "date") {
+      return sortByDate(documents);
+    } else if (filterBy === "type") {
+      return sortByType(documents);
+    } else if (filterBy === "company") {
+      return sortByCompany(documents);
+    }
   };
 
   return (
@@ -103,29 +116,36 @@ const DocumentsPage = () => {
                 <Link to="/client" className={style.buttons}>
                   <FaUserGroup />
                 </Link>
-                {showNotification && (
-                  <div className={style.notificationContainer}>
-                    <span className={style.notificationText}></span>
-                    <button
-                      onClick={handleNotificationButtonClick}
-                      className={style.showExpiringButton}
-                    >
-                      <IoIosNotificationsOutline
-                        className={style.notification}
-                      />
-                    </button>
-                  </div>
-                )}
               </Navigation>
             </div>
           </div>
 
+          {/* Filtros de ordenação */}
+          <div className={style.filters}>
+            <label>
+              Ordenar por:
+              <select value={filterBy} onChange={(e) => setFilterBy(e.target.value)}>
+                <option value="date">Data de Vencimento</option>
+                <option value="type">Tipo de Documento</option>
+                <option value="company">Nome da Empresa</option>
+              </select>
+            </label>
+
+            <label>
+              Ordem:
+              <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+                <option value="asc">Ascendente</option>
+                <option value="desc">Descendente</option>
+              </select>
+            </label>
+          </div>
+
           <section>
-            {documents?.map((document) => (
+            {filteredDocuments().map((document) => (
               <Documents
                 document={document}
                 key={document._id}
-                handleFormSubmit={onSubmitModalForm}
+                handleFormSubmit={loadData}
                 types={types}
               />
             ))}
@@ -133,32 +153,8 @@ const DocumentsPage = () => {
         </div>
       </div>
 
-      {showExpiringDocuments && (
-        <div className={style.expiringDocumentsContainer}>
-          <h2>Documentos Próximos de Vencer</h2>
-          <ul>
-            {documentsExpiringSoon.map((document) => (
-              <li key={document._id}>
-                <FaArrowRight />
-                {document.name} - Vencimento em {formatDate(document.validity)}
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleCloseExpiringDocuments}>Fechar</button>
-        </div>
-      )}
-
-      {error && <h1>Não foi possível carregar os dados</h1>}
       {loading && <Loading />}
-      {!loading && !error && (
-        <>
-          <div>
-            {confirmationMessage && deletedDocumentId && (
-              <div>{confirmationMessage}</div>
-            )}
-          </div>
-        </>
-      )}
+      {error && <h1>Não foi possível carregar os dados</h1>}
 
       <Footer />
     </section>
