@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { AuthContext } from "./AuthContext";
-import { useApi } from "../../hooks/useApi";
+// import { AuthContext } from "@/AuthContext";
+import { AuthContext } from "@/contexts/Auth/AuthContext";
+import { useApi } from "@/hooks/useApi";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -103,7 +104,8 @@ export const AuthProvider = ({ children }) => {
         signin,
         signout,
         validateToken,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
