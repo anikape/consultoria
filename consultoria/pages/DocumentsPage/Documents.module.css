@@ -95,6 +95,42 @@
   transform: scale(0.7);
 }
 
+/* Ordenação*/
+.sorting {
+  display: flex;
+  align-items: center; /* Alinha todos os itens verticalmente ao centro */
+  margin-bottom: 10px; /* Espaço inferior para separar do conteúdo seguinte */
+   
+}
+
+.sorting select{
+  background-color: #84989337;
+  border-radius: 30px;
+  margin-left: .5em;
+  outline: none;
+}
+
+.sorting option{
+  background: #84989337;
+}
+
+.sorting label {
+  margin-right: 10px; /* Espaço entre o label e o select */
+}
+
+.sortIcons {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px; /* Espaço entre as setas */
+  font-size: 1.2rem; /* Ajuste o tamanho do ícone conforme necessário */
+  display: flex; /* Flex para garantir que os ícones se comportem como um bloco */
+  align-items: center; /* Centraliza os ícones verticalmente */
+  outline: none;
+}
+
+
+
 /* .home, */
 .notification {
   width: 40px;

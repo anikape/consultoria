@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FaUserGroup } from "react-icons/fa6";
-import { RiHomeHeartLine } from "react-icons/ri";
-import { FaArrowRight } from "react-icons/fa";
-import { IoIosNotificationsOutline } from "react-icons/io";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import { useData } from "../../src/hooks/useData";
-import { formatDate } from "../../src/helpers/formatDate";
+import { FaUserGroup } from 'react-icons/fa6';
+import { RiHomeHeartLine } from 'react-icons/ri';
+import { FaArrowRight } from 'react-icons/fa';
+import { IoIosNotificationsOutline } from 'react-icons/io';
+import { FaSortUp, FaSortDown } from 'react-icons/fa'; // Importando ícones para as setas
 
-import { Loading } from "../../component/Loading";
-import Footer from "../../component/Footer";
-import { Navigation } from "../../component/Navigation";
-import { Documents } from "../../component/Documents";
+import { useData } from '../../src/hooks/useData';
+import { formatDate } from '../../src/helpers/formatDate';
 
-import style from "./Documents.module.css";
+import { Loading } from '../../component/Loading';
+import Footer from '../../component/Footer';
+import { Navigation } from '../../component/Navigation';
+import { Documents } from '../../component/Documents';
+
+import style from './Documents.module.css';
 
 const DocumentsPage = () => {
   const { error, request } = useData();
@@ -21,20 +23,45 @@ const DocumentsPage = () => {
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
-  const [filterBy, setFilterBy] = useState("date"); // "date", "type" ou "company"
-  const [sortOrder, setSortOrder] = useState("asc"); // "asc" ou "desc"
-  const soonThreshold = 7;
+  const soonThreshold = 7; // Limite de dias para considerar como "próximo de vencer"
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+
+  const [deletedDocumentId, setDeletedDocumentId] = useState(null);
+  const [showNotification, setShowNotification] = useState(false); // Inicialmente false
+  const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
+  const [sortBy, setSortBy] = useState('name'); // Ordenação inicial
+  const [sortDirection, setSortDirection] = useState('asc'); // Direção da ordenação
 
   useEffect(() => {
     loadData();
-  }, []); 
+  }, []); // Atualiza quando a página carrega
+
+  useEffect(() => {
+    if (confirmationMessage) {
+      const timer = setTimeout(() => {
+        setConfirmationMessage(''); // Limpa a mensagem após 3 segundos
+      }, 3000);
+
+      return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
+    }
+  }, [confirmationMessage]);
+
+  useEffect(() => {
+    if (documentsExpiringSoon.length > 0) {
+      setShowNotification(true); // Exibe notificação se houver documentos próximos do vencimento
+    }
+  }, [documentsExpiringSoon]); // Atualiza quando documentsExpiringSoon muda
+
+  const onSubmitModalForm = () => {
+    loadData();
+  };
 
   const loadData = async () => {
     setLoading(true);
     try {
       const [companysData, typesData] = await Promise.all([
-        request("get", "document", { withCredentials: true }),
-        request("get", "types", { withCredentials: true }),
+        request('get', 'document', { withCredentials: true }),
+        request('get', 'types', { withCredentials: true }),
       ]);
 
       setDocuments(companysData.json);
@@ -44,7 +71,7 @@ const DocumentsPage = () => {
       const expiringSoon = companysData.json.filter((document) => {
         const validityDate = new Date(document.validity);
         const differenceInDays = Math.ceil(
-          (validityDate - today) / (1000 * 60 * 60 * 24)
+          (validityDate - today) / (1000 * 60 * 60 * 24),
         );
         return differenceInDays >= 0 && differenceInDays <= soonThreshold;
       });
@@ -56,51 +83,28 @@ const DocumentsPage = () => {
     }
   };
 
-  // Função para ordenar por data de vencimento
-  const sortByDate = (docs) => {
-    return [...docs].sort((a, b) => {
-      const dateA = new Date(a.validity);
-      const dateB = new Date(b.validity);
-      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-    });
+  const handleNotificationButtonClick = () => {
+    setShowExpiringDocuments(true); // Mostra lista de documentos próximos do vencimento
   };
 
-  // Função para ordenar por tipo de documento
-  const sortByType = (docs) => {
-    return [...docs].sort((a, b) => {
-      const typeA = a.type.toLowerCase();
-      const typeB = b.type.toLowerCase();
-      if (sortOrder === "asc") {
-        return typeA > typeB ? 1 : -1;
-      } else {
-        return typeA < typeB ? 1 : -1;
-      }
-    });
+  const handleCloseExpiringDocuments = () => {
+    setShowExpiringDocuments(false); // Fecha a lista de documentos
   };
 
-  // Função para ordenar por nome da empresa
-  const sortByCompany = (docs) => {
-    return [...docs].sort((a, b) => {
-      const companyA = a.company?.toLowerCase() || "";
-      const companyB = b.company?.toLowerCase() || "";
-      if (sortOrder === "asc") {
-        return companyA > companyB ? 1 : -1;
-      } else {
-        return companyA < companyB ? 1 : -1;
-      }
-    });
-  };
+  // Função para ordenar documentos
+  const sortedDocuments = [...documents].sort((a, b) => {
+    let comparison = 0;
 
-  // Documentos filtrados com base no critério selecionado
-  const filteredDocuments = () => {
-    if (filterBy === "date") {
-      return sortByDate(documents);
-    } else if (filterBy === "type") {
-      return sortByType(documents);
-    } else if (filterBy === "company") {
-      return sortByCompany(documents);
+    if (sortBy === 'name') {
+      comparison = a.name.localeCompare(b.name); // Ordena por nome da empresa
+    } else if (sortBy === 'type') {
+      comparison = a.type.localeCompare(b.type); // Ordena por tipo de documento
+    } else if (sortBy === 'validity') {
+      comparison = new Date(a.validity) - new Date(b.validity); // Ordena por data de vencimento
     }
-  };
+
+    return sortDirection === 'asc' ? comparison : -comparison; // Aplica a direção da ordenação
+  });
 
   return (
     <section className={style.Document}>
@@ -116,36 +120,59 @@ const DocumentsPage = () => {
                 <Link to="/client" className={style.buttons}>
                   <FaUserGroup />
                 </Link>
+                {showNotification && (
+                  <div className={style.notificationContainer}>
+                    <span className={style.notificationText}>
+                      {/* Documentos próximos de vencer */}
+                    </span>
+                    <button
+                      onClick={handleNotificationButtonClick}
+                      className={style.showExpiringButton}
+                    >
+                      <IoIosNotificationsOutline
+                        className={style.notification}
+                      />
+                    </button>
+                  </div>
+                )}
               </Navigation>
             </div>
           </div>
 
           {/* Filtros de ordenação */}
-          <div className={style.filters}>
+          <div className={style.sorting}>
             <label>
               Ordenar por:
-              <select value={filterBy} onChange={(e) => setFilterBy(e.target.value)}>
-                <option value="date">Data de Vencimento</option>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="name">Nome da Empresa</option>
                 <option value="type">Tipo de Documento</option>
-                <option value="company">Nome da Empresa</option>
+                <option value="validity">Data de Vencimento</option>
               </select>
             </label>
 
-            <label>
-              Ordem:
-              <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-                <option value="asc">Ascendente</option>
-                <option value="desc">Descendente</option>
-              </select>
-            </label>
+            <button
+              className={style.sortIcons}
+              onClick={() => setSortDirection('asc')}
+            >
+              <FaSortUp />
+            </button>
+            <button
+              className={style.sortIcons}
+              onClick={() => setSortDirection('desc')}
+            >
+              <FaSortDown />
+            </button>
           </div>
 
           <section>
-            {filteredDocuments().map((document) => (
+            {sortedDocuments?.map((document) => (
               <Documents
                 document={document}
                 key={document._id}
-                handleFormSubmit={loadData}
+                handleFormSubmit={onSubmitModalForm}
                 types={types}
               />
             ))}
@@ -153,8 +180,32 @@ const DocumentsPage = () => {
         </div>
       </div>
 
-      {loading && <Loading />}
+      {showExpiringDocuments && (
+        <div className={style.expiringDocumentsContainer}>
+          <h2>Documentos Próximos de Vencer</h2>
+          <ul>
+            {documentsExpiringSoon.map((document) => (
+              <li key={document._id}>
+                <FaArrowRight />
+                {document.name} - Vencimento em {formatDate(document.validity)}
+              </li>
+            ))}
+          </ul>
+          <button onClick={handleCloseExpiringDocuments}>Fechar</button>
+        </div>
+      )}
+
       {error && <h1>Não foi possível carregar os dados</h1>}
+      {loading && <Loading />}
+      {!loading && !error && (
+        <>
+          <div>
+            {confirmationMessage && deletedDocumentId && (
+              <div>{confirmationMessage}</div>
+            )}
+          </div>
+        </>
+      )}
 
       <Footer />
     </section>
