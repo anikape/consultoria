@@ -9,7 +9,7 @@
 
 html {
   min-height: 100%;
-  background-image: url("../src/assets/gHome2.png");
+  background-image: url("@/assets/gHome2.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right 5% bottom 45%;
@@ -40,6 +40,6 @@ body::-webkit-scrollbar-thumb {
 
 @media only screen and (max-width: 710px) {
   html {
-    background-image: url('../src/assets/bg-mobile.svg');
+    background-image: url("@/assets/bg-mobile.svg");
   }
 }

@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { api } from "../../services/api";
+import { api } from "@/services/api";
 
 const cookies = new Cookies();
 
