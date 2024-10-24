@@ -1,0 +1,239 @@
+.company {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  /* background-image: url("@/src/assets/gHome2.png"); */
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right 5% bottom 45%;
+  object-fit: cover;
+}
+.container {
+  gap: 2rem;
+  width: 100%;
+  max-width: 990px;
+  padding: 32px;
+}
+
+.contentContainer {
+  background: rgba(255, 255, 255, 0.212);
+  background-repeat: no-repeat;
+  border-radius: 7px;
+  width: 100%;
+  min-height: 700px;
+  /* min-height: auto; */
+  padding: 2rem;
+  border: #849893;
+  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.contentContainer::-webkit-scrollbar {
+  width: 7px;
+}
+
+.contentContainer::-webkit-scrollbar-thumb {
+  background-color: #a0b0ac;
+  border-radius: 5px;
+}
+
+.contentContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #6d78769e;
+}
+
+.groupButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 32px;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 1rem;
+}
+
+.buttons {
+  width: 3em;
+  height: 1em;
+  margin-left: 0.5em;
+  background: transparent;
+}
+
+.buttons button {
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  color: #4e5b58;
+  transition: transform 0.3s;
+}
+
+.buttons button:hover,
+.buttons .homeButton:hover {
+  transform: scale(0.7);
+}
+
+.buttons .homeButton {
+  background: transparent;
+  border: none;
+}
+
+.buttons .home {
+  font-size: 30px;
+  color: #4e5b58;
+}
+
+.title1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 214%;
+  color: #363f3dde;
+  text-shadow: 0px 2px 2px rgba(115, 112, 112, 0.25);
+  padding-bottom: 2.5rem;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 214%;
+  color: #363f3dde;
+  text-shadow: 0px 2px 2px rgba(115, 112, 112, 0.25);
+  padding-bottom: 2.5rem;
+}
+
+.profileItem h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #363f3d;
+}
+
+.formContainer {
+  width: 100%;
+}
+
+.profile {
+  display: grid;
+  width: inherit;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem 4rem;
+  padding-bottom: 3.5em;
+}
+
+.profileItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profileInput,
+.profileInput2 {
+  border: solid 1px transparent;
+  border-top-style: none;
+  border-radius: 9px;
+  width: 100%;
+  min-height: 25px;
+  padding: 0.3em;
+  background: #8f9f9c38;
+  color: #3e4947;
+  font-size: 14px;
+  box-shadow: 4px 0px 2px -2px rgba(0, 0, 0, 0.25) inset,
+    -4px 0px 2px -2px rgba(0, 0, 0, 0.25) inset;
+}
+
+/* Estilo para quando o campo está em foco */
+.profileInput:focus,
+.profileInput2:focus {
+  outline: none;
+  border-color: #4e5b58;
+}
+
+.edtSave,
+.edtCancel {
+  border: solid 1px transparent;
+  border-top-style: none;
+  border-radius: 9px;
+  min-width: 110px;
+  min-height: 25px;
+  padding: 0.3em;
+  background: #8f9f9c38;
+  color: #3e4947d0;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 4px -1px 2px -2px rgba(0, 0, 0, 0.25) inset,
+    -4px -4px 2px -1px rgba(0, 0, 0, 0.25) inset;
+  transition: ease-in 0.2s;
+}
+
+.edtSave:hover,
+.edtCancel:hover {
+  background: #abb1b099;
+  transform: scale(0.9);
+  cursor: pointer;
+  color: #02020281;
+}
+
+.documentsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 32px;
+}
+
+.errorContainer {
+  display: flex;
+  gap: 0.4rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: inherit;
+  height: inherit;
+  min-height: 600px;
+}
+
+.openModal {
+  width: 171px;
+  height: 39px;
+  background: #a0b0ac;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: #4e5b58;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: ease-in-out 0.3s;
+  margin-top: 3rem;
+}
+
+@media (max-width: 720px) {
+  .container {
+    height: inherit;
+    width: 100%;
+  }
+
+  .title1 {
+    font-size: 1.5rem;
+    padding: 1em 0;
+    line-height: 132%;
+  }
+
+  .profile {
+    grid-template-columns: 1fr;
+  }
+
+  .profileInput2 {
+    width: 90%;
+  }
+
+  .documentsHeader {
+    flex-direction: column;
+  }
+}
