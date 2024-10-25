@@ -11,7 +11,7 @@ const Verification = () => {
           <p>Verifique seu e-mail</p>
           <img
             className={style.check}
-            src="@/src/assets/check.png"
+            src="src/assets/check.png"
             alt="Imagem de check"
           />
           <Link className={style.back} to="/">
