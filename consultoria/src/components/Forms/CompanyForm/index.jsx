@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useClient } from "@hooks/useClient";
 
 import { formatCpfCnpj } from "@/helpers/maskValues";
 
@@ -10,7 +11,9 @@ import { Loading } from "@/components/Loading";
 
 import style from "@/components/Forms/CompanyForm/CompanyForm.module.css";
 
-export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
+export const CompanyForm = ({ label }) => {
+  const { clients } = useClient();
+  const { postData } = useFetch();
   const [message, setMessage] = useState("");
   console.log(clients);
   useEffect(() => {
@@ -32,7 +35,6 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
       zipcode: "",
     },
   });
-  const { postData } = useFetch();
 
   console.log("Errors:", errors); // Adicionando log para os erros
 
@@ -51,7 +53,6 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
       }
 
       setMessage("Empresa cadastrada com sucesso!");
-      handleFormSubmit();
     } catch ({ message }) {
       setMessage(message);
     }
@@ -113,7 +114,7 @@ export const CompanyForm = ({ clients, handleFormSubmit, label }) => {
                 Selecione uma empresa
               </option>
               {clients?.map(({ id, name }) => (
-                <option key={id} value={id} disabled={id ? "" : "disabled"}>
+                <option key={id} value={id} disabled={!id ? "disabled" : ""}>
                   {id ? name : "carregando..."}
                 </option>
               ))}

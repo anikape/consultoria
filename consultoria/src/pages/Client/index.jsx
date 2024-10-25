@@ -18,23 +18,25 @@ import Footer from "@components/Footer";
 import LoadingSpinner from "@components/LoadingSpinner";
 
 import style from "@pages/Client/client.module.css";
+import { ClientProvider } from "@/contexts/Client/ClientContext";
+import { useClient } from "@hooks/useClient";
 
 const Client = () => {
-  const { ["data"]: clients, loading, error, request } = useData(false);
+  const { loading, error, request } = useData(false);
+  const { clients, loadClients } = useClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredClients, setFilteredClients] = useState([]);
 
   const loadData = async () => {
-    await request("get", "client", { withCredentials: true });
-  };
+    const response = await request("get", "client", { withCredentials: true });
+    const clientsList = response.json;
 
-  const onSubmitModalForm = () => {
-    loadData();
+    await loadClients(clientsList);
   };
 
   useEffect(() => {
     loadData();
-  }, [request]);
+  }, []);
 
   const findClients = (search) => {
     const result = [];
@@ -42,7 +44,7 @@ const Client = () => {
   };
 
   useEffect(() => {
-    if (clients) {
+    if (clients && clients.length > 0) {
       setFilteredClients(
         clients.filter((client) => {
           const hasName =
@@ -56,10 +58,10 @@ const Client = () => {
   }, [clients, searchTerm]);
 
   useEffect(() => {
-    console.log("Loading:", loading);
-    console.log("Clients:", clients);
-    console.log("Filtered Clients:", filteredClients);
-    console.log("Search Term:", searchTerm);
+    // console.log("Loading:", loading);
+    // console.log("Clients:", clients);
+    // console.log("Filtered Clients:", filteredClients);
+    // console.log("Search Term:", searchTerm);
   }, [loading, clients, filteredClients, searchTerm]);
 
   if (loading && !clients) {
@@ -93,7 +95,7 @@ const Client = () => {
                     </Modal.Button>
                     <Modal.Body>
                       <Modal.Content label="Cadastrar clientes">
-                        <ClientForm handleFormSubmit={onSubmitModalForm} />
+                        <ClientForm />
                       </Modal.Content>
                     </Modal.Body>
                   </Modal.Context>
@@ -105,10 +107,7 @@ const Client = () => {
                     </Modal.Button>
                     <Modal.Body>
                       <Modal.Content label="Cadastrar empresas">
-                        <CompanyForm
-                          handleFormSubmit={onSubmitModalForm}
-                          clients={clients}
-                        />
+                        <CompanyForm />
                       </Modal.Content>
                     </Modal.Body>
                   </Modal.Context>
@@ -130,10 +129,12 @@ const Client = () => {
               </div> */}
             </div>
             <section className={style.contentClientList}>
-              {loading ? (
+              {loading && !clients ? (
                 <LoadingSpinner />
               ) : (
-                <ClientsList.Container data={sortedClients} />
+                <ClientProvider>
+                  <ClientsList.Container data={sortedClients} />
+                </ClientProvider>
               )}
             </section>
           </div>

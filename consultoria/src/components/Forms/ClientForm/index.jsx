@@ -1,14 +1,25 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useFetch } from "@/hooks/useFetch";
+import { useModal } from "@/components/Modal/ModalContext";
+import { useClient } from "@hooks/useClient";
+
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Input } from "@/components/Input";
-import { useModal } from "@/components/Modal/ModalContext";
+
 import style from "@/components/Forms/ClientForm/ClientForm.module.css";
 
-export const ClientForm = ({ handleFormSubmit }) => {
+export const ClientForm = () => {
+  const { addClient } = useClient();
   const { closeModal } = useModal();
+  const { postData } = useFetch();
   const [message, setMessage] = useState("");
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,26 +29,19 @@ export const ClientForm = ({ handleFormSubmit }) => {
     return () => clearTimeout(timer);
   }, [message]);
 
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formState: { isSubmitting, errors },
-  } = useForm();
-
-  const { postData } = useFetch();
-
   const onSubmit = async (data) => {
     try {
-      const { response, status } = await postData("client", data);
+      const response = await postData("client", data);
 
-      if (status !== 201) {
+      if (response.status !== 201) {
         setMessage(response.data);
         throw new Error(response.data);
       }
 
+      const newClient = response.data;
+      addClient(newClient);
       setMessage("Cliente cadastrado com sucesso!");
-      handleFormSubmit();
+
       closeModal();
     } catch ({ message }) {
       setMessage(message);
@@ -46,7 +50,7 @@ export const ClientForm = ({ handleFormSubmit }) => {
 
   return (
     <>
-      <div>{message}</div>
+      <div className={style.errorMessage}>{message}</div>
 
       <form className={style.formContent} onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -112,7 +116,7 @@ export const ClientForm = ({ handleFormSubmit }) => {
                 {isSubmitting ? "Cadastrando..." : "Cadastrar"}
               </button>
               <button className={style.button2} type="reset" onClick={reset}>
-               Limpar
+                Limpar
               </button>
             </>
           )}

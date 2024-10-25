@@ -346,6 +346,12 @@ button {
   padding: 1rem;
 }
 
+.errorMessage {
+  padding: 1rem 0;
+  color: rgb(177, 61, 61);
+  text-align: center;
+}
+
 @media (max-width: 710px) {
   .container {
     width: 100%;
