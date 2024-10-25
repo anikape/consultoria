@@ -5,23 +5,28 @@ import { useForm } from "react-hook-form";
 import { RiHomeHeartLine } from "react-icons/ri";
 import { FaUserGroup } from "react-icons/fa6";
 
-import { useData } from "@/hooks/useData";
-import { useFetch } from "@/hooks/useFetch";
+import { useData } from "@hooks/useData";
+import { useFetch } from "@hooks/useFetch";
+import { useClient } from "@hooks/useClient";
 
-import LoadingSpinner from "@/components/LoadingSpinner";
-import { Input } from "@/components/Input";
-import ErrorComponent from "@/components/ErrorComponente";
-import Footer from "@/components/Footer";
+import LoadingSpinner from "@components/LoadingSpinner";
+import { Input } from "@components/Input";
+import ErrorComponent from "@components/ErrorComponente";
+import Footer from "@components/Footer";
 
-import style from "@/pages/ClientProfile/ClientProfile.module.css";
+import style from "@pages/ClientProfile/ClientProfile.module.css";
 
 const ClientProfile = () => {
   const [message, setMessage] = useState("");
   const [editable, setEditable] = useState(false);
+  const { editClient } = useClient();
 
   const { id } = useParams();
   const { deleteClient, editData } = useFetch(); // Adicione deleteClient aqui
   const { ["data"]: client, loading, error, request } = useData();
+
+  const loadData = async () =>
+    await request("GET", `client/${id}`, { withCredentials: true });
 
   useEffect(() => {
     loadData();
@@ -34,9 +39,6 @@ const ClientProfile = () => {
 
     return () => clearTimeout(timer);
   }, [message]);
-
-  const loadData = async () =>
-    await request("GET", `client/${id}`, { withCredentials: true });
 
   const {
     register,
@@ -66,8 +68,10 @@ const ClientProfile = () => {
         setMessage(response.data.errors[0]);
         throw new Error(response.data.errors[0]);
       }
+
+      editClient(data);
       setMessage("Cadastro atualizado com sucesso!");
-      loadData();
+
       setEditable(false);
     } catch ({ message }) {
       setMessage(message);
