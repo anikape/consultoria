@@ -19,7 +19,7 @@ import style from "@pages/ClientProfile/ClientProfile.module.css";
 const ClientProfile = () => {
   const [message, setMessage] = useState("");
   const [editable, setEditable] = useState(false);
-  const { editClient } = useClient();
+  const { editClient, removeClient } = useClient();
 
   const { id } = useParams();
   const { deleteClient, editData } = useFetch(); // Adicione deleteClient aqui
@@ -85,13 +85,13 @@ const ClientProfile = () => {
 
     try {
       if (userConfirmed) {
-        const { response, status } = await deleteClient(id);
-        if (status === 200) {
-          setMessage("Cliente excluído com sucesso!");
-          // Aqui você pode redirecionar ou fazer qualquer outra coisa após a exclusão bem-sucedida
-        } else {
+        const response = await deleteClient(id);
+
+        if (response.status !== 204) {
           setMessage(response.data.errors[0]);
         }
+        await removeClient(id);
+        setMessage("Cliente excluído com sucesso!");
       } else {
         console.log("Operação de exclusão cancelada pelo usuário.");
       }

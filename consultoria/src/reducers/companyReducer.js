@@ -1,4 +1,4 @@
-export const clientReducer = (state, action) => {
+export const companyReducer = (state, action) => {
   switch (action.type) {
     case "add":
       return [...state, action.payload];
