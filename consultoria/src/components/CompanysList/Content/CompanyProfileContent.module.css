@@ -62,7 +62,7 @@
 }
 
 .modalContainer {
-  background-image: url("@/src/assets/bgOpaco.png");
+  background-image: url("@/assets/bgOpaco.png");
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
