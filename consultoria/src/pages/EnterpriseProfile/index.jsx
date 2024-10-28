@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-import { useData } from "@/hooks/useData";
 import { useForm } from "react-hook-form";
-import { useFetch } from "@/hooks/useFetch";
-
 import { RiHomeHeartLine } from "react-icons/ri";
 import { FaUserGroup } from "react-icons/fa6";
 
-import Footer from "@/components/Footer";
-import { DocumentWrapper } from "@/components/DocumentWrapper";
-import { Input } from "@/components/Input";
+import { useData } from "@hooks/useData";
+import { useFetch } from "@hooks/useFetch";
 
-import style from "@/pages/EnterpriseProfile/enterprise.module.css";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import { DocumentWrapper } from "@components/DocumentWrapper";
+import { Input } from "@components/Input";
+import LoadingSpinner from "@components/LoadingSpinner";
+import Footer from "@components/Footer";
+
+import style from "@pages/EnterpriseProfile/enterprise.module.css";
 
 const EntrepriseProfile = () => {
   const [message, setMessage] = useState("");

@@ -8,10 +8,11 @@ import del from "@/assets/delete.png";
 import user2 from "@/assets/user2.png";
 
 import { AuthContext } from "@contexts/Auth/AuthContext";
-import { useFetch } from "@/hooks/useFetch";
+
+import { useFetch } from "@hooks/useFetch";
+import { useAdmin } from "@hooks/useAdmin";
 
 import style from "@components/AdminProfile/adm.module.css";
-import { useAdmin } from "@/hooks/useAdmin";
 
 const AdminProfile = () => {
   const auth = useContext(AuthContext);

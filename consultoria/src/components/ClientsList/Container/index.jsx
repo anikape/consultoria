@@ -3,13 +3,24 @@ import { useData } from "@hooks/useData";
 import { ClientsList } from "@components/ClientsList";
 import { CompanysList } from "@components/CompanysList";
 import { Loading } from "@components/Loading";
+import { useCompany } from "@hooks/useCompany";
 
-export const Container = ({ data }) => {
-  const { ["data"]: companys, loading, error, request } = useData();
+export const Container = ({ clients }) => {
+  const { data, loading, error, request } = useData();
+  const { companys, loadCompanys } = useCompany();
+
+  const loadData = async () => {
+    const response = await request("get", "company", { withCredentials: true });
+    const companysList = response.json;
+    // console.log(response);
+    // console.log(companys);
+
+    await loadCompanys(companysList);
+  };
 
   useEffect(() => {
-    request("get", "company", { withCredentials: true });
-  }, [request]);
+    loadData();
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -21,11 +32,13 @@ export const Container = ({ data }) => {
 
   return (
     <>
-      {data.map((client) => (
+      {clients?.map((client) => (
         <ClientsList.Content key={client.id}>
           <ClientsList.Button client={client} key={client.id} />
           <ClientsList.Company>
-            <CompanysList.Profile client={client} companys={companys} />
+            {!loading && (
+              <CompanysList.Profile client={client} companys={companys} />
+            )}
           </ClientsList.Company>
         </ClientsList.Content>
       ))}

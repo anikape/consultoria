@@ -6,6 +6,7 @@ import { HiMiniUserPlus, HiUsers } from "react-icons/hi2";
 import { RiHomeHeartLine } from "react-icons/ri";
 
 import { useData } from "@hooks/useData";
+import { useClient } from "@hooks/useClient";
 
 import { ClientsList } from "@components/ClientsList";
 import { ClientForm } from "@components/Forms/ClientForm";
@@ -13,13 +14,10 @@ import { CompanyForm } from "@components/Forms/CompanyForm";
 import { Loading } from "@components/Loading";
 import { Modal } from "@components/Modal";
 import { Navigation } from "@components/Navigation";
-
 import Footer from "@components/Footer";
 import LoadingSpinner from "@components/LoadingSpinner";
 
 import style from "@pages/Client/client.module.css";
-import { ClientProvider } from "@/contexts/Client/ClientContext";
-import { useClient } from "@hooks/useClient";
 
 const Client = () => {
   const { loading, error, request } = useData(false);
@@ -46,7 +44,7 @@ const Client = () => {
   useEffect(() => {
     if (clients && clients.length > 0) {
       setFilteredClients(
-        clients.filter((client) => {
+        clients?.filter((client) => {
           const hasName =
             client.name &&
             client.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -132,9 +130,7 @@ const Client = () => {
               {loading && !clients ? (
                 <LoadingSpinner />
               ) : (
-                <ClientProvider>
-                  <ClientsList.Container data={sortedClients} />
-                </ClientProvider>
+                <ClientsList.Container clients={sortedClients} />
               )}
             </section>
           </div>

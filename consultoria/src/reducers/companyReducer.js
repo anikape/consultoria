@@ -1,20 +1,20 @@
 export const companyReducer = (state, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case "add":
-      return [...state, action.payload];
+      return [...state, payload];
 
     case "remove":
-      return state.filter((client) => client.id !== action.payload.id);
+      return state.filter((company) => company.id !== payload.id);
 
     case "edit":
-      return state.map((client) =>
-        client.id === action.payload.id
-          ? { ...client, ...action.payload.data }
-          : client
+      return state.map((company) =>
+        company.id === payload.id ? { ...company, ...payload.data } : company
       );
 
     case "load":
-      return action.payload;
+      return payload;
 
     default:
       return state;
