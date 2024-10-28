@@ -1,9 +1,9 @@
 import { api } from "@/services/api";
 
 export const useFetch = () => ({
-  getData: async (endpoint) => {
+  getData: async (endpoint, body = "") => {
     try {
-      const response = await api.get(endpoint, {
+      const response = await api.get(endpoint, body, {
         withCredentials: true,
       });
 

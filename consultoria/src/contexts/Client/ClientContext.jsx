@@ -1,9 +1,9 @@
 import { clientReducer } from "@/reducers/clientReducer";
 import { createContext, useReducer } from "react";
 
-export const ClientContext = createContext(null);
+const ClientContext = createContext(null);
 
-export const ClientProvider = ({ children }) => {
+const ClientProvider = ({ children }) => {
   const [clients, dispatch] = useReducer(clientReducer, []);
 
   const addClient = (client) => dispatch({ type: "add", payload: client });
@@ -20,4 +20,4 @@ export const ClientProvider = ({ children }) => {
   );
 };
 
-// export { ClientProvider, ClientContext };
+export { ClientProvider, ClientContext };
