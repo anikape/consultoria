@@ -202,14 +202,12 @@ const ClientProfile = () => {
                       )}
 
                       {!editable && (
-                        <Link to="/client" className={style.edtSave}>
-                          <button
-                            className={style.edtSave}
-                            onClick={handleDelete}
-                          >
-                            Excluir
-                          </button>
-                        </Link>
+                        <button
+                          className={style.edtSave}
+                          onClick={handleDelete}
+                        >
+                          Excluir
+                        </button>
                       )}
                       {editable && (
                         <button
