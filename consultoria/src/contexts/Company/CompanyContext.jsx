@@ -4,7 +4,7 @@ import { createContext, useReducer } from "react";
 const CompanyContext = createContext(null);
 
 const CompanyProvider = ({ children }) => {
-  const [companys, dispatch] = useReducer(companyReducer, []);
+  const [companyList, dispatch] = useReducer(companyReducer, []);
 
   const addCompany = (company) => dispatch({ type: "add", payload: company });
   const removeCompany = (id) => dispatch({ type: "remove", payload: { id } });
@@ -14,7 +14,13 @@ const CompanyProvider = ({ children }) => {
 
   return (
     <CompanyContext.Provider
-      value={{ companys, addCompany, removeCompany, editCompany, loadCompanys }}
+      value={{
+        companyList,
+        addCompany,
+        removeCompany,
+        editCompany,
+        loadCompanys,
+      }}
     >
       {children}
     </CompanyContext.Provider>

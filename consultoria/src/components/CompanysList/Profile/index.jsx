@@ -3,7 +3,6 @@ import { CompanysList } from "@components/CompanysList";
 import style from "@components/CompanysList/Profile/CompanyProfile.module.css";
 
 export const Profile = ({ client, companys }) => {
-  console.log(companys);
   return (
     <>
       {companys

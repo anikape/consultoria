@@ -7,15 +7,11 @@ import { useCompany } from "@hooks/useCompany";
 
 export const Container = ({ clients }) => {
   const { data, loading, error, request } = useData();
-  const { companys, loadCompanys } = useCompany();
+  const { companyList, loadCompanys } = useCompany();
 
   const loadData = async () => {
     const response = await request("get", "company", { withCredentials: true });
-    const companysList = response.json;
-    // console.log(response);
-    // console.log(companys);
-
-    await loadCompanys(companysList);
+    await loadCompanys(response.json);
   };
 
   useEffect(() => {
@@ -26,7 +22,7 @@ export const Container = ({ clients }) => {
     return <Loading />;
   }
 
-  if (companys === null) {
+  if (companyList === null) {
     return null;
   }
 
@@ -37,7 +33,7 @@ export const Container = ({ clients }) => {
           <ClientsList.Button client={client} key={client.id} />
           <ClientsList.Company>
             {!loading && (
-              <CompanysList.Profile client={client} companys={companys} />
+              <CompanysList.Profile client={client} companys={companyList} />
             )}
           </ClientsList.Company>
         </ClientsList.Content>

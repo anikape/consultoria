@@ -20,32 +20,18 @@ const ClientProfile = () => {
   const [message, setMessage] = useState("");
   const [editable, setEditable] = useState(false);
   const { editClient, removeClient } = useClient();
-
-  const { id } = useParams();
   const { deleteClient, editData } = useFetch(); // Adicione deleteClient aqui
+  const { id } = useParams();
   const { ["data"]: client, loading, error, request } = useData();
-
-  const loadData = async () =>
-    await request("GET", `client/${id}`, { withCredentials: true });
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessage("");
-    }, 4000);
-
-    return () => clearTimeout(timer);
-  }, [message]);
-
   const {
     register,
     handleSubmit,
     setValue,
     formState: { isSubmitting, errors },
   } = useForm();
+
+  const loadData = async () =>
+    await request("GET", `client/${id}`, { withCredentials: true });
 
   const handleEdit = () => {
     setEditable(true);
@@ -56,10 +42,7 @@ const ClientProfile = () => {
   };
 
   const onSubmit = async (data) => {
-    data = {
-      ...data,
-      id,
-    };
+    data = { ...data, id };
 
     try {
       const { response, status } = await editData(`client/${id}`, data);
@@ -99,6 +82,18 @@ const ClientProfile = () => {
       console.error("Erro ao excluir cliente:", error);
     }
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
 
   return (
     <main className={style.container}>
