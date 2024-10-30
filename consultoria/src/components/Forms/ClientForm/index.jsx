@@ -34,8 +34,8 @@ export const ClientForm = () => {
       const response = await postData("client", data);
 
       if (response.status !== 201) {
-        setMessage(response.data);
-        throw new Error(response.data);
+        setMessage(response.response.data);
+        throw new Error(response.response.data);
       }
 
       const newClient = response.data;

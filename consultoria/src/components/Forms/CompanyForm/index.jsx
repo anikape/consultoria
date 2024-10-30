@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { useClient } from "@hooks/useClient";
 import { useCompany } from "@hooks/useCompany";
+import { useModal } from "@components/Modal/ModalContext";
 import { formatCpfCnpj } from "@helpers/maskValues";
 
 import { Input } from "@components/Input";
@@ -16,6 +17,7 @@ export const CompanyForm = ({ label }) => {
   const { addCompany } = useCompany();
   const { clientList } = useClient();
   const { postData } = useFetch();
+  const { closeModal } = useModal();
   const [message, setMessage] = useState("");
   const {
     setValue,
@@ -62,16 +64,16 @@ export const CompanyForm = ({ label }) => {
 
     try {
       const response = await postData("company", data);
-
+      console.log(response);
       if (response.status !== 201) {
-        setMessage(response.data);
-        throw new Error(response.data);
+        setMessage(response.response.data);
+        throw new Error(response.response.data);
       }
 
       const newCompany = response.data;
       addCompany(newCompany);
-      console.log(response);
       setMessage("Empresa cadastrada com sucesso!");
+      closeModal();
     } catch ({ message }) {
       setMessage(message);
     }

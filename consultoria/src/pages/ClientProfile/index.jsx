@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { RiHomeHeartLine } from "react-icons/ri";
@@ -20,6 +20,7 @@ const ClientProfile = () => {
   const { editClient, removeClient, loadClients, clientList } = useClient();
   const { deleteClient, editData } = useFetch(); // Adicione deleteClient aqui
   const { id } = useParams();
+  const navigate = useNavigate();
   const { loading, error, request } = useData();
   const {
     register,
@@ -96,6 +97,7 @@ const ClientProfile = () => {
       await removeClient(id);
       setMessage("Cliente excluído com sucesso!");
       loadClients([]);
+      navigate("/client");
     } catch (error) {
       setMessage("Erro ao excluir cliente");
       console.error("Erro ao excluir cliente:", error);
