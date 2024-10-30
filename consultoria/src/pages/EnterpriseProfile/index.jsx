@@ -21,6 +21,7 @@ const EntrepriseProfile = () => {
   const [editable, setEditable] = useState(false);
   const { deleteCompany, editData } = useFetch();
   const { editCompany, companyList, loadCompanys } = useCompany();
+  const { loading, error, request } = useData();
   const { id } = useParams();
   const navigate = useNavigate();
   const {
@@ -29,14 +30,23 @@ const EntrepriseProfile = () => {
     setValue,
     formState: { isSubmitting, errors },
   } = useForm();
-  const { loading, error, request } = useData();
 
   const loadData = async () => {
-    const response = await request("GET", `company/${id}`, {
-      withCredentials: true,
-    });
-    const company = response.json;
-    await loadCompanys([company]);
+    try {
+      const { response, json } = await request("GET", `company/${id}`, {
+        withCredentials: true,
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Não foi possivel obter os dados");
+      }
+
+      const company = json;
+
+      await loadCompanys([company]);
+    } catch (error) {
+      loadCompanys([]);
+    }
   };
 
   useEffect(() => {
@@ -104,20 +114,22 @@ const EntrepriseProfile = () => {
     );
 
     try {
-      if (userConfirmed) {
-        const { response, status } = await deleteCompany(id);
-        console.log(response); // Adicione este console.log para depurar
-        if (status === 200) {
-          setMessage("Empresa excluída com sucesso!");
-          // window.location.href = "/client"; // Redireciona para a rota /client após a exclusão
-          navigate("/client");
-        } else {
-          setMessage(response.data.errors[0]);
-        }
-      } else {
-        console.log("Operação de exclusão cancelada pelo usuário.");
+      if (!userConfirmed) {
+        setMessage("Operação de exclusão cancelada pelo usuário.");
+        return;
       }
+
+      const { response, status } = await deleteCompany(id);
+
+      if (status !== 204) {
+        throw new Error(response.data.errors[0]);
+      }
+
+      setMessage("Empresa excluída com sucesso!");
+      loadCompanys([]);
+      navigate("/client");
     } catch (error) {
+      setMessage("Erro ao excluir empresa");
       console.error("Erro ao excluir empresa:", error);
     }
   };
@@ -140,7 +152,7 @@ const EntrepriseProfile = () => {
             </Link>
           </div>
 
-          {!companyList && error && (
+          {companyList.length <= 0 && error && (
             <>
               <div className={style.errorContainer}>
                 <h1>Empresa não encontrada</h1>
@@ -149,9 +161,9 @@ const EntrepriseProfile = () => {
             </>
           )}
 
-          {loading && !companyList && <p>Carregando...</p>}
+          {loading && <LoadingSpinner />}
 
-          {companyList &&
+          {companyList.length > 0 &&
             !error &&
             !loading &&
             companyList?.map((company) => (
@@ -160,7 +172,7 @@ const EntrepriseProfile = () => {
                   {company.companyName}
                 </h1>
 
-                <p>{message}</p>
+                <p className={style.message}>{message}</p>
 
                 <section className={style.formContainer}>
                   <form onSubmit={handleSubmit(onSubmit)}>
@@ -168,7 +180,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Nome da empresa</h2>
                         {editable ? (
-                          <Input {...register("companyName")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.companyName}
+                              {...register("companyName")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.companyName}
@@ -178,7 +195,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>CPF/CNPJ</h2>
                         {editable ? (
-                          <Input {...register("cnpj")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.cnpj}
+                              {...register("cnpj")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.cnpj}
@@ -188,7 +210,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Ramo de atividade</h2>
                         {editable ? (
-                          <Input {...register("mainActivity")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.mainActivity}
+                              {...register("mainActivity")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.mainActivity}
@@ -198,7 +225,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>CNAE</h2>
                         {editable ? (
-                          <Input {...register("cnae")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.cnae}
+                              {...register("cnae")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.cnae}
@@ -208,7 +240,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>E-mail</h2>
                         {editable ? (
-                          <Input {...register("email")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.email}
+                              {...register("email")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.email}
@@ -218,7 +255,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Telefone Celular</h2>
                         {editable ? (
-                          <Input {...register("cellphone")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.cellphone}
+                              {...register("cellphone")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.cellphone}
@@ -228,7 +270,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Telefone Fixo</h2>
                         {editable ? (
-                          <Input {...register("phone")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.phone}
+                              {...register("phone")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.phone}
@@ -239,7 +286,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Rua/Logradouro</h2>
                         {editable ? (
-                          <Input {...register("address")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.address}
+                              {...register("address")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput2}>
                             {company.address}
@@ -249,7 +301,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Bairro</h2>
                         {editable ? (
-                          <Input {...register("district")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.district}
+                              {...register("district")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.district}
@@ -259,7 +316,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Complemento</h2>
                         {editable ? (
-                          <Input {...register("addressComplement")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.addressComplement}
+                              {...register("addressComplement")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.complemento}
@@ -269,7 +331,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Cidade</h2>
                         {editable ? (
-                          <Input {...register("city")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.city}
+                              {...register("city")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.city}
@@ -279,7 +346,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>UF</h2>
                         {editable ? (
-                          <Input {...register("state")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.state}
+                              {...register("state")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.state}
@@ -289,7 +361,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>CEP</h2>
                         {editable ? (
-                          <Input {...register("zipcode")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.zipcode}
+                              {...register("zipcode")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.zipcode}
@@ -299,7 +376,12 @@ const EntrepriseProfile = () => {
                       <div className={style.profileItem}>
                         <h2>Comentários</h2>
                         {editable ? (
-                          <Input {...register("comments")} />
+                          <span className={style.profileInput}>
+                            <input
+                              defaultValue={company.comments}
+                              {...register("comments")}
+                            />
+                          </span>
                         ) : (
                           <span className={style.profileInput}>
                             {company.comments}
@@ -326,6 +408,7 @@ const EntrepriseProfile = () => {
                                   <button
                                     className={style.edtCancel}
                                     onClick={handleDelete}
+                                    type="button"
                                   >
                                     Excluir
                                   </button>

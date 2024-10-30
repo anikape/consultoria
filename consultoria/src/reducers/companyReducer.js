@@ -3,7 +3,7 @@ export const companyReducer = (state, action) => {
 
   switch (type) {
     case "add":
-      return { ...state, payload };
+      return [...state, payload];
 
     case "remove":
       return state.filter((company) => company.id !== payload.id);

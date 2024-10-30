@@ -90,7 +90,6 @@
   line-height: 214%;
   color: #363f3dde;
   text-shadow: 0px 2px 2px rgba(115, 112, 112, 0.25);
-  padding-bottom: 2.5rem;
 }
 
 .subtitle {
@@ -118,6 +117,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 0.6rem 4rem;
   padding-bottom: 3.5em;
+  padding-top: 2rem;
 }
 
 .profileItem {
@@ -139,6 +139,20 @@
   font-size: 14px;
   box-shadow: 4px 0px 2px -2px rgba(0, 0, 0, 0.25) inset,
     -4px 0px 2px -2px rgba(0, 0, 0, 0.25) inset;
+}
+
+.profileInput input {
+  background-color: #eefffc;
+  border: none;
+  width: 100%;
+  padding: 2px;
+}
+
+.message {
+  color: #1c3314;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
 }
 
 /* Estilo para quando o campo está em foco */

@@ -14,7 +14,7 @@ import style from "@components/Forms/CompanyForm/CompanyForm.module.css";
 
 export const CompanyForm = ({ label }) => {
   const { addCompany } = useCompany();
-  const { clients } = useClient();
+  const { clientList } = useClient();
   const { postData } = useFetch();
   const [message, setMessage] = useState("");
   const {
@@ -92,7 +92,7 @@ export const CompanyForm = ({ label }) => {
     return () => clearTimeout(timer);
   }, [message]);
 
-  if (clients === null) {
+  if (clientList === null) {
     return null;
   }
 
@@ -113,7 +113,7 @@ export const CompanyForm = ({ label }) => {
                 <option value="" disabled>
                   Selecione uma empresa
                 </option>
-                {clients?.map(({ id, name }) => (
+                {clientList?.map(({ id, name }) => (
                   <option key={id} value={id} disabled={!id ? "disabled" : ""}>
                     {id ? name : "carregando..."}
                   </option>
