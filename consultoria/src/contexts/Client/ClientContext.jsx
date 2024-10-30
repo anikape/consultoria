@@ -4,7 +4,7 @@ import { createContext, useReducer } from "react";
 const ClientContext = createContext(null);
 
 const ClientProvider = ({ children }) => {
-  const [clients, dispatch] = useReducer(clientReducer, []);
+  const [clientList, dispatch] = useReducer(clientReducer, []);
 
   const addClient = (client) => dispatch({ type: "add", payload: client });
   const removeClient = (id) => dispatch({ type: "remove", payload: { id } });
@@ -13,7 +13,7 @@ const ClientProvider = ({ children }) => {
 
   return (
     <ClientContext.Provider
-      value={{ clients, addClient, removeClient, editClient, loadClients }}
+      value={{ clientList, addClient, removeClient, editClient, loadClients }}
     >
       {children}
     </ClientContext.Provider>

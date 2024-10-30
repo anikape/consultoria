@@ -19,10 +19,10 @@ import style from "@pages/ClientProfile/ClientProfile.module.css";
 const ClientProfile = () => {
   const [message, setMessage] = useState("");
   const [editable, setEditable] = useState(false);
-  const { editClient, removeClient } = useClient();
+  const { editClient, removeClient, loadClients, clientList } = useClient();
   const { deleteClient, editData } = useFetch(); // Adicione deleteClient aqui
   const { id } = useParams();
-  const { ["data"]: client, loading, error, request } = useData();
+  const { loading, error, request } = useData();
   const {
     register,
     handleSubmit,
@@ -30,10 +30,15 @@ const ClientProfile = () => {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const loadData = async () =>
-    await request("GET", `client/${id}`, { withCredentials: true });
+  const loadData = async () => {
+    const response = await request("GET", `client/${id}`, {
+      withCredentials: true,
+    });
+    const client = response.json;
+    await loadClients([client]);
+  };
 
-  const handleEdit = () => {
+  const handleEdit = (client) => {
     setEditable(true);
     setValue("name", client.name);
     setValue("cpf", client.cpf);
@@ -45,14 +50,16 @@ const ClientProfile = () => {
     data = { ...data, id };
 
     try {
-      const { response, status } = await editData(`client/${id}`, data);
+      const response = await editData(`client/${id}`, data);
 
-      if (status !== 200) {
+      if (response.status !== 200) {
         setMessage(response.data.errors[0]);
         throw new Error(response.data.errors[0]);
       }
 
-      editClient(data);
+      const editedClient = response.data;
+
+      editClient(editedClient);
       setMessage("Cadastro atualizado com sucesso!");
 
       setEditable(false);
@@ -112,7 +119,7 @@ const ClientProfile = () => {
           </Link>
         </div>
 
-        {!client && error && (
+        {!clientList && error && (
           <>
             <div className={style.errorContainer}>
               <h1>Cliente não encontrado</h1>
@@ -121,102 +128,112 @@ const ClientProfile = () => {
           </>
         )}
 
-        {client && !error && !loading && (
+        {clientList && !error && !loading && (
           <>
-            <h1 className={style.title1}>{client.name}</h1>
-
-            <section className={style.profile}>
-              {message}
-              <form
-                className={style.editForm}
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <div className={style.profileItem}>
-                  <h2>Nome</h2>
-                  {editable ? (
-                    <Input {...register("name")} />
-                  ) : (
-                    <span className={style.clientInput}>{client.name}</span>
-                  )}
-                </div>
-                <div className={style.profileItem}>
-                  <h2>CPF</h2>
-                  {editable ? (
-                    <Input
-                      name="cpf"
-                      {...register("cpf", { required: "Campo Obrigatório" })}
-                      error={errors.cpf?.message}
-                    />
-                  ) : (
-                    <span id="input1" className={style.clientInput}>
-                      {client.cpf}
-                    </span>
-                  )}
-                </div>
-
-                <div className={style.profileItem}>
-                  <h2>E-mail</h2>
-                  {editable ? (
-                    <>
-                      <Input
-                        {...register("email", {
-                          required: "Campo obrigatório",
-                        })}
-                        error={errors.email?.message}
-                      />
-                    </>
-                  ) : (
-                    <span className={style.clientInput}>{client.email}</span>
-                  )}
-                </div>
-
-                <div className={style.profileItem}>
-                  <h2>Telefone</h2>
-                  {editable ? (
-                    <Input {...register("phone")} />
-                  ) : (
-                    <span className={style.clientInput}>
-                      {client.phone ?? "Nenhum número cadastrado"}
-                    </span>
-                  )}
-                </div>
-                {isSubmitting ? (
-                  <LoadingSpinner />
-                ) : (
-                  <>
-                    <div className={style.groupButtons}>
-                      {!editable && (
-                        <button className={style.edtSave} onClick={handleEdit}>
-                          Editar
-                        </button>
-                      )}
-                      {editable && (
-                        <button className={style.edtSave} type="submit">
-                          Salvar
-                        </button>
-                      )}
-
-                      {!editable && (
-                        <button
-                          className={style.edtSave}
-                          onClick={handleDelete}
-                        >
-                          Excluir
-                        </button>
-                      )}
-                      {editable && (
-                        <button
-                          className={style.edtSave}
-                          onClick={() => setEditable(false)}
-                        >
-                          Cancelar
-                        </button>
+            {clientList.map((client) => (
+              <div key={client.id}>
+                <h1 className={style.title1}>{client.name}</h1>
+                <section className={style.profile}>
+                  {message}
+                  <form
+                    className={style.editForm}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <div className={style.profileItem}>
+                      <h2>Nome</h2>
+                      {editable ? (
+                        <Input {...register("name")} />
+                      ) : (
+                        <span className={style.clientInput}>{client.name}</span>
                       )}
                     </div>
-                  </>
-                )}
-              </form>
-            </section>
+                    <div className={style.profileItem}>
+                      <h2>CPF</h2>
+                      {editable ? (
+                        <Input
+                          name="cpf"
+                          {...register("cpf", {
+                            required: "Campo Obrigatório",
+                          })}
+                          error={errors.cpf?.message}
+                        />
+                      ) : (
+                        <span id="input1" className={style.clientInput}>
+                          {client.cpf}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className={style.profileItem}>
+                      <h2>E-mail</h2>
+                      {editable ? (
+                        <>
+                          <Input
+                            {...register("email", {
+                              required: "Campo obrigatório",
+                            })}
+                            error={errors.email?.message}
+                          />
+                        </>
+                      ) : (
+                        <span className={style.clientInput}>
+                          {client.email}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className={style.profileItem}>
+                      <h2>Telefone</h2>
+                      {editable ? (
+                        <Input {...register("phone")} />
+                      ) : (
+                        <span className={style.clientInput}>
+                          {client.phone ?? "Nenhum número cadastrado"}
+                        </span>
+                      )}
+                    </div>
+                    {isSubmitting ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <>
+                        <div className={style.groupButtons}>
+                          {!editable && (
+                            <button
+                              className={style.edtSave}
+                              onClick={() => handleEdit(client)}
+                            >
+                              Editar
+                            </button>
+                          )}
+                          {editable && (
+                            <button className={style.edtSave} type="submit">
+                              Salvar
+                            </button>
+                          )}
+
+                          {!editable && (
+                            <button
+                              className={style.edtSave}
+                              onClick={handleDelete}
+                            >
+                              Excluir
+                            </button>
+                          )}
+                          {editable && (
+                            <button
+                              className={style.edtSave}
+                              onClick={() => setEditable(false)}
+                            >
+                              Cancelar
+                            </button>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </form>
+                </section>
+              </div>
+            ))}
           </>
         )}
       </div>

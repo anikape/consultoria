@@ -21,15 +21,15 @@ import style from "@pages/Client/client.module.css";
 
 const Client = () => {
   const { loading, error, request } = useData(false);
-  const { clients, loadClients } = useClient();
+  const { clientList, loadClients } = useClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredClients, setFilteredClients] = useState([]);
 
   const loadData = async () => {
     const response = await request("get", "client", { withCredentials: true });
-    const clientsList = response.json;
+    const clients = response.json;
 
-    await loadClients(clientsList);
+    await loadClients(clients);
   };
 
   useEffect(() => {
@@ -42,9 +42,9 @@ const Client = () => {
   };
 
   useEffect(() => {
-    if (clients && clients.length > 0) {
+    if (clientList && clientList.length > 0) {
       setFilteredClients(
-        clients?.filter((client) => {
+        clientList?.filter((client) => {
           const hasName =
             client.name &&
             client.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -53,20 +53,20 @@ const Client = () => {
         })
       );
     }
-  }, [clients, searchTerm]);
+  }, [clientList, searchTerm]);
 
   useEffect(() => {
     // console.log("Loading:", loading);
     // console.log("Clients:", clients);
     // console.log("Filtered Clients:", filteredClients);
     // console.log("Search Term:", searchTerm);
-  }, [loading, clients, filteredClients, searchTerm]);
+  }, [loading, clientList, filteredClients, searchTerm]);
 
-  if (loading && !clients) {
+  if (loading && !clientList) {
     return <Loading />;
   }
 
-  if (clients) {
+  if (clientList) {
     const sortedClients = [...filteredClients].sort((a, b) =>
       a.name.localeCompare(b.name)
     );
@@ -127,7 +127,7 @@ const Client = () => {
               </div> */}
             </div>
             <section className={style.contentClientList}>
-              {loading && !clients ? (
+              {loading && !clientList ? (
                 <LoadingSpinner />
               ) : (
                 <ClientsList.Container clients={sortedClients} />
