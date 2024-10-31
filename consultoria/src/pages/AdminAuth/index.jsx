@@ -53,7 +53,7 @@ const AdminAuth = () => {
   };
 
   return (
-    <main>
+    <main className={style.main}>
       <section className={style.AdminAuthSection}>
         <div className={style.form}>
           <div className={style.container}>

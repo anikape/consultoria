@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext, useReducer } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import home from "@/assets/home.png";
 import userAdd from "@/assets/useradd.png";
@@ -19,6 +20,8 @@ const AdminProfile = () => {
   const { admin, addAdmin, removeAdmin, editAdmin, loadAdmin } = useAdmin();
 
   const { getData } = useFetch();
+  const { register, handleSubmit } = useForm();
+
   const adminUser = auth.user?.id;
 
   const loadData = async () => {
@@ -80,17 +83,16 @@ const AdminProfile = () => {
   };
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    // const { id, value } = e.target;
+    // setFormData((prevState) => ({
+    //   ...prevState,
+    //   [id]: value,
+    // }));
+    setIsEditing(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aqui você pode enviar os dados para salvar no banco de dados
-    setIsEditing(false);
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
@@ -114,7 +116,7 @@ const AdminProfile = () => {
               <li>
                 <Link className={style.links}>
                   <img src={del} alt="Excluir" />
-                  {""}Excluir
+                  Excluir
                 </Link>
               </li>
               <li>
@@ -129,15 +131,14 @@ const AdminProfile = () => {
         <div className={style.userData}>
           <h2 className={style.h2}>Dados do cadastro</h2>
           {/* <img src={auth.user?.img} alt="Imagem do usuário" /> */}
-          <form className={style.form} onSubmit={handleSubmit}>
+          <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label htmlFor="nome">Nome:</label>
               <input
-                type="text"
                 id="nome"
-                value={admin?.name}
-                onChange={handleChange}
+                defaultValue={admin?.name}
                 disabled={!isEditing}
+                {...register("nome")}
               />
             </div>
             <div>
@@ -145,8 +146,8 @@ const AdminProfile = () => {
               <input
                 type="email"
                 id="email"
-                value={admin?.email}
-                onChange={handleChange}
+                defaultValue={admin?.email}
+                {...register("email")}
                 disabled={!isEditing}
               />
             </div>
@@ -155,8 +156,8 @@ const AdminProfile = () => {
               <input
                 type="text"
                 id="cpf"
-                value={admin?.cpf ? admin?.cpf : "CPF não cadastrado"}
-                onChange={handleChange}
+                defaultValue={admin?.cpf}
+                {...register("cpf")}
                 disabled={!isEditing}
               />
             </div>
