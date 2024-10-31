@@ -9,7 +9,7 @@ import iconLock from "@/assets/icon_lock.svg";
 import { FaInfoCircle } from "react-icons/fa";
 
 import LoadindSpiner from "@/components/LoadingSpinner";
-import ErrorComponent from "@/components/ErrorComponente";
+import ErrorMessage from "@/components/ErrorMessage";
 import Footer from "@/components/Footer";
 
 import style from "@/pages/Signin/Signin.module.css";
@@ -73,7 +73,7 @@ const Signin = () => {
                   {...register("useremail", { required: "Campo obrigatório" })}
                   placeholder="Usuário"
                 />
-                <ErrorComponent message={errors.useremail?.message} />
+                <ErrorMessage message={errors.useremail?.message} />
               </div>
               <div className={style.inputGroup}>
                 <div className={style.icon}>
@@ -85,7 +85,7 @@ const Signin = () => {
                   {...register("password", { required: "Campo obrigatório" })}
                   placeholder="******"
                 />
-                <ErrorComponent message={errors.password?.message} />
+                <ErrorMessage message={errors.password?.message} />
               </div>
               <div className={style.actions}>
                 {loading ? (
