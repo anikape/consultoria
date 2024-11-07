@@ -95,6 +95,27 @@
   transform: scale(0.7);
 }
 
+/*Busca*/
+
+.searchContainer{
+  padding-bottom: 1em;
+}
+
+.searchInput{
+  border: none;
+  outline: none;
+  background-color: #84989337;
+  border-radius: 30px;
+  padding: 0.7em;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.3);
+}
+
+.highlight {
+  background-color: yellow; /* Ou qualquer outra cor que você preferir */
+  font-weight: bold; /* Opcional: para tornar o texto mais proeminente */
+}
+
+
 /* Ordenação*/
 .sorting {
   display: flex;
@@ -129,12 +150,9 @@
   outline: none;
 }
 
-/*Busca*/
 
-.highlight {
-  background-color: yellow; /* Ou qualquer outra cor que você preferir */
-  font-weight: bold; /* Opcional: para tornar o texto mais proeminente */
-}
+
+
 
 
 /* .home, */

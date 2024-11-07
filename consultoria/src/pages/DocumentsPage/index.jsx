@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import { FaSortUp, FaSortDown } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { RiHomeHeartLine } from "react-icons/ri";
@@ -9,7 +8,6 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 
 import { useData } from "@/hooks/useData";
 import { formatDate } from "@/helpers/formatDate";
-
 import { Loading } from "@/components/Loading";
 import Footer from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
@@ -23,7 +21,6 @@ const DocumentsPage = () => {
   const [types, setTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
-  const soonThreshold = 7;
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
@@ -31,6 +28,7 @@ const DocumentsPage = () => {
   const [sortBy, setSortBy] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
+  const soonThreshold = 7;
 
   useEffect(() => {
     loadData();
@@ -38,9 +36,7 @@ const DocumentsPage = () => {
 
   useEffect(() => {
     if (confirmationMessage) {
-      const timer = setTimeout(() => {
-        setConfirmationMessage("");
-      }, 3000);
+      const timer = setTimeout(() => setConfirmationMessage(""), 3000);
       return () => clearTimeout(timer);
     }
   }, [confirmationMessage]);
@@ -50,10 +46,6 @@ const DocumentsPage = () => {
       setShowNotification(true);
     }
   }, [documentsExpiringSoon]);
-
-  const onSubmitModalForm = () => {
-    loadData();
-  };
 
   const loadData = async () => {
     setLoading(true);
@@ -75,19 +67,15 @@ const DocumentsPage = () => {
         return differenceInDays >= 0 && differenceInDays <= soonThreshold;
       });
       setDocumentsExpiringSoon(expiringSoon);
-      setLoading(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleNotificationButtonClick = () => {
-    setShowExpiringDocuments(true);
-  };
-
-  const handleCloseExpiringDocuments = () => {
-    setShowExpiringDocuments(false);
-  };
+  const handleNotificationButtonClick = () => setShowExpiringDocuments(true);
+  const handleCloseExpiringDocuments = () => setShowExpiringDocuments(false);
 
   // Função para ordenar documentos
   const sortedDocuments = [...documents].sort((a, b) => {
@@ -102,7 +90,16 @@ const DocumentsPage = () => {
     return sortDirection === "asc" ? comparison : -comparison;
   });
 
-  // Função para destacar a palavra-chave
+  // Função de filtro para localizar documentos pelo nome ou tipo
+  const filteredDocuments = sortedDocuments.filter((document) => {
+    const searchLower = searchTerm.toLowerCase().trim();
+    return (
+      document.name?.toLowerCase().includes(searchLower) ||
+      document.type?.toLowerCase().includes(searchLower)
+    );
+  });
+
+  // Função para destacar o texto
   const highlightText = (text) => {
     if (!searchTerm) return text;
     const regex = new RegExp(`(${searchTerm})`, "gi");
@@ -117,18 +114,6 @@ const DocumentsPage = () => {
       )
     );
   };
-
-  // Função corrigida para filtrar os documentos com base no termo de busca
-  const filteredDocuments = sortedDocuments.filter((document) => {
-    if (!searchTerm) return true; // Exibe todos os documentos se o campo de busca estiver vazio
-    const searchLower = searchTerm.toLowerCase().trim(); // Remove espaços em branco
-
-    // Verifica se o termo de busca está presente em qualquer parte do nome ou tipo do documento
-    return (
-      document.name?.toLowerCase().includes(searchLower) ||
-      document.type?.toLowerCase().includes(searchLower)
-    );
-  });
 
   return (
     <section className={style.Document}>
@@ -184,7 +169,6 @@ const DocumentsPage = () => {
                 <option value="validity">Data de Vencimento</option>
               </select>
             </label>
-
             <button
               className={style.sortIcons}
               onClick={() => setSortDirection("asc")}
@@ -210,7 +194,7 @@ const DocumentsPage = () => {
                     type: highlightText(document.type),
                   }}
                   key={document._id}
-                  handleFormSubmit={onSubmitModalForm}
+                  handleFormSubmit={loadData}
                   types={types}
                 />
               ))
@@ -241,16 +225,9 @@ const DocumentsPage = () => {
       {/* Exibe mensagens de erro e loading */}
       {error && <h1>Não foi possível carregar os dados</h1>}
       {loading && <Loading />}
-      {!loading && !error && (
-        <>
-          <div>
-            {confirmationMessage && deletedDocumentId && (
-              <div>{confirmationMessage}</div>
-            )}
-          </div>
-        </>
+      {!loading && !error && confirmationMessage && (
+        <div>{confirmationMessage}</div>
       )}
-
       <Footer />
     </section>
   );
