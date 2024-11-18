@@ -1,98 +1,87 @@
-import { useState, useEffect, useContext, useReducer } from "react";
-import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-import home from "@/assets/home.png";
-import userAdd from "@/assets/useradd.png";
-import userEdit from "@/assets/useredit.png";
-import del from "@/assets/delete.png";
-import user2 from "@/assets/user2.png";
+import home from '@/assets/home.png';
+import userAdd from '@/assets/useradd.png';
+import userEdit from '@/assets/useredit.png';
+import del from '@/assets/delete.png';
 
-import { AuthContext } from "@contexts/Auth/AuthContext";
+import { AuthContext } from '@contexts/Auth/AuthContext';
+import { useFetch } from '@hooks/useFetch';
 
-import { useFetch } from "@hooks/useFetch";
-import { useAdmin } from "@hooks/useAdmin";
-
-import style from "@components/AdminProfile/adm.module.css";
+import style from '@components/AdminProfile/adm.module.css';
 
 const AdminProfile = () => {
   const auth = useContext(AuthContext);
-  const { admin, addAdmin, removeAdmin, editAdmin, loadAdmin } = useAdmin();
+  const { getData, editData } = useFetch();
+  const { register, handleSubmit, reset, setValue } = useForm();
 
-  const { getData } = useFetch();
-  const { register, handleSubmit } = useForm();
+  const [isEditing, setIsEditing] = useState(false); // Controla o modo de edição
+  const [originalData, setOriginalData] = useState(null); // Armazena os dados originais do usuário
+  const [loading, setLoading] = useState(false); // Indica se está carregando
+  const [feedback, setFeedback] = useState(''); // Mensagem de sucesso ou erro
 
-  const adminUser = auth.user?.id;
-
+  // Função para carregar os dados do usuário
   const loadData = async () => {
     try {
-      const response = await getData(
-        `admin/${auth.user?.id}`,
-        { password: "admin" },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.status !== 200) {
-        return;
+      setLoading(true);
+      const response = await getData(`admin/${auth.user?.id}`);
+      if (response.status === 200) {
+        setOriginalData(response.data); // Salva os dados originais
+        reset(response.data); // Preenche o formulário com os dados
+      } else {
+        setFeedback('Erro ao carregar os dados do administrador.');
       }
-
-      loadAdmin(response.data);
-      console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log('Erro na requisição:', error);
+      setFeedback('Erro ao buscar dados. Tente novamente.');
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Carrega os dados ao montar o componente
   useEffect(() => {
     loadData();
   }, []);
 
-  const [userData, setUserData] = useState(null);
-
-  const admData = {
-    id: 1,
-    name: auth.user?.name,
-    email: auth.user?.email,
-    cpf: auth.user?.cpf,
-    img: auth.user?.img,
-  };
-
-  // useEffect(() => {
-  //   // Função para buscar os dados do usuário do backend
-  //   const fetchUserData = async () => {
-  //     try {
-  //       // Faça uma solicitação ao seu backend para obter os dados do usuário logado
-  //       const response = await axios.get('/api/user'); // Substitua '/api/user' pela rota real da sua API
-  //       setUserData(response.data); // Defina os dados do usuário no estado
-  //     } catch (error) {
-  //       console.error('Erro ao buscar dados do usuário:', error);
-  //     }
-  //   };
-
-  //   // Chame a função para buscar os dados do usuário ao montar o componente
-  //   fetchUserData();
-  // }, []);
-
-  const [isEditing, setIsEditing] = useState(false);
-  // const [formData, setFormData] = useState(admData);
-
+  // Função para ativar o modo de edição
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
-  const handleChange = (e) => {
-    // const { id, value } = e.target;
-    // setFormData((prevState) => ({
-    //   ...prevState,
-    //   [id]: value,
-    // }));
-    setIsEditing(false);
+  // Função para salvar as alterações
+  const handleSaveClick = async (data) => {
+    try {
+      setLoading(true);
+      const response = await editData(`/admin/${auth.user?.id}`, data);
+
+      if (response.status === 200) {
+        setFeedback('Dados atualizados com sucesso!');
+        setIsEditing(false); // Sai do modo de edição
+        loadData(); // Atualiza os dados com a versão salva
+        setTimeout(() => {
+          setFeedback(''); // Remove a mensagem após 3 segundos
+          window.location.reload(); // Recarrega a página
+        }, 3000);
+      } else {
+        setFeedback('Erro ao atualizar os dados. Verifique os campos.');
+        console.error('Erro no response.status:', response);
+      }
+    } catch (error) {
+      console.error('Erro ao salvar os dados:', error);
+      setFeedback('Erro ao salvar os dados. Tente novamente mais tarde.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  // Função para cancelar as alterações
+  const handleCancelClick = () => {
+    reset(originalData); // Restaura os dados originais no formulário
+    setIsEditing(false); // Sai do modo de edição
+    setFeedback(''); // Limpa a mensagem de feedback
   };
 
   return (
@@ -114,14 +103,18 @@ const AdminProfile = () => {
                 </button>
               </li>
               <li>
-                <Link className={style.links}>
+                <button
+                  className={style.links}
+                  onClick={() => alert('Função de exclusão implementada!')}
+                >
                   <img src={del} alt="Excluir" />
                   Excluir
-                </Link>
+                </button>
               </li>
               <li>
                 <Link className={style.links} to="/CadastroAdm">
-                  <img src={userAdd} alt="Novo Usuário" /> Novo Usuário
+                  <img src={userAdd} alt="Novo Usuário" />
+                  Novo Usuário
                 </Link>
               </li>
             </ul>
@@ -130,15 +123,15 @@ const AdminProfile = () => {
 
         <div className={style.userData}>
           <h2 className={style.h2}>Dados do cadastro</h2>
-          {/* <img src={auth.user?.img} alt="Imagem do usuário" /> */}
-          <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
+          {feedback && <p className={style.feedback}>{feedback}</p>}
+          {loading && <p>Carregando...</p>}
+          <form className={style.form} onSubmit={handleSubmit(handleSaveClick)}>
             <div>
               <label htmlFor="nome">Nome:</label>
               <input
                 id="nome"
-                defaultValue={admin?.name}
+                {...register('name', { required: true })}
                 disabled={!isEditing}
-                {...register("nome")}
               />
             </div>
             <div>
@@ -146,8 +139,7 @@ const AdminProfile = () => {
               <input
                 type="email"
                 id="email"
-                defaultValue={admin?.email}
-                {...register("email")}
+                {...register('email', { required: true })}
                 disabled={!isEditing}
               />
             </div>
@@ -156,15 +148,23 @@ const AdminProfile = () => {
               <input
                 type="text"
                 id="cpf"
-                defaultValue={admin?.cpf}
-                {...register("cpf")}
+                {...register('cpf', { required: true })}
                 disabled={!isEditing}
               />
             </div>
             {isEditing && (
-              <button className={style.links} type="submit">
-                Salvar
-              </button>
+              <div className={style.buttonGroup}>
+                <button className={style.saveButton} type="submit" disabled={loading}>
+                  {loading ? 'Salvando...' : 'Salvar'}
+                </button>
+                <button
+                  className={style.cancelButton}
+                  type="button"
+                  onClick={handleCancelClick}
+                >
+                  Cancelar
+                </button>
+              </div>
             )}
           </form>
         </div>
