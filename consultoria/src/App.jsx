@@ -1,18 +1,19 @@
-import { useState } from "react";
-import RoutesApp from "./routes";
-// import { AuthProvider } from './contexts/auth'
-import { AuthProvider } from "./contexts/Auth/AuthProvider";
-import "./App.css";
-import "./index.css"
+import RoutesApp from "@/routes";
 
-import Singin from "../pages/Signin";
+import { AuthProvider } from "@contexts/Auth/AuthProvider";
+import "@/App.css";
+import "@/index.css";
+import { ClientProvider } from "@contexts/Client/ClientContext";
+import { CompanyProvider } from "@contexts/Company/CompanyContext";
 
 function App() {
   return (
     <AuthProvider>
-      <div>
-        <RoutesApp />
-      </div>
+      <ClientProvider>
+        <CompanyProvider>
+          <RoutesApp />
+        </CompanyProvider>
+      </ClientProvider>
     </AuthProvider>
   );
 }

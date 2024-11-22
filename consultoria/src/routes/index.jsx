@@ -1,23 +1,24 @@
 import { useContext } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PropTypes from "prop-types";
-import Home from "../../pages/Home";
-import Singin from "../../pages/Signin";
-import Redefine from "../../pages/Redefine";
-import Client from "../../pages/Client";
-import EntrepriseProfile from "../../pages/EnterpriseProfile";
-import DocumentsPage from "../../pages/DocumentsPage/DocumentsPage";
-import Verification from "../../pages/Verification/index";
-import Adm from "../../pages/Adm/index";
-import CadastroAdm from "../../pages/CadastroAdm/index";
-import { RequireAuth } from "../contexts/Auth/RequireAuth";
-import { Loading } from "../../component/Loading";
-import { AuthContext } from "../contexts/Auth/AuthContext";
-import Password from "../../pages/Password";
-import ResetPassword from "../../pages/ResetPassword";
-import Sucess from "../../pages/Sucess/index";
-import SucessCadastro from "../../pages/SucessCadastro";
-import ClientProfile from "../../pages/ClientProfile";
+import Home from "@pages/Home";
+import Singin from "@pages/Signin";
+import Redefine from "@pages/Redefine";
+import Client from "@pages/Client";
+import EntrepriseProfile from "@pages/EnterpriseProfile";
+import DocumentsPage from "@pages/DocumentsPage";
+import Verification from "@pages/Verification";
+import Adm from "@pages/Adm";
+import CadastroAdm from "@pages/CadastroAdm";
+import { RequireAuth } from "@contexts/Auth/RequireAuth";
+import { Loading } from "@components/Loading";
+import { AuthContext } from "@contexts/Auth/AuthContext";
+import Password from "@pages/Password";
+import ResetPassword from "@pages/ResetPassword";
+import Sucess from "@pages/Sucess";
+import SucessCadastro from "@pages/SucessCadastro";
+import ClientProfile from "@pages/ClientProfile";
+import AdminAuth from "@pages/AdminAuth";
 
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
@@ -76,6 +77,14 @@ const RoutesApp = () => {
           element={
             <RequireAuth>
               <Private Item={ClientProfile} signed={authenticated} />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/AdminAuth"
+          element={
+            <RequireAuth>
+              <Private Item={AdminAuth} signed={authenticated} />
             </RequireAuth>
           }
         />
