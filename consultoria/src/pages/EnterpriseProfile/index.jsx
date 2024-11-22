@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
-import { useData } from '@hooks/useData';
-import { useForm } from 'react-hook-form';
-import { useFetch } from '@hooks/useFetch';
-import { useCompany } from '@hooks/useCompany';
+import { useData } from "@hooks/useData";
+import { useForm } from "react-hook-form";
+import { useFetch } from "@hooks/useFetch";
+import { useCompany } from "@hooks/useCompany";
 
-import { RiHomeHeartLine } from 'react-icons/ri';
-import { FaUserGroup } from 'react-icons/fa6';
+import { RiHomeHeartLine } from "react-icons/ri";
+import { FaUserGroup } from "react-icons/fa6";
 
-import Footer from '@components/Footer';
-import { DocumentWrapper } from '@components/DocumentWrapper';
-import { Input } from '@components/Input';
-import LoadingSpinner from '@components/LoadingSpinner';
+import Footer from "@components/Footer";
+import { DocumentWrapper } from "@components/DocumentWrapper";
+import { Input } from "@components/Input";
+import LoadingSpinner from "@components/LoadingSpinner";
 
-import style from '@pages/EnterpriseProfile/enterprise.module.css';
+import style from "@pages/EnterpriseProfile/enterprise.module.css";
 
 const EntrepriseProfile = () => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [editable, setEditable] = useState(false);
   const { deleteCompany, editData } = useFetch();
   const { editCompany, companyList, loadCompanys } = useCompany();
@@ -34,12 +34,12 @@ const EntrepriseProfile = () => {
 
   const loadData = async () => {
     try {
-      const { response, json } = await request('GET', `company/${id}`, {
+      const { response, json } = await request("GET", `company/${id}`, {
         withCredentials: true,
       });
 
       if (response.status !== 200) {
-        throw new Error('Não foi possivel obter os dados');
+        throw new Error("Não foi possivel obter os dados");
       }
 
       const company = json;
@@ -52,7 +52,7 @@ const EntrepriseProfile = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setMessage('');
+      setMessage("");
     }, 4000);
 
     return () => clearTimeout(timer);
@@ -69,26 +69,26 @@ const EntrepriseProfile = () => {
     setEditable(false); // Desativa o modo de edição
   };
 
-  const handleEdit = (company) => {
+  const handleEdit = company => {
     setEditable(true);
 
-    setValue('companyName', company.companyName);
-    setValue('cnpj', company.cnpj);
-    setValue('address', company.address);
-    setValue('cellphone', company.cellphone);
-    setValue('city', company.city);
-    setValue('cnae', company.cnae);
-    setValue('comments', company.comments);
-    setValue('addressComplement', company.addressComplement);
-    setValue('district', company.district);
-    setValue('email', company.email);
-    setValue('mainActivity', company.mainActivity);
-    setValue('phone', company.phone);
-    setValue('state', company.state);
-    setValue('zipcode', company.zipcode);
+    setValue("companyName", company.companyName);
+    setValue("cnpj", company.cnpj);
+    setValue("address", company.address);
+    setValue("cellphone", company.cellphone);
+    setValue("city", company.city);
+    setValue("cnae", company.cnae);
+    setValue("comments", company.comments);
+    setValue("addressComplement", company.addressComplement);
+    setValue("district", company.district);
+    setValue("email", company.email);
+    setValue("mainActivity", company.mainActivity);
+    setValue("phone", company.phone);
+    setValue("state", company.state);
+    setValue("zipcode", company.zipcode);
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     data = { ...data, id };
 
     try {
@@ -101,7 +101,7 @@ const EntrepriseProfile = () => {
 
       const editedComapany = response.data;
       editCompany(editedComapany);
-      setMessage('Cadastro atualizado com sucesso!');
+      setMessage("Cadastro atualizado com sucesso!");
 
       setEditable(false);
     } catch ({ message }) {
@@ -111,12 +111,12 @@ const EntrepriseProfile = () => {
 
   const handleDelete = async () => {
     const userConfirmed = window.confirm(
-      'Deseja realmente apagar o registro? Essa ação não pode ser desfeita.',
+      "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
     );
 
     try {
       if (!userConfirmed) {
-        setMessage('Operação de exclusão cancelada pelo usuário.');
+        setMessage("Operação de exclusão cancelada pelo usuário.");
         return;
       }
 
@@ -126,31 +126,12 @@ const EntrepriseProfile = () => {
         throw new Error(response.data.errors[0]);
       }
 
-      setMessage('Empresa excluída com sucesso!');
+      setMessage("Empresa excluída com sucesso!");
       loadCompanys([]);
-      navigate('/client');
+      navigate("/client");
     } catch (error) {
-      setMessage('Erro ao excluir empresa');
-      console.error('Erro ao excluir empresa:', error);
-    }
-  };
-
-  /*Criar um novo tipo de documento*/
-
-  const handleCreateDocumentType = async (data) => {
-    try {
-      // Envia a requisição POST para criar o novo tipo de documento
-      const response = await postData('/types', data);
-
-      if (response?.status === 200) {
-        setMessage('Novo tipo de documento criado com sucesso!');
-      } else {
-        setMessage('Erro ao criar novo tipo de documento.');
-        console.error('Erro no response:', response);
-      }
-    } catch (error) {
-      setMessage('Erro ao criar novo tipo de documento.');
-      console.error('Erro ao fazer a requisição:', error);
+      setMessage("Erro ao excluir empresa");
+      console.error("Erro ao excluir empresa:", error);
     }
   };
 
@@ -176,7 +157,7 @@ const EntrepriseProfile = () => {
             <>
               <div className={style.errorContainer}>
                 <h1>Empresa não encontrada</h1>
-                {error && 'Não foi possível carregar os dados'}
+                {error && "Não foi possível carregar os dados"}
               </div>
             </>
           )}
@@ -186,7 +167,7 @@ const EntrepriseProfile = () => {
           {companyList.length > 0 &&
             !error &&
             !loading &&
-            companyList?.map((company) => (
+            companyList?.map(company => (
               <div key={company.id}>
                 <h1 className={`${style.title1} ${style.clientName}`}>
                   {company.companyName}
@@ -203,7 +184,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.companyName}
-                              {...register('companyName')}
+                              {...register("companyName")}
                             />
                           </span>
                         ) : (
@@ -218,7 +199,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.cnpj}
-                              {...register('cnpj')}
+                              {...register("cnpj")}
                             />
                           </span>
                         ) : (
@@ -233,7 +214,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.mainActivity}
-                              {...register('mainActivity')}
+                              {...register("mainActivity")}
                             />
                           </span>
                         ) : (
@@ -248,7 +229,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.cnae}
-                              {...register('cnae')}
+                              {...register("cnae")}
                             />
                           </span>
                         ) : (
@@ -263,7 +244,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.email}
-                              {...register('email')}
+                              {...register("email")}
                             />
                           </span>
                         ) : (
@@ -278,7 +259,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.cellphone}
-                              {...register('cellphone')}
+                              {...register("cellphone")}
                             />
                           </span>
                         ) : (
@@ -293,7 +274,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.phone}
-                              {...register('phone')}
+                              {...register("phone")}
                             />
                           </span>
                         ) : (
@@ -309,7 +290,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.address}
-                              {...register('address')}
+                              {...register("address")}
                             />
                           </span>
                         ) : (
@@ -324,7 +305,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.district}
-                              {...register('district')}
+                              {...register("district")}
                             />
                           </span>
                         ) : (
@@ -339,7 +320,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.addressComplement}
-                              {...register('addressComplement')}
+                              {...register("addressComplement")}
                             />
                           </span>
                         ) : (
@@ -354,7 +335,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.city}
-                              {...register('city')}
+                              {...register("city")}
                             />
                           </span>
                         ) : (
@@ -369,7 +350,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.state}
-                              {...register('state')}
+                              {...register("state")}
                             />
                           </span>
                         ) : (
@@ -384,7 +365,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.zipcode}
-                              {...register('zipcode')}
+                              {...register("zipcode")}
                             />
                           </span>
                         ) : (
@@ -399,7 +380,7 @@ const EntrepriseProfile = () => {
                           <span className={style.profileInput}>
                             <input
                               defaultValue={company.comments}
-                              {...register('comments')}
+                              {...register("comments")}
                             />
                           </span>
                         ) : (
@@ -421,15 +402,13 @@ const EntrepriseProfile = () => {
                                 <>
                                   <button
                                     className={style.edtSave}
-                                    onClick={() => handleEdit(company)}
-                                  >
+                                    onClick={() => handleEdit(company)}>
                                     Editar
                                   </button>
                                   <button
                                     className={style.edtCancel}
                                     onClick={handleDelete}
-                                    type="button"
-                                  >
+                                    type="button">
                                     Excluir
                                   </button>
                                 </>
@@ -438,15 +417,13 @@ const EntrepriseProfile = () => {
                                 <>
                                   <button
                                     className={style.edtSave}
-                                    type="submit"
-                                  >
+                                    type="submit">
                                     Salvar
                                   </button>
 
                                   <button
                                     className={style.edtCancel}
-                                    onClick={handleCancel}
-                                  >
+                                    onClick={handleCancel}>
                                     Cancelar
                                   </button>
                                 </>
@@ -463,15 +440,6 @@ const EntrepriseProfile = () => {
               </div>
             ))}
         </div>
-
-        {/*Inclusão de novo tipo de documento. Local de teste*/}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            {...register('newDocumentType', { required: true })}
-            placeholder="Novo tipo de documento"
-          />
-          <button type="submit">Criar</button>
-        </form>
       </div>
       <Footer />
     </main>
