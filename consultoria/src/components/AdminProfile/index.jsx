@@ -12,76 +12,100 @@ import { useFetch } from '@hooks/useFetch';
 
 import style from '@components/AdminProfile/adm.module.css';
 
-const AdminProfile = () => {
-  const auth = useContext(AuthContext);
-  const { getData, editData } = useFetch();
-  const { register, handleSubmit, reset, setValue } = useForm();
+import { useNavigate } from "react-router-dom";
 
-  const [isEditing, setIsEditing] = useState(false); // Controla o modo de edição
-  const [originalData, setOriginalData] = useState(null); // Armazena os dados originais do usuário
-  const [loading, setLoading] = useState(false); // Indica se está carregando
-  const [feedback, setFeedback] = useState(''); // Mensagem de sucesso ou erro
+const AdminProfile = () => {
+  const navigate = useNavigate()
+  const auth = useContext(AuthContext);
+  const { admin, addAdmin, removeAdmin, editAdmin, loadAdmin } = useAdmin();
+  
+  
+
+  const { getData } = useFetch();
+  const { register, handleSubmit, setValue } = useForm();
+
+  const adminUser = auth.user?.id;
+  
+  
+  
+
+  console.log(admin);
 
   // Função para carregar os dados do usuário
   const loadData = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await getData(`admin/${auth.user?.id}`);
       if (response.status === 200) {
-        setOriginalData(response.data); // Salva os dados originais
-        reset(response.data); // Preenche o formulário com os dados
+        // setOriginalData(response.data); // Salva os dados originais
+        // reset(response.data); // Preenche o formulário com os dados
       } else {
-        setFeedback('Erro ao carregar os dados do administrador.');
+        // setFeedback('Erro ao carregar os dados do administrador.');
       }
     } catch (error) {
       console.log('Erro na requisição:', error);
-      setFeedback('Erro ao buscar dados. Tente novamente.');
+      // setFeedback('Erro ao buscar dados. Tente novamente.');
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
   // Carrega os dados ao montar o componente
   useEffect(() => {
-    loadData();
+        loadData();
   }, []);
 
-  // Função para ativar o modo de edição
-  const handleEditClick = () => {
-    setIsEditing(true);
+  const [userData, setUserData] = useState(null);
+
+  const admData = {
+    id: 1,
+    name: auth.user?.name,
+    email: auth.user?.email,
+    cpf: auth.user?.cpf,
+    img: auth.user?.img,
   };
 
-  // Função para salvar as alterações
-  const handleSaveClick = async (data) => {
-    try {
-      setLoading(true);
-      const response = await editData(`/admin/${auth.user?.id}`, data);
+  // useEffect(() => {
+  //   // Função para buscar os dados do usuário do backend
+  //   const fetchUserData = async () => {
+  //     try {
+  //       // Faça uma solicitação ao seu backend para obter os dados do usuário logado
+  //       const response = await axios.get('/api/user'); // Substitua '/api/user' pela rota real da sua API
+  //       setUserData(response.data); // Defina os dados do usuário no estado
+  //     } catch (error) {
+  //       console.error('Erro ao buscar dados do usuário:', error);
+  //     }
+  //   };
 
-      if (response.status === 200) {
-        setFeedback('Dados atualizados com sucesso!');
-        setIsEditing(false); // Sai do modo de edição
-        loadData(); // Atualiza os dados com a versão salva
-        setTimeout(() => {
-          setFeedback(''); // Remove a mensagem após 3 segundos
-          window.location.reload(); // Recarrega a página
-        }, 3000);
-      } else {
-        setFeedback('Erro ao atualizar os dados. Verifique os campos.');
-        console.error('Erro no response.status:', response);
-      }
-    } catch (error) {
-      console.error('Erro ao salvar os dados:', error);
-      setFeedback('Erro ao salvar os dados. Tente novamente mais tarde.');
-    } finally {
-      setLoading(false);
-    }
+  //   // Chame a função para buscar os dados do usuário ao montar o componente
+  //   fetchUserData();
+  // }, []);
+
+  const [isEditing, setIsEditing] = useState(false);
+  // const [formData, setFormData] = useState(admData);
+
+  const handleEditClick = (user) => {
+    setIsEditing(true);
+    // setIsEditing(false);
+    setValue("name", user.name);
+    setValue("cpf", user.cpf);
+    setValue("email", user.email);
+  };
+
+  const handleChange = (user) => {
+    // setEditable(true);
+    // const { id, value } = e.target;
+    // setFormData((prevState) => ({
+    //   ...prevState,
+    //   [id]: value,
+    // }));
   };
 
   // Função para cancelar as alterações
   const handleCancelClick = () => {
-    reset(originalData); // Restaura os dados originais no formulário
-    setIsEditing(false); // Sai do modo de edição
-    setFeedback(''); // Limpa a mensagem de feedback
+    // reset(originalData); // Restaura os dados originais no formulário
+    // setIsEditing(false); // Sai do modo de edição
+    // setFeedback(''); // Limpa a mensagem de feedback
   };
 
   return (
@@ -97,7 +121,10 @@ const AdminProfile = () => {
                 </Link>
               </li>
               <li>
-                <button className={style.links} onClick={handleEditClick}>
+                <button
+                  className={style.links}
+                  onClick={() => handleEditClick(auth.user)}
+                >
                   <img src={userEdit} alt="Editar" />
                   Editar
                 </button>
@@ -127,11 +154,12 @@ const AdminProfile = () => {
           {loading && <p>Carregando...</p>}
           <form className={style.form} onSubmit={handleSubmit(handleSaveClick)}>
             <div>
-              <label htmlFor="nome">Nome:</label>
+              <label htmlFor="name">Nome:</label>
               <input
-                id="nome"
-                {...register('name', { required: true })}
+                id="name"
+                defaultValue={admin?.name}
                 disabled={!isEditing}
+                {...register("name")}
               />
             </div>
             <div>
