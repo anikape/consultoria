@@ -99,9 +99,13 @@
 
 .searchContainer{
   padding-bottom: 1em;
+  display: flex;
+  align-items: center;
+  gap:1rem;
 }
 
 .searchInput{
+  flex: 1;
   border: none;
   outline: none;
   background-color: #84989337;
@@ -120,8 +124,6 @@
 .sorting {
   display: flex;
   align-items: center; /* Alinha todos os itens verticalmente ao centro */
-  margin-bottom: 10px; /* Espaço inferior para separar do conteúdo seguinte */
-   
 }
 
 .sorting select{
@@ -129,6 +131,7 @@
   border-radius: 30px;
   margin-left: .5em;
   outline: none;
+  padding: .255rem;
 }
 
 .sorting option{
@@ -148,6 +151,10 @@
   display: flex; /* Flex para garantir que os ícones se comportem como um bloco */
   align-items: center; /* Centraliza os ícones verticalmente */
   outline: none;
+}
+
+.sortIcons:hover{
+  color: #4f5b58
 }
 
 
@@ -211,3 +218,14 @@
 .expiringDocumentsContainer svg {
   margin-right: 5px; /* Espaçamento à direita do ícone */
 }
+
+@media (max-width: 730px) {
+  .searchContainer {
+   flex-direction: column;
+   gap: 1.5rem;
+  }
+  .searchInput{
+    width: 100%;
+  }
+}
+

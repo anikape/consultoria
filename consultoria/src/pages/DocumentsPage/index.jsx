@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaSortUp, FaSortDown } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { RiHomeHeartLine } from "react-icons/ri";
 import { FaArrowRight } from "react-icons/fa";
@@ -154,8 +154,6 @@ const DocumentsPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className={style.searchInput}
             />
-          </div>
-
           {/* Filtros de ordenação */}
           <div className={style.sorting}>
             <label>
@@ -173,15 +171,17 @@ const DocumentsPage = () => {
               className={style.sortIcons}
               onClick={() => setSortDirection("asc")}
             >
-              <FaSortUp />
+             <FaChevronUp/> 
             </button>
             <button
               className={style.sortIcons}
               onClick={() => setSortDirection("desc")}
             >
-              <FaSortDown />
+             <FaChevronDown/> 
             </button>
           </div>
+          </div>
+
 
           {/* Exibe todos os documentos ou os filtrados */}
           <section>
