@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }) => {
       }
       return false;
     } catch (error) {
-      console.log(error);
       setError(error);
     } finally {
       setLoading(false);
@@ -52,6 +51,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.signin(email, password);
 
+      if (!response) {
+        throw new Error("Erro ao conectar com o banco");
+      }
+
       const { status, data } = response;
 
       if (status !== 200) {
@@ -59,7 +62,6 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
         setUser(null);
 
-        setError(response.data);
         throw new Error(response.data);
       }
 
@@ -77,9 +79,8 @@ export const AuthProvider = ({ children }) => {
       }
 
       return response;
-    } catch (error) {
-      setError(error.message);
-      console.log(error);
+    } catch ({ message }) {
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -104,8 +105,7 @@ export const AuthProvider = ({ children }) => {
         signin,
         signout,
         validateToken,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );
