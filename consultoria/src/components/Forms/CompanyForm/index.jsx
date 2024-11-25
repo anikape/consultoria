@@ -12,6 +12,7 @@ import { useFetch } from "@hooks/useFetch";
 import { Loading } from "@components/Loading";
 
 import style from "@components/Forms/CompanyForm/CompanyForm.module.css";
+import { Button } from "@/components/Button";
 
 export const CompanyForm = ({ label }) => {
   const { addCompany } = useCompany();
@@ -22,6 +23,7 @@ export const CompanyForm = ({ label }) => {
   const {
     setValue,
     register,
+    reset,
     watch,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -39,7 +41,7 @@ export const CompanyForm = ({ label }) => {
     // setValue('cpf',formatCpfCnpj(cpfRaw))
   }, [cnpjRaw]);
 
-  const handleSetData = useCallback((data) => {
+  const handleSetData = useCallback(data => {
     setValue("address", data.logradouro);
     setValue("city", data.localidade);
     setValue("state", data.uf);
@@ -47,7 +49,7 @@ export const CompanyForm = ({ label }) => {
   }, []);
 
   const handleFetchCEP = useCallback(
-    async (zipCode) => {
+    async zipCode => {
       const data = await fetch(`https://viacep.com.br/ws/${zipCode}/json`);
       const response = await data.json();
 
@@ -56,7 +58,7 @@ export const CompanyForm = ({ label }) => {
     [setValue]
   );
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     data = {
       ...data,
       cnpj: formatCpfCnpj(data.cnpj),
@@ -110,8 +112,7 @@ export const CompanyForm = ({ label }) => {
               <Select
                 {...register("clientId", { required: "Selecione um cliente" })}
                 label="Cliente"
-                error={errors.clientId?.message}
-              >
+                error={errors.clientId?.message}>
                 <option value="" disabled>
                   Selecione uma empresa
                 </option>
@@ -136,7 +137,7 @@ export const CompanyForm = ({ label }) => {
               <Input
                 {...register("cnpj", {
                   required: "Campo obrigatório",
-                  validate: { teste: (v) => formatCpfCnpj(v) },
+                  validate: { teste: v => formatCpfCnpj(v) },
                   maxLength: {
                     value: 14,
                     message: "CPF/CNPJ deve conter 14 caracteres.",
@@ -171,7 +172,7 @@ export const CompanyForm = ({ label }) => {
             <div className={style.formGroup}>
               <Input
                 {...register("cnae", {
-                  setValueAs: (value) => parseInt(value),
+                  setValueAs: value => parseInt(value),
                   required: "Campo obrigatório",
                 })}
                 label="CNAE"
@@ -261,16 +262,16 @@ export const CompanyForm = ({ label }) => {
               />
             </div>
             <div className={style.buttons}>
-              <button
-                className={style.button}
+              <Button
+                variant={"confirm"}
                 onClick={handleSubmit(onSubmit)}
-                disabled={isSubmitting}
-              >
+                disabled={isSubmitting}>
                 {isSubmitting ? "Cadastrando..." : "Cadastrar"}
-              </button>
-              <button className={style.button2} type="reset">
+              </Button>
+
+              <Button variant={"cancel"} onClick={() => reset()}>
                 Cancelar
-              </button>
+              </Button>
             </div>
           </div>
         </>

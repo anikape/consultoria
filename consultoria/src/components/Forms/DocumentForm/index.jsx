@@ -8,6 +8,7 @@ import { Select } from "@/components/Select";
 import styles from "@/components/Forms/DocumentForm/DocumentForm.module.css";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useModal } from "@/components/Modal/ModalContext";
+import { Button } from "@/components/Button";
 
 export const DocumentForm = ({ handleFormSubmit }) => {
   const { closeModal } = useModal();
@@ -53,7 +54,7 @@ export const DocumentForm = ({ handleFormSubmit }) => {
     return () => clearTimeout(timer);
   }, [message]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     data = {
       ...data,
       file: data.file[0],
@@ -149,7 +150,7 @@ export const DocumentForm = ({ handleFormSubmit }) => {
           <LoadingSpinner />
         ) : (
           <>
-            <button className={styles.buttonSubmit}>Enviar</button>
+            <Button variant={"confirm"}>Enviar</Button>
           </>
         )}
       </form>

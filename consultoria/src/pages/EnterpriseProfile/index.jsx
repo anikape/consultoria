@@ -16,6 +16,7 @@ import { Input } from "@components/Input";
 import LoadingSpinner from "@components/LoadingSpinner";
 
 import style from "@pages/EnterpriseProfile/enterprise.module.css";
+import { Button } from "@/components/Button";
 
 const EntrepriseProfile = () => {
   const [message, setMessage] = useState("");
@@ -400,32 +401,25 @@ const EntrepriseProfile = () => {
                             <div className={style.groupButtons}>
                               {!editable && (
                                 <>
-                                  <button
-                                    className={style.edtSave}
+                                  <Button
+                                    variant={"confirm"}
                                     onClick={() => handleEdit(company)}>
                                     Editar
-                                  </button>
-                                  <button
-                                    className={style.edtCancel}
-                                    onClick={handleDelete}
-                                    type="button">
+                                  </Button>
+
+                                  <Button
+                                    variant={"cancel"}
+                                    onClick={handleDelete}>
                                     Excluir
-                                  </button>
+                                  </Button>
                                 </>
                               )}
                               {editable && (
                                 <>
-                                  <button
-                                    className={style.edtSave}
-                                    type="submit">
-                                    Salvar
-                                  </button>
-
-                                  <button
-                                    className={style.edtCancel}
-                                    onClick={handleCancel}>
+                                  <Button variant={"confirm"}>Salvar</Button>
+                                  <Button onClick={handleCancel}>
                                     Cancelar
-                                  </button>
+                                  </Button>
                                 </>
                               )}
                             </div>

@@ -10,6 +10,7 @@ import { useFetch } from "@hooks/useFetch";
 import { useClient } from "@hooks/useClient";
 
 import LoadingSpinner from "@components/LoadingSpinner";
+import { Button } from "@/components/Button";
 import Footer from "@components/Footer";
 
 import style from "@pages/ClientProfile/ClientProfile.module.css";
@@ -46,7 +47,7 @@ const ClientProfile = () => {
     }
   };
 
-  const handleEdit = (client) => {
+  const handleEdit = client => {
     setEditable(true);
     setValue("name", client.name);
     setValue("cpf", client.cpf);
@@ -54,7 +55,7 @@ const ClientProfile = () => {
     setValue("phone", client.phone);
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     data = { ...data, id };
 
     try {
@@ -145,15 +146,14 @@ const ClientProfile = () => {
           {clientList.length > 0 && !error && !loading && (
             <>
               <section className={style.formContainer}>
-                {clientList.map((client) => (
+                {clientList.map(client => (
                   <div key={client.id}>
                     <h1 className={style.title1}>{client.name}</h1>
                     <section className={style.profile}>
                       <p className={style.message}>{message}</p>
                       <form
                         className={style.editForm}
-                        onSubmit={handleSubmit(onSubmit)}
-                      >
+                        onSubmit={handleSubmit(onSubmit)}>
                         <div className={style.profileItem}>
                           <h2>Nome</h2>
                           {editable ? (
@@ -237,35 +237,30 @@ const ClientProfile = () => {
                           <>
                             <div className={style.groupButtons}>
                               {!editable && (
-                                <button
-                                  className={style.edtSave}
-                                  onClick={() => handleEdit(client)}
-                                >
+                                <Button
+                                  variant={"confirm"}
+                                  onClick={() => handleEdit(client)}>
                                   Editar
-                                </button>
+                                </Button>
                               )}
                               {editable && (
-                                <button className={style.edtSave} type="submit">
-                                  Salvar
-                                </button>
+                                <Button variant={"confirm"}>Salvar</Button>
                               )}
 
                               {!editable && (
-                                <button
-                                  className={style.edtSave}
+                                <Button
+                                  variant={"cancel"}
                                   onClick={handleDelete}
-                                  type="button"
-                                >
+                                  type="button">
                                   Excluir
-                                </button>
+                                </Button>
                               )}
                               {editable && (
-                                <button
-                                  className={style.edtSave}
-                                  onClick={() => setEditable(false)}
-                                >
+                                <Button
+                                  variant={"cancel"}
+                                  onClick={() => setEditable(false)}>
                                   Cancelar
-                                </button>
+                                </Button>
                               )}
                             </div>
                           </>

@@ -5,6 +5,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { Input } from "@/components/Input";
 
 import style from "@/components/Forms/TypeForm/TypeForm.module.css";
+import { Button } from "@/components/Button";
 
 export const TypeForm = () => {
   const [message, setMessage] = useState("");
@@ -34,17 +35,15 @@ export const TypeForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={style.formType}>
-      <div>{message}</div>
-      <div>
+      <div className={style.error}>{message}</div>
+      <div className={style.inputGroup}>
         <Input
           {...register("description", { required: "Campo obrigatório" })}
           placeholder="Novo tipo de documento"
         />
       </div>
       <p className={style.errorMessage}>{errors.description?.message}</p>
-      <button className={style.button} type="submit">
-        Criar
-      </button>
+      <Button variant={"confirm"}>Criar</Button>
     </form>
   );
 };
