@@ -10,6 +10,7 @@ import { useFetch } from "@/hooks/useFetch";
 import style from "@components/AdminProfile/adm.module.css";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/Button";
 
 const AdminProfile = () => {
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,8 @@ const AdminProfile = () => {
     console.log(data);
   };
 
+  const handleCancelEdit = () => setIsEditing(false);
+
   const handleEditClick = user => {
     setIsEditing(true);
 
@@ -69,95 +72,96 @@ const AdminProfile = () => {
   };
 
   return (
-    <section className={style.admContainer}>
-      <section className={style.admContent}>
-        <div className={style.admNav}>
-          <nav className={style.nav}>
-            <ul>
-              <li>
-                <Link className={style.links} to="/Home">
-                  <img src={home} alt="Home" />
-                  Home
-                </Link>
-              </li>
-              <li>
-                <button
-                  className={style.links}
-                  onClick={() => handleEditClick(auth.user)}>
-                  <img src={userEdit} alt="Editar" />
-                  Editar
-                </button>
-              </li>
-              <li>
-                <button
-                  className={style.links}
-                  onClick={() => alert("Função de exclusão implementada!")}>
-                  <img src={del} alt="Excluir" />
-                  Excluir
-                </button>
-              </li>
-              <li>
-                <Link className={style.links} to="/CadastroAdm">
-                  <img src={userAdd} alt="Novo Usuário" />
-                  Novo Usuário
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+    <section className={style.admSection}>
+      <div className={style.admContainer}>
+        <div className={style.admContent}>
+          <div className={style.admNav}>
+            <nav className={style.nav}>
+              <ul>
+                <li>
+                  <Link className={style.links} to="/Home">
+                    <img src={home} alt="Home" />
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    className={style.links}
+                    onClick={() => handleEditClick(auth.user)}>
+                    <img src={userEdit} alt="Editar" />
+                    Editar
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={style.links}
+                    onClick={() => alert("Função de exclusão implementada!")}>
+                    <img src={del} alt="Excluir" />
+                    Excluir
+                  </button>
+                </li>
+                <li>
+                  <Link className={style.links} to="/CadastroAdm">
+                    <img src={userAdd} alt="Novo Usuário" />
+                    Novo Usuário
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
 
-        <div className={style.userData}>
-          <h2 className={style.h2}>Dados do cadastro</h2>
-          {/* {feedback && <p className={style.feedback}>{feedback}</p>} */}
-          {loading && <p>Carregando...</p>}
-          <form className={style.form} onSubmit={handleSubmit(handleSaveClick)}>
-            <div>
-              <label htmlFor="name">Nome:</label>
-              <input
-                id="name"
-                defaultValue={admin?.name}
-                disabled={!isEditing}
-                {...register("name")}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">E-mail:</label>
-              <input
-                type="email"
-                id="email"
-                {...register("email", { required: true })}
-                disabled={!isEditing}
-              />
-            </div>
-            <div>
-              <label htmlFor="cpf">CPF:</label>
-              <input
-                type="text"
-                id="cpf"
-                {...register("cpf", { required: true })}
-                disabled={!isEditing}
-              />
-            </div>
-            {isEditing && (
-              <div className={style.buttonGroup}>
-                <button
-                  className={style.saveButton}
-                  type="submit"
-                  disabled={loading}>
-                  {loading ? "Salvando..." : "Salvar"}
-                </button>
-                <button
-                  className={style.cancelButton}
-                  type="button"
-                  // onClick={handleCancelClick}
-                >
-                  Cancelar
-                </button>
+          <div className={style.userData}>
+            <h2 className={style.h2}>Dados do cadastro</h2>
+            {/* {feedback && <p className={style.feedback}>{feedback}</p>} */}
+            {loading && <p>Carregando...</p>}
+            <form
+              className={style.form}
+              onSubmit={handleSubmit(handleSaveClick)}>
+              <div className={style.formItem}>
+                <label htmlFor="name">Nome:</label>
+                <input
+                  id="name"
+                  defaultValue={admin?.name}
+                  disabled={!isEditing}
+                  {...register("name", { required: "Campo obrigatório" })}
+                />
+                <p className={style.errorMessage}>{errors.name?.message}</p>
               </div>
-            )}
-          </form>
+              <div className={style.formItem}>
+                <label htmlFor="email">E-mail:</label>
+                <input
+                  type="email"
+                  id="email"
+                  {...register("email", { required: "Campo obrigatório" })}
+                  disabled={!isEditing}
+                />
+                <p className={style.errorMessage}>{errors.email?.message}</p>
+              </div>
+              <div className={style.formItem}>
+                <label htmlFor="cpf">CPF:</label>
+                <input
+                  type="text"
+                  id="cpf"
+                  {...register("cpf", { required: "Campo obrigatório" })}
+                  disabled={!isEditing}
+                />
+                <p className={style.errorMessage}>{errors.cpf?.message}</p>
+              </div>
+              {isEditing && (
+                <div className={style.buttonGroup}>
+                  <Button variant={"confirm"} disabled={loading}>
+                    {loading ? "Salvando..." : "Salvar"}
+                  </Button>
+
+                  <Button variant={"cancel"} onClick={handleCancelEdit}>
+                    Cancelar
+                  </Button>
+                </div>
+              )}
+            </form>
+          </div>
         </div>
-      </section>
+      </div>
     </section>
   );
 };
