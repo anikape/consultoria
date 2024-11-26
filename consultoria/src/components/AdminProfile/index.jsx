@@ -41,7 +41,7 @@ const AdminProfile = () => {
         <div className={style.admContent}>
           <div className={style.userData}>
             {admin?.map(item => (
-              <div key={admin.id} className={style.userDataItem}>
+              <div key={admin?.id} className={style.userDataItem}>
                 <div>
                   <p>Nome:</p>
                   <p>{item.name}</p>
