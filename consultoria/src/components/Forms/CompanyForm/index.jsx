@@ -12,7 +12,7 @@ import { useFetch } from "@hooks/useFetch";
 import { Loading } from "@components/Loading";
 
 import style from "@components/Forms/CompanyForm/CompanyForm.module.css";
-import { Button } from "@/components/Button";
+import { Button } from "@components/Button";
 
 export const CompanyForm = ({ label }) => {
   const { addCompany } = useCompany();
