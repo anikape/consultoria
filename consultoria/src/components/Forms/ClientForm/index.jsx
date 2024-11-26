@@ -42,7 +42,6 @@ export const ClientForm = () => {
       const response = await postData("client", data);
 
       if (response.status !== 201) {
-        setMessage(response.response.data);
         throw new Error(response.response.data);
       }
 

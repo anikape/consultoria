@@ -17,6 +17,7 @@ import LoadingSpinner from "@components/LoadingSpinner";
 
 import style from "@pages/EnterpriseProfile/enterprise.module.css";
 import { Button } from "@/components/Button";
+import { TypeProvider } from "@/contexts/Type/TypeContext";
 
 const EntrepriseProfile = () => {
   const [message, setMessage] = useState("");
@@ -429,8 +430,9 @@ const EntrepriseProfile = () => {
                     </>
                   </form>
                 </section>
-
-                <DocumentWrapper data={id} />
+                <TypeProvider>
+                  <DocumentWrapper data={id} />
+                </TypeProvider>
               </div>
             ))}
         </div>
