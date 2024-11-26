@@ -1,12 +1,10 @@
 import { Link, Outlet } from "react-router-dom";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { AdminProvider } from "@contexts/Admin/AdminContext";
+import { HiUser, HiUserPlus } from "react-icons/hi2";
+import { FaUserEdit } from "react-icons/fa";
 
 import home from "@/assets/home.png";
-import userAdd from "@/assets/useradd.png";
-import userEdit from "@/assets/useredit.png";
-import del from "@/assets/delete.png";
-
 import style from "@pages/Adm/adm.module.css";
 
 const Index = () => {
@@ -17,17 +15,28 @@ const Index = () => {
           <div className={style.admContent}>
             <div className={style.admNav}>
               <nav className={style.nav}>
-                <ul>
+                <ul className={style.navLinks}>
                   <li>
                     <Link className={style.links} to="/Home">
                       <img src={home} alt="Home" />
-                      Home
+                      <p className={style.linkText}>Home</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className={style.links} to={"/Adm"}>
+                      <div className={style.linkIcon}>
+                        <HiUser />
+                      </div>
+                      <p className={style.linkText}>Perfil</p>
                     </Link>
                   </li>
                   <li>
                     <Link to={"settings"} className={style.links}>
-                      <img src={userEdit} alt="Editar" />
-                      Editar
+                      <div className={style.linkIcon}>
+                        <FaUserEdit />
+                      </div>
+
+                      <p className={style.linkText}>Editar</p>
                     </Link>
                   </li>
                   <li>
@@ -35,21 +44,17 @@ const Index = () => {
                       <div className={style.linkIcon}>
                         <RiLockPasswordFill />
                       </div>
-                      Alterar senha
+                      <p className={style.linkText}>Alterar senha</p>
                     </Link>
                   </li>
-                  <li>
-                    <button
-                      className={style.links}
-                      onClick={() => alert("Função de exclusão implementada!")}>
-                      <img src={del} alt="Excluir" />
-                      Excluir
-                    </button>
-                  </li>
+
                   <li>
                     <Link className={style.links} to="/CadastroAdm">
-                      <img src={userAdd} alt="Novo Usuário" />
-                      Novo Usuário
+                      <div className={style.linkIcon}>
+                        <HiUserPlus />
+                      </div>
+
+                      <p className={style.linkText}>Novo usuário</p>
                     </Link>
                   </li>
                 </ul>
