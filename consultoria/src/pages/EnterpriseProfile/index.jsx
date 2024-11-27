@@ -430,9 +430,9 @@ const EntrepriseProfile = () => {
                     </>
                   </form>
                 </section>
-                <TypeProvider>
-                  <DocumentWrapper data={id} />
-                </TypeProvider>
+                {/* <TypeProvider> */}
+                <DocumentWrapper data={id} />
+                {/* </TypeProvider> */}
               </div>
             ))}
         </div>

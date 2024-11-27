@@ -13,7 +13,6 @@ import { useType } from "@hooks/useType";
 export const TypeForm = () => {
   const [message, setMessage] = useState("");
   const { loading, error, request } = useData(false);
-  const { deleteData } = useFetch();
   const { typeList, addType, removeType, editType, loadTypes } = useType();
   const { postData } = useFetch();
   const {
@@ -25,12 +24,11 @@ export const TypeForm = () => {
 
   const loadData = async () => {
     const response = await request("get", "types", { withCredentials: true });
-    console.log(response);
-    console.log(response.json);
-    const typesData = response.json;
-    console.log(typesData);
 
-    await loadTypes(typesData);
+    const typesRegistered = response.json;
+
+    await loadTypes(typesRegistered);
+    console.log(typesRegistered);
   };
 
   useEffect(() => {
@@ -57,23 +55,9 @@ export const TypeForm = () => {
     }
   };
 
-  const handleDelete = async id => {
-    try {
-      const response = await deleteData(`types/${id}`, {
-        withCredentials: true,
-      });
-
-      if (response.status !== 204) {
-        throw new Error("Não foi possivel exluir o tipo");
-      }
-
-      await removeType(id);
-      console.log(response);
-      console.log(id);
-    } catch (error) {
-      console.log(id);
-      console.log(error);
-    }
+  const handleDelete = id => {
+    console.log(id);
+    removeType(id);
   };
 
   return (
@@ -83,12 +67,12 @@ export const TypeForm = () => {
         {!loading && (
           <SelectButton
             types={typeList}
-            // onDelete={removeType}
-            onDelete={handleDelete}
+            onDelete={removeType}
             onEdit={editType}
           />
         )}
       </div>
+
       <form onSubmit={handleSubmit(onSubmit)} className={style.formType}>
         <div className={style.error}>{message}</div>
         <div className={style.inputGroup}>
