@@ -67,8 +67,8 @@ const AdminAuth = () => {
   return (
     <main className={style.main}>
       <section className={style.AdminAuthSection}>
-        <div className={style.form}>
-          <div className={style.container}>
+        <div className={style.container}>
+          <div className={style.form}>
             <form onSubmit={handleSubmit(handleLogin)}>
               <div className={style.errorWrapper}>
                 {error && (
@@ -117,28 +117,6 @@ const AdminAuth = () => {
                 <Link className={style.button} disabled={loading} to={"/Home"}>
                   {loading ? "Carregando..." : "Cancelar"}
                 </Link>
-                {/* {loading ? (
-                  <>
-                    <LoadindSpiner />
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className={style.button}
-                      type="submit"
-                      disabled={loading}
-                    >
-                      {loading ? "Carregando..." : "Ok"}
-                    </button>
-                    <Link
-                      className={style.button}
-                      disabled={loading}
-                      to={"/Home"}
-                    >
-                      Cancelar
-                    </Link>
-                  </>
-                )} */}
               </div>
             </form>
           </div>
