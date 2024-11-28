@@ -18,6 +18,7 @@ import LoadingSpinner from "@components/LoadingSpinner";
 import style from "@pages/EnterpriseProfile/enterprise.module.css";
 import { Button } from "@/components/Button";
 import { TypeProvider } from "@/contexts/Type/TypeContext";
+import { Modal } from "@/components/Modal";
 
 const EntrepriseProfile = () => {
   const [message, setMessage] = useState("");
@@ -112,16 +113,7 @@ const EntrepriseProfile = () => {
   };
 
   const handleDelete = async () => {
-    const userConfirmed = window.confirm(
-      "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
-    );
-
     try {
-      if (!userConfirmed) {
-        setMessage("Operação de exclusão cancelada pelo usuário.");
-        return;
-      }
-
       const { response, status } = await deleteCompany(id);
 
       if (status !== 204) {
@@ -408,11 +400,36 @@ const EntrepriseProfile = () => {
                                     Editar
                                   </Button>
 
-                                  <Button
-                                    variant={"cancel"}
-                                    onClick={handleDelete}>
-                                    Excluir
-                                  </Button>
+                                  <Modal.Context>
+                                    <Modal.Button
+                                      action={"open"}
+                                      title="Excluir"
+                                    />
+                                    <Modal.Body>
+                                      <Modal.Content label="Excluir Empresa">
+                                        <p className={style.deleteParagraph}>
+                                          Deseja realmente apagar o registro?
+                                          Essa ação não pode ser desfeita.
+                                        </p>
+                                        <p className={style.deleteParagraph}>
+                                          <strong>{company.companyName}</strong>
+                                        </p>
+                                        <div
+                                          className={style.deleteGroupButtons}>
+                                          <Modal.Button
+                                            action={"close"}
+                                            title="Cancelar"
+                                          />
+                                          <Button
+                                            variant={"confirm"}
+                                            onClick={handleDelete}
+                                            type="button">
+                                            Excluir
+                                          </Button>
+                                        </div>
+                                      </Modal.Content>
+                                    </Modal.Body>
+                                  </Modal.Context>
                                 </>
                               )}
                               {editable && (
@@ -430,9 +447,7 @@ const EntrepriseProfile = () => {
                     </>
                   </form>
                 </section>
-                {/* <TypeProvider> */}
                 <DocumentWrapper data={id} />
-                {/* </TypeProvider> */}
               </div>
             ))}
         </div>

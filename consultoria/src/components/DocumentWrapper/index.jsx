@@ -32,10 +32,10 @@ export const DocumentWrapper = ({ data }) => {
         <h2 className={style.subtitle}>Documentos:</h2>
         <div className={style.documentsHeader}>
           <Modal.Context>
-            <Modal.Button>
+            <Modal.Open>
               <HiMiniUserPlus />
               Novo Documento
-            </Modal.Button>
+            </Modal.Open>
             <Modal.Body>
               <Modal.Content label="Novo Documento">
                 <DocumentForm handleFormSubmit={onSubmitModalForm} />
@@ -44,10 +44,10 @@ export const DocumentWrapper = ({ data }) => {
           </Modal.Context>
 
           <Modal.Context>
-            <Modal.Button>
+            <Modal.Open>
               <HiFolderPlus />
               Castrar tipo de documento
-            </Modal.Button>
+            </Modal.Open>
             <Modal.Body>
               <Modal.Content label="Novo tipo de documento">
                 <TypeProvider>

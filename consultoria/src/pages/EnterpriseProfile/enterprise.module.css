@@ -200,6 +200,19 @@
   margin-top: 3rem;
 }
 
+.deleteParagraph {
+  text-align: center;
+  padding: 0.8rem 0;
+}
+
+.deleteGroupButtons {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 @media (max-width: 720px) {
   .container {
     height: inherit;

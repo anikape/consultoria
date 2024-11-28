@@ -14,6 +14,8 @@ import { Button } from "@/components/Button";
 import Footer from "@components/Footer";
 
 import style from "@pages/ClientProfile/ClientProfile.module.css";
+import { Modal } from "@/components/Modal";
+import { Document } from "@/components/Document";
 
 const ClientProfile = () => {
   const [message, setMessage] = useState("");
@@ -78,15 +80,15 @@ const ClientProfile = () => {
   };
 
   const handleDelete = async () => {
-    const userConfirmed = window.confirm(
-      "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
-    );
+    // const userConfirmed = window.confirm(
+    //   "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
+    // );
 
     try {
-      if (!userConfirmed) {
-        setMessage("Operação de exclusão cancelada pelo usuário.");
-        return;
-      }
+      // if (!userConfirmed) {
+      //   setMessage("Operação de exclusão cancelada pelo usuário.");
+      //   return;
+      // }
 
       const response = await deleteClient(id);
 
@@ -248,12 +250,34 @@ const ClientProfile = () => {
                               )}
 
                               {!editable && (
-                                <Button
-                                  variant={"cancel"}
-                                  onClick={handleDelete}
-                                  type="button">
-                                  Excluir
-                                </Button>
+                                <Modal.Context>
+                                  <Modal.Button
+                                    action={"open"}
+                                    title="Excluir"></Modal.Button>
+                                  <Modal.Body>
+                                    <Modal.Content label="Excluir Cliente">
+                                      <p className={style.deleteParagraph}>
+                                        Deseja realmente apagar o registro? Essa
+                                        ação não pode ser desfeita.
+                                      </p>
+                                      <p className={style.deleteParagraph}>
+                                        <strong>{client.name}</strong>
+                                      </p>
+                                      <div className={style.deleteGroupButtons}>
+                                        <Modal.Button
+                                          action={"close"}
+                                          title="Cancelar"
+                                        />
+                                        <Button
+                                          variant={"confirm"}
+                                          onClick={handleDelete}
+                                          type="button">
+                                          Excluir
+                                        </Button>
+                                      </div>
+                                    </Modal.Content>
+                                  </Modal.Body>
+                                </Modal.Context>
                               )}
                               {editable && (
                                 <Button
