@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   background-repeat: no-repeat;
   background-size: 100%;
   width: 100%;
@@ -9,43 +10,55 @@
 }
 
 .admContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: 203px 1fr;
   justify-content: center;
   align-items: center;
+  max-width: 100%;
+  min-height: 420px;
+  width: 700px;
 }
 
 .admContent {
-  display: flex;
+  width: 100%;
+  height: 100%;
+  width: 100%;
+  height: 100%;
+  background: url("@/assets/bgAdd.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .admNav {
-  align-items: center;
+  padding: 1rem;
   background: url("@/assets/bgnav.png");
   background-repeat: no-repeat;
-  justify-content: center;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border-radius: 14px 0px 0px 14px;
   opacity: 0.7;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  width: 203px;
-  padding: 1rem;
+  height: 100%;
+  width: 100%;
 }
 
 .nav {
   display: flex;
-  margin: 6rem auto;
+  height: 100%;
+  width: 100%;
   align-items: center;
   justify-content: center;
 }
+
 .navLinks {
   display: flex;
   flex-direction: column;
+  width: inherit;
 }
 
 .links {
   background: transparent;
   border: none;
   display: flex;
-  padding: 0.5em;
+  padding: 0.5em 0;
   color: #436960;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Inter;
@@ -54,18 +67,17 @@
   line-height: 71.023%;
   letter-spacing: -0.3px;
   align-items: center;
-  transition: color 0.3s ease, transform 0.3s ease; /* Adiciona uma transição suave */
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .links:hover {
-  color: #628b73; /* Altera a cor no hover */
-  transform: scale(0.9); /* Aumenta o zoom no hover */
+  color: #628b73;
+  transform: scale(0.9);
 }
 
 .links img {
   width: 34px;
   height: 34px;
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
 }
 
 .h2 {
@@ -138,11 +150,15 @@
 }
 
 @media (max-width: 780px) {
+  .admContainer {
+    grid-template-columns: 1fr;
+    margin: 0 32px;
+  }
   .admContent {
     flex-direction: column;
   }
   .admNav {
-    width: 100%;
+    padding: 0.5rem;
     background-color: #bccac7;
     background-image: none;
     border-radius: 14px 14px 0px 0px;
