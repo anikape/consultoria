@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { api } from "../../services/api";
+import { api } from "@/services/api";
 
 const cookies = new Cookies();
 
@@ -16,7 +16,7 @@ export const useApi = () => ({
 
   signin: async (email, password) => {
     try {
-      const { data } = await api.post(
+      const response = await api.post(
         "/admin/login",
         {
           login: email,
@@ -25,18 +25,25 @@ export const useApi = () => ({
         { withCredentials: true }
       );
 
+      if (response.status !== 200) {
+        throw new Error(response.data);
+      }
+
+      const { data } = response;
+
       if (data.accessToken) {
         api.defaults.headers["Authorization"] = `Bearer ${data.accessToken}`;
         api.defaults.withCredentials = true;
       }
 
-      return data;
-    } catch ({ message }) {
-      return message;
+      return response;
+    } catch ({ response }) {
+      console.log(response);
+      return response;
     }
   },
 
-  logout: () => {
+  logout: async () => {
     api.defaults.headers.common["Authorization"] = "";
     cookies.remove("authToken");
   },

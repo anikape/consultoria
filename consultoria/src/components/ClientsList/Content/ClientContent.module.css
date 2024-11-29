@@ -1,0 +1,17 @@
+.clientList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.5rem 0;
+}
+
+.clientList:not(:last-child) {
+  border-bottom: 1px solid #3e4947c1;
+}
+
+@media (max-width: 710px) {
+  .clientList {
+    align-items: center;
+  }
+}
