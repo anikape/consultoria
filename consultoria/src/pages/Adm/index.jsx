@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { RiLockPasswordFill } from "react-icons/ri";
+import { RiHomeHeartLine, RiLockPasswordFill } from "react-icons/ri";
 import { AdminProvider } from "@contexts/Admin/AdminContext";
 import { HiUser, HiUserPlus } from "react-icons/hi2";
 import { FaUserEdit } from "react-icons/fa";
@@ -31,9 +31,9 @@ const Index = () => {
     checkAuthorization();
   }, []);
 
-  if (!allow) {
+  if (!allow && !auth.authorization) {
     // navigate("/AdminAuth");
-    return null;
+    return;
   }
 
   return (
@@ -46,7 +46,9 @@ const Index = () => {
               <ul className={style.navLinks}>
                 <li>
                   <Link className={style.links} to="/Home">
-                    <img src={home} alt="Home" />
+                    <div className={style.linkIcon}>
+                      <RiHomeHeartLine />
+                    </div>
                     <p className={style.linkText}>Home</p>
                   </Link>
                 </li>
@@ -77,13 +79,13 @@ const Index = () => {
                 </li>
 
                 <li>
-                  <Link className={style.links} to="/CadastroAdm">
+                  {/* <Link className={style.links} to="/CadastroAdm">
                     <div className={style.linkIcon}>
                       <HiUserPlus />
                     </div>
 
                     <p className={style.linkText}>Novo usuário</p>
-                  </Link>
+                  </Link> */}
                 </li>
               </ul>
             </nav>

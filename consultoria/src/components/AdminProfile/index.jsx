@@ -1,22 +1,21 @@
 import { useState, useEffect, useContext } from "react";
 
 import { AuthContext } from "@contexts/Auth/AuthContext";
-import { useFetch } from "@hooks/useFetch";
+
 import { useAdmin } from "@hooks/useAdmin";
+import { useData } from "@hooks/useData";
+
 import style from "@components/AdminProfile/AdminProfile.module.css";
-import { useData } from "@/hooks/useData";
+import LoadingSpinner from "../LoadingSpinner";
 
 const AdminProfile = () => {
-  // const [loading, setLoading] = useState(false);
   const auth = useContext(AuthContext);
   const { adminList, loadAdmin } = useAdmin();
-  const { getData } = useFetch();
   const { loading, error, request } = useData();
 
   const userId = auth.user?.id;
 
   const loadData = async () => {
-    // setLoading(true);
     try {
       const { response, json } = await request("get", `admin/${userId}`, {
         withCredentials: true,
@@ -25,12 +24,9 @@ const AdminProfile = () => {
       if (response.status !== 200) {
         throw new Error("Erro ao carregar dados");
       }
-      console.log(json);
-      console.log(response);
-      const adminRegistered = [json];
 
+      const adminRegistered = [json];
       loadAdmin(adminRegistered);
-      // setLoading(false);
     } catch (error) {
       loadAdmin([]);
     }
@@ -39,17 +35,10 @@ const AdminProfile = () => {
     loadData();
   }, []);
 
-  console.log(adminList.length);
-  console.log(adminList);
-
-  // if (loading) {
-  //   return <p>Carregando...</p>;
-  // }
-
   return (
     <div className={style.userData}>
       <div className={style.userDataInfo}>
-        {loading && <p>Carregando...</p>}
+        {loading && <LoadingSpinner />}
         {!loading && adminList.length <= 0 && <p>Nenhum dado cadastrado</p>}
         {!loading &&
           adminList?.map(item => (

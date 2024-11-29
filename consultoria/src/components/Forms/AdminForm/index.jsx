@@ -18,21 +18,18 @@ const AdminForm = () => {
     formState: { errors },
   } = useForm();
 
-  const { admin, loadAdmin } = useAdmin();
+  const { adminList, loadAdmin } = useAdmin();
   const { getData, editData } = useFetch();
 
   const adminUser = auth.user?.id;
+  console.log(adminList);
 
   const loadData = async () => {
     try {
-      const response = await getData(
-        `admin/${adminUser}`,
-        { password: "admin" },
-        {
-          withCredentials: true,
-        }
-      );
-
+      const response = await getData(`admin/${adminUser}`, {
+        withCredentials: true,
+      });
+      console.log(response);
       if (response.status !== 200) {
         return;
       }
@@ -73,7 +70,7 @@ const AdminForm = () => {
           <label htmlFor="name">Nome:</label>
           <input
             id="name"
-            defaultValue={admin?.name}
+            defaultValue={adminList?.name}
             {...register("name", { required: "Campo obrigatório" })}
           />
           <p className={style.errorMessage}>{errors.name?.message}</p>
@@ -83,7 +80,7 @@ const AdminForm = () => {
           <input
             type="email"
             id="email"
-            defaultValue={admin?.email}
+            defaultValue={adminList?.email}
             {...register("email", {
               required: "Campo obrigatório",
               pattern: {
@@ -99,13 +96,13 @@ const AdminForm = () => {
           <input
             type="text"
             id="cpf"
-            defaultValue={admin?.cpf}
+            defaultValue={adminList?.cpf}
             {...register("cpf", {
               required: "Campo obrigatório",
               pattern: {
-                value:
-                  /^(?!000|111|222|333|444|555|666|777|888|999)(\d{3})(\.)(\d{3})(\.)(\d{3})(-\d{2})$/,
-                message: "CPF inválido. Use o formato XXX.XXX.XXX-XX",
+                value: /^(?!000|111|222|333|444|555|666|777|888|999)(\d{11})$/,
+                message:
+                  "CPF inválido. Use apenas números (sem pontos e traços).",
               },
             })}
           />
