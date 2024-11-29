@@ -19,11 +19,10 @@ import Sucess from "@pages/Sucess";
 import SucessCadastro from "@pages/SucessCadastro";
 import ClientProfile from "@pages/ClientProfile";
 import AdminAuth from "@pages/AdminAuth";
-import Footer from "@/components/Footer";
 import { AdminForm } from "@/components/Forms/AdminForm";
 import { AdminPasswordForm } from "@/components/Forms/AdminPasswordForm";
 import { AdminProfile } from "@/components/AdminProfile";
-import { NotFound } from "@/pages/NotFound";
+import { NotFound } from "@pages/NotFound";
 
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
