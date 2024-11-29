@@ -19,6 +19,10 @@ import Sucess from "@pages/Sucess";
 import SucessCadastro from "@pages/SucessCadastro";
 import ClientProfile from "@pages/ClientProfile";
 import AdminAuth from "@pages/AdminAuth";
+import Footer from "@/components/Footer";
+import { AdminForm } from "@/components/Forms/AdminForm";
+import { AdminPasswordForm } from "@/components/Forms/AdminPasswordForm";
+import { AdminProfile } from "@/components/AdminProfile";
 
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
@@ -46,14 +50,40 @@ const RoutesApp = () => {
         <Route path="/admin/reset-password/:id" element={<ResetPassword />} />
         <Route path="/sucess" element={<Sucess />} />
         <Route path="/sucessCadastro" element={<SucessCadastro />} />
+
         <Route
           path="/Adm"
           element={
             <RequireAuth>
               <Private Item={Adm} signed={authenticated} />
             </RequireAuth>
-          }
-        />
+          }>
+          <Route
+            path=""
+            element={
+              <RequireAuth>
+                <AdminProfile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="settings"
+            element={
+              <RequireAuth>
+                <AdminForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="change-password"
+            element={
+              <RequireAuth>
+                <AdminPasswordForm />
+              </RequireAuth>
+            }
+          />
+        </Route>
+
         <Route
           path="/home"
           element={

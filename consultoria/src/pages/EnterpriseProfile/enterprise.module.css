@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  /* background-image: url("@/src/assets/gHome2.png"); */
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,7 +22,6 @@
   border-radius: 7px;
   width: 100%;
   min-height: 700px;
-  /* min-height: auto; */
   padding: 2rem;
   border: #849893;
   box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.25);
@@ -162,31 +160,6 @@
   border-color: #4e5b58;
 }
 
-.edtSave,
-.edtCancel {
-  border: solid 1px transparent;
-  border-top-style: none;
-  border-radius: 9px;
-  min-width: 110px;
-  min-height: 25px;
-  padding: 0.3em;
-  background: #8f9f9c38;
-  color: #3e4947d0;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 4px -1px 2px -2px rgba(0, 0, 0, 0.25) inset,
-    -4px -4px 2px -1px rgba(0, 0, 0, 0.25) inset;
-  transition: ease-in 0.2s;
-}
-
-.edtSave:hover,
-.edtCancel:hover {
-  background: #abb1b099;
-  transform: scale(0.9);
-  cursor: pointer;
-  color: #02020281;
-}
-
 .documentsHeader {
   display: flex;
   justify-content: space-between;
@@ -225,6 +198,19 @@
   outline: none;
   transition: ease-in-out 0.3s;
   margin-top: 3rem;
+}
+
+.deleteParagraph {
+  text-align: center;
+  padding: 0.8rem 0;
+}
+
+.deleteGroupButtons {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
 @media (max-width: 720px) {

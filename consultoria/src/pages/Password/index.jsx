@@ -26,7 +26,7 @@ const Password = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const { editPassword } = useFetch();
+  const { patchData } = useFetch();
 
   useEffect(() => {
     if (!state) {
@@ -34,12 +34,12 @@ const Password = () => {
     }
   }, [state]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     const password = data.rawPassword;
     setLoading(true);
 
     try {
-      const response = await editPassword(`admin/${state.id}`, {
+      const response = await patchData(`admin/${state.id}`, {
         password,
       });
 
@@ -97,8 +97,7 @@ const Password = () => {
                         <Link
                           className={style.back}
                           to="/"
-                          onClick={handleCancel}
-                        >
+                          onClick={handleCancel}>
                           Voltar
                         </Link>
                       </div>
@@ -134,7 +133,7 @@ const Password = () => {
                             <input
                               {...register("confirmPassword", {
                                 required: "Campo obrigatório",
-                                validate: (value) =>
+                                validate: value =>
                                   value === watch("rawPassword") ||
                                   "Os campos não correspondem, devem ser iguais",
                               })}
@@ -151,8 +150,7 @@ const Password = () => {
                           </button>
                           <button
                             className={style.cancel}
-                            onClick={handleCancel}
-                          >
+                            onClick={handleCancel}>
                             Cancelar
                           </button>
                         </>

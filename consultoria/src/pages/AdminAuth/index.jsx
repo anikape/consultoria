@@ -14,15 +14,14 @@ import Footer from "@components/Footer";
 import { useFetch } from "@/hooks/useFetch";
 import Cookies from "universal-cookie";
 
-
 const AdminAuth = () => {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState("");
   const { signin, user, error } = useContext(AuthContext);
   const navigate = useNavigate();
   const { postData } = useFetch();
-  
-  const cookie = new Cookies()
+
+  const cookie = new Cookies();
 
   const {
     register,
@@ -37,24 +36,26 @@ const AdminAuth = () => {
         return;
       }
 
-      const response = await postData(`/admin/restrict/${user.id}`, {password},{
-        withCredentials: true,
-      });
-      
-      
-      
-      console.log(response)
+      const response = await postData(
+        `/admin/restrict/${user.id}`,
+        { password },
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(response);
 
       if (response.status !== 200) {
-        setMessage(response.response.data)
+        setMessage(response.response.data);
         console.log(response);
         throw new Error(response.data);
       }
 
       console.log(response);
-      const teste = cookie.get('sessionToken')
-      console.log(teste)
-      
+      const teste = cookie.get("sessionToken");
+      console.log(teste);
+
       navigate("/Adm");
     } catch (error) {
       console.log(error);
@@ -66,8 +67,8 @@ const AdminAuth = () => {
   return (
     <main className={style.main}>
       <section className={style.AdminAuthSection}>
-        <div className={style.form}>
-          <div className={style.container}>
+        <div className={style.container}>
+          <div className={style.form}>
             <form onSubmit={handleSubmit(handleLogin)}>
               <div className={style.errorWrapper}>
                 {error && (
@@ -87,9 +88,7 @@ const AdminAuth = () => {
                     Para realizar esta ação é necessário informar a sua senha.
                   </p>
                 </div>
-                <p className={style.errorMessage}>
-                {message}
-                </p>
+                <p className={style.errorMessage}>{message}</p>
                 <div className={style.inputGroup}>
                   <img src={iconLock} alt="" />
                   <div className={style.inputWrapper}>
@@ -102,7 +101,9 @@ const AdminAuth = () => {
                       })}
                       placeholder="******"
                     />
-                  <p className={style.inputErrorMessage}>{errors.password?.message}</p>
+                    <p className={style.inputErrorMessage}>
+                      {errors.password?.message}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -110,35 +111,12 @@ const AdminAuth = () => {
                 <button
                   className={style.button}
                   type="submit"
-                  disabled={loading}
-                >
+                  disabled={loading}>
                   {loading ? "Carregando..." : "Ok"}
                 </button>
                 <Link className={style.button} disabled={loading} to={"/Home"}>
                   {loading ? "Carregando..." : "Cancelar"}
                 </Link>
-                {/* {loading ? (
-                  <>
-                    <LoadindSpiner />
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className={style.button}
-                      type="submit"
-                      disabled={loading}
-                    >
-                      {loading ? "Carregando..." : "Ok"}
-                    </button>
-                    <Link
-                      className={style.button}
-                      disabled={loading}
-                      to={"/Home"}
-                    >
-                      Cancelar
-                    </Link>
-                  </>
-                )} */}
               </div>
             </form>
           </div>

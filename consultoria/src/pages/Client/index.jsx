@@ -36,7 +36,7 @@ const Client = () => {
     loadData();
   }, []);
 
-  const findClients = (search) => {
+  const findClients = search => {
     const result = [];
     return result;
   };
@@ -44,7 +44,7 @@ const Client = () => {
   useEffect(() => {
     if (clientList && clientList.length > 0) {
       setFilteredClients(
-        clientList?.filter((client) => {
+        clientList?.filter(client => {
           const hasName =
             client.name &&
             client.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -87,10 +87,10 @@ const Client = () => {
                   </Link>
 
                   <Modal.Context>
-                    <Modal.Button>
+                    <Modal.Open>
                       <HiMiniUserPlus />
                       <p className={style.labelModalButton}>Clientes</p>
-                    </Modal.Button>
+                    </Modal.Open>
                     <Modal.Body>
                       <Modal.Content label="Cadastrar clientes">
                         <ClientForm />
@@ -99,10 +99,10 @@ const Client = () => {
                   </Modal.Context>
 
                   <Modal.Context>
-                    <Modal.Button>
+                    <Modal.Open>
                       <BsBuildingFillAdd />
                       <p className={style.labelModalButton}>Empresas</p>
-                    </Modal.Button>
+                    </Modal.Open>
                     <Modal.Body>
                       <Modal.Content label="Cadastrar empresas">
                         <CompanyForm />
