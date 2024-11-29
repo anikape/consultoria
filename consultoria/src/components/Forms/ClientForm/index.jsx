@@ -8,6 +8,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { Input } from "@/components/Input";
 
 import style from "@/components/Forms/ClientForm/ClientForm.module.css";
+import { Button } from "@/components/Button";
 
 export const ClientForm = () => {
   const { addClient } = useClient();
@@ -19,7 +20,14 @@ export const ClientForm = () => {
     reset,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: "",
+      cpf: "",
+      email: "",
+      phone: "",
+    },
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,12 +37,11 @@ export const ClientForm = () => {
     return () => clearTimeout(timer);
   }, [message]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     try {
       const response = await postData("client", data);
 
       if (response.status !== 201) {
-        setMessage(response.response.data);
         throw new Error(response.response.data);
       }
 
@@ -108,16 +115,12 @@ export const ClientForm = () => {
             <LoadingSpinner />
           ) : (
             <>
-              <button
-                className={style.button1}
-                type="submit"
-                disabled={isSubmitting}
-              >
+              <Button variant={"confirm"} type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Cadastrando..." : "Cadastrar"}
-              </button>
-              <button className={style.button2} type="reset" onClick={reset}>
+              </Button>
+              <Button variant={"cancel"} onClick={() => reset()}>
                 Limpar
-              </button>
+              </Button>
             </>
           )}
         </div>

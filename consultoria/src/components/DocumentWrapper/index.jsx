@@ -8,6 +8,7 @@ import { DocumentContainer } from "@/components/DocumentWrapper/DocumentContaine
 import { TypeForm } from "@/components/Forms/TypeForm";
 
 import style from "@/components/DocumentWrapper/DocumentWrapper.module.css";
+import { TypeProvider } from "@/contexts/Type/TypeContext";
 
 export const DocumentWrapper = ({ data }) => {
   const { ["data"]: documents, loading, error, request } = useData();
@@ -31,10 +32,10 @@ export const DocumentWrapper = ({ data }) => {
         <h2 className={style.subtitle}>Documentos:</h2>
         <div className={style.documentsHeader}>
           <Modal.Context>
-            <Modal.Button>
+            <Modal.Open>
               <HiMiniUserPlus />
               Novo Documento
-            </Modal.Button>
+            </Modal.Open>
             <Modal.Body>
               <Modal.Content label="Novo Documento">
                 <DocumentForm handleFormSubmit={onSubmitModalForm} />
@@ -43,13 +44,15 @@ export const DocumentWrapper = ({ data }) => {
           </Modal.Context>
 
           <Modal.Context>
-            <Modal.Button>
+            <Modal.Open>
               <HiFolderPlus />
               Castrar tipo de documento
-            </Modal.Button>
+            </Modal.Open>
             <Modal.Body>
               <Modal.Content label="Novo tipo de documento">
-                <TypeForm />
+                <TypeProvider>
+                  <TypeForm />
+                </TypeProvider>
               </Modal.Content>
             </Modal.Body>
           </Modal.Context>
