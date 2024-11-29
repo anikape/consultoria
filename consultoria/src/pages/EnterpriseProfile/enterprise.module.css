@@ -44,12 +44,12 @@
   display: flex;
   justify-content: flex-end;
   gap: 32px;
+  padding: 1.5rem 0;
 }
 
 .button {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 1rem;
 }
 
 .buttons {
@@ -224,9 +224,14 @@
     padding: 1em 0;
     line-height: 132%;
   }
+  .groupButtons button {
+    flex: 1;
+  }
 
   .profile {
     grid-template-columns: 1fr;
+    padding: 0;
+    margin-bottom: 1rem;
   }
 
   .profileInput2 {
