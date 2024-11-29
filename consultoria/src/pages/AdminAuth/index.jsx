@@ -16,7 +16,7 @@ import { useFetch } from "@/hooks/useFetch";
 const AdminAuth = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { user, error, isAuthorized } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
   const { postData } = useFetch();
 
@@ -34,22 +34,20 @@ const AdminAuth = () => {
       }
 
       const response = await postData(
-        `/admin/restrict/${user.id}`,
+        `/admin/restrict/${auth.user.id}`,
         { password },
         {
           withCredentials: true,
         }
       );
 
-      console.log(response);
-
       if (response.status !== 200) {
         setMessage(response.response.data);
-        console.log(response);
+
         throw new Error(response.data);
       }
 
-      await isAuthorized(true);
+      await auth.isAuthorized(true);
 
       navigate("/Adm");
     } catch (error) {
@@ -66,11 +64,11 @@ const AdminAuth = () => {
           <div className={style.form}>
             <form onSubmit={handleSubmit(handleLogin)}>
               <div className={style.errorWrapper}>
-                {error && (
+                {auth.error && (
                   <>
                     <span className={style.error}>
                       <FaInfoCircle />
-                      {error}
+                      {auth.error}
                     </span>
                   </>
                 )}
@@ -110,7 +108,7 @@ const AdminAuth = () => {
                   {loading ? "Carregando..." : "Ok"}
                 </button>
                 <Link className={style.button} disabled={loading} to={"/Home"}>
-                  {loading ? "Carregando..." : "Cancelar"}
+                  Cancelar
                 </Link>
               </div>
             </form>
