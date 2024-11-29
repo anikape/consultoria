@@ -12,16 +12,13 @@ import { FaInfoCircle } from "react-icons/fa";
 import LoadindSpiner from "@components/LoadingSpinner";
 import Footer from "@components/Footer";
 import { useFetch } from "@/hooks/useFetch";
-import Cookies from "universal-cookie";
 
 const AdminAuth = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { signin, user, error } = useContext(AuthContext);
+  const { user, error, isAuthorized } = useContext(AuthContext);
   const navigate = useNavigate();
   const { postData } = useFetch();
-
-  const cookie = new Cookies();
 
   const {
     register,
@@ -52,9 +49,7 @@ const AdminAuth = () => {
         throw new Error(response.data);
       }
 
-      console.log(response);
-      const teste = cookie.get("sessionToken");
-      console.log(teste);
+      await isAuthorized(true);
 
       navigate("/Adm");
     } catch (error) {

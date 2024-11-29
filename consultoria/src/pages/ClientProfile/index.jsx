@@ -80,16 +80,7 @@ const ClientProfile = () => {
   };
 
   const handleDelete = async () => {
-    // const userConfirmed = window.confirm(
-    //   "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
-    // );
-
     try {
-      // if (!userConfirmed) {
-      //   setMessage("Operação de exclusão cancelada pelo usuário.");
-      //   return;
-      // }
-
       const response = await deleteClient(id);
 
       if (response.status !== 204) {

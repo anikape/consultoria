@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [authorization, setAuthorization] = useState(false);
 
   const api = useApi();
   const cookies = new Cookies();
@@ -94,10 +95,21 @@ export const AuthProvider = ({ children }) => {
     await api.logout();
   };
 
+  const isAuthorized = approve => {
+    if (!approve) {
+      setAuthorization(false);
+      return false;
+    }
+    setAuthorization(true);
+    return true;
+  };
+
   return (
     <AuthContext.Provider
       value={{
         authenticated,
+        authorization,
+        isAuthorized,
         user,
         token,
         error,

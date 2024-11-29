@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { AdminProvider } from "@contexts/Admin/AdminContext";
@@ -6,38 +6,39 @@ import { HiUser, HiUserPlus } from "react-icons/hi2";
 import { FaUserEdit } from "react-icons/fa";
 
 import home from "@/assets/home.png";
+import { AuthContext } from "@/contexts/Auth/AuthContext";
+
 import style from "@pages/Adm/adm.module.css";
-// import axios from "axios";
 
 const Index = () => {
-  // const [authorized, setAuthorized] = useState(true);
-  // const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+  const [allow, setAllow] = useState(false);
+  const navigate = useNavigate();
 
-  // const checkAuthorization = async () => {
-  //   try {
-  //     const response = await axios.get("", { withCredentials: true });
-  //     if (response.status !== 200) {
-  //       throw new Error("Erro ao autorizar acesso");
-  //     }
+  console.log(auth.authorization);
 
-  //     setAuthorized(true);
-  //   } catch (error) {
-  //     setAuthorized(false);
-  //     navigate("/AdminAuth");
-  //     console.log(error);
-  //   }
-  // };
+  const checkAuthorization = () => {
+    console.log(auth.authorization);
+    if (!auth.authorization) {
+      setAllow(false);
+      console.log(allow);
+    }
+    setAllow(true);
+    console.log(allow);
+  };
 
-  // useEffect(() => {
-  //   checkAuthorization();
-  // }, [navigate]);
+  useEffect(() => {
+    checkAuthorization();
+  }, []);
 
-  // if (!authorized) {
-  //   return <p>Carregando...</p>;
-  // }
+  if (!allow) {
+    // navigate("/AdminAuth");
+    return null;
+  }
 
   return (
     <AdminProvider>
+      {!allow && <p>Você não tem permissão</p>}
       <section className={style.admSection}>
         <div className={style.admContainer}>
           <div className={style.admNav}>

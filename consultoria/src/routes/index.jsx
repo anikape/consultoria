@@ -52,14 +52,14 @@ const RoutesApp = () => {
         <Route path="/sucessCadastro" element={<SucessCadastro />} />
 
         <Route
-          path="/Adm"
+          path="Adm"
           element={
             <RequireAuth>
               <Private Item={Adm} signed={authenticated} />
             </RequireAuth>
           }>
           <Route
-            path=""
+            index
             element={
               <RequireAuth>
                 <AdminProfile />
