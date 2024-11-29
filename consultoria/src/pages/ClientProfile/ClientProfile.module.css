@@ -110,6 +110,7 @@
 }
 .groupButtons {
   display: flex;
+  justify-content: flex-end;
   gap: 32px;
 }
 
@@ -165,6 +166,14 @@
   .container {
     height: inherit;
     width: 100%;
+  }
+
+  .title1 {
+    padding-bottom: 1rem;
+  }
+
+  .groupButtons button {
+    flex: 1;
   }
 
   .profile {
