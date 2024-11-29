@@ -155,6 +155,7 @@
   .admContainer {
     grid-template-columns: 1fr;
     margin: 0 32px;
+    width: 90%;
   }
   .admContent {
     flex-direction: column;
