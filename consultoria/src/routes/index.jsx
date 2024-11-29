@@ -23,6 +23,7 @@ import Footer from "@/components/Footer";
 import { AdminForm } from "@/components/Forms/AdminForm";
 import { AdminPasswordForm } from "@/components/Forms/AdminPasswordForm";
 import { AdminProfile } from "@/components/AdminProfile";
+import { NotFound } from "@/pages/NotFound";
 
 const Private = ({ Item, signed }) => {
   return signed ? <Item /> : <Navigate to="/" />;
@@ -52,14 +53,14 @@ const RoutesApp = () => {
         <Route path="/sucessCadastro" element={<SucessCadastro />} />
 
         <Route
-          path="/Adm"
+          path="Adm"
           element={
             <RequireAuth>
               <Private Item={Adm} signed={authenticated} />
             </RequireAuth>
           }>
           <Route
-            path=""
+            index
             element={
               <RequireAuth>
                 <AdminProfile />
@@ -141,6 +142,8 @@ const RoutesApp = () => {
             </RequireAuth>
           }
         />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

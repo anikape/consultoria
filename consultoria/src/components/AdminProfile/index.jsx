@@ -1,67 +1,60 @@
-import { useState, useEffect, useContext, useReducer } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { AuthContext } from "@contexts/Auth/AuthContext";
-import { useFetch } from "@hooks/useFetch";
+
 import { useAdmin } from "@hooks/useAdmin";
+import { useData } from "@hooks/useData";
+
 import style from "@components/AdminProfile/AdminProfile.module.css";
+import LoadingSpinner from "../LoadingSpinner";
 
 const AdminProfile = () => {
-  const [loading, setLoading] = useState(false);
   const auth = useContext(AuthContext);
-  const { admin, loadAdmin } = useAdmin();
-  const { getData } = useFetch();
+  const { adminList, loadAdmin } = useAdmin();
+  const { loading, error, request } = useData();
 
   const userId = auth.user?.id;
 
   const loadData = async () => {
-    setLoading(true);
     try {
-      const response = await getData(`admin/${userId}`, {
+      const { response, json } = await request("get", `admin/${userId}`, {
         withCredentials: true,
       });
-      console.log(response);
+
       if (response.status !== 200) {
         throw new Error("Erro ao carregar dados");
       }
 
-      await loadAdmin([response.data]);
-      setLoading(false);
-      console.log(response);
+      const adminRegistered = [json];
+      loadAdmin(adminRegistered);
     } catch (error) {
       loadAdmin([]);
-      console.log(error);
     }
   };
   useEffect(() => {
     loadData();
   }, []);
-  console.log(admin);
-  console.log(auth.user);
-  console.log(admin.length);
-
-  if (loading && !admin) {
-    return <p>Carregando...</p>;
-  }
 
   return (
     <div className={style.userData}>
-      {loading && !admin && <p>Carregando...</p>}
       <div className={style.userDataInfo}>
+        {loading && <LoadingSpinner />}
+        {!loading && adminList.length <= 0 && <p>Nenhum dado cadastrado</p>}
         {!loading &&
-          admin?.map(item => (
-            <div key={admin?.id} className={style.userDataInfoItem}>
-              <div>
+          adminList?.map(item => (
+            <div key={item.id} className={style.userDataInfoItem}>
+              <span>
                 <p>Nome:</p>
                 <p>{item.name}</p>
-              </div>
-              <div>
+              </span>
+              <span>
                 <p>CPF:</p>
                 <p>{item.cpf ?? "CPF não cadastrado"}</p>
-              </div>
-              <div>
+              </span>
+              <span>
                 <p>Email:</p>
                 <p>{item.email}</p>
-              </div>
+              </span>
             </div>
           ))}
       </div>
