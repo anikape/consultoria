@@ -193,6 +193,7 @@ const DocumentsPage = () => {
                     name: highlightText(document.name),
                     type: highlightText(document.type),
                   }}
+                  // document={document}
                   key={document._id}
                   handleFormSubmit={loadData}
                   types={types}
