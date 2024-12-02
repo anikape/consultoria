@@ -22,7 +22,6 @@ const DocumentsPage = () => {
   const [loading, setLoading] = useState(false);
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
   const [confirmationMessage, setConfirmationMessage] = useState("");
-  const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
   const [sortBy, setSortBy] = useState("name");
@@ -77,6 +76,7 @@ const DocumentsPage = () => {
   const handleNotificationButtonClick = () => setShowExpiringDocuments(true);
   const handleCloseExpiringDocuments = () => setShowExpiringDocuments(false);
 
+  // Função para ordenar documentos
   const sortedDocuments = [...documents].sort((a, b) => {
     let comparison = 0;
     if (sortBy === "name") {
@@ -89,14 +89,17 @@ const DocumentsPage = () => {
     return sortDirection === "asc" ? comparison : -comparison;
   });
 
+  // Função de filtro para localizar documentos pelo nome ou tipo
   const filteredDocuments = sortedDocuments.filter((document) => {
     const searchLower = searchTerm.toLowerCase().trim();
+    const documentName = document.name ? document.name.toLowerCase() : "";
+    const documentType = document.type ? document.type.toLowerCase() : "";
     return (
-      (document.name && document.name.toLowerCase().includes(searchLower)) ||
-      (document.type && document.type.toLowerCase().includes(searchLower))
+      documentName.includes(searchLower) || documentType.includes(searchLower)
     );
   });
 
+  // Função para destacar o texto
   const highlightText = (text) => {
     if (!searchTerm) return text;
     const regex = new RegExp(`(${searchTerm})`, "gi");
@@ -142,6 +145,7 @@ const DocumentsPage = () => {
             </div>
           </div>
 
+          {/* Campo de busca */}
           <div className={style.searchContainer}>
             <input
               type="text"
@@ -150,6 +154,7 @@ const DocumentsPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className={style.searchInput}
             />
+            {/* Filtros de ordenação */}
             <div className={style.sorting}>
               <label>
                 Ordenar por:
@@ -177,6 +182,7 @@ const DocumentsPage = () => {
             </div>
           </div>
 
+          {/* Exibe todos os documentos ou os filtrados */}
           <section>
             {filteredDocuments.length > 0 ? (
               filteredDocuments.map((document) => (
@@ -198,6 +204,7 @@ const DocumentsPage = () => {
         </div>
       </div>
 
+      {/* Exibe os documentos próximos de vencer */}
       {showExpiringDocuments && (
         <div className={style.expiringDocumentsContainer}>
           <h2>Documentos Próximos de Vencer</h2>
@@ -214,6 +221,7 @@ const DocumentsPage = () => {
         </div>
       )}
 
+      {/* Exibe mensagens de erro e loading */}
       {error && <h1>Não foi possível carregar os dados</h1>}
       {loading && <Loading />}
       {!loading && !error && confirmationMessage && (
