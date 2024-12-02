@@ -77,7 +77,6 @@ const DocumentsPage = () => {
   const handleNotificationButtonClick = () => setShowExpiringDocuments(true);
   const handleCloseExpiringDocuments = () => setShowExpiringDocuments(false);
 
-  // Função para ordenar documentos
   const sortedDocuments = [...documents].sort((a, b) => {
     let comparison = 0;
     if (sortBy === "name") {
@@ -90,16 +89,14 @@ const DocumentsPage = () => {
     return sortDirection === "asc" ? comparison : -comparison;
   });
 
-  // Função de filtro para localizar documentos pelo nome ou tipo
   const filteredDocuments = sortedDocuments.filter((document) => {
     const searchLower = searchTerm.toLowerCase().trim();
     return (
-      document.name?.toLowerCase().includes(searchLower) ||
-      document.type?.toLowerCase().includes(searchLower)
+      (document.name && document.name.toLowerCase().includes(searchLower)) ||
+      (document.type && document.type.toLowerCase().includes(searchLower))
     );
   });
 
-  // Função para destacar o texto
   const highlightText = (text) => {
     if (!searchTerm) return text;
     const regex = new RegExp(`(${searchTerm})`, "gi");
@@ -145,7 +142,6 @@ const DocumentsPage = () => {
             </div>
           </div>
 
-          {/* Campo de busca */}
           <div className={style.searchContainer}>
             <input
               type="text"
@@ -154,36 +150,33 @@ const DocumentsPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className={style.searchInput}
             />
-          {/* Filtros de ordenação */}
-          <div className={style.sorting}>
-            <label>
-              Ordenar por:
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+            <div className={style.sorting}>
+              <label>
+                Ordenar por:
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  <option value="name">Nome da Empresa</option>
+                  <option value="type">Tipo de Documento</option>
+                  <option value="validity">Data de Vencimento</option>
+                </select>
+              </label>
+              <button
+                className={style.sortIcons}
+                onClick={() => setSortDirection("asc")}
               >
-                <option value="name">Nome da Empresa</option>
-                <option value="type">Tipo de Documento</option>
-                <option value="validity">Data de Vencimento</option>
-              </select>
-            </label>
-            <button
-              className={style.sortIcons}
-              onClick={() => setSortDirection("asc")}
-            >
-             <FaChevronUp/> 
-            </button>
-            <button
-              className={style.sortIcons}
-              onClick={() => setSortDirection("desc")}
-            >
-             <FaChevronDown/> 
-            </button>
-          </div>
+                <FaChevronUp />
+              </button>
+              <button
+                className={style.sortIcons}
+                onClick={() => setSortDirection("desc")}
+              >
+                <FaChevronDown />
+              </button>
+            </div>
           </div>
 
-
-          {/* Exibe todos os documentos ou os filtrados */}
           <section>
             {filteredDocuments.length > 0 ? (
               filteredDocuments.map((document) => (
@@ -193,7 +186,6 @@ const DocumentsPage = () => {
                     name: highlightText(document.name),
                     type: highlightText(document.type),
                   }}
-                  // document={document}
                   key={document._id}
                   handleFormSubmit={loadData}
                   types={types}
@@ -206,7 +198,6 @@ const DocumentsPage = () => {
         </div>
       </div>
 
-      {/* Exibe os documentos próximos de vencer */}
       {showExpiringDocuments && (
         <div className={style.expiringDocumentsContainer}>
           <h2>Documentos Próximos de Vencer</h2>
@@ -223,7 +214,6 @@ const DocumentsPage = () => {
         </div>
       )}
 
-      {/* Exibe mensagens de erro e loading */}
       {error && <h1>Não foi possível carregar os dados</h1>}
       {loading && <Loading />}
       {!loading && !error && confirmationMessage && (
