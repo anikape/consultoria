@@ -38,7 +38,7 @@ export const useFetch = () => ({
       return error;
     }
   },
-  deleteData: async endpoint => {
+  deleteData: async (endpoint) => {
     try {
       const response = await api.delete(endpoint, {
         withCredentials: true,
@@ -61,7 +61,7 @@ export const useFetch = () => ({
       return error;
     }
   },
-  patchData: async (endpoint, body) => {
+  editPassword: async (endpoint, body) => {
     try {
       const response = await api.patch(endpoint, body, {
         withCredentials: true,
@@ -73,7 +73,7 @@ export const useFetch = () => ({
     }
   },
 
-  deleteClient: async id => {
+  deleteClient: async (id) => {
     const endpoint = `/client/${id}`;
     try {
       const response = await api.delete(endpoint, {
@@ -86,7 +86,7 @@ export const useFetch = () => ({
     }
   },
 
-  deleteCompany: async id => {
+  deleteCompany: async (id) => {
     const endpoint = `/company/${id}`;
     try {
       const response = await api.delete(endpoint, {

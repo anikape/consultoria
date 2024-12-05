@@ -31,7 +31,7 @@ const Signin = () => {
       if (useremail && password) {
         const response = await signin(useremail, password);
 
-        if (response.status !== 200 || !response) {
+        if (!response.status === 200 || !response) {
           navigate("/");
           throw new Error(response.data);
         }
@@ -97,7 +97,8 @@ const Signin = () => {
                     <button
                       className={style.send}
                       type="submit"
-                      disabled={loading}>
+                      disabled={loading}
+                    >
                       Entrar
                     </button>
                     <Link to="/redefine" className={style.forguet}>

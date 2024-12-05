@@ -8,7 +8,6 @@ import { Select } from "@/components/Select";
 import styles from "@/components/Forms/DocumentForm/DocumentForm.module.css";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useModal } from "@/components/Modal/ModalContext";
-import { Button } from "@/components/Button";
 
 export const DocumentForm = ({ handleFormSubmit }) => {
   const { closeModal } = useModal();
@@ -21,19 +20,9 @@ export const DocumentForm = ({ handleFormSubmit }) => {
   const { uploadFile } = useFetch();
   const {
     register,
-    reset,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm({
-    defaultValues: {
-      city: "",
-      company: "",
-      emission: "",
-      validity: "",
-      type: "",
-      file: "",
-    },
-  });
+  } = useForm();
 
   const loadData = async () => {
     setLoading(true);
@@ -64,7 +53,7 @@ export const DocumentForm = ({ handleFormSubmit }) => {
     return () => clearTimeout(timer);
   }, [message]);
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     data = {
       ...data,
       file: data.file[0],
@@ -74,6 +63,7 @@ export const DocumentForm = ({ handleFormSubmit }) => {
       const { status } = await uploadFile("document/upload", data);
 
       if (status !== 201) {
+        setMessage("Erro ao enviar aquivo");
         throw new Error("Não foi possível enviar o arquivo");
       }
 
@@ -96,7 +86,7 @@ export const DocumentForm = ({ handleFormSubmit }) => {
           {...register("city", { required: "Informe uma cidade" })}
           label="Cidade"
           placeholder="Informe a cidade"
-          error={errors.city?.message}
+          error={errors.name?.message}
         />
         <Input
           {...register("emission", {
@@ -149,24 +139,17 @@ export const DocumentForm = ({ handleFormSubmit }) => {
         </Select>
 
         <Input
-          {...register("file", { register: "Campo obrigatório" })}
+          {...register("file")}
           label="Anexar arquivo"
           type="file"
           name="file"
-          error={errors.file?.message}
         />
-        <p>{errors.file?.message}</p>
 
         {isSubmitting ? (
           <LoadingSpinner />
         ) : (
           <>
-            <div className={styles.buttonsGroup}>
-              <Button variant={"confirm"}>Enviar</Button>
-              <Button variant={"cancel"} onClick={() => reset()}>
-                Cancelar
-              </Button>
-            </div>
+            <button className={styles.buttonSubmit}>Enviar</button>
           </>
         )}
       </form>

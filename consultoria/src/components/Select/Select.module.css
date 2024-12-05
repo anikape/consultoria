@@ -22,7 +22,7 @@
 }
 
 .errorMessage {
-  color: rgb(146, 51, 51);
+  color: red;
   font-size: 12px;
   position: absolute;
   bottom: 0.5rem;

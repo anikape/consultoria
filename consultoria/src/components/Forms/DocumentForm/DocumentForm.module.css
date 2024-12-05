@@ -24,8 +24,11 @@
   padding: 1em;
 }
 
-.buttonsGroup {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+.buttonSubmit {
+  background: #a0b0ac;
+  border-radius: 26px;
+  border: 1px solid rgba(30, 30, 30, 0.43);
+  margin-top: 1em;
+  width: 171px;
+  height: 39px;
 }

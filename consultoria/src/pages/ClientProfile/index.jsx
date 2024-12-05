@@ -10,12 +10,9 @@ import { useFetch } from "@hooks/useFetch";
 import { useClient } from "@hooks/useClient";
 
 import LoadingSpinner from "@components/LoadingSpinner";
-import { Button } from "@/components/Button";
 import Footer from "@components/Footer";
 
 import style from "@pages/ClientProfile/ClientProfile.module.css";
-import { Modal } from "@/components/Modal";
-import { Document } from "@/components/Document";
 
 const ClientProfile = () => {
   const [message, setMessage] = useState("");
@@ -49,7 +46,7 @@ const ClientProfile = () => {
     }
   };
 
-  const handleEdit = client => {
+  const handleEdit = (client) => {
     setEditable(true);
     setValue("name", client.name);
     setValue("cpf", client.cpf);
@@ -57,7 +54,7 @@ const ClientProfile = () => {
     setValue("phone", client.phone);
   };
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     data = { ...data, id };
 
     try {
@@ -80,7 +77,16 @@ const ClientProfile = () => {
   };
 
   const handleDelete = async () => {
+    const userConfirmed = window.confirm(
+      "Deseja realmente apagar o registro? Essa ação não pode ser desfeita."
+    );
+
     try {
+      if (!userConfirmed) {
+        setMessage("Operação de exclusão cancelada pelo usuário.");
+        return;
+      }
+
       const response = await deleteClient(id);
 
       if (response.status !== 204) {
@@ -139,14 +145,15 @@ const ClientProfile = () => {
           {clientList.length > 0 && !error && !loading && (
             <>
               <section className={style.formContainer}>
-                {clientList.map(client => (
+                {clientList.map((client) => (
                   <div key={client.id}>
                     <h1 className={style.title1}>{client.name}</h1>
                     <section className={style.profile}>
                       <p className={style.message}>{message}</p>
                       <form
                         className={style.editForm}
-                        onSubmit={handleSubmit(onSubmit)}>
+                        onSubmit={handleSubmit(onSubmit)}
+                      >
                         <div className={style.profileItem}>
                           <h2>Nome</h2>
                           {editable ? (
@@ -230,52 +237,35 @@ const ClientProfile = () => {
                           <>
                             <div className={style.groupButtons}>
                               {!editable && (
-                                <Button
-                                  variant={"confirm"}
-                                  onClick={() => handleEdit(client)}>
+                                <button
+                                  className={style.edtSave}
+                                  onClick={() => handleEdit(client)}
+                                >
                                   Editar
-                                </Button>
+                                </button>
                               )}
                               {editable && (
-                                <Button variant={"confirm"}>Salvar</Button>
+                                <button className={style.edtSave} type="submit">
+                                  Salvar
+                                </button>
                               )}
 
                               {!editable && (
-                                <Modal.Context>
-                                  <Modal.Button
-                                    action={"open"}
-                                    title="Excluir"></Modal.Button>
-                                  <Modal.Body>
-                                    <Modal.Content label="Excluir Cliente">
-                                      <p className={style.deleteParagraph}>
-                                        Deseja realmente apagar o registro? Essa
-                                        ação não pode ser desfeita.
-                                      </p>
-                                      <p className={style.deleteParagraph}>
-                                        <strong>{client.name}</strong>
-                                      </p>
-                                      <div className={style.deleteGroupButtons}>
-                                        <Modal.Button
-                                          action={"close"}
-                                          title="Cancelar"
-                                        />
-                                        <Button
-                                          variant={"confirm"}
-                                          onClick={handleDelete}
-                                          type="button">
-                                          Excluir
-                                        </Button>
-                                      </div>
-                                    </Modal.Content>
-                                  </Modal.Body>
-                                </Modal.Context>
+                                <button
+                                  className={style.edtSave}
+                                  onClick={handleDelete}
+                                  type="button"
+                                >
+                                  Excluir
+                                </button>
                               )}
                               {editable && (
-                                <Button
-                                  variant={"cancel"}
-                                  onClick={() => setEditable(false)}>
+                                <button
+                                  className={style.edtSave}
+                                  onClick={() => setEditable(false)}
+                                >
                                   Cancelar
-                                </Button>
+                                </button>
                               )}
                             </div>
                           </>

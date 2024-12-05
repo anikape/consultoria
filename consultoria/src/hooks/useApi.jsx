@@ -4,7 +4,7 @@ import { api } from "@/services/api";
 const cookies = new Cookies();
 
 export const useApi = () => ({
-  validateToken: token => {
+  validateToken: (token) => {
     if (token) {
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
       api.defaults.withCredentials = true;
@@ -25,7 +25,7 @@ export const useApi = () => ({
         { withCredentials: true }
       );
 
-      if (response.status !== 200 || !response) {
+      if (response.status !== 200) {
         throw new Error(response.data);
       }
 

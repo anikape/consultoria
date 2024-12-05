@@ -1,17 +1,17 @@
 import { useCallback, useState } from "react";
+import { Document } from "@/components/Document";
+import { Input } from "@/components/Input";
+import { Select } from "@/components/Select";
 import { useForm } from "react-hook-form";
 import { BsFiletypePdf } from "react-icons/bs";
 import { FaSave } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 import { MdCancel, MdDeleteOutline } from "react-icons/md";
-
-import { Document } from "@components/Document";
+import style from "@/components/Documents/Documents.module.css";
 import { formatDate, formatDateForm } from "@/helpers/formatDate";
-import { useFetch } from "@hooks/useFetch";
-import { Modal } from "@components/Modal";
-import LoadingSpinner from "@components/LoadingSpinner";
-
-import style from "@components/Documents/Documents.module.css";
+import { useFetch } from "@/hooks/useFetch";
+import { Modal } from "@/components/Modal";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export const Documents = ({ document, handleFormSubmit, types }) => {
   const [editable, setEditable] = useState(false);
@@ -21,7 +21,7 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
   const { editData, deleteData } = useFetch();
   const { register, handleSubmit, setValue } = useForm();
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     setLoading(true);
     console.log(data);
     try {
@@ -49,7 +49,7 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
     setValue("validity", formatDateForm(document.validity));
   }, []);
 
-  const handleDeleteConfirmed = async id => {
+  const handleDeleteConfirmed = async (id) => {
     setLoading(true);
 
     try {
@@ -86,7 +86,7 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
                 <Document.Item>
                   <p>Documento</p>
                   {editable ? (
-                    <input {...register("name")} />
+                    <Input {...register("name")} />
                   ) : (
                     <p>{document.name}</p>
                   )}
@@ -95,7 +95,7 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
                 <Document.Item>
                   <p>Empresa</p>
                   {editable ? (
-                    <input {...register("companyName")} />
+                    <Input {...register("companyName")} />
                   ) : (
                     <p>{document.companyName}</p>
                   )}
@@ -104,17 +104,18 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
                   <p>Tipo</p>
                   {editable ? (
                     <>
-                      <select {...register("type")} defaultValue={document._id}>
+                      <Select {...register("type")} defaultValue={document._id}>
                         {types?.map(({ _id, description }) => (
                           <option
                             key={_id}
                             value={_id}
                             disabled={types ? "" : "disabled"}
-                            selected={document.type === _id ? "selected" : ""}>
+                            selected={document.type === _id ? "selected" : ""}
+                          >
                             {types ? description : "carregando..."}
                           </option>
                         ))}
-                      </select>
+                      </Select>
                     </>
                   ) : (
                     <p>
@@ -134,7 +135,7 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
                 <Document.Item>
                   <p>Emissão</p>
                   {editable ? (
-                    <input {...register("emission")} type="date" />
+                    <Input {...register("emission")} type="date" />
                   ) : (
                     <p>{formatDate(document.emission)}</p>
                   )}
@@ -142,7 +143,7 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
                 <Document.Item>
                   <p>Validade</p>
                   {editable ? (
-                    <input {...register("validity")} type="date" />
+                    <Input {...register("validity")} type="date" />
                   ) : (
                     <p>{formatDate(document.validity)}</p>
                   )}
@@ -156,7 +157,8 @@ export const Documents = ({ document, handleFormSubmit, types }) => {
                     href={document.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={style.buttons}>
+                    className={style.buttons}
+                  >
                     <BsFiletypePdf />
                   </a>
                   {editable ? (
