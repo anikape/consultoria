@@ -35,7 +35,7 @@ const DocumentsPage = () => {
     setLoading(true);
     try {
       const [companysData, typesData] = await Promise.all([
-        request("get", "document", { withCredentials: true }),
+        request("get", "documen", { withCredentials: true }),
         request("get", "types", { withCredentials: true }),
       ]);
 
@@ -121,124 +121,126 @@ const DocumentsPage = () => {
   }, [documentsExpiringSoon]);
 
   return (
-    <section className={style.Document}>
-      <div className={style.container}>
-        <div className={style.content}>
-          <div className={style.header}>
-            <div className={style.headingWrapper}>
-              <h1 className={style.title}>Documentos</h1>
-              <Navigation>
-                <Link className={style.buttons} to="/home">
-                  <RiHomeHeartLine className={style.home} />
-                </Link>
-                <Link to="/client" className={style.buttons}>
-                  <FaUserGroup />
-                </Link>
-                {showNotification && (
-                  <div className={style.notificationContainer}>
-                    <button
-                      onClick={handleNotificationButtonClick}
-                      className={style.showExpiringButton}>
-                      <IoIosNotificationsOutline
-                        className={style.notification}
-                      />
-                    </button>
-                  </div>
-                )}
-              </Navigation>
+    <main>
+      <section className={style.Document}>
+        <div className={style.container}>
+          <div className={style.content}>
+            <div className={style.header}>
+              <div className={style.headingWrapper}>
+                <h1 className={style.title}>Documentos</h1>
+                <Navigation>
+                  <Link className={style.buttons} to="/home">
+                    <RiHomeHeartLine className={style.home} />
+                  </Link>
+                  <Link to="/client" className={style.buttons}>
+                    <FaUserGroup />
+                  </Link>
+                  {showNotification && (
+                    <div className={style.notificationContainer}>
+                      <button
+                        onClick={handleNotificationButtonClick}
+                        className={style.showExpiringButton}>
+                        <IoIosNotificationsOutline
+                          className={style.notification}
+                        />
+                      </button>
+                    </div>
+                  )}
+                </Navigation>
+              </div>
             </div>
-          </div>
 
-          {/* Campo de busca */}
-          <div className={style.searchContainer}>
-            <input
-              type="text"
-              placeholder="Buscar documentos..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className={style.searchInput}
-            />
-            {/* Filtros de ordenação */}
-            <div className={style.sorting}>
-              <label>
-                Ordenar por:
-                <select
-                  value={sortBy}
-                  onChange={e => setSortBy(e.target.value)}>
-                  <option value="name">Nome da Empresa</option>
-                  <option value="type">Tipo de Documento</option>
-                  <option value="validity">Data de Vencimento</option>
-                </select>
-              </label>
-              <button
-                className={style.sortIcons}
-                onClick={() => setSortDirection("asc")}>
-                <FaChevronUp />
-              </button>
-              <button
-                className={style.sortIcons}
-                onClick={() => setSortDirection("desc")}>
-                <FaChevronDown />
-              </button>
+            {/* Campo de busca */}
+            <div className={style.searchContainer}>
+              <input
+                type="text"
+                placeholder="Buscar documentos..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className={style.searchInput}
+              />
+              {/* Filtros de ordenação */}
+              <div className={style.sorting}>
+                <label>
+                  Ordenar por:
+                  <select
+                    value={sortBy}
+                    onChange={e => setSortBy(e.target.value)}>
+                    <option value="name">Nome da Empresa</option>
+                    <option value="type">Tipo de Documento</option>
+                    <option value="validity">Data de Vencimento</option>
+                  </select>
+                </label>
+                <button
+                  className={style.sortIcons}
+                  onClick={() => setSortDirection("asc")}>
+                  <FaChevronUp />
+                </button>
+                <button
+                  className={style.sortIcons}
+                  onClick={() => setSortDirection("desc")}>
+                  <FaChevronDown />
+                </button>
+              </div>
             </div>
+
+            {/* Exibe todos os documentos ou os filtrados */}
+            <section>
+              {loading && <LoadingSpinner />}
+
+              {!documents && error && !loading && (
+                <h1>Não foi possível carregar os dados</h1>
+              )}
+
+              {!loading && filteredDocuments.length <= 0 && (
+                <p>Nenhum documento encontrado.</p>
+              )}
+
+              {!loading &&
+                !error &&
+                filteredDocuments.length > 0 &&
+                filteredDocuments.map(document => (
+                  <Documents
+                    document={{
+                      ...document,
+                      name: highlightText(document.name),
+                      type: highlightText(document.type),
+                    }}
+                    key={document._id}
+                    handleFormSubmit={loadData}
+                    types={types}
+                  />
+                ))}
+            </section>
           </div>
+        </div>
 
-          {/* Exibe todos os documentos ou os filtrados */}
-          <section>
-            {loading && <LoadingSpinner />}
-
-            {!documents && error && !loading && (
-              <h1>Não foi possível carregar os dados</h1>
-            )}
-
-            {!loading && filteredDocuments.length <= 0 && (
-              <p>Nenhum documento encontrado.</p>
-            )}
-
-            {!loading &&
-              !error &&
-              filteredDocuments.length > 0 &&
-              filteredDocuments.map(document => (
-                <Documents
-                  document={{
-                    ...document,
-                    name: highlightText(document.name),
-                    type: highlightText(document.type),
-                  }}
-                  key={document._id}
-                  handleFormSubmit={loadData}
-                  types={types}
-                />
+        {/* Exibe os documentos próximos de vencer */}
+        {showExpiringDocuments && (
+          <div className={style.expiringDocumentsContainer}>
+            <h2>Documentos Próximos de Vencer</h2>
+            <ul>
+              {documentsExpiringSoon.map(document => (
+                <li key={document._id}>
+                  <FaArrowRight />
+                  {highlightText(document.name)} - Vencimento em{" "}
+                  {formatDate(document.validity)}
+                </li>
               ))}
-          </section>
-        </div>
-      </div>
+            </ul>
+            <button onClick={handleCloseExpiringDocuments}>Fechar</button>
+          </div>
+        )}
 
-      {/* Exibe os documentos próximos de vencer */}
-      {showExpiringDocuments && (
-        <div className={style.expiringDocumentsContainer}>
-          <h2>Documentos Próximos de Vencer</h2>
-          <ul>
-            {documentsExpiringSoon.map(document => (
-              <li key={document._id}>
-                <FaArrowRight />
-                {highlightText(document.name)} - Vencimento em{" "}
-                {formatDate(document.validity)}
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleCloseExpiringDocuments}>Fechar</button>
-        </div>
-      )}
+        {/* Exibe mensagens de erro e loading */}
 
-      {/* Exibe mensagens de erro e loading */}
-
-      {/* {loading && <Loading />} */}
-      {/* {!loading && !error && confirmationMessage && (
+        {/* {loading && <Loading />} */}
+        {/* {!loading && !error && confirmationMessage && (
         <div>{confirmationMessage}</div>
       )} */}
+      </section>
       <Footer />
-    </section>
+    </main>
   );
 };
 
