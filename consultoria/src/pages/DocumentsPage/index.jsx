@@ -14,6 +14,7 @@ import { Navigation } from "@/components/Navigation";
 import { Documents } from "@/components/Documents";
 
 import style from "@/pages/DocumentsPage/Documents.module.css";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const DocumentsPage = () => {
   const { error, request } = useData();
@@ -58,7 +59,7 @@ const DocumentsPage = () => {
       setTypes(typesData.json);
 
       const today = new Date();
-      const expiringSoon = companysData.json.filter((document) => {
+      const expiringSoon = companysData.json.filter(document => {
         const validityDate = new Date(document.validity);
         const differenceInDays = Math.ceil(
           (validityDate - today) / (1000 * 60 * 60 * 24)
@@ -90,7 +91,8 @@ const DocumentsPage = () => {
   });
 
   // Função de filtro para localizar documentos pelo nome ou tipo
-  const filteredDocuments = sortedDocuments.filter((document) => {
+  // const filteredDocuments = [];
+  const filteredDocuments = sortedDocuments.filter(document => {
     const searchLower = searchTerm.toLowerCase().trim();
     const documentName = document.name ? document.name.toLowerCase() : "";
     const documentType = document.type ? document.type.toLowerCase() : "";
@@ -100,7 +102,7 @@ const DocumentsPage = () => {
   });
 
   // Função para destacar o texto
-  const highlightText = (text) => {
+  const highlightText = text => {
     if (!searchTerm) return text;
     const regex = new RegExp(`(${searchTerm})`, "gi");
     const parts = text.split(regex);
@@ -133,8 +135,7 @@ const DocumentsPage = () => {
                   <div className={style.notificationContainer}>
                     <button
                       onClick={handleNotificationButtonClick}
-                      className={style.showExpiringButton}
-                    >
+                      className={style.showExpiringButton}>
                       <IoIosNotificationsOutline
                         className={style.notification}
                       />
@@ -151,7 +152,7 @@ const DocumentsPage = () => {
               type="text"
               placeholder="Buscar documentos..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               className={style.searchInput}
             />
             {/* Filtros de ordenação */}
@@ -160,8 +161,7 @@ const DocumentsPage = () => {
                 Ordenar por:
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
+                  onChange={e => setSortBy(e.target.value)}>
                   <option value="name">Nome da Empresa</option>
                   <option value="type">Tipo de Documento</option>
                   <option value="validity">Data de Vencimento</option>
@@ -169,14 +169,12 @@ const DocumentsPage = () => {
               </label>
               <button
                 className={style.sortIcons}
-                onClick={() => setSortDirection("asc")}
-              >
+                onClick={() => setSortDirection("asc")}>
                 <FaChevronUp />
               </button>
               <button
                 className={style.sortIcons}
-                onClick={() => setSortDirection("desc")}
-              >
+                onClick={() => setSortDirection("desc")}>
                 <FaChevronDown />
               </button>
             </div>
@@ -184,8 +182,13 @@ const DocumentsPage = () => {
 
           {/* Exibe todos os documentos ou os filtrados */}
           <section>
-            {filteredDocuments.length > 0 ? (
-              filteredDocuments.map((document) => (
+            {loading && <LoadingSpinner />}
+            {!loading && filteredDocuments.length <= 0 && (
+              <p>Nenhum documento encontrado.</p>
+            )}
+            {!loading &&
+              filteredDocuments.length > 0 &&
+              filteredDocuments.map(document => (
                 <Documents
                   document={{
                     ...document,
@@ -196,10 +199,7 @@ const DocumentsPage = () => {
                   handleFormSubmit={loadData}
                   types={types}
                 />
-              ))
-            ) : (
-              <p>Nenhum documento encontrado.</p>
-            )}
+              ))}
           </section>
         </div>
       </div>
@@ -209,7 +209,7 @@ const DocumentsPage = () => {
         <div className={style.expiringDocumentsContainer}>
           <h2>Documentos Próximos de Vencer</h2>
           <ul>
-            {documentsExpiringSoon.map((document) => (
+            {documentsExpiringSoon.map(document => (
               <li key={document._id}>
                 <FaArrowRight />
                 {highlightText(document.name)} - Vencimento em{" "}
