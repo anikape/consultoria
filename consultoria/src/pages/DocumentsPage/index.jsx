@@ -15,6 +15,7 @@ import { Documents } from "@/components/Documents";
 
 import style from "@/pages/DocumentsPage/Documents.module.css";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { useType } from "@hooks/useType";
 
 const DocumentsPage = () => {
   const { error, request } = useData();
@@ -29,23 +30,6 @@ const DocumentsPage = () => {
   const [sortDirection, setSortDirection] = useState("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const soonThreshold = 7;
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    if (confirmationMessage) {
-      const timer = setTimeout(() => setConfirmationMessage(""), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [confirmationMessage]);
-
-  useEffect(() => {
-    if (documentsExpiringSoon.length > 0) {
-      setShowNotification(true);
-    }
-  }, [documentsExpiringSoon]);
 
   const loadData = async () => {
     setLoading(true);
@@ -66,8 +50,10 @@ const DocumentsPage = () => {
         );
         return differenceInDays >= 0 && differenceInDays <= soonThreshold;
       });
+
       setDocumentsExpiringSoon(expiringSoon);
     } catch (error) {
+      setDocuments([]);
       console.log(error);
     } finally {
       setLoading(false);
@@ -116,6 +102,23 @@ const DocumentsPage = () => {
       )
     );
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (confirmationMessage) {
+      const timer = setTimeout(() => setConfirmationMessage(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [confirmationMessage]);
+
+  useEffect(() => {
+    if (documentsExpiringSoon.length > 0) {
+      setShowNotification(true);
+    }
+  }, [documentsExpiringSoon]);
 
   return (
     <section className={style.Document}>
@@ -183,10 +186,17 @@ const DocumentsPage = () => {
           {/* Exibe todos os documentos ou os filtrados */}
           <section>
             {loading && <LoadingSpinner />}
+
+            {!documents && error && !loading && (
+              <h1>Não foi possível carregar os dados</h1>
+            )}
+
             {!loading && filteredDocuments.length <= 0 && (
               <p>Nenhum documento encontrado.</p>
             )}
+
             {!loading &&
+              !error &&
               filteredDocuments.length > 0 &&
               filteredDocuments.map(document => (
                 <Documents
@@ -222,11 +232,11 @@ const DocumentsPage = () => {
       )}
 
       {/* Exibe mensagens de erro e loading */}
-      {error && <h1>Não foi possível carregar os dados</h1>}
-      {loading && <Loading />}
-      {!loading && !error && confirmationMessage && (
+
+      {/* {loading && <Loading />} */}
+      {/* {!loading && !error && confirmationMessage && (
         <div>{confirmationMessage}</div>
-      )}
+      )} */}
       <Footer />
     </section>
   );
