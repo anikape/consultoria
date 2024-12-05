@@ -2,7 +2,7 @@ import Footer from "@components/Footer";
 import style from "@pages/NotFound/NotFound.module.css";
 import { Link } from "react-router-dom";
 
-const NotFound = () => {
+export const NotFound = () => {
   return (
     <main className={style.home}>
       <section className={style.sectionHome}>
@@ -21,5 +21,3 @@ const NotFound = () => {
     </main>
   );
 };
-
-export { NotFound };
