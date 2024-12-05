@@ -22,7 +22,6 @@ const DocumentsPage = () => {
   const [loading, setLoading] = useState(false);
   const [documentsExpiringSoon, setDocumentsExpiringSoon] = useState([]);
   const [confirmationMessage, setConfirmationMessage] = useState("");
-  const [deletedDocumentId, setDeletedDocumentId] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [showExpiringDocuments, setShowExpiringDocuments] = useState(false);
   const [sortBy, setSortBy] = useState("name");
@@ -93,9 +92,10 @@ const DocumentsPage = () => {
   // Função de filtro para localizar documentos pelo nome ou tipo
   const filteredDocuments = sortedDocuments.filter((document) => {
     const searchLower = searchTerm.toLowerCase().trim();
+    const documentName = document.name ? document.name.toLowerCase() : "";
+    const documentType = document.type ? document.type.toLowerCase() : "";
     return (
-      document.name?.toLowerCase().includes(searchLower) ||
-      document.type?.toLowerCase().includes(searchLower)
+      documentName.includes(searchLower) || documentType.includes(searchLower)
     );
   });
 
@@ -154,34 +154,33 @@ const DocumentsPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className={style.searchInput}
             />
-          {/* Filtros de ordenação */}
-          <div className={style.sorting}>
-            <label>
-              Ordenar por:
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
+            {/* Filtros de ordenação */}
+            <div className={style.sorting}>
+              <label>
+                Ordenar por:
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  <option value="name">Nome da Empresa</option>
+                  <option value="type">Tipo de Documento</option>
+                  <option value="validity">Data de Vencimento</option>
+                </select>
+              </label>
+              <button
+                className={style.sortIcons}
+                onClick={() => setSortDirection("asc")}
               >
-                <option value="name">Nome da Empresa</option>
-                <option value="type">Tipo de Documento</option>
-                <option value="validity">Data de Vencimento</option>
-              </select>
-            </label>
-            <button
-              className={style.sortIcons}
-              onClick={() => setSortDirection("asc")}
-            >
-             <FaChevronUp/> 
-            </button>
-            <button
-              className={style.sortIcons}
-              onClick={() => setSortDirection("desc")}
-            >
-             <FaChevronDown/> 
-            </button>
+                <FaChevronUp />
+              </button>
+              <button
+                className={style.sortIcons}
+                onClick={() => setSortDirection("desc")}
+              >
+                <FaChevronDown />
+              </button>
+            </div>
           </div>
-          </div>
-
 
           {/* Exibe todos os documentos ou os filtrados */}
           <section>

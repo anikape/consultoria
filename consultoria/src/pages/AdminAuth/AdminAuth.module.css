@@ -19,14 +19,13 @@
 .container {
   gap: 2rem;
   width: 100%;
-  max-width: 990px;
+  max-width: 700px;
   padding: 22px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  min-width: 700px;
   min-height: 400px;
   align-items: center;
   background: url("@/assets/bgAdd.png");
@@ -199,5 +198,27 @@ select:-webkit-autofill:focus {
   color: rgb(177, 61, 61);
   text-align: center;
   position: absolute;
+}
+@media (max-width: 780px) {
+  .container {
+    background: none;
+    /* padding: 0; */
+    padding: 0 32px;
+  }
+  .form {
+    min-width: 100%;
+  }
 
+  .inputContainerH2 {
+    font-size: 18px;
+  }
+  .inputContainerP {
+    font-size: 1rem;
+  }
+  .inputContainer {
+    gap: 1rem;
+  }
+  .inputGroup {
+    padding: 1rem 0;
+  }
 }

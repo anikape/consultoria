@@ -105,6 +105,7 @@
   gap: 14px;
   align-items: center;
   width: 100%;
+  padding-left: 1.5em;
 }
 
 .search {
@@ -144,7 +145,25 @@
   box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.46),
     0px 3px 3px 0px rgba(0, 0, 0, 0.368) inset;
   padding-left: 15px;
+  outline: none;
 }
+
+.sortButton {
+  margin-left: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sortButton:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
+
 
 .modals {
   display: flex;

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { BsBuildingFillAdd } from "react-icons/bs";
 import { HiMiniUserPlus, HiUsers } from "react-icons/hi2";
 import { RiHomeHeartLine } from "react-icons/ri";
+import { IoMdSearch } from "react-icons/io";
+import { FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
 
 import { useData } from "@hooks/useData";
 import { useClient } from "@hooks/useClient";
@@ -20,15 +22,15 @@ import LoadingSpinner from "@components/LoadingSpinner";
 import style from "@pages/Client/client.module.css";
 
 const Client = () => {
-  const { loading, error, request } = useData(false);
+  const { loading, request } = useData(false);
   const { clientList, loadClients } = useClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredClients, setFilteredClients] = useState([]);
+  const [isAscending, setIsAscending] = useState(true); // Controle da ordenação
 
   const loadData = async () => {
     const response = await request("get", "client", { withCredentials: true });
     const clients = response.json;
-
     await loadClients(clients);
   };
 
@@ -36,40 +38,32 @@ const Client = () => {
     loadData();
   }, []);
 
-  const findClients = (search) => {
-    const result = [];
-    return result;
-  };
-
   useEffect(() => {
-    if (clientList && clientList.length > 0) {
+    if (clientList?.length > 0) {
       setFilteredClients(
-        clientList?.filter((client) => {
-          const hasName =
-            client.name &&
-            client.name.toLowerCase().includes(searchTerm.toLowerCase());
-          const hasCnpj = client.cnpj && client.cnpj.includes(searchTerm);
-          return hasName || hasCnpj;
+        clientList.filter(client => {
+          const nameMatch = client.name?.toLowerCase().includes(searchTerm.toLowerCase());
+          const cnpjMatch = client.cnpj?.includes(searchTerm);
+          return nameMatch || cnpjMatch;
         })
       );
     }
   }, [clientList, searchTerm]);
 
-  useEffect(() => {
-    // console.log("Loading:", loading);
-    // console.log("Clients:", clients);
-    // console.log("Filtered Clients:", filteredClients);
-    // console.log("Search Term:", searchTerm);
-  }, [loading, clientList, filteredClients, searchTerm]);
+  const handleSortToggle = () => {
+    setIsAscending(prev => !prev);
+  };
 
   if (loading && !clientList) {
     return <Loading />;
   }
 
   if (clientList) {
-    const sortedClients = [...filteredClients].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    const sortedClients = [...filteredClients].sort((a, b) => {
+      return isAscending
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name);
+    });
 
     return (
       <main className={style.ClientHome}>
@@ -87,10 +81,10 @@ const Client = () => {
                   </Link>
 
                   <Modal.Context>
-                    <Modal.Button>
+                    <Modal.Open>
                       <HiMiniUserPlus />
                       <p className={style.labelModalButton}>Clientes</p>
-                    </Modal.Button>
+                    </Modal.Open>
                     <Modal.Body>
                       <Modal.Content label="Cadastrar clientes">
                         <ClientForm />
@@ -99,10 +93,10 @@ const Client = () => {
                   </Modal.Context>
 
                   <Modal.Context>
-                    <Modal.Button>
+                    <Modal.Open>
                       <BsBuildingFillAdd />
                       <p className={style.labelModalButton}>Empresas</p>
-                    </Modal.Button>
+                    </Modal.Open>
                     <Modal.Body>
                       <Modal.Content label="Cadastrar empresas">
                         <CompanyForm />
@@ -111,23 +105,29 @@ const Client = () => {
                   </Modal.Context>
                 </Navigation>
               </div>
-              {/* <div className={style.Heading}>
-                <div className={style.find}>
-                  <label className={style.search} htmlFor="searchCnpj">
-                    <input
-                      className={style.searchInput}
-                      type="text"
-                      placeholder="Digite o nome..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <IoMdSearch className={style.searchIcon} />
-                  </label>
-                </div>
-              </div> */}
+              <div className={style.find}>
+                <label className={style.search} htmlFor="search">
+                  <input
+                    id="search"
+                    className={style.searchInput}
+                    type="text"
+                    placeholder="Digite o nome."
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                  />
+                  <IoMdSearch className={style.searchIcon} />
+                </label>
+                <button
+                  className={style.sortButton}
+                  onClick={handleSortToggle}
+                  aria-label="Ordenar de A-Z"
+                >
+                  {isAscending ? <FaSortAlphaDown /> : <FaSortAlphaUp />}
+                </button>
+              </div>
             </div>
             <section className={style.contentClientList}>
-              {loading && !clientList ? (
+              {loading ? (
                 <LoadingSpinner />
               ) : (
                 <ClientsList.Container clients={sortedClients} />
@@ -135,7 +135,6 @@ const Client = () => {
             </section>
           </div>
         </div>
-
         <Footer />
       </main>
     );
