@@ -34,11 +34,9 @@ const AdminAuth = () => {
       }
 
       const response = await postData(
-        `/admin/restrict/${auth.user.id}`,
+        `admin/restrict/${auth.user.id}`,
         { password },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
       if (response.status !== 200) {

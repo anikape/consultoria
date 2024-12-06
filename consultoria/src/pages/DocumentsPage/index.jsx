@@ -35,7 +35,7 @@ const DocumentsPage = () => {
     setLoading(true);
     try {
       const [companysData, typesData] = await Promise.all([
-        request("get", "documen", { withCredentials: true }),
+        request("get", "document", { withCredentials: true }),
         request("get", "types", { withCredentials: true }),
       ]);
 
