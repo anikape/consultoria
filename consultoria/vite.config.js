@@ -6,14 +6,13 @@ import { loadEnv } from "vite";
 const env = loadEnv(process.env.NODE_ENV, process.cwd(), "VITE_");
 export default defineConfig({
   server: {
-    // port: 3003,
     proxy: {
       "/api": {
         target: env.VITE_BASE_API_URL,
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ""),
         secure: false,
-        withCredentials: true,
+        // withCredentials: true,
       },
     },
   },
