@@ -7,6 +7,7 @@ import { useData } from "@hooks/useData";
 
 import style from "@components/AdminProfile/AdminProfile.module.css";
 import LoadingSpinner from "../LoadingSpinner";
+import { http } from "@/services/api";
 
 const AdminProfile = () => {
   const auth = useContext(AuthContext);
@@ -17,15 +18,18 @@ const AdminProfile = () => {
 
   const loadData = async () => {
     try {
-      const { response, json } = await request("get", `admin/${userId}`, {
-        withCredentials: true,
-      });
+      // const { response, json } = await request("get", `admin/${userId}`, {
+      //   withCredentials: true,
+      // });
+
+      const response = await http.get(`admin/${userId}`);
+      console.log(response);
 
       if (response.status !== 200) {
         throw new Error("Erro ao carregar dados");
       }
 
-      const adminRegistered = [json];
+      const adminRegistered = [response.data];
       loadAdmin(adminRegistered);
     } catch (error) {
       loadAdmin([]);

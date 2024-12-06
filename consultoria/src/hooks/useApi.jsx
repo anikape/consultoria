@@ -17,7 +17,7 @@ export const useApi = () => ({
   signin: async (email, password) => {
     try {
       const response = await api.post(
-        "/admin/login",
+        "admin/login",
         {
           login: email,
           password,

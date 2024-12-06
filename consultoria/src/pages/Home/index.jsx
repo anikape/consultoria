@@ -1,17 +1,17 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import style from "@/pages/Home/home.module.css";
+
 import docs from "@/assets/docs.svg";
 import user from "@/assets/iconuser.svg";
 import client from "@/assets/client.svg";
-import profile from "@/assets/profileIcon.png";
 import { IoLogOut } from "react-icons/io5";
-import { BiLogOut } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
 
 import { AuthContext } from "@/contexts/Auth/AuthContext";
 
 import Footer from "@/components/Footer";
+
+import style from "@/pages/Home/home.module.css";
 
 const Home = () => {
   const auth = useContext(AuthContext);
@@ -35,7 +35,6 @@ const Home = () => {
 
                 <p>Olá, {auth.user?.name}</p>
               </div>
-
               <div className={style.links}>
                 <Link to="/client" className={style.options}>
                   <img src={client} alt="Lista de clientes" />

@@ -8,13 +8,27 @@ import { FaUserEdit } from "react-icons/fa";
 import { AuthContext } from "@/contexts/Auth/AuthContext";
 
 import style from "@pages/Adm/adm.module.css";
+import { useData } from "@/hooks/useData";
+import { useFetch } from "@/hooks/useFetch";
+import { http } from "@/services/api";
 
 const Index = () => {
   const auth = useContext(AuthContext);
   const [allow, setAllow] = useState(false);
   const navigate = useNavigate();
+  const { getData } = useFetch();
 
-  const checkAuthorization = () => {
+  const checkAuthorization = async () => {
+    const response = await http.get(`admin/${auth.user.id}`);
+    // const response = await getData(
+    //   `admin/${auth.user.id}`,
+
+    //   {
+    //     withCredentials: true,
+    //   }
+    // );
+    console.log(response);
+
     if (!auth.authorization) {
       setAllow(false);
       navigate("/AdminAuth");
