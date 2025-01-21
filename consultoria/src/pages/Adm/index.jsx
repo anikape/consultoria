@@ -14,7 +14,7 @@ const Index = () => {
   const [allow, setAllow] = useState(false);
   const navigate = useNavigate();
 
-  const checkAuthorization = () => {
+  const checkAuthorization = async () => {
     if (!auth.authorization) {
       setAllow(false);
       navigate("/AdminAuth");
@@ -28,65 +28,67 @@ const Index = () => {
 
   return (
     <AdminProvider>
-      {!allow && <p>Você não tem permissão</p>}
-      {allow && (
-        <section className={style.admSection}>
-          <div className={style.admContainer}>
-            <div className={style.admNav}>
-              <nav className={style.nav}>
-                <ul className={style.navLinks}>
-                  <li>
-                    <Link className={style.links} to="/Home">
-                      <div className={style.linkIcon}>
-                        <RiHomeHeartLine />
-                      </div>
-                      <p className={style.linkText}>Home</p>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={style.links} to={"/Adm"}>
-                      <div className={style.linkIcon}>
-                        <HiUser />
-                      </div>
-                      <p className={style.linkText}>Perfil</p>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={"settings"} className={style.links}>
-                      <div className={style.linkIcon}>
-                        <FaUserEdit />
-                      </div>
+      <section className={style.admSection}>
+        <div className={style.admContainer}>
+          {!allow && <p>Você não tem permissão</p>}
+          {allow && (
+            <>
+              <div className={style.admNav}>
+                <nav className={style.nav}>
+                  <ul className={style.navLinks}>
+                    <li>
+                      <Link className={style.links} to="/Home">
+                        <div className={style.linkIcon}>
+                          <RiHomeHeartLine />
+                        </div>
+                        <p className={style.linkText}>Home</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className={style.links} to={"/Adm"}>
+                        <div className={style.linkIcon}>
+                          <HiUser />
+                        </div>
+                        <p className={style.linkText}>Perfil</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={"settings"} className={style.links}>
+                        <div className={style.linkIcon}>
+                          <FaUserEdit />
+                        </div>
 
-                      <p className={style.linkText}>Editar</p>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className={style.links} to={"change-password"}>
-                      <div className={style.linkIcon}>
-                        <RiLockPasswordFill />
-                      </div>
-                      <p className={style.linkText}>Alterar senha</p>
-                    </Link>
-                  </li>
+                        <p className={style.linkText}>Editar</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className={style.links} to={"change-password"}>
+                        <div className={style.linkIcon}>
+                          <RiLockPasswordFill />
+                        </div>
+                        <p className={style.linkText}>Alterar senha</p>
+                      </Link>
+                    </li>
 
-                  <li>
-                    {/* <Link className={style.links} to="/CadastroAdm">
+                    <li>
+                      {/* <Link className={style.links} to="/CadastroAdm">
                     <div className={style.linkIcon}>
                       <HiUserPlus />
                     </div>
 
                     <p className={style.linkText}>Novo usuário</p>
                   </Link> */}
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div className={style.admContent}>
-              <Outlet />
-            </div>
-          </div>
-        </section>
-      )}
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              <div className={style.admContent}>
+                <Outlet />
+              </div>
+            </>
+          )}
+        </div>
+      </section>
     </AdminProvider>
   );
 };

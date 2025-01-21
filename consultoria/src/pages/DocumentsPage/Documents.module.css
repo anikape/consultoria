@@ -212,6 +212,11 @@
   margin-right: 5px; /* Espaçamento à direita do ícone */
 }
 
+.footer {
+  bottom: 0;
+  position: fixed;
+}
+
 @media (max-width: 730px) {
   .searchContainer {
     flex-direction: column;
@@ -219,5 +224,9 @@
   }
   .searchInput {
     width: 100%;
+  }
+
+  .footer {
+    background-color: red;
   }
 }

@@ -34,11 +34,9 @@ const AdminAuth = () => {
       }
 
       const response = await postData(
-        `/admin/restrict/${auth.user.id}`,
+        `admin/restrict/${auth.user.id}`,
         { password },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
       if (response.status !== 200) {
@@ -61,58 +59,53 @@ const AdminAuth = () => {
     <main className={style.main}>
       <section className={style.AdminAuthSection}>
         <div className={style.container}>
-          <div className={style.form}>
-            <form onSubmit={handleSubmit(handleLogin)}>
-              <div className={style.errorWrapper}>
-                {auth.error && (
-                  <>
-                    <span className={style.error}>
-                      <FaInfoCircle />
-                      {auth.error}
-                    </span>
-                  </>
-                )}
-              </div>
+          <form className={style.form} onSubmit={handleSubmit(handleLogin)}>
+            <div className={style.errorWrapper}>
+              {auth.error && (
+                <>
+                  <span className={style.error}>
+                    <FaInfoCircle />
+                    {auth.error}
+                  </span>
+                </>
+              )}
+            </div>
 
-              <div className={style.inputContainer}>
-                <div className={style.inputContainerH2}>
-                  <h2>Ação protegida por senha</h2>
-                  <p className={style.inputContainerP}>
-                    Para realizar esta ação é necessário informar a sua senha.
+            <div className={style.inputContainer}>
+              <div className={style.inputContainerH2}>
+                <h2>Ação protegida por senha</h2>
+                <p className={style.inputContainerP}>
+                  Para realizar esta ação é necessário informar a sua senha.
+                </p>
+              </div>
+              <p className={style.errorMessage}>{message}</p>
+              <div className={style.inputGroup}>
+                <img src={iconLock} alt="" />
+                <div className={style.inputWrapper}>
+                  <label htmlFor="">Informe sua senha:</label>
+                  <input
+                    className={style.input}
+                    type="password"
+                    {...register("password", {
+                      required: "Campo obrigatório",
+                    })}
+                    placeholder="******"
+                  />
+                  <p className={style.inputErrorMessage}>
+                    {errors.password?.message}
                   </p>
                 </div>
-                <p className={style.errorMessage}>{message}</p>
-                <div className={style.inputGroup}>
-                  <img src={iconLock} alt="" />
-                  <div className={style.inputWrapper}>
-                    <label htmlFor="">Informe sua senha:</label>
-                    <input
-                      className={style.input}
-                      type="password"
-                      {...register("password", {
-                        required: "Campo obrigatório",
-                      })}
-                      placeholder="******"
-                    />
-                    <p className={style.inputErrorMessage}>
-                      {errors.password?.message}
-                    </p>
-                  </div>
-                </div>
               </div>
-              <div className={style.formActions}>
-                <button
-                  className={style.button}
-                  type="submit"
-                  disabled={loading}>
-                  {loading ? "Carregando..." : "Ok"}
-                </button>
-                <Link className={style.button} disabled={loading} to={"/Home"}>
-                  Cancelar
-                </Link>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div className={style.formActions}>
+              <button className={style.button} type="submit" disabled={loading}>
+                {loading ? "Carregando..." : "Ok"}
+              </button>
+              <Link className={style.button} disabled={loading} to={"/Home"}>
+                Cancelar
+              </Link>
+            </div>
+          </form>
         </div>
       </section>
       <Footer />

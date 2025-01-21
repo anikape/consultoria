@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
       if (data.accessToken) {
         cookies.set("authToken", data.accessToken, {
           secure: true,
-          sameSite: "none",
+          // sameSite: "none",
         });
 
         const decode = jwtDecode(data.accessToken);
