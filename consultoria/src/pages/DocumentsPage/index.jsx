@@ -121,8 +121,7 @@ const DocumentsPage = () => {
   }, [documentsExpiringSoon]);
 
   return (
-    <main>
-      
+    <main>      
       <section className={style.Document}>
         <div className={style.container}>
           <div className={style.content}>
